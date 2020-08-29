@@ -21,38 +21,57 @@ const pool = new Pool(config);
 //       address, city, state, zip, neighborhood, health, notes, status
 
 const queryStrings = [
-  `CREATE TABLE IF NOT EXISTS volunteer(
-    id_volunteer integer PRIMARY KEY,
-    volunteername VARCHAR(255),
-    email VARCHAR(255),
-    zipcode VARCHAR(255),
-    createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-  );`,
+  // `CREATE TABLE IF NOT EXISTS volunteers(
+  //   id_volunteer SERIAL NOT NULL PRIMARY KEY,
+  //   name VARCHAR(255),
+  //   email VARCHAR(255),
+  //   zipcode VARCHAR(255),
+  //   createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  // );`,
 
-  `CREATE TABLE IF NOT EXISTS treehistory_comment(
-    id_treehistory_comment integer PRIMARY KEY,
-    treeaction_comment VARCHAR(255),
-    createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-  );`,
+  // `CREATE TABLE IF NOT EXISTS treehistory_comment(
+  //   id_treehistory_comment SERIAL NOT NULL PRIMARY KEY,
+  //   treeaction_comment VARCHAR(255),
+  //   createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  // );`,
 
-  `CREATE TABLE IF NOT EXISTS treehistory_action(
-    id_treehistory_action integer PRIMARY KEY,
-    treehistory_action_name VARCHAR(255),
-    createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-  );`,
+  // `CREATE TABLE IF NOT EXISTS treehistory_action(
+  //   id_treehistory_action SERIAL NOT NULL PRIMARY KEY,
+  //   treehistory_action_name VARCHAR(255),
+  //   createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  // );`,
+
+  // `CREATE TABLE IF NOT EXISTS treehistory(
+  //   id_treehistory SERIAL NOT NULL PRIMARY KEY,
+  //   id_treehistory_action integer REFERENCES treehistory_action(id_treehistory_action),
+  //   id_treehistory_comment integer REFERENCES treehistory_comment(id_treehistory_comment),
+  //   id_volunteer integer REFERENCES volunteers(id_volunteer),
+  //   createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  // );`,
 
   `CREATE TABLE IF NOT EXISTS treehistory(
     id_treehistory SERIAL NOT NULL PRIMARY KEY,
-    id_treehistory_action integer REFERENCES treehistory_action(id_treehistory_action),
-    id_treehistory_comment integer REFERENCES treehistory_comment(id_treehistory_comment),
-    id_volunteer integer REFERENCES volunteer(id_volunteer),
+    id_tree integer,
+    lng FLOAT8,
+    lat FLOAT8,
+    common VARCHAR(255),
+    watered VARCHAR(255),
+    mulched VARCHAR(255),
+    pruned VARCHAR(255),
+    staked VARCHAR(255),
+    braced VARCHAR(255),
+    weeded VARCHAR(255),
+    comment VARCHAR(255),
+    volunteer VARCHAR(255),
+    datevisit TIMESTAMP,
     createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   );`,
 
   `CREATE TABLE IF NOT EXISTS treedata (
-    id_treedata SERIAL NOT NULL PRIMARY KEY,
+    id_tree SERIAL NOT NULL PRIMARY KEY,
+    uuid_tree UUID NOT NULL DEFAULT uuid_generate_v4(),
     id_treehistory integer REFERENCES treehistory(id_treehistory),
-    ref INTEGER,
+    ref VARCHAR(255),
     who VARCHAR(255),
     common VARCHAR(255),
     scientific VARCHAR(255),

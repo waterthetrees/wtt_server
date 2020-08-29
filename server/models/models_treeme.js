@@ -10,7 +10,7 @@ async function getMapSubsetModel(location) {
   const functionName = 'getMapModel';
   try {
     const {sLat, wLng, nLat, eLng} = location;
-    const query = `SELECT id, common, lng, lat, health
+    const query = `SELECT id_tree, common, lng, lat, health
                    FROM treedata WHERE lng > ${wLng} AND lng < ${eLng} 
                    AND lat > ${sLat} AND lat < ${nLat};`;
     console.debug(`${functionName}  query ${ query}`);
@@ -28,47 +28,36 @@ async function getMapSubsetModel(location) {
   }
 }
 
-async function getGeoJson(location) {
+
+function getGeoJson(location) {
+    // const {city} = location;
+    const query = `
+    SELECT jsonb_build_object(
+      'type',     'FeatureCollection',
+      'features', jsonb_agg(feature)
+    )
+    FROM (
+      SELECT jsonb_build_object(
+        'type',       'Feature',
+        'id',         id_tree,
+        'geometry',   json_build_object( 'type', 'Point', 'coordinates', json_build_array(lng, lat)),
+        'properties', json_build_object(
+                        'id', id_tree,
+                        'common',common )
+      ) AS feature
+      FROM (
+        SELECT * FROM treedata
+      ) inputs
+    ) features;`;
+
+    return queryTreeDB(query); 
+}
+
+
+async function getGeoJsonOld(location) {
   const functionName = 'getGeoJson';
   try {
     const { city } = location;
-    // const city  = 'Oakland';
-    // const query = `SELECT jsonb_build_object(
-    //   'type',     'FeatureCollection',
-    //   'features', jsonb_agg(feature)
-    // )
-    // FROM (
-    //   SELECT jsonb_build_object(
-    //     'type',       'Feature',
-    //     'id',         gid,
-    //     'geometry',   ST_AsGeoJSON(geom)::jsonb,
-    //     'properties', to_jsonb(row) - 'gid' - 'geom'
-    //   ) AS feature
-    //   FROM (SELECT * FROM treedata WHERE city IS NOT NULL AND health IS NOT NULL) row) features;`;
-
-// SELECT json_build_object(
-//           'type', 'FeatureCollection',
-//           'features', json_agg(json_build_object(
-//               'type', 'Feature',
-//               'id', p.id,
-//               'geometry', json_build_object(
-//                   'type', 'Point',
-//                   'coordinates', json_build_array(p.lng, p.lat),
-//               )))) FROM treedata p;
-
-    // const query = `
-    // SELECT 
-    // json_build_object('type', 'FeatureCollection', 'features', json_agg(
-    // json_build_object('type', 'Feature','id', p.id,'geometry', 
-    // json_build_object( 'type', 'Point', 'coordinates', 
-    // json_build_array(p.lng, p.lat))))) FROM treedata p;`;
-
-    // const query = `
-    // SELECT 
-    // json_build_object('type', 'FeatureCollection', 'features', json_agg(
-    // json_build_object('type', 'Feature','id', p.id,'geometry', 
-    // json_build_object( 'type', 'Point', 'coordinates', 
-    // json_build_array(p.lng, p.lat))))) FROM treedata p;`;
 
     const query = `
     SELECT jsonb_build_object(
@@ -78,46 +67,16 @@ async function getGeoJson(location) {
     FROM (
       SELECT jsonb_build_object(
         'type',       'Feature',
-        'id',         id,
+        'id',         id_tree,
         'geometry',   json_build_object( 'type', 'Point', 'coordinates', json_build_array(lng, lat)),
         'properties', json_build_object(
-                        'id', id,
+                        'id', id_tree,
                         'common',common )
       ) AS feature
       FROM (
         SELECT * FROM treedata
       ) inputs
     ) features;`;
-
-
-// select json_agg(t) FROM (SELECT * from table) t;
-           // 'properties', json_build_object(
-           //        'name', p.name,
-           //        'address', p.address
-           //        'id', p.id,
-           //        'ref', p.ref,
-           //        'who', p.who,
-           //        'common', p.common,
-           //        'scientific', p.scientific,
-           //        'genus', p.genus
-           //    )
-      // 'planted',
-                  // 'address',
-                  // 'city',
-                  // 'state',
-                  // 'zip',
-                  // 'country',
-                  // 'neighborhood',
-                  // 'health',
-                  // 'dbh',
-                  // 'height',
-                  // 'owner',
-                  // 'url',
-                  // 'urlimage',
-                  // 'status',
-                  // 'notes',
-                  // 'createdat',
-                  // 'id_treehistory'
 
     // console.debug(`${functionName}  query ${ query}`);
     const results = await treeDB.query(query);
@@ -141,7 +100,7 @@ async function getMapByCityModel(location) {
   try {
     console.log('location', location)
     const { city } = location;
-    const query = `SELECT id, common, lng, lat, health
+    const query = `SELECT id_tree, common, lng, lat, health
                    FROM treedata WHERE city IS NOT NULL AND health IS NOT NULL;`;
     console.debug(`${functionName}  query ${ query}`);
     const results = await treeDB.query(query);
@@ -158,16 +117,47 @@ async function getMapByCityModel(location) {
   }
 }
 
-async function getTreeModel(lat, lng) {
+// address: "2921 Rawson Street"
+// city: "Oakland"
+// common: "New Zealand Christmas tree"
+// country: "US"
+// createdat: "2020-08-27T20:38:06.747Z"
+// dbh: ""
+// genus: ""
+// health: "good"
+// height: ""
+// id_tree: 643
+// id_treehistory: null
+// lat: 37.779287
+// lng: -122.194295
+// neighborhood: "Frick"
+// notes: ""
+// owner: "Public"
+// planted: "2018-05-04T16:00:00.000Z"
+// ref: "634"
+// scientific: "Metrosideros excelsa"
+// state: "CA"
+// status: ""
+// url: ""
+// urlimage: ""
+// uuid_tree: "abd3fe95-70ce-4fb5-82f7-cc01e43e2663"
+// who: "tfo"
+// zip: ""
+
+async function getTreeModel(currentTreeId) {
   const functionName = 'getTreeModel';
   try {
-    const query = `SELECT * FROM treedata WHERE lat = ${lat} AND lng = ${lng} `;
+    console.debug(`${functionName} currentTreeId ${currentTreeId}`);
+
+    const query = `SELECT id_tree, common, scientific, planted, health, 
+      address, city, country, neighborhood, lat, lng, owner, ref, who, notes
+     FROM treedata WHERE id_tree = ${currentTreeId};`;
     console.debug(`${functionName}  query ${ query}`);
     const results = await treeDB.query(query);
-    console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
+    // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
 
     if (await results && has.call(results, 'rows') && results.rows.length > 0) {
-      console.debug(`${functionName} results.rows ${util.inspect(results.rows, false, 10, true)}`);
+      // console.debug(`${functionName} results.rows[0] ${util.inspect(results.rows[0], false, 10, true)}`);
       return await results.rows[0];
     }
     return undefined;
@@ -177,4 +167,51 @@ async function getTreeModel(lat, lng) {
   }
 }
 
-module.exports = { getMapSubsetModel, getMapByCityModel, getTreeModel, getGeoJson };
+async function getTreeHistoryModel(currentTreeId) {
+  const functionName = 'getTreeHistoryModel';
+  try {
+    console.debug(`${functionName} currentTreeId ${currentTreeId}`);
+
+    const query = `SELECT id_treehistory, id_tree, 
+    watered, mulched, weeded, staked, braced, pruned, 
+    datevisit, comment, volunteer 
+    FROM treehistory WHERE id_tree = ${currentTreeId};`;
+    console.debug(`${functionName}  query ${ query}`);
+    const results = await treeDB.query(query);
+    console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
+
+    if (await results && has.call(results, 'rows') && results.rows.length > 0) {
+      // console.debug(`${functionName} results.rows[0] ${util.inspect(results, false, 10, true)}`);
+      return await results.rows;
+    }
+    return undefined;
+  } catch (err) {
+    logger.error(`${functionName} ${err}`);
+    return;
+  }
+}
+
+async function queryTreeDB(queryString) {
+  try {
+    const results = await treeDB.query(queryString);
+
+    // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
+
+    return results;
+  } catch (err) {
+    logger.error(`Error executing query to treeDB`, err);
+    return err;
+  }
+}
+
+
+function postNoteModel( id_tree, note ) {
+  id_tree = 649;
+  const query = ` UPDATE treedata
+    SET notes = ''
+    WHERE id_tree = ${id_tree}
+    RETURNING *;`
+    return queryTreeDB(query);
+  }
+
+module.exports = { getMapSubsetModel, getMapByCityModel, getTreeModel, getGeoJson, getTreeHistoryModel, postNoteModel };

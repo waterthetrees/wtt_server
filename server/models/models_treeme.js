@@ -1,24 +1,37 @@
-util = require('util');
-const treeDB = require('../db/treedb.js');
-const { logger } = require('./../../logger.js');
-'use strict';
+util = require("util");
+const treeDB = require("../db/treedb.js");
+const { logger } = require("./../../logger.js");
+("use strict");
 const has = Object.prototype.hasOwnProperty;
 
-// sLat: 37.77025, wLng: -122.29289, 
+// sLat: 37.77025, wLng: -122.29289,
 // nLat: 37.77520, eLng: -122.28259
 async function getMapSubsetModel(location) {
-  const functionName = 'getMapModel';
+  const functionName = "getMapModel";
   try {
-    const {sLat, wLng, nLat, eLng} = location;
+    const { sLat, wLng, nLat, eLng } = location;
     const query = `SELECT id_tree, common, lng, lat, health
                    FROM treedata WHERE lng > ${wLng} AND lng < ${eLng} 
                    AND lat > ${sLat} AND lat < ${nLat};`;
-    console.debug(`${functionName}  query ${ query}`);
+    console.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);
-    console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
+    console.debug(
+      `${functionName} results ${util.inspect(results, false, 10, true)}`
+    );
 
-    if (await results && has.call(results, 'rows') && results.rows.length > 0) {
-      console.debug(`${functionName} results.rows ${util.inspect(results.rows, false, 10, true)}`);
+    if (
+      (await results) &&
+      has.call(results, "rows") &&
+      results.rows.length > 0
+    ) {
+      console.debug(
+        `${functionName} results.rows ${util.inspect(
+          results.rows,
+          false,
+          10,
+          true
+        )}`
+      );
       return await results.rows;
     }
     return undefined;
@@ -28,10 +41,9 @@ async function getMapSubsetModel(location) {
   }
 }
 
-
 function getGeoJson(location) {
-    // const {city} = location;
-    const query = `
+  // const {city} = location;
+  const query = `
     SELECT jsonb_build_object(
       'type',     'FeatureCollection',
       'features', jsonb_agg(feature)
@@ -50,12 +62,11 @@ function getGeoJson(location) {
       ) inputs
     ) features;`;
 
-    return queryTreeDB(query); 
+  return queryTreeDB(query);
 }
 
-
 async function getGeoJsonOld(location) {
-  const functionName = 'getGeoJson';
+  const functionName = "getGeoJson";
   try {
     const { city } = location;
 
@@ -82,7 +93,11 @@ async function getGeoJsonOld(location) {
     const results = await treeDB.query(query);
     // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
 
-    if (await results && has.call(results, 'rows') && results.rows.length > 0) {
+    if (
+      (await results) &&
+      has.call(results, "rows") &&
+      results.rows.length > 0
+    ) {
       // console.debug(`${functionName} results.rows[0].jsonb_build_object ${util.inspect(results.rows[0].jsonb_build_object, false, 10, true)}`);
       return await results.rows[0].jsonb_build_object;
     }
@@ -93,21 +108,32 @@ async function getGeoJsonOld(location) {
   }
 }
 
-
-
 async function getMapByCityModel(location) {
-  const functionName = 'getMapModel';
+  const functionName = "getMapModel";
   try {
-    console.log('location', location)
+    console.log("location", location);
     const { city } = location;
     const query = `SELECT id_tree, common, lng, lat, health
                    FROM treedata WHERE city IS NOT NULL AND health IS NOT NULL;`;
-    console.debug(`${functionName}  query ${ query}`);
+    console.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);
-    console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
+    console.debug(
+      `${functionName} results ${util.inspect(results, false, 10, true)}`
+    );
 
-    if (await results && has.call(results, 'rows') && results.rows.length > 0) {
-      console.debug(`${functionName} results.rows ${util.inspect(results.rows, false, 10, true)}`);
+    if (
+      (await results) &&
+      has.call(results, "rows") &&
+      results.rows.length > 0
+    ) {
+      console.debug(
+        `${functionName} results.rows ${util.inspect(
+          results.rows,
+          false,
+          10,
+          true
+        )}`
+      );
       return await results.rows;
     }
     return undefined;
@@ -145,18 +171,22 @@ async function getMapByCityModel(location) {
 // zip: ""
 
 async function getTreeModel(currentTreeId) {
-  const functionName = 'getTreeModel';
+  const functionName = "getTreeModel";
   try {
     console.debug(`${functionName} currentTreeId ${currentTreeId}`);
 
     const query = `SELECT id_tree, common, scientific, planted, health, 
       address, city, country, neighborhood, lat, lng, owner, ref, who, notes
      FROM treedata WHERE id_tree = ${currentTreeId};`;
-    console.debug(`${functionName}  query ${ query}`);
+    console.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);
     // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
 
-    if (await results && has.call(results, 'rows') && results.rows.length > 0) {
+    if (
+      (await results) &&
+      has.call(results, "rows") &&
+      results.rows.length > 0
+    ) {
       // console.debug(`${functionName} results.rows[0] ${util.inspect(results.rows[0], false, 10, true)}`);
       return await results.rows[0];
     }
@@ -168,7 +198,7 @@ async function getTreeModel(currentTreeId) {
 }
 
 async function getTreeHistoryModel(currentTreeId) {
-  const functionName = 'getTreeHistoryModel';
+  const functionName = "getTreeHistoryModel";
   try {
     console.debug(`${functionName} currentTreeId ${currentTreeId}`);
 
@@ -176,11 +206,17 @@ async function getTreeHistoryModel(currentTreeId) {
     watered, mulched, weeded, staked, braced, pruned, 
     datevisit, comment, volunteer 
     FROM treehistory WHERE id_tree = ${currentTreeId};`;
-    console.debug(`${functionName}  query ${ query}`);
+    console.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);
-    console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
+    console.debug(
+      `${functionName} results ${util.inspect(results, false, 10, true)}`
+    );
 
-    if (await results && has.call(results, 'rows') && results.rows.length > 0) {
+    if (
+      (await results) &&
+      has.call(results, "rows") &&
+      results.rows.length > 0
+    ) {
       // console.debug(`${functionName} results.rows[0] ${util.inspect(results, false, 10, true)}`);
       return await results.rows;
     }
@@ -204,14 +240,20 @@ async function queryTreeDB(queryString) {
   }
 }
 
-
-function postNoteModel( id_tree, note ) {
+function postNoteModel(id_tree, note) {
   id_tree = 649;
   const query = ` UPDATE treedata
     SET notes = ''
     WHERE id_tree = ${id_tree}
-    RETURNING *;`
-    return queryTreeDB(query);
-  }
+    RETURNING *;`;
+  return queryTreeDB(query);
+}
 
-module.exports = { getMapSubsetModel, getMapByCityModel, getTreeModel, getGeoJson, getTreeHistoryModel, postNoteModel };
+module.exports = {
+  getMapSubsetModel,
+  getMapByCityModel,
+  getTreeModel,
+  getGeoJson,
+  getTreeHistoryModel,
+  postNoteModel,
+};

@@ -1,14 +1,37 @@
 # wtt_server
+
 PSQL/node server
-1. Install packages ` cd /wtt_server && yarn install`
 
-create database 
-1. `cd server/db; node create_db_trees.js`
-2. create tables `node create_tables.js`
-3. seed tables `node seed_table.js`, one for each csv
+## Getting started for the first time
 
+1. Install packages.
 
+```
+cd /wtt_server
+yarn install
+```
 
-2. Run the server `node server/server-api.js local`
+2. Install and start Postgres.
 
+```
+brew install postgres
+brew services start postgresql
+psql -d postgres -U <your_sudo_username>
+```
 
+Later, you can stop Postgres with `brew services start postgresql`.
+
+3. Load database.
+
+- Create database: `node server/db/create_db_trees.js local`. NOTE: This script isn't working yet; please open the file and follow the manual instructions.
+- Create tables: `node server/db/create_tables.js local`
+- Seed tables: `node server/db/seed_table.js local`
+
+4. Run the server: `node server/server-api.js local`
+
+## Getting back into it
+
+```
+brew services start postgresql
+node server/server-api.js local
+```

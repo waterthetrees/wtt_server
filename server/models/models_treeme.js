@@ -173,12 +173,12 @@ async function getMapByCityModel(location) {
 async function getTreeModel(currentTreeId) {
   const functionName = "getTreeModel";
   try {
-    console.debug(`${functionName} currentTreeId ${currentTreeId}`);
+    // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
 
     const query = `SELECT id_tree, common, scientific, planted, health, 
       address, city, country, neighborhood, lat, lng, owner, ref, who, notes
      FROM treedata WHERE id_tree = ${currentTreeId};`;
-    console.debug(`${functionName}  query ${query}`);
+    // console.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);
     // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
 
@@ -200,17 +200,15 @@ async function getTreeModel(currentTreeId) {
 async function getTreeHistoryModel(currentTreeId) {
   const functionName = "getTreeHistoryModel";
   try {
-    console.debug(`${functionName} currentTreeId ${currentTreeId}`);
+    // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
 
     const query = `SELECT id_treehistory, id_tree, 
     watered, mulched, weeded, staked, braced, pruned, 
     datevisit, comment, volunteer 
     FROM treehistory WHERE id_tree = ${currentTreeId};`;
-    console.debug(`${functionName}  query ${query}`);
+    // console.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);
-    console.debug(
-      `${functionName} results ${util.inspect(results, false, 10, true)}`
-    );
+    // console.debug(`${functionName} results ${util.inspect(results)}`);
 
     if (
       (await results) &&
@@ -240,14 +238,52 @@ async function queryTreeDB(queryString) {
   }
 }
 
-function postNoteModel(id_tree, note) {
-  id_tree = 649;
-  const query = ` UPDATE treedata
-    SET notes = ''
-    WHERE id_tree = ${id_tree}
-    RETURNING *;`;
+// function postTreeNoteModel(id_tree, note) {
+//   const query = ` UPDATE treedata
+//     SET notes = '${note}'
+//     WHERE id_tree = ${id_tree}
+//     RETURNING *;`;
+//   return queryTreeDB(query);
+// }
+
+function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
+  let query = `SELECT id_tree FROM treehistory 
+    WHERE id_tree = ${newTreeHistory.id_tree} 
+    AND createdat::date = CURRENT_DATE
+    AND volunteer = '${newTreeHistory.volunteer}';`;
   return queryTreeDB(query);
 }
+
+// async function updateTreeHistoryModel(newTreeHistory) {
+//   const treeHistoryString = '';
+
+//   let query = `UPDATE treehistory SET
+//     volunteer = '${newTreeHistory.volunteer}',
+//     comment = '${newTreeHistory.comment}',
+//     braced = '${newTreeHistory.braced}',
+//     staked = '${newTreeHistory.staked}',
+//     watered = '${newTreeHistory.watered}',
+//     weeded = '${newTreeHistory.weeded}',
+//     mulched = '${newTreeHistory.mulched}'
+//     WHERE id_tree = '${newTreeHistory.id_tree}' 
+//     AND createdat::date = CURRENT_DATE
+//     AND volunteer = '${newTreeHistory.volunteer}';`;
+
+//   // let query = `UPDATE test SET 
+//   //   data = data - 'a' || '{"a":5}'
+//   //   WHERE data->>'b' = '2';`
+
+//   // let query = `UPDATE treehistory SET object = object || '${newTreeHistory}';`
+//   return queryTreeDB(query);
+// }
+
+// async function insertTreeHistoryModel(newTreeHistoryKeys, newTreeHistoryValues) {
+//   logger.debug(newTreeHistoryKeys, newTreeHistoryValues, newTreeHistoryKeys, newTreeHistoryValues);
+//   let query = `INSERT INTO treehistory (${newTreeHistoryKeys}) 
+//               VALUES (${newTreeHistoryValues});`;
+//   logger.debug(`query ${query}`);
+//   return queryTreeDB(query);
+// }
 
 module.exports = {
   getMapSubsetModel,
@@ -255,5 +291,5 @@ module.exports = {
   getTreeModel,
   getGeoJson,
   getTreeHistoryModel,
-  postNoteModel,
+  findTreeHistoryVolunteerTodayModel,
 };

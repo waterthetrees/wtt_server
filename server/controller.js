@@ -1,9 +1,6 @@
 const {
-  getMapSubsetModel,
-  getMapByCityModel,
-  getTreeModel,
   getGeoJson,
-  postTreeNoteModel,
+  getTreeModel,
   getTreeHistoryModel,
   findTreeHistoryVolunteerTodayModel,
 } = require("./models/models_treeme.js");
@@ -11,6 +8,7 @@ const {
 const {
   insertTreeHistoryModel,
   updateTreeHistoryModel,
+  updateTreeModel
 } = require("./models/models_wtt.js");
 
 const { validateGetMapRequest } = require("./validation.js");
@@ -122,36 +120,56 @@ async function processGetTreeHistory(query, res) {
   }
 }
 
-function postTreeNote(req, res) {
-  const functionName = "postTreeNote";
+function postTree(req, res) {
+  const functionName = "postTreeHealth";
   logger.debug(`req  ${util.inspect(req, false, 10, true)} ${functionName}`);
 
   // const validated = validateGetMapRequest(req);
   // if (!validated) {
-  //   res.statusCode = 400;
-  //   res.json({'error': 'not valid'});
+  //   responder(res, 500, { error: 'not valid' });
   //   return;
   // }
+  processPostTree(req.body, res);
 
-  processPostTreeNote(req, res);
+  
   return;
 }
 
-function processPostTreeNote(req, res) {
+async function processPostTree(body, res) {
   const functionName = "processPostTreeNote";
   try {
-    const { id_tree, note } = req.params;
-    const postNoteResults = postTreeNoteModel(id_tree, note);
-    // res.statusCode = 200;
-
-    // res.json(postNoteResults); // Sends the response
-    // console.debug("res", res);
-    console.log("postNoteResults", postNoteResults);
+    const updateTreeResults = await updateTreeModel(body);
+    console.log(await updateTreeResults, 'updateTreeResults')
+    if (!updateTreeResults || !updateTreeResults.length) {
+      responder(res, 500, {error: 'error saving'});
+      return;
+    }
+    const returnMessage = body.hasOwnProperty('notes') 
+      ? `Saved Notes: ${updateTreeResults[0].notes}`
+      : `Saved Tree Health: ${updateTreeResults[0].health}`;
+    responder(res, 200, {data: returnMessage});
     return;
   } catch (err) {
     logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
-    res.statusCode = 500;
-    res.json({ error: err });
+    responder(res, 500, { error: err });
+    return;
+  }
+}
+
+
+async function processPostTreeHealth(body, res) {
+  const functionName = "processPostTreeHealth";
+  try {
+    const {id_tree, health} = body;
+    logger.debug(`id_tree, health ${id_tree}: ${health} ${functionName}`);
+    const updateTreeHealthResults = await updateTreeHealthModel(id_tree, health);
+
+    logger.debug(`updateTreeHealthResults ${util.inspect(await updateTreeHealthResults.rows)} ${functionName}`);
+    responder(res, 200, await updateTreeHealthResults.rows);
+    return;
+  } catch (err) {
+    logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
+    responder(res, 500, { error: err });
     return;
   }
 }
@@ -186,13 +204,21 @@ async function processPostTreeHistory(body, res) {
       logger.debug(`rowCount: ${util.inspect(findTreeHistoryVolunteerTodayResults.rowCount)} ${functionName}`);
 
       const insertTreeHistoryResults = await  insertTreeHistoryModel(body);
-      console.log("insertTreeHistoryResults ", await insertTreeHistoryResults )
-      responder(res, 200, await insertTreeHistoryResults.rows);
+      console.log("insertTreeHistoryResults ", await insertTreeHistoryResults );
+      if (!insertTreeHistoryResults) {
+        responder(res, 500, {error: 'error saving'});
+        return;
+      }
+      responder(res, 200, {data: await insertTreeHistoryResults[0]});
       return;
     } 
     const updateTreeHistoryResults = await  updateTreeHistoryModel(body);
     console.log("updateTreeHistoryResults ", await updateTreeHistoryResults );
-    responder(res, 200, await updateTreeHistoryResults.rows);
+    if (!updateTreeHistoryResults) {
+      responder(res, 500, {error: 'error saving'});
+      return;
+    }
+    responder(res, 200, {data: await updateTreeHistoryResults[0]});
     return;
   } catch (err) {
     logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
@@ -210,21 +236,11 @@ function makeKeyValuesStringForUpdate() {
 }
 
 function makeKeyValueArrayForInsert(newTreehistory) {
-  // const keys = Object.keys(newTreehistory);
-  // const values = Object.values(newTreehistory);
-  // console.log('keys, values', keys, values);
-  // return [keys, values];
-
   const [newKeys, newValues] = Object.entries(newTreehistory).reduce((prevVal,currVal,idx) => {
      console.log('prevVal,currVal', prevVal,currVal);
     return [...prevVal, ...currVal[0]];
-
-    // return `${prevVal}, ${currVal[0]} = '${currVal[1]}'`;
-  
   }, []);
    console.log('[newKeys, newValues]', newKeys, newValues);
-
-  // const insertStringWithoutId = insertString.replace('undefined, ', '');
 }
 
 function responder(res, code, message) {
@@ -235,4 +251,4 @@ function responder(res, code, message) {
 
 // processGetPostNote({params: {id_tree:  5, note: "doesn't matter"}}, {});
 
-module.exports = { getMap, getTree, getTreeHistory, postTreeNote, postTreeHistory };
+module.exports = { getMap, getTree, postTree, getTreeHistory, postTreeHistory };

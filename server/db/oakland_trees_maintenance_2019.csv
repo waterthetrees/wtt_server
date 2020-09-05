@@ -23,20 +23,20 @@ lng,lat,common,datevisit,volunteer,watered,staked,braced,weeded,mulched,pruned,c
 -122.226047,37.791553,incense cedar,2018-08-08 11:00:00,DF,,,,,,,
 -122.226031,37.791534,incense cedar,2018-08-08 11:00:00,DF,,,,,,,
 -122.226013,37.791560,incense cedar,2018-08-08 11:00:00,DF,,,,,,,
--122.224905,37.791066,island oak,2018-08-08 11:00:00,DF,no,no,no,no,yes,no,Needs water
+-122.224905,37.791066,island oak,2018-08-08 11:00:00,DF,No,no,no,no,yes,no,Needs water
 -122.224871,37.791128,island oak,2018-08-08 11:00:00,DF,,,,,,,
 -122.224846,37.791182,island oak,2018-08-08 11:00:00,DF,,,,,,,
 -122.218023,37.796332,chitalpa,2018-08-08 11:00:00,DF,yes,no,no,no,yes,no,
 -122.217888,37.796356,Catalina ironwood,2018-08-08 11:00:00,DF,yes,no,no,no,yes,no,
 -122.217862,37.796414,Catalina ironwood,2018-08-08 11:00:00,DF,yes,no,no,no,yes,no,
 -122.217818,37.796524,Catalina ironwood,2018-08-08 11:00:00,DF,yes,no,no,no,yes,no,
--122.213629,37.792174,October Glory red maple,2018-08-20 11:00:00,DF,no,no,no,no,yes,no,
--122.194428,37.775334,mimosa,2018-08-20 11:00:00,DF,yes,no,no,no,yes,no,
--122.183980,37.767418,Hachiya persimmon,2018-08-20 11:00:00,DF,no,yes,yes,no,yes,no,Needs water
--122.260155,37.814138,tupelo,2018-08-28 11:00:00,DKS,yes,yes,yes,yes,,yes,new owner 2018
--122.260155,37.814138,tupelo,2018-09-16 11:00:00,DKS,yes,yes,yes,yes,yes,yes,new owner 2018
--122.184806,37.770123,Box Elder,2018-09-16 11:00:00,DKS,yes,yes,no,yes,yes,,bamboo stakes
--122.184708,37.770108,Box Elder,2018-09-16 11:00:00,DKS,yes,yes,no,yes,yes,,"trunk guard present 9/16/18; Doug Brooms noted trunk dmg Aug ’18, bamboo stakes"
+-122.213629,37.792174,October Glory red maple,2018-08-20 11:00:00,DF,No,no,no,no,yes,no,
+-122.194428,37.775334,mimosa,2018-08-20 11:00:00,DF,yes,na,na,no,yes,no,
+-122.183980,37.767418,Hachiya persimmon,2018-08-20 11:00:00,DF,No,yes,yes,no,yes,no,Needs water
+-122.260155,37.814138,tupelo,2018-08-28 11:00:00,DKS,Yes,Yes,Yes,Yes,,yes,new owner 2018
+-122.260155,37.814138,tupelo,2018-09-16 11:00:00,DKS,Yes,Yes,Yes,yes,yes,yes,new owner 2018
+-122.184806,37.770123,Box Elder,2018-09-16 11:00:00,DKS,Yes,Yes,no,yes,yes,,bamboo stakes
+-122.184708,37.770108,Box Elder,2018-09-16 11:00:00,DKS,Yes,Yes,no,yes,yes,,"trunk guard present 9/16/18; Doug Brooms noted trunk dmg Aug ’18, bamboo stakes"
 -122.248362,37.839084,Robinia x 'Purple Robe',12/31/2018 12:00:00 AM,,,,,,,,"DKS June 2017: Lisa says overlong branches have bryesen off under their own weight, so she wants to get the damaged southern tree replaced.  DKS splinted the topmost branch of southern tree 7/01/17; tree is sending out new leaves along trunk. Wait and see"
 -122.248323,37.839148,Robinia x 'Purple Robe',12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.247871,37.802086,Cercis canadensis - Eastern Redbud,12/31/2018 12:00:00 AM,,,,,,,,"Google Earth shows pictures, Susan advised tree died so no more tree there, will loyes for small tree instead because of high-voltage wires; advised will spray USA tomorrow-hhc 11/27/2016; spyese with Arthur - he has sprayed but yet to submit an USA ticket"
@@ -275,8 +275,8 @@ hhc's 1/5/2017 assessment:
 -122.232766,37.794933,Akebono Cherry,2019-01-09 11:00:00,WB,yes,no,no,yes,yes,yes,
 -122.232103,37.800268,Shumard red oak,2019-01-09 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Might be time to take off the planting stake, yes (w p-stake)"
 -122.231644,37.800961,Jacaranda,2019-01-09 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.228331,37.794941,Raywood ash,2019-01-09 11:00:00,WB,yes,yes,yes,yes,no,yes,
--122.238614,37.787189,African Sumac,2019-01-18 11:00:00,WB,yes,yes,yes,yes,no,yes,rocks
+-122.228331,37.794941,Raywood ash,2019-01-09 11:00:00,WB,yes,yes,yes,yes,No,yes,
+-122.238614,37.787189,African Sumac,2019-01-18 11:00:00,WB,yes,yes,yes,yes,No,yes,rocks
 -122.233134,37.783118,Shumard red oak,2019-01-18 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.233040,37.783065,hybrid madrone,2019-01-18 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.232818,37.773376,tupelo,2019-01-18 11:00:00,WB,yes,yes,yes,yes,yes,yes,3 wood stakes
@@ -292,27 +292,27 @@ hhc's 1/5/2017 assessment:
 -122.228499,37.781288,pin oak,2019-01-18 11:00:00,WB,yes,yes,yes,yes,yes,yes,Health and form should be examined
 -122.228443,37.781339,pin oak,2019-01-18 11:00:00,WB,yes,yes,yes,yes,yes,yes,Health and form should be examined
 -122.226979,37.773398,silver linden,2019-01-18 11:00:00,WB,yes,yes,yes,yes,yes,yes,'regular homeless vandals'...
--122.226939,37.773473,Emerald Sunshine elm,2019-01-18 11:00:00,WB,yes,no,no,yes,yes,yes,regular homeless vandals’... removed stakes
+-122.226939,37.773473,Emerald Sunshine elm,2019-01-18 11:00:00,WB,yes,No,no,yes,yes,yes,regular homeless vandals’... removed stakes
 -122.226898,37.773565,silver linden,2019-01-18 11:00:00,WB,yes,yes,yes,yes,yes,yes,'regular homeless vandals'...
 -122.225232,37.786265,cork oak,2019-01-18 11:00:00,WB,yes,no,no,yes,yes,yes," Removed brace and stakes, plantings"
 -122.224921,37.781320,Jacaranda,2019-01-18 11:00:00,WB,yes,yes,yes,no,no,yes,plantings
 -122.224367,37.788425,Coast Live Oak,2019-01-18 11:00:00,WB,yes,no,no,yard,yes,yes,
 -122.224340,37.788386,Purple-flowering Locust,2019-01-18 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.224278,37.785118,hybrid madrone,2019-01-18 11:00:00,WB,yes,no,no,yes,yes,yes, Removed brace and stakes
--122.224203,37.785290,hybrid madrone,2019-01-18 11:00:00,WB,yes,yes,yes,no,no,yes,There is a sinkhole in the planting strip no amount of mulch will fix
--122.217102,37.781974,ginkgo,2019-01-18 11:00:00,WB,yes,yes,yes,no,no,yes,
+-122.224203,37.785290,hybrid madrone,2019-01-18 11:00:00,WB,yes,yes,yes,No,No,yes,There is a sinkhole in the planting strip no amount of mulch will fix
+-122.217102,37.781974,ginkgo,2019-01-18 11:00:00,WB,yes,yes,yes,No,no,yes,
 -122.216660,37.783084,Fuyu persimmon,2019-01-18 11:00:00,WB,yes,yes,no,no,yes,yes,"wooden planting stake, yard"
 -122.216560,37.783083,Evelyn hedge maple,2019-01-18 11:00:00,WB,yes,no,no,yes,yes,yes,"removed stakes, braces"
 -122.216505,37.783045,goldenrain tree,2019-01-18 11:00:00,WB,yes,yes,yes,yes,yes,yes,Stake could be removed w/ in 6 months
--122.216477,37.782418,,2019-01-18 11:00:00,WB,yes,yes,yes,no,no,no,"No green in the tips, fragile branches, has weeds"
+-122.216477,37.782418,,2019-01-18 11:00:00,WB,yes,yes,yes,No,No,No,"No green in the tips, fragile branches, has weeds"
 -122.216449,37.783012,Evelyn hedge maple,2019-01-18 11:00:00,WB,yes,yes,yes,yes,yes,yes,Stake could be removed w/ in 6 months
 -122.216049,37.795681,black maple,2019-01-18 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.215915,37.785304,hybrid madrone,2019-01-18 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.214983,37.786541,ginkgo,2019-01-18 11:00:00,WB,yes,no,no,no,yes,yes,Seems small for age yard
 -122.214144,37.794128,African fern pine,2019-01-18 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.214106,37.794113,Fuyu persimmon,2019-01-18 11:00:00,WB,yes,no,no,no,yes,yes,yard
--122.212034,37.787174,hybrid madrone,2019-01-18 11:00:00,WB,yes,no,no,no,yes,yes,no stakes (wood planting) yard
--122.211909,37.787195,London plane tree,2019-01-18 11:00:00,WB,yes,yes,yes,no,no,yes,plantings
+-122.214106,37.794113,Fuyu persimmon,2019-01-18 11:00:00,WB,yes,no,no,No,yes,yes,yard
+-122.212034,37.787174,hybrid madrone,2019-01-18 11:00:00,WB,yes,no,no,No,yes,yes,no stakes (wood planting) yard
+-122.211909,37.787195,London plane tree,2019-01-18 11:00:00,WB,yes,yes,yes,No,no,yes,plantings
 -122.194295,37.779287,New Zealand Christmas tree,2019-01-21 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.189777,37.777015,Chinese flame tree,2019-01-21 11:00:00,WB,yes,no,no,no,no,yes,yard
 -122.189623,37.774885,silver linden,2019-01-21 11:00:00,WB,yes,yes,yes,yes,yes,yes,
@@ -357,32 +357,32 @@ hhc's 1/5/2017 assessment:
 -122.182283,37.772314,silver linden,2019-01-21 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.182281,37.772465,red maple,2019-01-21 11:00:00,WB,yes,yes,yes,yes,yes,yes,"3 Stake, 3 brace"
 -122.182217,37.772358,silver linden,2019-01-21 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.269674,37.809782,Shumard red oak,2019-01-24 11:00:00,WB,no,no,no,no,no,no,DEAD 2018
--122.269602,37.810073,Shumard red oak,2019-01-24 11:00:00,WB,yes,no,no,yes,yes,no,"Water bag, two different sets of stakes"
--122.269404,37.809818,Shumard red oak,2019-01-24 11:00:00,WB,no,no,no,no,no,no,Dead 2019
--122.269392,37.809867,Shumard red oak,2019-01-24 11:00:00,WB,no,no,no,no,no,no,Dead 2019
+-122.269674,37.809782,Shumard red oak,2019-01-24 11:00:00,WB,No,no,no,No,No,No,DEAD 2018
+-122.269602,37.810073,Shumard red oak,2019-01-24 11:00:00,WB,yes,No,No,yes,yes,No,"Water bag, two different sets of stakes"
+-122.269404,37.809818,Shumard red oak,2019-01-24 11:00:00,WB,No,no,no,No,No,No,Dead 2019
+-122.269392,37.809867,Shumard red oak,2019-01-24 11:00:00,WB,No,no,no,No,No,No,Dead 2019
 -122.268821,37.813175,London plane tree,2019-01-24 11:00:00,WB,yes,no,no,yes,yes,yes,DEAD 2018
 -122.268686,37.812664,Shumard red oak,2019-01-24 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.267744,37.814632,red maple,2019-01-24 11:00:00,WB,yes,yes,yes,yes,no,yes,wounds from nursery stake
--122.267681,37.817703,Shumard red oak,2019-01-24 11:00:00,WB,yes,yes,yes,no,yes,no,"DEAD 2018, trash"
--122.267501,37.814590,red maple,2019-01-24 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.267423,37.814576,red maple,2019-01-24 11:00:00,WB,yes,yes,yes,yes,yes,yes,
+-122.267744,37.814632,red maple,2019-01-24 11:00:00,WB,yes,Yes,Yes,yes,No,yes,wounds from nursery stake
+-122.267681,37.817703,Shumard red oak,2019-01-24 11:00:00,WB,yes,yes,yes,no,yes,No,"DEAD 2018, trash"
+-122.267501,37.814590,red maple,2019-01-24 11:00:00,WB,yes,Yes,Yes,yes,yes,yes,
+-122.267423,37.814576,red maple,2019-01-24 11:00:00,WB,yes,Yes,Yes,yes,yes,yes,
 -122.267315,37.814559,red maple,2019-01-24 11:00:00,WB,yes,no,no,yes,yes,yes,"wounds from nursery stake, Removed stakes and braces"
 -122.267246,37.818088,Afterburner tupelo,2019-01-24 11:00:00,WB,yes,no,no,no,yes,yes,plantings
--122.267238,37.814546,red maple,2019-01-24 11:00:00,WB,yes,yes,yes,yes,yes,yes,
+-122.267238,37.814546,red maple,2019-01-24 11:00:00,WB,yes,Yes,Yes,yes,yes,yes,
 -122.267186,37.818077,Afterburner tupelo,2019-01-24 11:00:00,WB,yes,no,no,no,yes,yes,plantings
 -122.267120,37.818066,Afterburner tupelo,2019-01-24 11:00:00,WB,yes,no,no,no,yes,yes,plantings
 -122.267068,37.818057,Afterburner tupelo,2019-01-24 11:00:00,WB,yes,no,no,no,yes,yes,plantings
--122.267065,37.814520,red maple,2019-01-24 11:00:00,WB,yes,yes,yes,no,no,yes,"some yellow margins on leaves, weeds, needs mulch"
+-122.267065,37.814520,red maple,2019-01-24 11:00:00,WB,yes,Yes,Yes,no,no,yes,"some yellow margins on leaves, weeds, needs mulch"
 -122.267045,37.819121,,2019-01-24 11:00:00,WB,yes,yes,yes,no,no,yes,"Misc. wooden stakes in well, water bag, still very young loyesing for 2+ yers in ground, weeds, needs mulch"
 -122.267008,37.818050,tupelo,2019-01-24 11:00:00,WB,yes,yes,yes,no,yes,yes,plantings
 -122.266963,37.820426,Chinese pistache,2019-01-24 11:00:00,WB,yes,yes,yes,no,no,yes,"weeds, needs mulch"
--122.266846,37.814481,red maple,2019-01-24 11:00:00,WB,yes,yes,yes,yes,yes,yes,some yellow margins on leaves
--122.266750,37.814464,red maple,2019-01-24 11:00:00,WB,yes,yes,yes,yes,yes,yes,"minor bark damage, add trunk guard? missing 1 plywood brace"
--122.266648,37.814449,red maple,2019-01-24 11:00:00,WB,yes,yes,yes,yes,yes,yes,"missing 1 plywood brace, 3"" wood, 1 bryesen"
--122.266523,37.814428,red maple,2019-01-24 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.266452,37.814416,red maple,2019-01-24 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.265640,37.814281,red maple,2019-01-24 11:00:00,WB,yes,yes,yes,no,no,yes,"bark damage, add trunk guard, weeds/trash, needs mulch"
+-122.266846,37.814481,red maple,2019-01-24 11:00:00,WB,yes,Yes,Yes,Yes,Yes,yes,some yellow margins on leaves
+-122.266750,37.814464,red maple,2019-01-24 11:00:00,WB,yes,Yes,Yes,Yes,Yes,yes,"minor bark damage, add trunk guard? missing 1 plywood brace"
+-122.266648,37.814449,red maple,2019-01-24 11:00:00,WB,yes,Yes,Yes,Yes,Yes,yes,"missing 1 plywood brace, 3"" wood, 1 bryesen"
+-122.266523,37.814428,red maple,2019-01-24 11:00:00,WB,yes,Yes,Yes,Yes,Yes,yes,
+-122.266452,37.814416,red maple,2019-01-24 11:00:00,WB,yes,Yes,Yes,Yes,Yes,yes,
+-122.265640,37.814281,red maple,2019-01-24 11:00:00,WB,yes,Yes,Yes,No,No,yes,"bark damage, add trunk guard, weeds/trash, needs mulch"
 -122.270934,37.813447,Purple Robe locust,2019-01-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.270895,37.813506,Purple Robe locust,2019-01-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Trunk damage, leader leaning awkward"
 -122.270403,37.813892,Brisbane box,2019-01-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Appears to have been headed, rando wooden stake"
@@ -391,7 +391,7 @@ hhc's 1/5/2017 assessment:
 -122.270364,37.814056,New Zealand Christmas tree,2019-01-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,Appears to have been headed
 -122.270349,37.814120,Brisbane box,2019-01-28 11:00:00,WB,yes,yes,yes,yes,yes,yes, Removed brace and stakes
 -122.270338,37.814180,New Zealand Christmas tree,2019-01-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Appears to have been headed,  Removed brace and stakes"
--122.270328,37.814234,Brisbane box,2019-01-28 11:00:00,WB,yes,no,no,yes,yes,yes, Removed brace and stakes
+-122.270328,37.814234,Brisbane box,2019-01-28 11:00:00,WB,yes,No,No,yes,yes,yes, Removed brace and stakes
 -122.270315,37.814298,New Zealand Christmas tree,2019-01-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Appears to have been headed,  Removed brace and stakes"
 -122.270303,37.814353,Brisbane box,2019-01-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,Remove stake soon
 -122.270290,37.814425,New Zealand Christmas tree,2019-01-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Appears to have been headed,  Removed brace and stakes"
@@ -405,15 +405,15 @@ hhc's 1/5/2017 assessment:
 -122.270153,37.815117,Skyline honeylocust,2019-01-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.270141,37.815176,goldenrain tree,2019-01-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,significant trunk damage
 -122.270129,37.815235,Skyline honeylocust,2019-01-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,significant trunk damage
--122.267744,37.814632,red maple,2019-02-08 11:00:00,WB,no,no,no,no,yes,no,wounds from nursery stake
--122.272368,37.821734,American Ash,2019-02-21 11:00:00,WB,yes,yes,no,no,no,yes,"Front yard, loyess taken care of, owner might want mulch, planting stake"
+-122.267744,37.814632,red maple,2019-02-08 11:00:00,WB,no,no,no,no,Yes,No,wounds from nursery stake
+-122.272368,37.821734,American Ash,2019-02-21 11:00:00,WB,yes,Yes,no,No,no,yes,"Front yard, loyess taken care of, owner might want mulch, planting stake"
 -122.295960,37.809243,tupelo,2019-02-22 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.294670,37.807173,avocado,2019-02-22 11:00:00,WB,yes,yes,no,no,no,yes,"May want some mulch, planting stake"
+-122.294670,37.807173,avocado,2019-02-22 11:00:00,WB,yes,Yes,no,No,no,yes,"May want some mulch, planting stake"
 -122.294581,37.807195,ginkgo,2019-02-22 11:00:00,WB,yes,yes,yes,yes,yes,yes,Chickenwire cages by owners
 -122.294479,37.807172,ginkgo,2019-02-22 11:00:00,WB,yes,yes,yes,yes,yes,yes,Chickenwire cages by owners
 -122.294458,37.815579,river birch,2019-02-22 11:00:00,WB,yes,yes,yes,no,no,yes,"Its a bramble, unsure how to proceed on OP&R property, Major pruning"
 -122.294446,37.815545,river birch,2019-02-22 11:00:00,WB,yes,no,no,no,no,yes,"Its a bramble, unsure how to proceed on OP&R property, Major pruning"
--122.294429,37.807126,jacaranda,2019-02-22 11:00:00,WB,yes,no,no,no,no,yes,"May want some mulch, planting stake"
+-122.294429,37.807126,jacaranda,2019-02-22 11:00:00,WB,yes,No,no,no,no,yes,"May want some mulch, planting stake"
 -122.294350,37.815517,river birch,2019-02-22 11:00:00,WB,yes,yes,yes,no,no,yes,"Its a bramble, unsure how to proceed on OP&R property, Major pruning, needs mulch"
 -122.293922,37.809840,Coast Live Oak,2019-02-22 11:00:00,WB,yes,yes,yes,yes,no,yes, Needs mulch
 -122.293022,37.816906,Colonial Spirit American elm,2019-03-04 11:00:00,WB,yes,yes,yes,bag,bag,yes,
@@ -458,19 +458,19 @@ hhc's 1/5/2017 assessment:
 -122.287740,37.819333,Brisbane box,2019-03-04 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Construction on building, tree staked to protect, pruned 6/08/18, "
 -122.217850,37.772522,Shumard red oak,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.216819,37.775917,Sensation Boxelder,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.215566,37.776136,hybrid madrone,2019-03-08 11:00:00,WB,yes,yes,yes,no,no,yes,
+-122.215566,37.776136,hybrid madrone,2019-03-08 11:00:00,WB,yes,yes,yes,No,No,yes,
 -122.210304,37.777633,purple-flowering locust,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes, Removed brace and stakes
 -122.210229,37.777701,purple-flowering locust,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,May be time to removed stake soon
--122.209240,37.778622,Emerald Sunshine elm,2019-03-08 11:00:00,WB,yes,yes,yes,no,no,no,Possibly Dead?
+-122.209240,37.778622,Emerald Sunshine elm,2019-03-08 11:00:00,WB,yes,yes,yes,No,No,No,Possibly Dead?
 -122.208600,37.777600,silver linden,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.208600,37.777789,London plane tree,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.208552,37.777840,London plane tree,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.208218,37.773787,New Zealand Christmas tree,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.208180,37.773838,New Zealand Christmas tree,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.205204,37.769574,Jefferson American elm,2019-03-08 11:00:00,WB,yes,yes,yes,no,no,no,May want to talk to owner about stake removal.
+-122.205204,37.769574,Jefferson American elm,2019-03-08 11:00:00,WB,yes,yes,yes,No,No,No,May want to talk to owner about stake removal.
 -122.205009,37.772888,ginkgo,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.204800,37.774902,Emerald Sunshine Elm,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.204029,37.774267,jacaranda,2019-03-08 11:00:00,WB,yes,yes,yes,no,no,yes,
+-122.204029,37.774267,jacaranda,2019-03-08 11:00:00,WB,yes,yes,yes,No,No,yes,
 -122.203984,37.774250,Australian willow,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.203944,37.774292,Australian willow,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.203119,37.775652,Red Maple,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
@@ -488,7 +488,7 @@ hhc's 1/5/2017 assessment:
 -122.198733,37.777027,Persian ironwood,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.198699,37.777004,flaxleaf paperbark,2019-03-08 11:00:00,WB,yes,yes,no,no,no,yes,"planting stake, lawn"
 -122.197697,37.772515,cork oak,2019-03-08 11:00:00,WB,yes,yes,yes,no,no,yes,"Wooden 3 post stakes, remove?, lawn"
--122.197683,37.774340,Saratoga laurel,2019-03-08 11:00:00,WB,yes,no,yes,no,no,yes,"Talk to owner about stake removal, string brace, lawn"
+-122.197683,37.774340,Saratoga laurel,2019-03-08 11:00:00,WB,yes,No,Yes,no,no,yes,"Talk to owner about stake removal, string brace, lawn"
 -122.197682,37.772476,cork oak,2019-03-08 11:00:00,WB,yes,yes,yes,no,no,yes,"Wooden 3 post stakes, remove? , lawn"
 -122.195808,37.774547,October Glory red maple,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.228331,37.794941,Raywood ash,2019-03-15 11:00:00,WB,yes,yes,yes,yes,yes,yes,
@@ -499,7 +499,7 @@ hhc's 1/5/2017 assessment:
 -122.288091,37.809863,London plane tree,2019-03-15 11:00:00,WB,yes,yes,yes,yes,yes,yes, Removed brace and stakes
 -122.286121,37.812001,New Harmony American elm,2019-03-15 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.285867,37.811992,Colonial Spirit American elm,2019-03-15 11:00:00,WB,yes,yes,yes,yes,yes,yes, Removed brace and stakes
--122.282232,37.813636,scarlet oak,2019-03-15 11:00:00,WB,yes,no,no,yes,yes,yes,Could be loyesed after better.
+-122.282232,37.813636,scarlet oak,2019-03-15 11:00:00,WB,yes,No,no,yes,yes,yes,Could be loyesed after better.
 -122.278567,37.821216,Sensation boxelder,2019-03-15 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.268640,37.813909,Shumard red oak,2019-03-15 11:00:00,WB,yes,yes,yes,yes,yes,yes,Replaced 2019
 -122.267601,37.803154,Brisbane box,2019-03-15 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Crossbraces on with nails,  Removed brace and stakes"
@@ -519,23 +519,23 @@ hhc's 1/5/2017 assessment:
 -122.275198,37.824567,Brisbane box,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,Stake can be removed soon
 -122.275094,37.824541,Brisbane box,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,Stake can be removed soon
 -122.274972,37.824511,Brisbane box,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes, Removed brace and stakes
--122.274911,37.824497,American ash,2019-03-28 11:00:00,WB,yes,yes,yes,no,yes,yes,plantings
--122.273042,37.824051,New Zealand Christmas tree,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.272926,37.824020,Shumard red oak,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,Stake can be removed soon
--122.272833,37.823999,Shumard red oak,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
+-122.274911,37.824497,American ash,2019-03-28 11:00:00,WB,yes,yes,yes,No,yes,yes,plantings
+-122.273042,37.824051,New Zealand Christmas tree,2019-03-28 11:00:00,WB,yes,Yes,Yes,yes,yes,yes,
+-122.272926,37.824020,Shumard red oak,2019-03-28 11:00:00,WB,yes,Yes,Yes,yes,yes,yes,Stake can be removed soon
+-122.272833,37.823999,Shumard red oak,2019-03-28 11:00:00,WB,yes,Yes,Yes,yes,yes,yes,
 -122.272211,37.829531,ginkgo,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.272205,37.828741,Shumard red oak,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.272180,37.826054,Kentucky coffee tree,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,Stake can be removed soon
--122.272166,37.826105,red maple,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
+-122.272180,37.826054,Kentucky coffee tree,2019-03-28 11:00:00,WB,yes,Yes,Yes,yes,yes,yes,Stake can be removed soon
+-122.272166,37.826105,red maple,2019-03-28 11:00:00,WB,yes,Yes,Yes,yes,yes,yes,
 -122.272146,37.826193,Kentucky coffee tree,2019-03-28 11:00:00,WB,yes,no,no,yes,yes,yes, Removed brace and stakes
--122.272126,37.826272,red maple,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
+-122.272126,37.826272,red maple,2019-03-28 11:00:00,WB,yes,Yes,Yes,yes,yes,yes,
 -122.271704,37.816394,purple-flowering locust,2019-03-28 11:00:00,WB,yes,no,no,yes,yes,yes, Removed brace and stakes
 -122.271456,37.819794,Brisbane box,2019-03-28 11:00:00,WB,yes,no,no,yes,yes,yes,Water bag can probably be removed
 -122.271392,37.822167,Kentucky coffee tree,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.271345,37.819776,Brisbane box,2019-03-28 11:00:00,WB,yes,no,no,yes,yes,yes,Water bag can probably be removed
 -122.271141,37.819744,Brisbane box,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,Water bag can probably be removed
--122.270861,37.823528,goldenrain tree,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.270806,37.823528,goldenrain tree,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
+-122.270861,37.823528,goldenrain tree,2019-03-28 11:00:00,WB,yes,Yes,Yes,yes,yes,yes,
+-122.270806,37.823528,goldenrain tree,2019-03-28 11:00:00,WB,yes,Yes,Yes,yes,yes,yes,
 -122.270753,37.821020,hybrid madrone,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.270753,37.819676,Purple Robe locust,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.270673,37.819665,Purple Robe locust,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
@@ -543,7 +543,7 @@ hhc's 1/5/2017 assessment:
 -122.270517,37.820624,Brisbane box,2019-03-28 11:00:00,WB,yes,no,no,yes,yes,yes,Water bag can probably be removed
 -122.270422,37.820609,Brisbane box,2019-03-28 11:00:00,WB,yes,no,no,yes,yes,yes,Water bag can probably be removed
 -122.269434,37.831661,Saratoga laurel,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.271720,37.816343,purple-flowering locust,2019-03-28 11:00:00,WB,yes,yes,yes,yes,yes,yes,Stake can be removed soon
+-122.271720,37.816343,purple-flowering locust,2019-03-28 11:00:00,WB,yes,Yes,Yes,yes,yes,yes,Stake can be removed soon
 -122.300538,37.803319,Canary Island pine,2019-03-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.300504,37.803322,Canary Island pine,2019-03-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.300488,37.803388,Canary Island pine,2019-03-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,
@@ -589,22 +589,22 @@ hhc's 1/5/2017 assessment:
 -122.283183,37.808489,Canary Island pine,2019-04-25 11:00:00,WB,yes,yes,yes,yes,yes,yes,Stakes ready to be removed?
 -122.283129,37.808642,Afghan pine,2019-04-25 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.283102,37.808715,tupelo,2019-04-25 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.297273,37.812934,Brisbane box,2019-04-30 11:00:00,WB,yes,no,no,yes,yes,yes, Removed brace and stakes
+-122.297273,37.812934,Brisbane box,2019-04-30 11:00:00,WB,yes,no,no,yes,yes,Yes, Removed brace and stakes
 -122.294904,37.812552,October Glory red maple,2019-04-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.293151,37.816746,Colonial Spirit American elm,2019-04-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.293117,37.816788,Shumard red oak,2019-04-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,Loyess poor compared to others
 -122.293079,37.816836,Shumard red oak,2019-04-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.289733,37.815019,red horsechestnut,2019-04-30 11:00:00,WB,yes,yes,yes,no,yes,yes,plantings
+-122.289733,37.815019,red horsechestnut,2019-04-30 11:00:00,WB,yes,yes,yes,No,yes,yes,plantings
 -122.288978,37.819227,valley oak,2019-04-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.288550,37.818342,cork oak,2019-04-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,replaced 6/08/18
--122.279657,37.801555,purple-flowering locust,2019-04-30 11:00:00,WB,yes,yes,yes,no,no,no,"Chickenwire around stakes, branches inside, needs mulch, weeds"
--122.279596,37.801529,purple-flowering locust,2019-04-30 11:00:00,WB,yes,yes,yes,no,no,no,"Chickenwire around stakes, branches inside, needs mulch weeds"
--122.279532,37.801504,purple-flowering locust,2019-04-30 11:00:00,WB,yes,yes,yes,no,no,no,"Chickenwire around stakes, branches, suckers inside, needs mulch, weeds"
--122.279414,37.801458,purple-flowering locust,2019-04-30 11:00:00,WB,yes,yes,yes,no,no,no,"Chickenwire around stakes, suckers at base, needs mulch, weeds"
--122.279346,37.801432,purple-flowering locust,2019-04-30 11:00:00,WB,yes,yes,yes,no,no,no,"Chickenwire around stakes, suckers at base, needs mulch, weeds"
--122.276226,37.806211,London plane tree,2019-04-30 11:00:00,WB,yes,no,yes,yes,yes,yes,Bamboo extension on wood brace needs attention
+-122.279657,37.801555,purple-flowering locust,2019-04-30 11:00:00,WB,yes,yes,yes,No,No,No,"Chickenwire around stakes, branches inside, needs mulch, weeds"
+-122.279596,37.801529,purple-flowering locust,2019-04-30 11:00:00,WB,yes,yes,yes,No,No,No,"Chickenwire around stakes, branches inside, needs mulch weeds"
+-122.279532,37.801504,purple-flowering locust,2019-04-30 11:00:00,WB,yes,yes,yes,No,No,No,"Chickenwire around stakes, branches, suckers inside, needs mulch, weeds"
+-122.279414,37.801458,purple-flowering locust,2019-04-30 11:00:00,WB,yes,yes,yes,No,No,No,"Chickenwire around stakes, suckers at base, needs mulch, weeds"
+-122.279346,37.801432,purple-flowering locust,2019-04-30 11:00:00,WB,yes,yes,yes,No,No,No,"Chickenwire around stakes, suckers at base, needs mulch, weeds"
+-122.276226,37.806211,London plane tree,2019-04-30 11:00:00,WB,yes,No,yes,yes,yes,yes,Bamboo extension on wood brace needs attention
 -122.242127,37.789876,Princeton American elm,2019-06-20 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.242040,37.789826,Princeton American elm,2019-06-20 11:00:00,WB,yes,no,no,yes,yes,yes, Removed brace and stakes
+-122.242040,37.789826,Princeton American elm,2019-06-20 11:00:00,WB,yes,No,No,yes,yes,yes, Removed brace and stakes
 -122.241938,37.789765,Princeton American elm,2019-06-20 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.241829,37.789700,Princeton American elm,2019-06-20 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.241718,37.789636,Princeton American elm,2019-06-20 11:00:00,WB,yes,yes,yes,yes,yes,yes,
@@ -617,7 +617,7 @@ hhc's 1/5/2017 assessment:
 -122.240704,37.789028,Princeton American elm,2019-06-20 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.240583,37.788960,Princeton American elm,2019-06-20 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.240409,37.788998,Jefferson American elm,2019-06-20 11:00:00,WB,yes,no,no,yes,yes,yes, Remove brace and stakes
--122.240311,37.791163,Frontier elm,2019-06-20 11:00:00,WB,yes,yes,no,yes,yes,yes,"Leader is leaning slightly, needs bolt set"
+-122.240311,37.791163,Frontier elm,2019-06-20 11:00:00,WB,yes,yes,No,yes,yes,yes,"Leader is leaning slightly, needs bolt set"
 -122.240207,37.789211,Jefferson American elm,2019-06-20 11:00:00,WB,yes,no,no,yes,yes,yes, Remove brace and stakes
 -122.240151,37.791066,Frontier elm,2019-06-20 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.239873,37.789562,Jefferson American elm,2019-06-20 11:00:00,WB,yes,no,no,yes,yes,yes, Remove brace and stakes
@@ -688,38 +688,38 @@ hhc's 1/5/2017 assessment:
 -122.275191,37.814707,silver linden,2019-07-03 11:00:00,WB,yes,yes,yes,no,no,yes,"planting stake removed 3/28, planting/trash, planting"
 -122.275179,37.814388,silver linden,2019-07-03 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.187341,37.762142,Australian willow,2019-07-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191926,37.761237,deodar cedar,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191888,37.761183,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191855,37.761150,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191843,37.761179,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191802,37.761119,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191766,37.761179,hybrid madrone,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191758,37.761059,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191721,37.761021,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191699,37.761057,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191695,37.761116,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191686,37.760971,deodar cedar,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191644,37.761049,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191632,37.760922,incense cedar,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191628,37.760893,incense cedar,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191616,37.761082,hybrid madrone,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191615,37.761006,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191568,37.761016,European hornbeam,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191563,37.760988,European hornbeam,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191527,37.761041,European hornbeam,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191490,37.761033,European hornbeam,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191391,37.761008,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191359,37.761032,hybrid madrone,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191336,37.760994,hybrid madrone,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191325,37.760953,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191230,37.760925,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191204,37.760964,hybrid madrone,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191177,37.760934,coast live oak,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.191147,37.760893,coast live oak,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191124,37.760925,hybrid madrone,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.191056,37.760882,coast live oak,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,1 loose brace
--122.190981,37.760836,coast live oak,2019-07-10 11:00:00,WB,yes,yes,yes,yes,yes,yes,1 brace
--122.190909,37.760812,deodar cedar,2019-07-10 11:00:00,WB,yes,no,no,yes,yes,yes,
+-122.191926,37.761237,deodar cedar,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191888,37.761183,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191855,37.761150,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191843,37.761179,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191802,37.761119,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191766,37.761179,hybrid madrone,2019-07-10 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.191758,37.761059,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191721,37.761021,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191699,37.761057,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191695,37.761116,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191686,37.760971,deodar cedar,2019-07-10 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.191644,37.761049,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191632,37.760922,incense cedar,2019-07-10 11:00:00,WB,Yes,yes,yes,yes,yes,yes,
+-122.191628,37.760893,incense cedar,2019-07-10 11:00:00,WB,Yes,yes,yes,yes,yes,yes,
+-122.191616,37.761082,hybrid madrone,2019-07-10 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.191615,37.761006,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191568,37.761016,European hornbeam,2019-07-10 11:00:00,WB,Yes,yes,yes,yes,yes,yes,
+-122.191563,37.760988,European hornbeam,2019-07-10 11:00:00,WB,Yes,yes,yes,yes,yes,yes,
+-122.191527,37.761041,European hornbeam,2019-07-10 11:00:00,WB,Yes,yes,yes,yes,yes,yes,
+-122.191490,37.761033,European hornbeam,2019-07-10 11:00:00,WB,Yes,yes,yes,yes,yes,yes,
+-122.191391,37.761008,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191359,37.761032,hybrid madrone,2019-07-10 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.191336,37.760994,hybrid madrone,2019-07-10 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.191325,37.760953,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191230,37.760925,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191204,37.760964,hybrid madrone,2019-07-10 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.191177,37.760934,coast live oak,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
+-122.191147,37.760893,coast live oak,2019-07-10 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.191124,37.760925,hybrid madrone,2019-07-10 11:00:00,WB,Yes,yes,yes,yes,yes,yes,
+-122.191056,37.760882,coast live oak,2019-07-10 11:00:00,WB,Yes,yes,yes,yes,yes,yes,1 loose brace
+-122.190981,37.760836,coast live oak,2019-07-10 11:00:00,WB,Yes,yes,yes,yes,yes,yes,1 brace
+-122.190909,37.760812,deodar cedar,2019-07-10 11:00:00,WB,Yes,no,no,yes,yes,yes,
 -122.202442,37.762622,red maple,2019-07-15 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.202381,37.762563,black maple,2019-07-15 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.202323,37.762513,red maple,2019-07-15 11:00:00,WB,yes,yes,yes,yes,yes,yes,
@@ -731,11 +731,11 @@ hhc's 1/5/2017 assessment:
 -122.190396,37.766518,ginkgo,2019-07-15 11:00:00,WB,yes,yes,yes,no,no,yes,"Planting stake still attached, plants"
 -122.190349,37.766546,ginkgo,2019-07-15 11:00:00,WB,yes,yes,yes,no,no,yes,"Planting stake still attached, plants"
 -122.189950,37.770430,Sensation boxelder,2019-07-15 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.189022,37.763706,tupelo,2019-07-15 11:00:00,WB,yes,yes,yes,yes,yes,no,scraggly
+-122.189022,37.763706,tupelo,2019-07-15 11:00:00,WB,yes,yes,yes,yes,yes,No,scraggly
 -122.188109,37.764347,Autumn Blaze maple,2019-07-15 11:00:00,WB,yes,yes,yes,no,no,yes,"Plants, owners mulched"
--122.185965,37.765730,Frontier elm,2019-07-15 11:00:00,WB,yes,no,no,no,no,no,"Needs stake and brace removed, major pruning beyond my pay grade. NEEDS MAKEOVER"
+-122.185965,37.765730,Frontier elm,2019-07-15 11:00:00,WB,yes,no,no,no,no,No,"Needs stake and brace removed, major pruning beyond my pay grade. NEEDS MAKEOVER"
 -122.185025,37.765614,hybrid madrone,2019-07-15 11:00:00,WB,yes,no,no,no,yes,yes,
--122.184961,37.765487,hybrid madrone,2019-07-15 11:00:00,WB,fair,yes,yes,yes,yes,yes,
+-122.184961,37.765487,hybrid madrone,2019-07-15 11:00:00,WB,fair,yes,yes,yes,yes,Yes,
 -122.184259,37.767587,American Elm,2019-07-15 11:00:00,WB,fair,yes,yes,yes,yes,yes,
 -122.184219,37.767549,Autumn Blaze Red Maple,2019-07-15 11:00:00,WB,fair,yes,yes,yes,yes,yes,
 -122.184169,37.767498,American Elm,2019-07-15 11:00:00,WB,fair,yes,yes,yes,yes,yes,
@@ -744,54 +744,54 @@ hhc's 1/5/2017 assessment:
 -122.184077,37.767409,red maple,2019-07-15 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.184007,37.767340,European hornbeam,2019-07-15 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.183980,37.767309,red maple,2019-07-15 11:00:00,WB,yes,yes,yes,yes,yes,yes,monitor the dieback (as of June 2017)
--122.202184,37.762457,incense cedar,2019-07-15 11:00:00,WB,yes,no,no,no,no,no,"scraggly, weeds"
+-122.202184,37.762457,incense cedar,2019-07-15 11:00:00,WB,yes,no,no,no,No,no,"scraggly, weeds"
 -122.196532,37.779369,Green Gable tupelo,2019-07-29 11:00:00,WB,yes,no,no,yes,yes,yes,
 -122.196525,37.779427,Australian willow,2019-07-29 11:00:00,WB,yes,no,no,lawn,lawn,yes,
 -122.196467,37.779343,hybrid madrone,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.196419,37.779321,silver linden,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.196357,37.779292,Saratoga laurel,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.185144,37.756457,silver linden,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,Heat-stressed; needs water
--122.185044,37.756521,silver linden,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,Heat-stressed; needs water
--122.184935,37.756590,silver linden,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,Needs water
--122.184813,37.756668,silver linden,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.184714,37.756732,silver linden,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,Needs water
--122.179620,37.747624,silver linden,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.179452,37.747634,silver linden,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.179371,37.747671,silver linden,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,
+-122.185144,37.756457,silver linden,2019-07-29 11:00:00,WB,yes,yes,Yes,yes,yes,yes,Heat-stressed; needs water
+-122.185044,37.756521,silver linden,2019-07-29 11:00:00,WB,yes,yes,Yes,yes,yes,yes,Heat-stressed; needs water
+-122.184935,37.756590,silver linden,2019-07-29 11:00:00,WB,yes,yes,Yes,yes,yes,yes,Needs water
+-122.184813,37.756668,silver linden,2019-07-29 11:00:00,WB,yes,yes,Yes,yes,yes,yes,
+-122.184714,37.756732,silver linden,2019-07-29 11:00:00,WB,yes,yes,Yes,yes,yes,yes,Needs water
+-122.179620,37.747624,silver linden,2019-07-29 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.179452,37.747634,silver linden,2019-07-29 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.179371,37.747671,silver linden,2019-07-29 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
 -122.178118,37.760681,box elder,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.176014,37.753179,American elm,2019-07-29 11:00:00,WB,yes,no,no,no,no,no,"Tree is being loyesed after, did not want to prune against wishes, lava rocks"
--122.173863,37.757413,American elm,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Heavy wounding on trunk, could use water."
--122.169877,37.750465,Southern magnolia,2019-07-29 11:00:00,WB,yes,yes,yes,no,no,yes,"Planting strip landscaped, did not want to disturb"
--122.169001,37.749938,purple-flowering locust,2019-07-29 11:00:00,WB,yes,no,no,no,no,yes,Removed suckers. rocks
--122.168115,37.754379,tupelo,2019-07-29 11:00:00,WB,no,yes,yes,no,no,no,"DEAD 7/29/19, Weeds"
--122.168050,37.754409,tupelo,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Heavy wounding on trunk, could use water."
--122.160432,37.744143,Chinese flame tree,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,removed planting stake
--122.160415,37.744096,Chinese flame tree,2019-07-29 11:00:00,WB,yes,yes,yes,yes,yes,yes,removed planting stake
--122.160385,37.744026,Chinese flame tree,2019-07-29 11:00:00,WB,yes,no,no,yes,yes,yes,remove planting stake
+-122.173863,37.757413,American elm,2019-07-29 11:00:00,WB,yes,yes,Yes,yes,yes,yes,"Heavy wounding on trunk, could use water."
+-122.169877,37.750465,Southern magnolia,2019-07-29 11:00:00,WB,yes,Yes,Yes,no,no,yes,"Planting strip landscaped, did not want to disturb"
+-122.169001,37.749938,purple-flowering locust,2019-07-29 11:00:00,WB,Yes,no,no,no,no,yes,Removed suckers. rocks
+-122.168115,37.754379,tupelo,2019-07-29 11:00:00,WB,No,Yes,Yes,No,No,No,"DEAD 7/29/19, Weeds"
+-122.168050,37.754409,tupelo,2019-07-29 11:00:00,WB,yes,Yes,Yes,yes,yes,yes,"Heavy wounding on trunk, could use water."
+-122.160432,37.744143,Chinese flame tree,2019-07-29 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,removed planting stake
+-122.160415,37.744096,Chinese flame tree,2019-07-29 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,removed planting stake
+-122.160385,37.744026,Chinese flame tree,2019-07-29 11:00:00,WB,Yes,no,no,yes,yes,yes,remove planting stake
 -122.190189,37.763579,London plane tree,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.190151,37.763544,October Glory red maple,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.190100,37.763492,American elm,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.190053,37.763446,Red Rage tupelo,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.174665,37.738759,river birch,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.174634,37.738730,river birch,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.174592,37.738685,cajeput tree,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.174550,37.738642,cajeput tree,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.174508,37.738594,river birch,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.174467,37.738546,cajeput tree,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.174423,37.738500,cajeput tree,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.174380,37.738455,river birch,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.174338,37.738409,cajeput tree,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.174297,37.738363,cajeput tree,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.174251,37.738312,river birch,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.174220,37.738279,cajeput tree,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,"In shade of fence, doing well"
--122.174179,37.738235,cajeput tree,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,Exposed to round-up overspray
--122.174146,37.738191,river birch,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,Exposed to round-up overspray
--122.174126,37.738164,river birch,2019-07-30 11:00:00,WB,yes,yes,yes,yes,yes,yes,Exposed to round-up overspray
+-122.174665,37.738759,river birch,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.174634,37.738730,river birch,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.174592,37.738685,cajeput tree,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.174550,37.738642,cajeput tree,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.174508,37.738594,river birch,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.174467,37.738546,cajeput tree,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.174423,37.738500,cajeput tree,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.174380,37.738455,river birch,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.174338,37.738409,cajeput tree,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.174297,37.738363,cajeput tree,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.174251,37.738312,river birch,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,
+-122.174220,37.738279,cajeput tree,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,"In shade of fence, doing well"
+-122.174179,37.738235,cajeput tree,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,Exposed to round-up overspray
+-122.174146,37.738191,river birch,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,Exposed to round-up overspray
+-122.174126,37.738164,river birch,2019-07-30 11:00:00,WB,Yes,Yes,Yes,yes,yes,yes,Exposed to round-up overspray
 -122.248096,37.796464,Saratoga laurel,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.248065,37.796446,hybrid madrone,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.247208,37.791438,silver linden,2019-08-19 11:00:00,WB,yes,yes,yes,no,no,yes,lava rocks
--122.243021,37.795118,Shumard red oak,2019-08-19 11:00:00,WB,yes,yes,no,yes,yes,yes,"Pruned strangely when young, removed brace"
--122.240690,37.791565,Chinese flame tree,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Lower limbs yes, loyesing top heavy, may need more significant pruning, black mulch"
+-122.247208,37.791438,silver linden,2019-08-19 11:00:00,WB,yes,yes,yes,No,No,yes,lava rocks
+-122.243021,37.795118,Shumard red oak,2019-08-19 11:00:00,WB,yes,yes,No,yes,yes,yes,"Pruned strangely when young, removed brace"
+-122.240690,37.791565,Chinese flame tree,2019-08-19 11:00:00,WB,yes,yes,yes,yes,Yes,Yes,"Lower limbs yes, loyesing top heavy, may need more significant pruning, black mulch"
 -122.230008,37.797113,Chinese pistache,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.227996,37.793232,Select tupelo,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.224932,37.805718,red maple,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
@@ -799,10 +799,10 @@ hhc's 1/5/2017 assessment:
 -122.223274,37.803890,Jefferson American elm,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.223246,37.803966,black maple,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.217970,37.787731,Autumn Blaze Red Maple,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.217716,37.805740,hybrid madrone,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,y drip
+-122.217716,37.805740,hybrid madrone,2019-08-19 11:00:00,WB,Yes,yes,yes,yes,yes,yes,y drip
 -122.217568,37.799566,American elm,2019-08-19 11:00:00,WB,yes,yes,yes,no,yes,no,"Notes on tree from 8/8/18, could not locate on 8/19"
 -122.217036,37.794753,hybrid madrone,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.216519,37.799240,,2019-08-19 11:00:00,WB,yes,yes,yes,yes,no,yes,Lava rocks
+-122.216519,37.799240,,2019-08-19 11:00:00,WB,yes,yes,yes,yes,No,yes,Lava rocks
 -122.216155,37.779768,Purple Robe locust,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.216102,37.779586,Australian willow,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.216097,37.779714,Purple Robe locust,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
@@ -811,9 +811,9 @@ hhc's 1/5/2017 assessment:
 -122.215292,37.800068,Red Rage tupelo,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.214529,37.790110,Ginkgo,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.214302,37.790011,Autumn Blaze Red Maple,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
--122.213631,37.792210,Emerald Sunshine elm,2019-08-19 11:00:00,WB,yes,yes,yes,yes,no,yes,"owner notified me about spoted leaves. yes, but new growth as well. buckley doesn't sem alarmed 7/13/18. 8/20 tree loyess very bad. dying leaves"
+-122.213631,37.792210,Emerald Sunshine elm,2019-08-19 11:00:00,WB,yes,yes,yes,yes,No,yes,"owner notified me about spoted leaves. yes, but new growth as well. buckley doesn't sem alarmed 7/13/18. 8/20 tree loyess very bad. dying leaves"
 -122.213120,37.800711,red maple,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.212279,37.792711,Chinese pistache,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,"bag weeds, mulch"
--122.212016,37.798470,red maple,2019-08-19 11:00:00,WB,no,yes,yes,yes,yes,yes,
--122.212001,37.798507,red maple,2019-08-19 11:00:00,WB,no,yes,yes,yes,yes,yes,
+-122.212016,37.798470,red maple,2019-08-19 11:00:00,WB,No,yes,yes,yes,yes,yes,
+-122.212001,37.798507,red maple,2019-08-19 11:00:00,WB,No,yes,yes,yes,yes,yes,
 -122.209442,37.801908,hybrid madrone,2019-08-19 11:00:00,WB,yes,yes,yes,yes,yes,yes,

@@ -3,12 +3,32 @@ const env = process.argv[2] || "dev";
 const util = require("util");
 const { Pool } = require("pg");
 
-const configTreeDb = require('./config_treedb.js');
 // Example from here:
 // https://github.com/brianc/node-postgres/tree/master/packages/pg-pool
+const config = {
+  // POSTGRES
+  // Client: NativeClient ??
+  local: {
+    // connectionLimit: 10,
+    database: "treedb",
+    user: "trees",
+    host: "localhost",
+    password: "trees",
+    port: 5432,
+    dateStrings: "date",
+  },
+  dev: {
+    // connectionLimit: 10,
+    database: "treedb",
+    user: "trees",
+    host: "localhost",
+    password: "trees",
+    port: 5432,
+    dateStrings: "date",
+  },
+}[env];
 
-
-const pool = new Pool(configTreeDb );
+const pool = new Pool(config);
 
 module.exports = {
   query: (text, params) => pool.query(text, params),

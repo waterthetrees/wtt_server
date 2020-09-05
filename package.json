@@ -30,6 +30,7 @@
     "nodemon": "^2.0.4",
     "pg": "^8.1.0",
     "pg-promise": "^10.6.1",
+    "pg-native": "^3.0.0",
     "pgtools": "^0.3.0",
     "validator": "^11.1.0",
     "winston": "^3.2.1"

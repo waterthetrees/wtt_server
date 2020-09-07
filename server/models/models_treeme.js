@@ -72,9 +72,9 @@ async function getTreeHistoryModel(currentTreeId) {
 
     const query = `SELECT id_treehistory, id_tree, 
     watered, mulched, weeded, staked, braced, pruned, 
-    datevisit, comment, volunteer 
+    date_visit, comment, volunteer 
     FROM treehistory WHERE id_tree = ${currentTreeId}
-    ORDER BY datevisit DESC limit 20;`;
+    ORDER BY date_visit DESC limit 20;`;
     // console.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);
     // console.debug(`${functionName} results ${util.inspect(results)}`);
@@ -94,11 +94,10 @@ async function getTreeHistoryModel(currentTreeId) {
   }
 }
 
-
 function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
   let query = `SELECT id_tree FROM treehistory 
     WHERE id_tree = ${newTreeHistory.id_tree} 
-    AND createdat::date = CURRENT_DATE
+    AND date_visit::date = CURRENT_DATE
     AND volunteer = '${newTreeHistory.volunteer}';`;
   return queryTreeDB(query);
 }
@@ -125,5 +124,5 @@ module.exports = {
   getTreeHistoryModel,
   findTreeHistoryVolunteerTodayModel,
   updateTreeNoteModel,
-  updateTreeHealthModel
+  updateTreeHealthModel,
 };

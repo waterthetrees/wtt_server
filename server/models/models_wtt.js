@@ -36,7 +36,7 @@ async function updateTreeModel(newTree) {
 }
 
 async function updateTreeHistoryModel(newTreeHistory) {
- const condition = pgp.as.format(' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND createdat::date = CURRENT_DATE RETURNING *', newTreeHistory);
+ const condition = pgp.as.format(' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND created_at::date = CURRENT_DATE RETURNING *', newTreeHistory);
  const keys = Object.keys(newTreeHistory)
  
  const queryString = () => pgp.helpers.update(newTreeHistory, keys, 'treehistory') + condition;

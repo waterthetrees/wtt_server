@@ -3,17 +3,17 @@ const {
   getTreeModel,
   getTreeHistoryModel,
   findTreeHistoryVolunteerTodayModel,
-} = require("./models/models_treeme.js");
+} = require('./models/models_treeme.js');
 
 const {
   insertTreeHistoryModel,
   updateTreeHistoryModel,
   updateTreeModel
-} = require("./models/models_wtt.js");
+} = require('./models/models_wtt.js');
 
-const { validateGetMapRequest } = require("./validation.js");
-const { logger } = require("./../logger.js");
-util = require("util");
+const { validateGetMapRequest } = require('./validation.js');
+const { logger } = require('./../logger.js');
+util = require('util');
 const has = Object.prototype.hasOwnProperty;
 
 function getMap(req, res) {
@@ -33,7 +33,7 @@ function getMap(req, res) {
 }
 
 async function processGetMap(query, res) {
-  const functionName = "processGetMap";
+  const functionName = 'processGetMap';
   try {
     let treeMapResults = await getGeoJson(query);
     // let treeResults = (query.requestType === 'GetMapSubset') ? await getMapSubsetModel(await query) : await getMapByCityModel(await query);
@@ -76,14 +76,10 @@ async function processGetTree(query, res) {
   const functionName = "processGetTree";
   try {
     const { currentTreeId } = query;
-    // console.log("query", query, "currentTreeId", currentTreeId);
+    console.log("query", query, "currentTreeId", currentTreeId);
     let treeResults = await getTreeModel(currentTreeId);
-    let treeHistoryResults = await getTreeHistoryModel(currentTreeId);
-    // TODO figure out a sort so south trees will be above north trees
-    // treeResults = await results.sort((a, b) => a.latitude < b.latitude);
-    res.statusCode = 200;
-    // res.send(await treeResults);
-    res.json(await treeResults);
+    logger.debug(`treeResults ${util.inspect(treeResults)} ${functionName}`);
+    responder(res, 200, await treeResults);
     return;
   } catch (err) {
     logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
@@ -104,13 +100,9 @@ async function processGetTreeHistory(query, res) {
   const functionName = "processGetTree";
   try {
     const { currentTreeId } = query;
-    // console.log("query", query, "currentTreeId", currentTreeId);
+    console.log("query", query, "currentTreeId", currentTreeId);
     let treeHistoryResults = await getTreeHistoryModel(currentTreeId);
-    // TODO figure out a sort so south trees will be above north trees
-    // treeResults = await results.sort((a, b) => a.latitude < b.latitude);
-    res.statusCode = 200;
-    // res.send(await treeResults);
-    res.json(await treeHistoryResults);
+    responder(res, 200, await treeHistoryResults);
     return;
   } catch (err) {
     logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
@@ -121,8 +113,8 @@ async function processGetTreeHistory(query, res) {
 }
 
 function postTree(req, res) {
-  const functionName = "postTreeHealth";
-  logger.debug(`req  ${util.inspect(req, false, 10, true)} ${functionName}`);
+  const functionName = "postTree";
+  // logger.debug(`req  ${util.inspect(req, false, 10, true)} ${functionName}`);
 
   // const validated = validateGetMapRequest(req);
   // if (!validated) {
@@ -130,23 +122,27 @@ function postTree(req, res) {
   //   return;
   // }
   processPostTree(req.body, res);
-
-  
   return;
 }
 
 async function processPostTree(body, res) {
-  const functionName = "processPostTreeNote";
+  const functionName = "processPostTree";
   try {
-    const updateTreeResults = await updateTreeModel(body);
-    console.log(await updateTreeResults, 'updateTreeResults')
-    if (!updateTreeResults || !updateTreeResults.length) {
+
+    logger.debug(`${functionName} body ${util.inspect(body)}`);
+    const updateTreeResults = await updateTreeModel(body, 'test');
+    logger.debug(`${functionName}, updateTreeResults, ${util.inspect(updateTreeResults)}`)
+    if (!updateTreeResults) {
       responder(res, 500, {error: 'error saving'});
       return;
     }
+    if (updateTreeResults.error) {
+      responder(res, 500, updateTreeResults);
+      return;
+    }
     const returnMessage = body.hasOwnProperty('notes') 
-      ? `Saved Notes: ${updateTreeResults[0].notes}`
-      : `Saved Tree Health: ${updateTreeResults[0].health}`;
+      ? updateTreeResults[0].notes
+      : updateTreeResults[0].health;
     responder(res, 200, {data: returnMessage});
     return;
   } catch (err) {
@@ -156,23 +152,6 @@ async function processPostTree(body, res) {
   }
 }
 
-
-async function processPostTreeHealth(body, res) {
-  const functionName = "processPostTreeHealth";
-  try {
-    const {id_tree, health} = body;
-    logger.debug(`id_tree, health ${id_tree}: ${health} ${functionName}`);
-    const updateTreeHealthResults = await updateTreeHealthModel(id_tree, health);
-
-    logger.debug(`updateTreeHealthResults ${util.inspect(await updateTreeHealthResults.rows)} ${functionName}`);
-    responder(res, 200, await updateTreeHealthResults.rows);
-    return;
-  } catch (err) {
-    logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
-    responder(res, 500, { error: err });
-    return;
-  }
-}
 
 function postTreeHistory(req, res) {
   const functionName = "postHistory";

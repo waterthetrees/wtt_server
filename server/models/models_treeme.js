@@ -28,6 +28,7 @@ function getGeoJson(location) {
         'geometry',   json_build_object( 'type', 'Point', 'coordinates', json_build_array(lng, lat)),
         'properties', json_build_object(
                         'id', id_tree,
+                        'idTree', id_tree,
                         'common',common )
       ) AS feature
       FROM (
@@ -43,7 +44,7 @@ async function getTreeModel(currentTreeId) {
   try {
     // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
 
-    const query = `SELECT id_tree, common, scientific, planted, health, 
+    const query = `SELECT id_tree AS "idTree", common, scientific, planted, health, 
       address, city, country, neighborhood, lat, lng, owner, ref, who, notes
      FROM treedata WHERE id_tree = ${currentTreeId};`;
     // console.debug(`${functionName}  query ${query}`);
@@ -70,9 +71,9 @@ async function getTreeHistoryModel(currentTreeId) {
   try {
     // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
 
-    const query = `SELECT id_treehistory, id_tree, 
+    const query = `SELECT id_treehistory as "idTreeHistory", id_tree AS "idTree", 
     watered, mulched, weeded, staked, braced, pruned, 
-    date_visit, comment, volunteer 
+    date_visit as "dateVisit", comment, volunteer 
     FROM treehistory WHERE id_tree = ${currentTreeId}
     ORDER BY date_visit DESC limit 20;`;
     // console.debug(`${functionName}  query ${query}`);
@@ -95,26 +96,26 @@ async function getTreeHistoryModel(currentTreeId) {
 }
 
 function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
-  let query = `SELECT id_tree FROM treehistory 
-    WHERE id_tree = ${newTreeHistory.id_tree} 
+  let query = `SELECT id_tree AS "idTree" FROM treehistory 
+    WHERE id_tree = ${newTreeHistory.idTree} 
     AND date_visit::date = CURRENT_DATE
     AND volunteer = '${newTreeHistory.volunteer}';`;
   return queryTreeDB(query);
 }
 
-function updateTreeNoteModel(id_tree, notes) {
+function updateTreeNoteModel(idTree, notes) {
   const query = ` UPDATE treedata
     SET notes = '${notes}'
-    WHERE id_tree = ${id_tree}
-    RETURNING *;`;
+    WHERE id_tree = ${idTree}
+    RETURNING id_tree AS "idTree", notes;`;
   return queryTreeDB(query);
 }
 
-function updateTreeHealthModel(id_tree, health) {
+function updateTreeHealthModel(idTree, health) {
   const query = ` UPDATE treedata
     SET health = '${health}'
-    WHERE id_tree = ${id_tree}
-    RETURNING *;`;
+    WHERE id_tree = ${idTree}
+    RETURNING id_tree AS "idTree", health;`;
   return queryTreeDB(query);
 }
 

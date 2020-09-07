@@ -347,8 +347,7 @@ ref,who,common,scientific,genus,lng,lat,date_planted,address,city,state,zip,coun
 286,tfo,Southern magnolia,Magnolia grandiflora 'Majestic Beauty' (Southern magnolia),,-122.204983,37.769500,2017-02-28 09:00:00,1514 53rd Ave,Oakland,CA,,US,Melrose,good,,,Private,,,,
 287,tfo,London plane tree,Platanus x hispanica ?Columbia? London Plane,,-122.211909,37.787195,2017-03-04 09:00:00,2439 35th Ave,Oakland,CA,,US,Allendale,good,,,Public,,,new owners 2019,
 288,tfo,hybrid madrone,Arbutus marina,,-122.212034,37.787174,2017-03-05 09:00:00,2433 35th Ave,Oakland,CA,,US,Allendale,good,,,Private,,,,
-300,tfo,Fuyu persimmon,"Diospyros kaki
-Japanese Persimmon (fuyu)",,-122.215173,37.786433,2017-03-12 09:00:00,3479 Davis St,Oakland,CA,,US,Allendale,good,,,Private,,,,
+300,tfo,Fuyu persimmon,"Diospyros kaki Japanese Persimmon (fuyu)",,-122.215173,37.786433,2017-03-12 09:00:00,3479 Davis St,Oakland,CA,,US,Allendale,good,,,Private,,,,
 301,tfo,Fuyu persimmon,Diospyros kaki 'Fuyu' Japanese Persimmon,,-122.214106,37.794113,2017-02-11 09:00:00,3150 Cuthbert Ave,Oakland,CA,,US,Fruitvale (Lower),good,,,Private,,,,
 302,tfo,Hachiya persimmon,Diospyros kaki 'Hachiya',,-122.183980,37.767418, ,2601 67th Ave,Oakland,CA,,US,Picardy/Seminary,good,,,Private,,,,
 303,tfo,goldenrain tree,Koelreuteria paniculata 'Coral Sun',,-122.270861,37.823528,2017-03-18 09:00:00,685 34th St,Oakland,CA,,US,Hoover/Pill Hill,good,,,Public,,,,
@@ -606,8 +605,7 @@ Japanese Persimmon (fuyu)",,-122.215173,37.786433,2017-03-12 09:00:00,3479 Davis
 591,tfo,Hass avocado,Persea americana 'Hass' (avocado),,-122.185858,37.763184,2018-03-17 09:00:00,1752 69th Ave,Oakland,CA,,US,Havenscourt,good,,,Private,,,Mayr,
 592,tfo,London plane tree,Platanus x acerifolia 'Columbia' (London Plane),,-122.190189,37.763579,2018-12-01 09:00:00,1550 Havenscourt Blvd,Oakland,CA,,US,Havenscourt,good,,,Public,,,Replaced tree Dec '18,
 593,tfo,October Glory red maple,Acer rubrum 'October Glory' (red maple),,-122.190151,37.763544,2018-03-31 09:00:00,1550 Havenscourt Blvd,Oakland,CA,,US,Havenscourt,good,,,Public,,,,
-594,tfo,American elm,"Ulmus americana 'Jefferson' (American elm)
-",,-122.190100,37.763492,2018-03-31 09:00:00,1550 Havenscourt Blvd,Oakland,CA,,US,Havenscourt,good,,,Public,,,,
+594,tfo,American elm,"Ulmus americana 'Jefferson' (American elm)",,-122.190100,37.763492,2018-03-31 09:00:00,1550 Havenscourt Blvd,Oakland,CA,,US,Havenscourt,good,,,Public,,,,
 595,tfo,Red Rage tupelo,Nyssa sylvatica 'Red Rage' (tupelo),,-122.190053,37.763446,2018-03-31 09:00:00,1550 Havenscourt Blvd,Oakland,CA,,US,Havenscourt,good,,,Public,,,,
 596,tfo,purple-flowering locust,Robinia x ambigua 'Purple Robe',,-122.279657,37.801555,2018-03-31 09:00:00,668 6th St,Oakland,CA,,US,Old Oakland,good,,,Public,,,,Chickenwire around stakes/ branches inside
 597,tfo,purple-flowering locust,Robinia x ambigua 'Purple Robe',,-122.279596,37.801529,2018-03-31 09:00:00,668 6th St,Oakland,CA,,US,Old Oakland,good,,,Public,,,,Chickenwire around stakes/ branches inside
@@ -2213,9 +2211,7 @@ not CF,tfo other,,Cornus 'Eddie's White Wonder',,-122.236998,37.789645,2019-04-1
 ,SCTT 2016 2018,Trident Maple - if ok in S space,,,-122.243970,37.804470,2017-03-04 09:00:00,728 Cleveland St,Oakland,CA,,US,Cleveland Heights,good,,,Public,,,,"forwarded to Arthur and Derek -hhc 10/24/2016; strip is 27"" wide and has tall HV wires/ needs notch -dks12/22/2016; emailed to ask if want to choose diff species or unofficial tree -hhc 1/24/2017; will meet 2/7/2017 at 9 am -hhc 2/6/20/201917; unsure if want 2"
 ,SCTT 2016 2018,Lagerstroemia indica x L. fauriei 'Muskogee',,,-122.196559,37.811720,2017-03-04 09:00:00,5033 Pierpoint Ave,Oakland,CA,,US,Oakmore,good,,,Public,,,,"ARB's notes: 9/08/2016: ""files TRF.""  9/18/2016: ""ARB on site - crepe myrtle (hybrid) purple. Has a straggly hornbeam in slot in bricked-in planting strip (24""). He will remove tree/ call City of Oakland to remove stump and call us to plant tree. May buy his"
 ,SCTT 2016 2018,Cercis canadensis 'Forest Pansy',,,-122.161531,37.740976,2017-03-04 09:00:00,1907 105th Avenue,Oakland,CA,,US,Far East Oakland (86th Ave and beyond),good,,,Public,,,,emailed high voltage Qs -hhc 1/17/2017; interested in paying for 1 and potential second at whole sale price? (look for affordable S street tree);  Locations: right side of driveway bordering w/neighbor on 1915; potential location in front of pollar of ho
-,SCTT 2016 2018,Magnolia grandiflora 'St. Mary',,,-122.157460,37.746393,2017-03-04 09:00:00,9920 Voltaire Ave,Oakland,CA,,US,Far East Oakland (86th Ave and beyond),good,,,Public,,,,"verify width of strip/ verify whether space near driveway can accommodate an official tree - DKS 11/15/2016; ARB says RTP 12/2019/2016 
-hhc's 1/5/2017 assessment:
-9920 Voltaire Ave: FFS; existing planting strip was 34' 3"" long at a width of 2' 4"". The entire s"
+,SCTT 2016 2018,Magnolia grandiflora 'St. Mary',,,-122.157460,37.746393,2017-03-04 09:00:00,9920 Voltaire Ave,Oakland,CA,,US,Far East Oakland (86th Ave and beyond),good,,,Public,,,,"verify width of strip/ verify whether space near driveway can accommodate an official tree - DKS 11/15/2016; ARB says RTP 12/2019/2016 hhc's 1/5/2017 assessment:9920 Voltaire Ave: FFS; existing planting strip was 34' 3"" long at a width of 2' 4"". The entire s"
 ,SCTT 2016 2018,Prunus x blireiana,,,-122.157499,37.746448,2017-03-04 09:00:00,9920 Voltaire Ave,Oakland,CA,,US,Far East Oakland (86th Ave and beyond),good,,,Public,,,,verify width of strip/ verify whether space near driveway can accommodate an official tree - DKS 11/15/2016; ARB says RTP 12/2019/2016; Erin expressed looked at sm trees and want a Prunus x blireiana -hhc 2/2/2017; says ok with unofficial - pdf'ed response and
 ,SCTT 2010 2015,Magnolia,,,-122.188004,37.776299,2015-03-31 09:00:00,3014 57th Ave,Oakland,CA,94605,US,,good,,,Public,,,,
 ,SCTT 2010 2015,Black Locust,,,-122.200996,37.774502,2015-03-31 09:00:00,5140 Fairfax Ave,Oakland,CA,94601,US,,good,,,Public,,,,
@@ -2773,12 +2769,8 @@ hhc's 1/5/2017 assessment:
 ,SCTT 2010 2015,Crape Myrtle Pink,,,-122.190002,37.763401,2015-01-15 09:00:00,1607 67th Ave,Oakland,CA,94605,US,,good,,,Public,,,,
 ,SCTT 2016 2018,Cercis canadensis - Eastern Redbud,,,-122.247871,37.802086,2017-01-14 09:00:00,341 Athol Ave,Oakland,CA,,US,Cleveland Heights,good,,,Public,,,,Google Earth shows pictures/ Susan advised tree died so no more tree there/ will look for small tree instead because of high-voltage wires; advised will spray USA tomorrow-hhc 11/27/2016; spoke with Arthur - he has sprayed but yet to submit an USA ticket
 ,SCTT 2016 2018,Lagerstroemia indica 'Natchez',,,-122.201826,37.774998,2017-01-14 09:00:00,5102 Congress Ave,Oakland,CA,,US,Fairfax,good,,,Public,,,,emailed next steps -hhc 11/29/2016; emailed to discuss meeting -hhc 12/6/20/201916; walkway is too narrow - will pay for a small tree/ marked bull's eye where tree will go; marked expansion for concrete -hhc 12/13/2016; gave list of small trees & private prop
-,SCTT 2016 2018,Lagerstroemia 'Natchez',,,-122.201435,37.795630,2017-01-14 09:00:00,3268 Florida St,Oakland,CA,,US,Upper Fruitvale / Dimond,good,,,Public,,,,"Arthur says RTP 12/2019/2016; 3268 Florida St:
-site assessment -hhc 1/5/2017 FFS; existing planting strip is 2' 6"" wide - long strip 
-did not see full USA spray - looks like it was called only for a small section; will resubmit USA. Has old tree wants to r"
-,SCTT 2016 2018,Lagerstroemia 'Natchez',,,-122.201365,37.795576,2017-01-14 09:00:00,3268 Florida St,Oakland,CA,,US,Upper Fruitvale / Dimond,good,,,Public,,,,"Arthur says RTP 12/2019/2016; 3268 Florida St:
-site assessment -hhc 1/5/2017 FFS; existing planting strip is 2' 6"" wide - long strip 
-did not see full USA spray - looks like it was called only for a small section; will resubmit USA. Has old tree wants to r"
+,SCTT 2016 2018,Lagerstroemia 'Natchez',,,-122.201435,37.795630,2017-01-14 09:00:00,3268 Florida St,Oakland,CA,,US,Upper Fruitvale / Dimond,good,,,Public,,,,"Arthur says RTP 12/2019/2016; 3268 Florida St:site assessment -hhc 1/5/2017 FFS; existing planting strip is 2' 6"" wide - long strip did not see full USA spray - looks like it was called only for a small section; will resubmit USA. Has old tree wants to r"
+,SCTT 2016 2018,Lagerstroemia 'Natchez',,,-122.201365,37.795576,2017-01-14 09:00:00,3268 Florida St,Oakland,CA,,US,Upper Fruitvale / Dimond,good,,,Public,,,,"Arthur says RTP 12/2019/2016; 3268 Florida St:site assessment -hhc 1/5/2017 FFS; existing planting strip is 2' 6"" wide - long strip did not see full USA spray - looks like it was called only for a small section; will resubmit USA. Has old tree wants to r"
 ,SCTT 2010 2015,Crape Myrtle,,,-122.264999,37.830898,2013-01-12 09:00:00,521-525 42nd St,Oakland,CA,,US,,good,,,Public,,,,
 ,SCTT 2010 2015,Crape Myrtle,,,-122.264999,37.830898,2013-01-12 09:00:00,521-525 42nd St,Oakland,CA,,US,,good,,,Public,,,,
 ,SCTT 2010 2015,Ginkgo,,,-122.251999,37.837200,2013-01-12 09:00:00,5256 Desmond St,Oakland,CA,94618-1052,US,,good,,,Public,,,,

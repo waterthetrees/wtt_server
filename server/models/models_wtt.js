@@ -36,7 +36,7 @@ async function updateTreeModel(newTree) {
 }
 
 async function updateTreeHistoryModel(newTreeHistory) {
- const condition = pgp.as.format(' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND createdat::date = CURRENT_DATE RETURNING *', newTreeHistory);
+ const condition = pgp.as.format(' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND createdat::date = CURRENT_DATE RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.datevisit AS dateVisit', newTreeHistory);
  const keys = Object.keys(newTreeHistory)
  
  const queryString = () => pgp.helpers.update(newTreeHistory, keys, 'treehistory') + condition;
@@ -44,7 +44,7 @@ return await treeDB.query(queryString, newTreeHistory);
 }
 
 async function insertTreeHistoryModel(newTreeHistory) {
-  const queryString = 'INSERT INTO treehistory(${this:name}) VALUES(${this:csv}) RETURNING *';
+  const queryString = 'INSERT INTO treehistory(${this:name}) VALUES(${this:csv}) RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.datevisit AS dateVisit';
   return await treeDB.query(queryString, newTreeHistory);
 }
 

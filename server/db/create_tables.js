@@ -1,7 +1,8 @@
 // Schema created by Wes Warren, Ajay Anand, Victoria Tan, Rose Meyers, Steve
 
 const env = process.argv[2] || "dev";
-const { Pool } = require("pg");
+// We are using pg-native for this script only, in order to create the tables synchronously
+const Client = require("pg-native");
 
 /*
   README:
@@ -84,8 +85,8 @@ const QUERIES = [
     url VARCHAR(255),
     urlimage VARCHAR(255),
     status VARCHAR(255),
-    notes VARCHAR(255),
-    createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    notes TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(id_tree),
     UNIQUE (who, ref, lng, lat) -- TODO: victoria: there seem to be actual duplicates that violate this constraint. is this constraint false?
   );`,
@@ -96,19 +97,16 @@ const QUERIES = [
     queryString: `CREATE TABLE IF NOT EXISTS treehistory(
     id_treehistory INT GENERATED ALWAYS AS IDENTITY,
     id_tree integer,
-    lng FLOAT8, --TODO: victoria: I don't think we need this (duplicate information)
-    lat FLOAT8, --TODO: victoria: I don't think we need this (duplicate information)
-    common VARCHAR(255), --TODO: victoria: I don't think we need this (duplicate information)
-    watered VARCHAR(255), -- TODO: victoria: should these be booleans? ditto the others as well
+    watered VARCHAR(255),
     mulched VARCHAR(255),
     pruned VARCHAR(255),
     staked VARCHAR(255),
     braced VARCHAR(255),
     weeded VARCHAR(255),
-    comment VARCHAR(255),
+    comment TEXT,
     volunteer VARCHAR(255),
-    datevisit TIMESTAMP, --TODO: victoria: I don't think we need this; what's the difference between createAt and datevisit?
-    createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    date_visit TIMESTAMP, -- equal to created_at for non-seed entries
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, -- For manual debugging use only
     PRIMARY KEY(id_treehistory),
     CONSTRAINT fk_treedata FOREIGN KEY(id_tree) REFERENCES treedata(id_tree)
   );`,
@@ -116,21 +114,25 @@ const QUERIES = [
 ];
 
 const main = () => {
-  const pool = new Pool(config);
+  const client = new Client();
+  try {
+    client.connectSync(
+      "dbname=treedb user=trees host=localhost password=trees port=5432 connect_timeout=10"
+    );
+  } catch (err) {
+    throw err;
+  }
+
   console.log("Creating all tables...");
   QUERIES.filter((query) => query.apply).forEach((query) => {
-    pool.query(query.queryString, (err, res) => {
-      console.log(`${query.description}:`);
-      if (err) {
-        console.error("Error: ", err);
-        process.exit(-1);
-      }
-      console.log("Response: ", res);
-    });
+    console.log(query.description);
+    try {
+      client.querySync(query.queryString);
+    } catch (err) {
+      console.error("Error: ", err);
+    }
   });
-
   console.log("Done creating tables.");
-  pool.end();
 };
 
 main();

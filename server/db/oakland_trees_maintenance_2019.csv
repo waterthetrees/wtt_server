@@ -4,11 +4,11 @@ lng,lat,common,datevisit,volunteer,watered,staked,braced,weeded,mulched,pruned,c
 -122.278004,37.841843,Acer buergerianum,2016-12-12 0:00:00,,,,,,,,emailed care sheet -hhc 12/12/2016
 -122.285235,37.842276,Lagerstroemia x 'Muskogee',2017-03-27 0:00:00,,,,,,,,
 -122.274295,37.840513,Acer rubrum 'October Glory',2017-04-20 0:00:00,DKS,,,,,,,"HHC 12/1/16: Emailed to explain out of grant area.  DKS 4/20/17: Stopped by, marked for USA. Wires overhead are not HV. Sidewalk 6'-6"" wide, could cut to make tree-well 3'-3"" and sidewalk 3'-3"" (with permission from City).  DKS 4/21/17: Emailed to explai"
--122.274749,37.823096,Tilia tomentosa 'Sterling',2017-05-20 0:00:00,DKS,,,,,,,fill missing space.  DKS July 2017: Changed contact from Ali Goldstein (teacher) to Ashley Martin (principal) and Wanda Stewart (new garden teacher).
--122.274586,37.823058,Tilia tomentosa 'Sterling',2017-05-20 0:00:00,DKS,,,,,,,fill missing space.  DKS July 2017: Changed contact from Ali Goldstein (teacher) to Ashley Martin (principal) and Wanda Stewart (new garden teacher).
--122.273016,37.823160,Acer macrophyllum,2017-05-20 0:00:00,DKS,,,,,,,replacement.  DKS July 2017: Changed contact from Ali Goldstein (teacher) to Ashley Martin (principal) and Wanda Stewart (new garden teacher).
--122.272984,37.823069,Sequoia sempervirens 'Aptos Blue',2017-06-20 0:00:00,DKS,,,,,,,replacement.  DKS July 2017: Changed contact from Ali Goldstein (teacher) to Ashley Martin (principal) and Wanda Stewart (new garden teacher).
--122.272969,37.823098,Sequoia sempervirens 'Aptos Blue',2017-06-20 0:00:00,DKS,,,,,,,replacement.  DKS July 2017: Changed contact from Ali Goldstein (teacher) to Ashley Martin (principal) and Wanda Stewart (new garden teacher).
+-122.274749,37.823096,Tilia tomentosa 'Sterling',2017-05-20 0:00:00,DKS,,,,,,,
+-122.274586,37.823058,Tilia tomentosa 'Sterling',2017-05-20 0:00:00,DKS,,,,,,,
+-122.273016,37.823160,Acer macrophyllum,2017-05-20 0:00:00,DKS,,,,,,,
+-122.272984,37.823069,Sequoia sempervirens 'Aptos Blue',2017-06-20 0:00:00,DKS,,,,,,,
+-122.272969,37.823098,Sequoia sempervirens 'Aptos Blue',2017-06-20 0:00:00,DKS,,,,,,,
 -122.238441,37.791523,tupelo,2018-07-24 11:00:00,DF,yes,yes,yes,no,yes,no,
 -122.238364,37.791479,Australian willow,2018-07-24 11:00:00,DF,yes,yes,yes,no,yes,no,madrone needs stake moved to straighten leaning tree. df
 -122.238269,37.791422,hybrid madrone,2018-07-24 11:00:00,DF,yes,yes,yes,no,yes,no,
@@ -36,7 +36,7 @@ lng,lat,common,datevisit,volunteer,watered,staked,braced,weeded,mulched,pruned,c
 -122.260155,37.814138,tupelo,2018-08-28 11:00:00,DKS,Yes,Yes,Yes,Yes,,yes,new owner 2018
 -122.260155,37.814138,tupelo,2018-09-16 11:00:00,DKS,Yes,Yes,Yes,yes,yes,yes,new owner 2018
 -122.184806,37.770123,Box Elder,2018-09-16 11:00:00,DKS,Yes,Yes,no,yes,yes,,bamboo stakes
--122.184708,37.770108,Box Elder,2018-09-16 11:00:00,DKS,Yes,Yes,no,yes,yes,,"trunk guard present 9/16/18; Doug Brooms noted trunk dmg Aug ’18, bamboo stakes"
+-122.184708,37.770108,Box Elder,2018-09-16 11:00:00,DKS,Yes,Yes,no,yes,yes,,"trunk guard present 9/16/18; DB noted trunk dmg Aug ’18, bamboo stakes"
 -122.248362,37.839084,Robinia x 'Purple Robe',12/31/2018 12:00:00 AM,,,,,,,,"DKS June 2017: Lisa says overlong branches have bryesen off under their own weight, so she wants to get the damaged southern tree replaced.  DKS splinted the topmost branch of southern tree 7/01/17; tree is sending out new leaves along trunk. Wait and see"
 -122.248323,37.839148,Robinia x 'Purple Robe',12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.247871,37.802086,Cercis canadensis - Eastern Redbud,12/31/2018 12:00:00 AM,,,,,,,,"Google Earth shows pictures, Susan advised tree died so no more tree there, will loyes for small tree instead because of high-voltage wires; advised will spray USA tomorrow-hhc 11/27/2016; spyese with Arthur - he has sprayed but yet to submit an USA ticket"
@@ -44,15 +44,15 @@ lng,lat,common,datevisit,volunteer,watered,staked,braced,weeded,mulched,pruned,c
 -122.247682,37.847091,Parrotia persica 'Vanessa',12/31/2018 12:00:00 AM,,,,,,,,"DKS: emailed 5/25/16, won't plant in '15-'16 season. She says she'll plant her own 5/31/16.  Emailed DKS again 1/2017 and now wants trees.  Marked for USA, but location of irrigation pipe in strip might interfere with digging. DKS asks Sarah about irriga"
 -122.247616,37.847158,Parrotia persica 'Vanessa',12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.247561,37.847100,Parrotia persica 'Vanessa',12/31/2018 12:00:00 AM,,,,,,,,"TRF arrived via email 11/7/16 -dks; ARB says RTP 12/19/16; hhc 1/5/2017 assessment FFS; existing planting strip is 2'6"" wide - long strip did not see USA; submitted a ticket; see where ARB marked tree to go - eastern redbud matches strip width - will sim"
--122.247534,37.811901,Platanus x hispanica ?Columbia? London Plane,12/31/2018 12:00:00 AM,,,,,,,,emailed Eric and Russ to ask for TRF-hhc 2/2/2017; rec'd addendum; asked for actual TRF -hhc 2/16/2017; asked for tree species and advised may not get to other trees for a while; asked who is contact person for corre with BBCRS? -hhc 3/2/2017; emailed AR
+-122.247534,37.811901,Platanus x hispanica ?Columbia? London Plane,12/31/2018 12:00:00 AM,,,,,,,,ask for TRF-hhc 2/2/2017; rec'd addendum; asked for actual TRF -hhc 2/16/2017; asked for tree species and advised may not get to other trees for a while; asked who is contact person for corre with BBCRS? -hhc 3/2/2017; emailed AR
 -122.247036,37.791412,Prunus x blireiana,12/31/2018 12:00:00 AM,,,,,,,,also got 1 CF tree on E 15th St - see TFO tab
 -122.246912,37.791502,Prunus x blireiana,12/31/2018 12:00:00 AM,,,,,,,,also got 1 CF tree on E 15th St - see TFO tab
 -122.246876,37.850003,Prunus cerasifera 'KV',12/31/2018 12:00:00 AM,,,,,,,,"DKS: emailed 5/25/16, won't plant in '15-'16 season; THEY TOLD ME IT WAS Yes; I WILL CHECK TODAY TO SEE IF SOIL HAS BEEN RESTORED. Per ARB 12/5/2016; emailed care sheet -12/12/2016"
 -122.246874,37.791530,Prunus x blireiana,12/31/2018 12:00:00 AM,,,,,,,,also got 1 CF tree on E 15th St - see TFO tab
 -122.246802,37.850038,Prunus cerasifera 'KV',12/31/2018 12:00:00 AM,,,,,,,,"DKS: emailed 5/25/16, won't plant in '15-'16 season; THEY TOLD ME IT WAS Yes; I WILL CHECK TODAY TO SEE IF SOIL HAS BEEN RESTORED. Per ARB 12/5/2016; emailed care sheet -12/12/2016"
--122.243970,37.804470,Trident Maple - if yes in S space,12/31/2018 12:00:00 AM,,,,,,,,"forwarded to Arthur and Derek -hhc 10/24/2016; strip is 27"" wide and has tall HV wires, needs notch -dks12/22/16; emailed to ask if want to choose diff species or unofficial tree -hhc 1/24/2017; will meet 2/7/2017 at 9 am -hhc 2/6/2017; unsure if want 2"
+-122.243970,37.804470,Trident Maple - if yes in S space,12/31/2018 12:00:00 AM,,,,,,,,"-hhc 10/24/2016; strip is 27"" wide and has tall HV wires, needs notch -dks12/22/16; emailed to ask if want to choose diff species or unofficial tree -hhc 1/24/2017; will meet 2/7/2017 at 9 am -hhc 2/6/2017; unsure if want 2"
 -122.243771,37.795610,Prunus x blireiana,12/31/2018 12:00:00 AM,,,,,,,,also got 2 CF trees in backyard - see TFO tab
--122.243046,37.794258,Chionanthus retusus (Chinese fringe tree),12/31/2018 12:00:00 AM,,,,,,,,emailed re: high volt wires -hhc 11/21/2016; want Large tree for yard and pay for small tree in front; advised add'l $150+ for concrete and listed next steps -hc 11/29/2016; emailed to meet -hhc 1/4/2017; will meet 1/11 @ 11am -hhc 1/9/2017; marked concr
+-122.243046,37.794258,Chionanthus retusus (Chinese fringe tree),12/31/2018 12:00:00 AM,,,,,,,,emailed re: high volt wires -hhc 11/21/2016; want Large tree for yard and pay for small tree in front; concrete breakout and listed next steps -hc 11/29/2016; emailed to meet -hhc 1/4/2017; will meet 1/11 @ 11am -hhc 1/9/2017; marked concr
 -122.242035,37.801917,Ginkgo biloba 'Fairmont',12/31/2018 12:00:00 AM,,,,,,,,"unofficial tree: planting strip is less than 36"" wide (verified by DKS on 2/7/2018)"
 -122.241999,37.801941,Ginkgo biloba 'Fairmont',12/31/2018 12:00:00 AM,,,,,,,,"unofficial tree: planting strip is less than 36"" wide (verified by DKS on 2/7/2018)"
 -122.241958,37.801967,Ginkgo biloba 'Fairmont',12/31/2018 12:00:00 AM,,,,,,,,"unofficial tree: planting strip is less than 36"" wide (verified by DKS on 2/7/2018)"
@@ -112,15 +112,15 @@ lng,lat,common,datevisit,volunteer,watered,staked,braced,weeded,mulched,pruned,c
 -122.212722,37.791901,Lagerstroemia x 'Muskogee',12/31/2018 12:00:00 AM,,,,,,,,"corner lot; 1 S on Nicol, 2 L in open side yard (Pleitner Ave)"
 -122.212182,37.801626,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,"corner lot; 1 on Lincoln, 1 on Damuth"
 -122.212087,37.801619,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,"corner lot; 1 on Lincoln, 1 on Damuth"
--122.211776,37.810133,Tilia tomentosa 'Sterling',12/31/2018 12:00:00 AM,,,,,,,,owner does not want to pay (11/25/15). Neighbor Nikki paid instead.
+-122.211776,37.810133,Tilia tomentosa 'Sterling',12/31/2018 12:00:00 AM,,,,,,,,
 -122.211598,37.799618,Prunus x blireana,12/31/2018 12:00:00 AM,,,,,,,,above 580
 -122.211298,37.810342,Tilia tomentosa 'Sterling',12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.211296,37.810230,Cercis canadensis,12/31/2018 12:00:00 AM,,,,,,,,see #1
--122.211256,37.810250,Cercis canadensis,12/31/2018 12:00:00 AM,,,,,,,,"owner paid $300 directly to Hilary, but removal cost $400 total. SCTT subsidizes $100."
+-122.211256,37.810250,Cercis canadensis,12/31/2018 12:00:00 AM,,,,,,,,
 -122.211235,37.810382,Tilia tomentosa 'Sterling',12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.211194,37.800015,Fraxinus americana 'Autumn Purple',12/31/2018 12:00:00 AM,,,,,,,,above 580
 -122.211172,37.810424,Tilia tomentosa 'Sterling',12/31/2018 12:00:00 AM,,,,,,,,see #1
--122.211136,37.810538,Tilia tomentosa 'Sterling',12/31/2018 12:00:00 AM,,,,,,,,Neighbor Steve Davenport paid $200 toward trees. Omer paid Hilary directly for the concrete cutting. One tree got hit by truck Oct 2016 - Chris B to help retrain?; replacement tree planted 3/4/2017 - emailed Omer for $100 to NACG (STILL NEEDS REPLACEMENT
+-122.211136,37.810538,Tilia tomentosa 'Sterling',12/31/2018 12:00:00 AM,,,,,,,,
 -122.211120,37.810481,Tilia tomentosa 'Sterling',12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.210499,37.791692,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.210480,37.791719,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,see #1
@@ -143,22 +143,22 @@ lng,lat,common,datevisit,volunteer,watered,staked,braced,weeded,mulched,pruned,c
 -122.204015,37.795530,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.203902,37.795544,Acer rubrum,12/31/2018 12:00:00 AM,,,,,,,,"above 580; corner lot: 4 on Laurel, 2 on Georgia"
 -122.203824,37.795481,Acer rubrum,12/31/2018 12:00:00 AM,,,,,,,,see #1
--122.203240,37.783913,Acer rubrum 'October Glory',12/31/2018 12:00:00 AM,,,,,,,,emailed care instructions and link to donation page - TRF specifically says only want tree if free so did not ask for specific amount -hhc 12/5/2016
+-122.203240,37.783913,Acer rubrum 'October Glory',12/31/2018 12:00:00 AM,,,,,,,,
 -122.202923,37.783627,Quercus shumardii,12/31/2018 12:00:00 AM,,,,,,,,see #1
--122.202897,37.783768,Rhus lancea,12/31/2018 12:00:00 AM,,,,,,,,also paid $60 for Acer rubrum 'October Glory' for front yard
+-122.202897,37.783768,Rhus lancea,12/31/2018 12:00:00 AM,,,,,,,,
 -122.202864,37.783310,Platanus x acerifolia 'Columbia',12/31/2018 12:00:00 AM,,,,,,,,email address failed 2/15/16
 -122.202857,37.783570,Quercus shumardii,12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.202811,37.783531,Quercus shumardii,12/31/2018 12:00:00 AM,,,,,,,,see #1
--122.202788,37.783349,Platanus x acerifolia 'Columbia',12/31/2018 12:00:00 AM,,,,,,,,"Spanish first lnguage for Ignacio Sr and wife; son Ignacio Jr made the request.  Corner lot: 2 on High, 4 on Allendale."
+-122.202788,37.783349,Platanus x acerifolia 'Columbia',12/31/2018 12:00:00 AM,,,,,,,,
 -122.202755,37.783481,Quercus shumardii,12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.202724,37.783381,Podocarpus gracilior,12/31/2018 12:00:00 AM,,,,,,,,see #1
--122.202376,37.786586,Albizia julibrissin,12/31/2018 12:00:00 AM,,,,,,,,emailed care instructions and link to donation page - TRF specifically says only want tree if free so did not ask for specific amount -hhc 12/5/2016
+-122.202376,37.786586,Albizia julibrissin,12/31/2018 12:00:00 AM,,,,,,,,
 -122.202006,37.796101,Acer rubrum 'October Glory',12/31/2018 12:00:00 AM,,,,,,,,above 580
--122.201826,37.774998,Lagerstroemia indica 'Natchez',12/31/2018 12:00:00 AM,,,,,,,,"emailed next steps -hhc 11/29/2016; emailed to discuss meeting -hhc 12/6/2016; walkway is too narrow - will pay for a small tree, marked bull's eye where tree will go; marked expansion for concrete -hhc 12/13/2016; gave list of small trees & private prop"
--122.201435,37.795630,Lagerstroemia 'Natchez',12/31/2018 12:00:00 AM,,,,,,,,"Arthur says RTP 12/19/2016; 3268 Florida St:site assessment -hhc 1/5/2017 FFS; existing planting strip is 2' 6"" wide - long strip did not see full USA spray - loyess like it was called only for a small section; will resubmit USA. Has old tree wants to r"
--122.201365,37.795576,Lagerstroemia 'Natchez',12/31/2018 12:00:00 AM,,,,,,,,"Arthur says RTP 12/19/2016; 3268 Florida St:site assessment -hhc 1/5/2017 FFS; existing planting strip is 2' 6"" wide - long strip did not see full USA spray - loyess like it was called only for a small section; will resubmit USA. Has old tree wants to r"
--122.200974,37.776109,Lagerstroemia x 'Tuscarora',12/31/2018 12:00:00 AM,,,,,,,,"qualified for CalFire if ""Medium"" tree, but wanted crape myrtle"
--122.200262,37.785832,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,referred by Bob Bodnar; transplanted ornamental grass (DKS 11/6/15)
+-122.201826,37.774998,Lagerstroemia indica 'Natchez',12/31/2018 12:00:00 AM,,,,,,,,
+-122.201435,37.795630,Lagerstroemia 'Natchez',12/31/2018 12:00:00 AM,,,,,,,,
+-122.201365,37.795576,Lagerstroemia 'Natchez',12/31/2018 12:00:00 AM,,,,,,,,
+-122.200974,37.776109,Lagerstroemia x 'Tuscarora',12/31/2018 12:00:00 AM,,,,,,,,
+-122.200262,37.785832,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,
 -122.200230,37.785800,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.198845,37.794159,Acer rubrum 'October Glory',12/31/2018 12:00:00 AM,,,,,,,,above 580; need stumps removed
 -122.198787,37.794094,Acer rubrum 'October Glory',12/31/2018 12:00:00 AM,,,,,,,,above 580; need stumps removed
@@ -174,8 +174,8 @@ lng,lat,common,datevisit,volunteer,watered,staked,braced,weeded,mulched,pruned,c
 -122.190037,37.779067,Robinia x ambigua 'Purple Robe',12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.189925,37.779147,Robinia x ambigua 'Purple Robe',12/31/2018 12:00:00 AM,,,,,,,,corner lot; also paid for concrete removal in backyard
 -122.189805,37.779155,Tilia tomentosa,12/31/2018 12:00:00 AM,,,,,,,,see #1
--122.189017,37.782298,Cercis canadensis Eastern redbud,12/31/2018 12:00:00 AM,,,,,,,,next-door neighbor MaryEllen is handling the request; DKS met w MaryEllen 3/21/16 - she and Lisa will split the $100 charge; sent species list and SelecTree links -dks 3/23/16; stopped by to verify USA clearance -dks 4/05/16; emailed to ask for species s
--122.187011,37.773873,Crape Myrtle Dynamite,12/31/2018 12:00:00 AM,,,,,,,,"called left vmail to call me back and emailed high voltage wire options -hhc 12/7/2016; doesn?t want it to hit street sweeping truck; can contribute $100-$150 to a small street tree, please waitlist; will call 811 to submit USA for left side front yard -"
+-122.189017,37.782298,Cercis canadensis Eastern redbud,12/31/2018 12:00:00 AM,,,,,,,,
+-122.187011,37.773873,Crape Myrtle Dynamite,12/31/2018 12:00:00 AM,,,,,,,,
 -122.186765,37.774699,Rhus lancea,12/31/2018 12:00:00 AM,,,,,,,,"corner lot; 3 on Brann, 1 on Seminary"
 -122.186700,37.774640,Rhus lancea,12/31/2018 12:00:00 AM,,,,,,,,"corner lot; 3 on Brann, 1 on Seminary"
 -122.186654,37.774596,Rhus lancea,12/31/2018 12:00:00 AM,,,,,,,,"corner lot; 3 on Brann, 1 on Seminary"
@@ -190,56 +190,56 @@ lng,lat,common,datevisit,volunteer,watered,staked,braced,weeded,mulched,pruned,c
 -122.182785,37.774021,Acer rubrum 'October Glory',12/31/2018 12:00:00 AM,,,,,,,,replacement
 -122.182075,37.777060,Lagerstroemia x 'Muskogee',12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.182028,37.777034,Lagerstroemia x 'Muskogee',12/31/2018 12:00:00 AM,,,,,,,,"one official tree, one unofficial tree"
--122.177901,37.760615,Acer buergerianum Trident Maple,12/31/2018 12:00:00 AM,,,,,,,,emailed to pitch options for high voltage wire address -hhc 10/8/2016; will pay for small tree in front and want large tree in front yard; shared promo material - says they'll reach out to neighbors; emailed to explain next steps -hhc 10/17/2016; potenti
--122.176431,37.798290,Gymnocladus dioica 'Espresso',12/31/2018 12:00:00 AM,,,,,,,,sidewalk may be too narrow for street-trees; plant yard tree instead?  DKS 10/2016: She decided on Kentucky coffee tree but we need to explain that we won't plant on private property outside grant area.  DKS 4/07/17: Check in again. Do you still want the
--122.175932,37.770911,Ginkgo Biloba 'Fairmont',12/31/2018 12:00:00 AM,,,,,,,,"emailed to explain out of grant zone -hhc 1/5/2017; yes to pay $100 for tree -hhc 1/9/2017; emailed to meet -hhc 1/11/2017; set to meet 1/25 @ 4pm-hhc 1/13/2017; emailed list of st trees -hhc 1/25/2017; emailed to ask for watering source, if will be home,"
+-122.177901,37.760615,Acer buergerianum Trident Maple,12/31/2018 12:00:00 AM,,,,,,,,
+-122.176431,37.798290,Gymnocladus dioica 'Espresso',12/31/2018 12:00:00 AM,,,,,,,,
+-122.175932,37.770911,Ginkgo Biloba 'Fairmont',12/31/2018 12:00:00 AM,,,,,,,,
 -122.169996,37.775846,Metrosideros excelsa,12/31/2018 12:00:00 AM,,,,,,,,see #1
--122.169940,37.775882,Metrosideros excelsa,12/31/2018 12:00:00 AM,,,,,,,,"update 10/22/16: these owners moved away, left instructions with new owners"
+-122.169940,37.775882,Metrosideros excelsa,12/31/2018 12:00:00 AM,,,,,,,,
 -122.168009,37.767979,Acer rubrum ?October Glory?,12/31/2018 12:00:00 AM,,,,,,,,"left front, behind the sidewalk. Wide-open space, no concrete present. Per ARB notes"
--122.161531,37.740976,Cercis canadensis 'Forest Pansy',12/31/2018 12:00:00 AM,,,,,,,,emailed high voltage Qs -hhc 1/17/2017; interested in paying for 1 and potential second at whole sale price? (loyes for affordable S street tree);  Locations: right side of driveway bordering w/neighbor on 1915; potential location in front of pollar of ho
+-122.161531,37.740976,Cercis canadensis 'Forest Pansy',12/31/2018 12:00:00 AM,,,,,,,,
 -122.161003,37.740398,Trident Maple,12/31/2018 12:00:00 AM,,,,,,,,
 -122.160081,37.775367,Lagerstroemia x 'Tuscarora',12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.159960,37.775465,Lagerstroemia x 'Tuscarora',12/31/2018 12:00:00 AM,,,,,,,,above 580
--122.157499,37.746448,Prunus x blireiana,12/31/2018 12:00:00 AM,,,,,,,,"verify width of strip, verify whether space near driveway can accommodate an official tree - DKS 11/15/16; ARB says RTP 12/19/16; Erin expressed loyesed at sm trees and want a Prunus x blireiana -hhc 2/2/2017; says yes with unofficial - pdf'ed response and"
--122.157460,37.746393,Magnolia grandiflora 'St. Mary',12/31/2018 12:00:00 AM,,,,,,,,"verify width of strip, verify whether space near driveway can accommodate an official tree - DKS 11/15/16; ARB says RTP 12/19/16 hhc's 1/5/2017 assessment:9920 Voltaire Ave: FFS; existing planting strip was 34' 3"" long at a width of 2' 4"". The entire s"
--122.156086,37.747755,Quercus suber Cork Oak,12/31/2018 12:00:00 AM,,,,,,,,"ARB 10/24/16: on site; no curb or sidewalk on Thermal Rd but 10' from house to street; on 99th Ave, 5-6' strip and 4-5' sidewalk, no overhead wires.  ARV 10/24/16: talk by phone, wants trees on 99th, not on Thermal; 2 M or L? or 3 Sm?; sewer goes out The"
+-122.157499,37.746448,Prunus x blireiana,12/31/2018 12:00:00 AM,,,,,,,,
+-122.157460,37.746393,Magnolia grandiflora 'St. Mary',12/31/2018 12:00:00 AM,,,,,,,,
+-122.156086,37.747755,Quercus suber Cork Oak,12/31/2018 12:00:00 AM,,,,,,,,
 -122.156007,37.747776,Lyonothamnus floribundus asplenifolius Catalina Ironwood,12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.155944,37.747792,Quercus suber Cork Oak,12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.150000,37.775434,Lagerstroemia x 'Tuscarora',12/31/2018 12:00:00 AM,,,,,,,,see #1
--122.147915,37.745577,Lagerstroemia x 'Tuscarora',12/31/2018 12:00:00 AM,,,,,,,,Spanish first language. 9/07: DKS asks Jose to call; Isabel called - tree to the right is too close to the driveway; will have construction soon and will need to move tree further left - she'd like to be there to tell us where the tree should go -hhc 12/
--122.147852,37.745613,Lagerstroemia x 'Tuscarora',12/31/2018 12:00:00 AM,,,,,,,,Spanish first language. 9/07: DKS asks Jose to call; Isabel called - tree to the right is too close to the driveway; will have construction soon and will need to move tree further left - she'd like to be there to tell us where the tree should go -hhc 12/
--122.261116,37.842925,Tristaniopsis laurina,2018-12-31 0:00:00,,,,,,,,apartment bldg with absentee owner; 5th space declined
--122.261078,37.833206,Ginkgo biloba 'Presidential Gold',12/31/2018 12:00:00 AM,,,,,,,,owner reported 1 dead in late 2017
--122.261077,37.836112,Prunus cerasifera 'Krauter Vesuvius' Purple Leaf Plum,12/31/2018 12:00:00 AM,,,,,,,,"per ARB she wants Prunus cerasifera (1), Magnolia 'St. Mary' (1), Acer rubrum 'Brandywine' (1) advised her wells cut only allow for ""small"" trees; asked her to choose small or consider expanding more; she chose 4 smalls trees, but said was open to expand"
--122.261066,37.836159,Cercis canadensis Eastern Redbud,12/31/2018 12:00:00 AM,,,,,,,,"per ARB she wants Prunus cerasifera (1), Magnolia 'St. Mary' (1), Acer rubrum 'Brandywine' (1) advised her wells cut only allow for ""small"" trees; asked her to choose small or consider expanding more; she chose 4 smalls trees, but said was open to expand"
--122.261060,37.842917,Tristaniopsis laurina,12/31/2018 12:00:00 AM,,,,,,,,apartment bldg with absentee owner; 5th space declined
--122.261017,37.836344,Lagerstroemia 'Muskogee' Hybrid Crape Myrtle,12/31/2018 12:00:00 AM,,,,,,,,"per ARB she wants Prunus cerasifera (1), Magnolia 'St. Mary' (1), Acer rubrum 'Brandywine' (1) advised her wells cut only allow for ""small"" trees; asked her to choose small or consider expanding more; she chose 4 smalls trees, but said was open to expand"
--122.260969,37.836366,Acer nigrum,12/31/2018 12:00:00 AM,,,,,,,,"per ARB she wants Prunus cerasifera (1), Magnolia 'St. Mary' (1), Acer rubrum 'Brandywine' (1) advised her wells cut only allow for ""small"" trees; asked her to choose small or consider expanding more; she chose 4 smalls trees, but said was open to expand"
--122.260941,37.842897,Tristaniopsis laurina,12/31/2018 12:00:00 AM,,,,,,,,apartment bldg with absentee owner; 5th space declined
--122.260883,37.842888,Tristaniopsis laurina,12/31/2018 12:00:00 AM,,,,,,,,apartment bldg with absentee owner; 5th space declined
--122.260059,37.831256,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,see #1
--122.260043,37.831321,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,"10/3/16: Submits electronic TRF.  ARB 10/10/16: He wants 2 African sumacs. 10/13/16: ARB on site, marks 2 tree wells in old urbanite w concrete binder. Ready for utilities - we know water & gas but not sewer. 2.5' planting strip, 5' sidewalk. More than $"
--122.259149,37.848137,Prunus x blireiana Double-pink-flowering Plum,12/31/2018 12:00:00 AM,,,,,,,,"SCTT planted a redbud here in January 2015?.  Lolo emailed DKS to say she doesn't like how slowly the redbud is growing, also getting damaged from car doors, pedestrians. Wanted a bigger tree, requested Arbutus 'Marina', but City's rule requiring Small t"
--122.254147,37.840481,Ginkgo biloba 'Fairmont',12/31/2018 12:00:00 AM,,,,,,,,"ARB says RTP 12/19/16; verified 36""x72"" well -dks 12/27/16; planted 12/31/16; verified/QC -dks 1/06/17; needs instruction sheet?.  DKS 5/10/17: Called and left voicemail, asked for email address and offered to send instruction sheet.  DKS 5/15/17: Jeff c"
--122.252743,37.827498,Lagerstroemia 'Muskogee' (purple crape myrtle),12/31/2018 12:00:00 AM,,,,,,,,HHC forwarded to DKS & ARB-hhc 10/9/2016; centered in planting strip north of driveway per ARB notes 11/29/2016; emailed care sheet -hhc 12/5/2016
--122.300096,37.810248,St. Mary's Magnolia,12/31/2018 12:00:00 AM,,,,,,,,emailed tenant-owner agreement and next steps -hhc 1/6/2017; emailed to explain no can do on Wood St; asked if want to meet -hhc 1/18/2017; set to meet 1/25 @ 3PM -hhc 1/23/2017; asked if will be around/ watering source/yes to house tree overnight -hhc 1/
--122.300049,37.810222,St. Mary's Magnolia,12/31/2018 12:00:00 AM,,,,,,,,emailed tenant-owner agreement and next steps -hhc 1/6/2017; emailed to explain no can do on Wood St; asked if want to meet -hhc 1/18/2017; set to meet 1/25 @ 3PM -hhc 1/23/2017; asked if will be around/ watering source/yes to house tree overnight -hhc 1/
--122.285320,37.818147,Trident Maple,12/31/2018 12:00:00 AM,,,,,,,,emailed next steps for high v FFS -hhc 3/27/2017; already has trees 1 empty tree well - emailed to meet -hhc 3/28/2017; emailed again to meet -hhc 4/12/2017; set to meet 4/18 @ 12 -hhc 4/14/2017; went to loyes and there were no marks - Latham wants same t
--122.278264,37.809824,Ceanothus 'Ray Hartman',12/31/2018 12:00:00 AM,,,,,,,,replacement
--122.273620,37.823313,Quercus agrifolia,12/31/2018 12:00:00 AM,,,,,,,,replacement.  DKS July 2017: Changed contact from Ali Goldstein (teacher) to Ashley Martin (principal) and Wanda Stewart (new garden teacher).
+-122.147915,37.745577,Lagerstroemia x 'Tuscarora',12/31/2018 12:00:00 AM,,,,,,,,
+-122.147852,37.745613,Lagerstroemia x 'Tuscarora',12/31/2018 12:00:00 AM,,,,,,,,
+-122.261116,37.842925,Tristaniopsis laurina,2018-12-31 0:00:00,,,,,,,,
+-122.261078,37.833206,Ginkgo biloba 'Presidential Gold',12/31/2018 12:00:00 AM,,,,,,,,
+-122.261077,37.836112,Prunus cerasifera 'Krauter Vesuvius' Purple Leaf Plum,12/31/2018 12:00:00 AM,,,,,,,,
+-122.261066,37.836159,Cercis canadensis Eastern Redbud,12/31/2018 12:00:00 AM,,,,,,,,
+-122.261060,37.842917,Tristaniopsis laurina,12/31/2018 12:00:00 AM,,,,,,,,
+-122.261017,37.836344,Lagerstroemia 'Muskogee' Hybrid Crape Myrtle,12/31/2018 12:00:00 AM,,,,,,,,
+-122.260969,37.836366,Acer nigrum,12/31/2018 12:00:00 AM,,,,,,,,
+-122.260941,37.842897,Tristaniopsis laurina,12/31/2018 12:00:00 AM,,,,,,,,
+-122.260883,37.842888,Tristaniopsis laurina,12/31/2018 12:00:00 AM,,,,,,,,
+-122.260059,37.831256,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,
+-122.260043,37.831321,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,
+-122.259149,37.848137,Prunus x blireiana Double-pink-flowering Plum,12/31/2018 12:00:00 AM,,,,,,,,
+-122.254147,37.840481,Ginkgo biloba 'Fairmont',12/31/2018 12:00:00 AM,,,,,,,,
+-122.252743,37.827498,Lagerstroemia 'Muskogee' (purple crape myrtle),12/31/2018 12:00:00 AM,,,,,,,,
+-122.300096,37.810248,St. Mary's Magnolia,12/31/2018 12:00:00 AM,,,,,,,,
+-122.300049,37.810222,St. Mary's Magnolia,12/31/2018 12:00:00 AM,,,,,,,,
+-122.285320,37.818147,Trident Maple,12/31/2018 12:00:00 AM,,,,,,,,
+-122.278264,37.809824,Ceanothus 'Ray Hartman',12/31/2018 12:00:00 AM,,,,,,,,
+-122.273620,37.823313,Quercus agrifolia,12/31/2018 12:00:00 AM,,,,,,,,
 -122.271520,37.801782,Lophostemon confertus / Tristania conferta,12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.271501,37.801774,Lophostemon confertus / Tristania conferta,12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.271484,37.801669,Pistacia chinensis,12/31/2018 12:00:00 AM,,,,,,,,"existing tree-well with grate 4'x4', too small for CalFire"
 -122.271470,37.801688,Pistacia chinensis,12/31/2018 12:00:00 AM,,,,,,,,see #1
--122.271361,37.841278,Water Gum,12/31/2018 12:00:00 AM,,,,,,,,emailed to say out of grant zone & concrete removal will cost more -hhc 1/5/2017; will pay $250 for street tree; would like to buy tree for backyard to plant on own; emailed list of trees to peruse and planting guide -hhc 1/6/2017; emailed to meet -hhc 2
--122.270911,37.819150,Lagerstroemia 'Natchez',12/31/2018 12:00:00 AM,,,,,,,,"small trees only along 29th St side, sidewalk 6' w. This was a referral from Linda Lonay (889 34th St) in May 2016, who later said we should abandon this TRF, but revived in Sep-Oct 2016"
+-122.271361,37.841278,Water Gum,12/31/2018 12:00:00 AM,,,,,,,,
+-122.270911,37.819150,Lagerstroemia 'Natchez',12/31/2018 12:00:00 AM,,,,,,,,
 -122.270860,37.819140,Lagerstroemia 'Natchez',12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.270803,37.819124,Lagerstroemia 'Natchez',12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.270740,37.819111,Lagerstroemia 'Natchez',12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.270715,37.821175,Tilia tomentosa,12/31/2018 12:00:00 AM,,,,,,,,"two layers of sidewalk to remove: sawcut upper, jackhammer lower"
 -122.270667,37.821372,Tilia tomentosa,12/31/2018 12:00:00 AM,,,,,,,,"two layers of sidewalk to remove: sawcut upper, jackhammer lower"
--122.267313,37.843225,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,owner paid $300 for removal of concrete strip
--122.266707,37.850164,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,"price $100 for tree, $40 for imported soil"
+-122.267313,37.843225,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,
+-122.266707,37.850164,Acer buergerianum,12/31/2018 12:00:00 AM,,,,,,,,
 -122.160041,37.775400,Lagerstroemia x 'Tuscarora',12/31/2018 12:00:00 AM,,,,,,,,see #1
 -122.272168,37.826276,goldenrain tree,2019-01-03 11:00:00,,yes,yes,no,no,no,no,Lashed too
 -122.191843,37.760092,red maple,2019-01-05 11:00:00,,yes,yes,yes,yes,yes,no,
@@ -447,9 +447,9 @@ lng,lat,common,datevisit,volunteer,watered,staked,braced,weeded,mulched,pruned,c
 -122.288145,37.818827,Autumn Blaze maple,2019-03-04 11:00:00,WB,yes,no,no,yes,yes,yes,
 -122.288085,37.818902,Autumn Blaze maple,2019-03-04 11:00:00,WB,yes,no,no,yes,yes,yes,
 -122.288023,37.818979,Autumn Blaze maple,2019-03-04 11:00:00,WB,yes,no,no,yes,yes,yes,
--122.287884,37.819153,Brisbane box,2019-03-04 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Stake can be removed soon, pruned 6/08/18, "
--122.287803,37.819260,Brisbane box,2019-03-04 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Stake can be removed soon, pruned 6/08/18, "
--122.287740,37.819333,Brisbane box,2019-03-04 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Construction on building, tree staked to protect, pruned 6/08/18, "
+-122.287884,37.819153,Brisbane box,2019-03-04 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Stake can be removed soon, pruned 6/08/18,"
+-122.287803,37.819260,Brisbane box,2019-03-04 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Stake can be removed soon, pruned 6/08/18,"
+-122.287740,37.819333,Brisbane box,2019-03-04 11:00:00,WB,yes,yes,yes,yes,yes,yes,"Construction on building, tree staked to protect, pruned 6/08/18,"
 -122.217850,37.772522,Shumard red oak,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.216819,37.775917,Sensation Boxelder,2019-03-08 11:00:00,WB,yes,yes,yes,yes,yes,yes,
 -122.215566,37.776136,hybrid madrone,2019-03-08 11:00:00,WB,yes,yes,yes,No,No,yes,

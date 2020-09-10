@@ -3,6 +3,7 @@ const fs = require("fs");
 const Client = require("pg-native");
 const path = require('path');
 const pathToSeedData = path.resolve(__dirname);
+const {configPgNative} = require("./config_treedb.js");
 
 /*
 README
@@ -183,9 +184,7 @@ const seedTreeHistory = (client) => {
 const main = () => {
   const client = new Client();
   try {
-    client.connectSync(
-      "dbname=treedb user=trees host=localhost password=trees port=5432 connect_timeout=10"
-    );
+    client.connectSync(configPgNative);
   } catch (err) {
     throw err;
   }

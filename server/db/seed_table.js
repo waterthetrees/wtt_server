@@ -146,7 +146,7 @@ const seedTreeHistory = (client) => {
   const insertOaklandIntoTreeHistoryQueryString = `
   INSERT INTO treehistory(
     date_visit, 
-    volunteer, 
+    volunteer,
     watered, 
     staked,
     braced, 

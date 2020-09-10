@@ -11,41 +11,62 @@ const configTreeDB = require('../db/config_treedb.js');
 
 const treeDB = pgp(configTreeDB);
 
-const has = Object.prototype.hasOwnProperty;
-
 
 async function queryTreeDB(queryString) {
+  const functionName = 'updateTreeModel';
   try {
     const results = await treeDB.query(queryString);
     logger.debug(`queryTreeDB results`, results);
     return results;
   } catch (err) {
-    logger.error(`Error executing query to treeDB with pgp`, err);
+    logger.error(`${functionName} CATCH in query treeDB with pgp ${err}` );
     return err;
   }
 }
 
-async function updateTreeModel(newTree) {
- logger.debug(`updateTreeModel newTree`, newTree);
- const keys = Object.keys(newTree);
- const condition = pgp.as.format(' WHERE id_tree = ${id_tree} RETURNING *', newTree); 
- const queryString = () => pgp.helpers.update(newTree, keys, 'treedata') + condition;
- const results = await treeDB.query(queryString, newTree);
- logger.debug(`updateTreeModel results`, await results);
- return await results;
+async function updateTreeModel(newTreeData, keys) {
+  const functionName = 'updateTreeModel';
+  logger.debug(`${functionName} newTreeData ${util.inspect(newTreeData)}`);
+  logger.debug(`${functionName} keys ${keys}`);
+  try {
+    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} RETURNING id_tree AS "idTree", health, notes', newTreeData); 
+    const queryString = () => pgp.helpers.update(newTreeData, keys, 'treedata') + condition;
+    // logger.debug(`${functionName} queryString`, await queryString);
+    const results = await treeDB.query(queryString, newTreeData);
+    logger.debug(`${functionName} results ${util.inspect(results)}`);
+    return results;
+    // return {data: 'test'};
+  } catch (err) {
+    logger.error(`${functionName} CATCH ${err}`);
+    return {error: err};
+  }
 }
 
-async function updateTreeHistoryModel(newTreeHistory) {
- const condition = pgp.as.format(' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND created_at::date = CURRENT_DATE RETURNING *', newTreeHistory);
- const keys = Object.keys(newTreeHistory)
- 
- const queryString = () => pgp.helpers.update(newTreeHistory, keys, 'treehistory') + condition;
-return await treeDB.query(queryString, newTreeHistory);
+
+async function updateTreeHistoryModel(newTreeHistory, keys) {
+  const functionName = 'updateTreeHistoryModel';
+  logger.debug(`${functionName} newTreeHistory ${util.inspect(newTreeHistory)}`);
+  logger.debug(`${functionName} keys ${keys}`);
+  try {
+    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND created_at::date = CURRENT_DATE RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.date_visit AS dateVisit', newTreeHistory);
+    const queryString = () => pgp.helpers.update(newTreeHistory, keys, 'treehistory') + condition;
+    return await treeDB.query(queryString, newTreeHistory);
+  } catch (err) {
+    logger.error(`${functionName} CATCH ${err}`);
+    return {error: err};
+  }
 }
 
 async function insertTreeHistoryModel(newTreeHistory) {
-  const queryString = 'INSERT INTO treehistory(${this:name}) VALUES(${this:csv}) RETURNING *';
-  return await treeDB.query(queryString, newTreeHistory);
+  const functionName = 'insertTreeHistoryModel';
+  logger.debug(`${functionName} newTreeData ${util.inspect(newTreeHistory)}`);
+  try {
+    const queryString = 'INSERT INTO treehistory(${this:name}) VALUES(${this:csv}) RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.date_visit AS dateVisit';
+    return await treeDB.query(queryString, newTreeHistory);
+  } catch (err) {
+    logger.error(`${functionName} CATCH ${err}`);
+    return {error: err};
+  }
 }
 
 module.exports = {

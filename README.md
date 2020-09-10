@@ -23,11 +23,9 @@ Later, you can stop Postgres with `brew services start postgresql`.
 
 3. Load database.
 
-`cd server/db`
-
 - Create database: `node create_db_trees.js local`. NOTE: This script isn't working yet; please open the file and follow the manual instructions.
-- Create tables: `node create_tables.js local`
-- Seed tables: `node seed_table.js local`
+- Create tables: `node server/db/create_tables.js local`
+- Seed tables: `node server/db/seed_table.js local`
 
 4. Run the server: `node server/server-api.js local`
 

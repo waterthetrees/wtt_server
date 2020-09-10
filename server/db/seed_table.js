@@ -1,6 +1,8 @@
 const fs = require("fs");
 // We are using pg-native for this script only, in order to seed the table synchronously
 const Client = require("pg-native");
+const path = require('path');
+const pathToSeedData = path.resolve(__dirname);
 
 /*
 README
@@ -94,7 +96,7 @@ const insertRows = (
 };
 
 const seedTreeData = (client) => {
-  const treeDataSources = ["oakland_trees_clean4.csv"];
+  const treeDataSources = [`${pathToSeedData}/oakland_trees_clean4.csv`];
 
   // Note that this query string is specific to the Oakland data from Sierra Club.
   const insertOaklandIntoTreeDataQueryString = `
@@ -138,8 +140,8 @@ const seedTreeData = (client) => {
 
 const seedTreeHistory = (client) => {
   const treeHistorySources = [
-    "oakland_trees_maintenance_2019.csv",
-    "oakland_trees_maintenance_2020.csv",
+    `${pathToSeedData}/oakland_trees_maintenance_2019.csv`,
+    `${pathToSeedData}/oakland_trees_maintenance_2020.csv`,
   ];
 
   // Note that this query string is specific to the Oakland data from Sierra Club.

@@ -11,25 +11,6 @@ const configTreeDB = require('../db/config_treedb.js');
 
 const treeDB = pgp(configTreeDB);
 
-const has = Object.prototype.hasOwnProperty;
-const snakeToCamelCase = (snakeIn) => snakeIn.replace(/(\_\w)/g, (letter) => letter[1].toUpperCase());
-const camelToSnakeCase = (camelIn) => camelIn.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
-
-function convertObjectToSnakeCase(obj) {
- const newObj = {}
-  for (let key in obj) {
-     if (key == key.toLowerCase()) {
-       // The character is lowercase
-       newObj[key] = obj[key];
-     }
-     else {
-       // The character is uppercase
-       newObj[camelToSnakeCase(key)] = obj[key];
-     }
-  }
-  console.log(obj, obj)
-  return newObj;
-}
 
 async function queryTreeDB(queryString) {
   const functionName = 'updateTreeModel';
@@ -43,18 +24,15 @@ async function queryTreeDB(queryString) {
   }
 }
 
-async function updateTreeModel(newTree) {
+async function updateTreeModel(newTreeData, keys) {
   const functionName = 'updateTreeModel';
+  logger.debug(`${functionName} newTreeData ${util.inspect(newTreeData)}`);
+  logger.debug(`${functionName} keys ${keys}`);
   try {
-    convertedNewTree = convertObjectToSnakeCase(newTree)
-    const keys = Object.keys(convertedNewTree);
-    logger.debug(`${functionName} keys ${keys}`);
-    logger.debug(`${functionName} convertedNewTree ${util.inspect(convertedNewTree)}`);
-    // const condition = pgp.as.format(' WHERE id_tree = ${id_tree} RETURNING *', newTree); 
-    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} RETURNING id_tree AS "idTree", health, notes', convertedNewTree); 
-    const queryString = () => pgp.helpers.update(convertedNewTree, keys, 'treedata') + condition;
+    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} RETURNING id_tree AS "idTree", health, notes', newTreeData); 
+    const queryString = () => pgp.helpers.update(newTreeData, keys, 'treedata') + condition;
     // logger.debug(`${functionName} queryString`, await queryString);
-    const results = await treeDB.query(queryString, convertedNewTree);
+    const results = await treeDB.query(queryString, newTreeData);
     logger.debug(`${functionName} results ${util.inspect(results)}`);
     return results;
     // return {data: 'test'};
@@ -65,16 +43,30 @@ async function updateTreeModel(newTree) {
 }
 
 
-async function updateTreeHistoryModel(newTreeHistory) {
- const condition = pgp.as.format(' WHERE id_tree = ${idTree} AND volunteer = ${volunteer} AND created_at::date = CURRENT_DATE RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.datevisit AS dateVisit', newTreeHistory);
- const keys = Object.keys(newTreeHistory)
- const queryString = () => pgp.helpers.update(newTreeHistory, keys, 'treehistory') + condition;
-return await treeDB.query(queryString, newTreeHistory);
+async function updateTreeHistoryModel(newTreeHistory, keys) {
+  const functionName = 'updateTreeHistoryModel';
+  logger.debug(`${functionName} newTreeHistory ${util.inspect(newTreeHistory)}`);
+  logger.debug(`${functionName} keys ${keys}`);
+  try {
+    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND created_at::date = CURRENT_DATE RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.date_visit AS dateVisit', newTreeHistory);
+    const queryString = () => pgp.helpers.update(newTreeHistory, keys, 'treehistory') + condition;
+    return await treeDB.query(queryString, newTreeHistory);
+  } catch (err) {
+    logger.error(`${functionName} CATCH ${err}`);
+    return {error: err};
+  }
 }
 
 async function insertTreeHistoryModel(newTreeHistory) {
-  const queryString = 'INSERT INTO treehistory(${this:name}) VALUES(${this:csv}) RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.datevisit AS dateVisit';
-  return await treeDB.query(queryString, newTreeHistory);
+  const functionName = 'insertTreeHistoryModel';
+  logger.debug(`${functionName} newTreeData ${util.inspect(newTreeHistory)}`);
+  try {
+    const queryString = 'INSERT INTO treehistory(${this:name}) VALUES(${this:csv}) RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.date_visit AS dateVisit';
+    return await treeDB.query(queryString, newTreeHistory);
+  } catch (err) {
+    logger.error(`${functionName} CATCH ${err}`);
+    return {error: err};
+  }
 }
 
 module.exports = {

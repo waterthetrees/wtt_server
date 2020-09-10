@@ -130,7 +130,11 @@ async function processPostTree(body, res) {
   try {
 
     logger.debug(`${functionName} body ${util.inspect(body)}`);
-    const updateTreeResults = await updateTreeModel(body, 'test');
+
+    const convertedTreeData = convertObjectToSnakeCase(body);
+    const keys = Object.keys(convertedTreeData);
+
+    const updateTreeResults = await updateTreeModel(convertedTreeData, keys);
     logger.debug(`${functionName}, updateTreeResults, ${util.inspect(updateTreeResults)}`)
     if (!updateTreeResults) {
       responder(res, 500, {error: 'error saving'});
@@ -175,6 +179,8 @@ async function processPostTreeHistory(body, res) {
 
     // const newHistory = makeKeyValueArrayForInsert(body);
     // console.log("newHistory", newHistory);
+    const convertedTreeHistory = convertObjectToSnakeCase(body);
+    const keys = Object.keys(convertedTreeHistory);
 
     const findTreeHistoryVolunteerTodayResults = await findTreeHistoryVolunteerTodayModel(body);
     logger.debug(`${JSON.parse(JSON.stringify(findTreeHistoryVolunteerTodayResults)).rowCount} findTreeHistoryVolunteerTodayResults${functionName}`);
@@ -182,7 +188,7 @@ async function processPostTreeHistory(body, res) {
     if (rowCount === 0) {
       logger.debug(`rowCount: ${util.inspect(findTreeHistoryVolunteerTodayResults.rowCount)} ${functionName}`);
 
-      const insertTreeHistoryResults = await  insertTreeHistoryModel(body);
+      const insertTreeHistoryResults = await  insertTreeHistoryModel(convertedTreeHistory, keys);
       console.log("insertTreeHistoryResults ", await insertTreeHistoryResults );
       if (!insertTreeHistoryResults) {
         responder(res, 500, {error: 'error saving'});
@@ -191,7 +197,7 @@ async function processPostTreeHistory(body, res) {
       responder(res, 200, {data: await insertTreeHistoryResults[0]});
       return;
     } 
-    const updateTreeHistoryResults = await  updateTreeHistoryModel(body);
+    const updateTreeHistoryResults = await  updateTreeHistoryModel(convertedTreeHistory, keys);
     console.log("updateTreeHistoryResults ", await updateTreeHistoryResults );
     if (!updateTreeHistoryResults) {
       responder(res, 500, {error: 'error saving'});
@@ -204,6 +210,26 @@ async function processPostTreeHistory(body, res) {
     responder(res, 500, { error: err });
     return;
   }
+}
+
+
+const snakeToCamelCase = (snakeIn) => snakeIn.replace(/(\_\w)/g, (letter) => letter[1].toUpperCase());
+const camelToSnakeCase = (camelIn) => camelIn.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+
+function convertObjectToSnakeCase(obj) {
+ const newObj = {}
+  for (let key in obj) {
+     if (key == key.toLowerCase()) {
+       // The character is lowercase
+       newObj[key] = obj[key];
+     }
+     else {
+       // The character is uppercase
+       newObj[camelToSnakeCase(key)] = obj[key];
+     }
+  }
+  console.log(obj, obj)
+  return newObj;
 }
 
 function makeKeyValuesStringForUpdate() {

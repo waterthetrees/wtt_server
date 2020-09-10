@@ -102,6 +102,11 @@ async function processGetTreeHistory(query, res) {
     const { currentTreeId } = query;
     console.log("query", query, "currentTreeId", currentTreeId);
     let treeHistoryResults = await getTreeHistoryModel(currentTreeId);
+
+    console.log("query", query, "currentTreeId", currentTreeId, 'treeHistoryResults1', treeHistoryResults);
+    treeHistoryResults = (await treeHistoryResults && treeHistoryResults.length) ? treeHistoryResults : []
+    
+    console.log("query", query, "currentTreeId", currentTreeId, 'treeHistoryResults2', treeHistoryResults);
     responder(res, 200, await treeHistoryResults);
     return;
   } catch (err) {

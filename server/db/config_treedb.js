@@ -21,5 +21,5 @@ const configPgNative = `
   port=${configTreeDB.port} 
   connect_timeout=${configTreeDB.connect_timeout}`;
 
-console.log(configTreeDB,'configTreeDB', ' configPgNative', configPgNative);
+//console.log(configTreeDB,'configTreeDB', ' configPgNative', configPgNative);
 module.exports = {configTreeDB, configPgNative};

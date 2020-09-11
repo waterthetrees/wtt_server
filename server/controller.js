@@ -11,22 +11,27 @@ const {
   updateTreeModel
 } = require('./models/models_wtt.js');
 
-const { validateGetMapRequest } = require('./validation.js');
+const { 
+  validateGetMap, 
+  validateGetTree, 
+  validateGetTreeHistory, 
+  validatePostTree,
+  validatePostTreeHistory 
+} = require('./validation.js');
+
 const { logger } = require('./../logger.js');
 util = require('util');
 const has = Object.prototype.hasOwnProperty;
 
 function getMap(req, res) {
   const functionName = "getMap";
-  // logger.debug(`req.params  ${util.inspect(req.params)}${functionName} $date`);
   // logger.debug(`req.query ${util.inspect(req.query)} ${functionName}`);
 
-  // const validated = validateGetMapRequest(req);
-  // if (!validated) {
-  //   res.statusCode = 400;
-  //   res.json({'error': 'not valid'});
-  //   return;
-  // }
+ const validated = validateGetMap(req);
+  if (!validated) {
+    responder(res, 400, {error: 'trouble getting map'});
+    return;
+  }
 
   processGetMap(req.query, res);
   return;
@@ -36,15 +41,9 @@ async function processGetMap(query, res) {
   const functionName = 'processGetMap';
   try {
     let treeMapResults = await getGeoJson(query);
-    // let treeResults = (query.requestType === 'GetMapSubset') ? await getMapSubsetModel(await query) : await getMapByCityModel(await query);
-    // console.log('\n\n\n\ntreeResults', await treeMapResults.rows, 'treeMapResults\n\n\n\n');
-    // TODO figure out a sort so south trees will be above north trees
-    // treeResults = await results.sort((a, b) => a.latitude < b.latitude);
     if ((await treeMapResults) && has.call(treeMapResults, "rows") && treeMapResults.rows.length > 0) {
-      // console.debug(`${functionName} results.rows[0].jsonb_build_object ${util.inspect(treeMapResults.rows[0].jsonb_build_object, false, 10, true)}`);
       const treeMapResultsObject = treeMapResults.rows[0].jsonb_build_object;
       res.statusCode = 200;
-      // res.send({data: await treeResults});
       res.json(await treeMapResultsObject);
     }
 
@@ -59,14 +58,12 @@ async function processGetMap(query, res) {
 
 function getTree(req, res) {
   const functionName = "getTree";
-  logger.debug(`req  ${util.inspect(req.query)} ${functionName} HERE`);
-
-  // const validated = validateGetMapRequest(req);
-  // if (!validated) {
-  //   res.statusCode = 400;
-  //   res.json({'error': 'not valid'});
-  //   return;
-  // }
+  // logger.debug(`req.query ${util.inspect(req.query)} ${functionName} HERE`);
+  const validated = validateGetTree(req);
+  if (!validated) {
+    responder(res, 400, {error: 'not a valid tree id'});
+    return;
+  }
 
   processGetTree(req.query, res);
   return;
@@ -76,9 +73,9 @@ async function processGetTree(query, res) {
   const functionName = "processGetTree";
   try {
     const { currentTreeId } = query;
-    console.log("query", query, "currentTreeId", currentTreeId);
+    // console.log("query", query, "currentTreeId", currentTreeId);
     let treeResults = await getTreeModel(currentTreeId);
-    logger.debug(`treeResults ${util.inspect(treeResults)} ${functionName}`);
+    // logger.debug(`treeResults ${util.inspect(treeResults)} ${functionName}`);
     responder(res, 200, await treeResults);
     return;
   } catch (err) {
@@ -92,6 +89,12 @@ async function processGetTree(query, res) {
 function getTreeHistory(req, res) {
   const functionName = "getTree";
   // logger.debug(`req.query ${util.inspect(req.query)} ${functionName}`);
+ const validated = validateGetTreeHistory(req);
+  if (!validated) {
+    responder(res, 400, {error: 'trouble getting tree history'});
+    return;
+  }
+
   processGetTreeHistory(req.query, res);
   return;
 }
@@ -100,13 +103,10 @@ async function processGetTreeHistory(query, res) {
   const functionName = "processGetTree";
   try {
     const { currentTreeId } = query;
-    console.log("query", query, "currentTreeId", currentTreeId);
     let treeHistoryResults = await getTreeHistoryModel(currentTreeId);
-
-    console.log("query", query, "currentTreeId", currentTreeId, 'treeHistoryResults1', treeHistoryResults);
+    // console.log("query", query, "currentTreeId", currentTreeId, 'treeHistoryResults1', treeHistoryResults);
     treeHistoryResults = (await treeHistoryResults && treeHistoryResults.length) ? treeHistoryResults : []
-    
-    console.log("query", query, "currentTreeId", currentTreeId, 'treeHistoryResults2', treeHistoryResults);
+    // console.log("query", query, "currentTreeId", currentTreeId, 'treeHistoryResults2', treeHistoryResults);
     responder(res, 200, await treeHistoryResults);
     return;
   } catch (err) {
@@ -120,12 +120,12 @@ async function processGetTreeHistory(query, res) {
 function postTree(req, res) {
   const functionName = "postTree";
   // logger.debug(`req  ${util.inspect(req, false, 10, true)} ${functionName}`);
+  const validated = validatePostTree(req);
+  if (!validated) {
+    responder(res, 500, { error: 'not valid' });
+    return;
+  }
 
-  // const validated = validateGetMapRequest(req);
-  // if (!validated) {
-  //   responder(res, 500, { error: 'not valid' });
-  //   return;
-  // }
   processPostTree(req.body, res);
   return;
 }
@@ -133,14 +133,12 @@ function postTree(req, res) {
 async function processPostTree(body, res) {
   const functionName = "processPostTree";
   try {
-
-    logger.debug(`${functionName} body ${util.inspect(body)}`);
-
+    // logger.debug(`${functionName} body ${util.inspect(body)}`);
     const convertedTreeData = convertObjectToSnakeCase(body);
     const keys = Object.keys(convertedTreeData);
 
     const updateTreeResults = await updateTreeModel(convertedTreeData, keys);
-    logger.debug(`${functionName}, updateTreeResults, ${util.inspect(updateTreeResults)}`)
+    // logger.debug(`${functionName}, updateTreeResults, ${util.inspect(updateTreeResults)}`)
     if (!updateTreeResults) {
       responder(res, 500, {error: 'error saving'});
       return;
@@ -164,14 +162,12 @@ async function processPostTree(body, res) {
 
 function postTreeHistory(req, res) {
   const functionName = "postHistory";
-  logger.debug(`req  ${util.inspect(req.body, false, 10, true)} ${functionName}`);
-
-  // const validated = validateGetMapRequest(req);
-  // if (!validated) {
-  //   res.statusCode = 400;
-  //   res.json({'error': 'not valid'});
-  //   return;
-  // }
+  // logger.debug(`req  ${util.inspect(req.body)} ${functionName}`);
+  const validated = validatePostTreeHistory(req);
+  if (!validated) {
+    responder(res, 500, { error: 'not valid' });
+    return;
+  }
 
   processPostTreeHistory(req.body, res);
   return;
@@ -180,21 +176,15 @@ function postTreeHistory(req, res) {
 async function processPostTreeHistory(body, res) {
   const functionName = "processPostHistory";
   try{
-    logger.debug(`${functionName}, "body",  ${util.inspect(body)} ${functionName}`);
-
-    // const newHistory = makeKeyValueArrayForInsert(body);
-    // console.log("newHistory", newHistory);
+    // logger.debug(`${functionName}, "body",  ${util.inspect(body)} ${functionName}`);
     const convertedTreeHistory = convertObjectToSnakeCase(body);
     const keys = Object.keys(convertedTreeHistory);
 
     const findTreeHistoryVolunteerTodayResults = await findTreeHistoryVolunteerTodayModel(body);
-    logger.debug(`${JSON.parse(JSON.stringify(findTreeHistoryVolunteerTodayResults)).rowCount} findTreeHistoryVolunteerTodayResults${functionName}`);
     const rowCount = JSON.parse(JSON.stringify(findTreeHistoryVolunteerTodayResults)).rowCount;
     if (rowCount === 0) {
-      logger.debug(`rowCount: ${util.inspect(findTreeHistoryVolunteerTodayResults.rowCount)} ${functionName}`);
-
       const insertTreeHistoryResults = await  insertTreeHistoryModel(convertedTreeHistory, keys);
-      console.log("insertTreeHistoryResults ", await insertTreeHistoryResults );
+      // logger.debug("insertTreeHistoryResults ", await insertTreeHistoryResults );
       if (!insertTreeHistoryResults) {
         responder(res, 500, {error: 'error saving'});
         return;
@@ -203,7 +193,7 @@ async function processPostTreeHistory(body, res) {
       return;
     } 
     const updateTreeHistoryResults = await  updateTreeHistoryModel(convertedTreeHistory, keys);
-    console.log("updateTreeHistoryResults ", await updateTreeHistoryResults );
+    // logger.debug(`updateTreeHistoryResults, ${await updateTreeHistoryResults} ${functionName}` );
     if (!updateTreeHistoryResults) {
       responder(res, 500, {error: 'error saving'});
       return;
@@ -217,40 +207,19 @@ async function processPostTreeHistory(body, res) {
   }
 }
 
-
 const snakeToCamelCase = (snakeIn) => snakeIn.replace(/(\_\w)/g, (letter) => letter[1].toUpperCase());
 const camelToSnakeCase = (camelIn) => camelIn.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 
 function convertObjectToSnakeCase(obj) {
  const newObj = {}
   for (let key in obj) {
-     if (key == key.toLowerCase()) {
-       // The character is lowercase
-       newObj[key] = obj[key];
-     }
-     else {
-       // The character is uppercase
-       newObj[camelToSnakeCase(key)] = obj[key];
-     }
+    if (key == key.toLowerCase()) {
+      newObj[key] = obj[key];
+    } else {
+      newObj[camelToSnakeCase(key)] = obj[key];
+    }
   }
-  console.log(obj, obj)
   return newObj;
-}
-
-function makeKeyValuesStringForUpdate() {
-  const insertString = Object.entries(treehistory).reduce((prevVal,currVal,idx) => {
-   if (currVal[0] !== 'id_tree' && prevVal !== null) return `${prevVal}, ${currVal[0]} = '${currVal[1]}'`;
-  }, '');
-  const insertStringWithoutId = insertString.replace('undefined, ', '');
-  return insertStringWithoutId;
-}
-
-function makeKeyValueArrayForInsert(newTreehistory) {
-  const [newKeys, newValues] = Object.entries(newTreehistory).reduce((prevVal,currVal,idx) => {
-     console.log('prevVal,currVal', prevVal,currVal);
-    return [...prevVal, ...currVal[0]];
-  }, []);
-   console.log('[newKeys, newValues]', newKeys, newValues);
 }
 
 function responder(res, code, message) {
@@ -258,7 +227,5 @@ function responder(res, code, message) {
   res.statusCode = code;
   res.json(message);
 }
-
-// processGetPostNote({params: {id_tree:  5, note: "doesn't matter"}}, {});
 
 module.exports = { getMap, getTree, postTree, getTreeHistory, postTreeHistory };

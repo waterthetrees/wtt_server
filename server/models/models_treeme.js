@@ -3,7 +3,6 @@ const treeDB = require("../db/treedb.js");
 const { logger } = require("./../../logger.js");
 ("use strict");
 const has = Object.prototype.hasOwnProperty;
-console.log('treeDB', treeDB);
 
 async function queryTreeDB(queryString) {
   try {

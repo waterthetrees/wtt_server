@@ -11,20 +11,19 @@ const { getMap, getTree, postTree, getTreeHistory, postTreeHistory } = require("
 // these are for various environments when we move to dev and live server vs local
 const env = process.argv[2] || "local";
 const host = {
-  prod: "https://live.treeme.com",
-  dev: "https://dev.treeme.com",
+  prod: "https://waterthetrees.com",
+  dev: "https://dev.waterthetrees.com",
   local: "http://localhost",
 }[env];
 const port = { dev: 3441, prod: 3002, local: 3002 }[env];
 
 //this is for whitelisting hosts for cors
 const whitelist = [
-  "http://localhost:3000",
   "http://localhost:3001",
   "http://localhost",
-  "https://dev.treeme.com:5443",
-  "https://dev.treeme.com:5441",
-  "https://live.treeme.com",
+  "https://dev.waterthetrees.com",
+  "https://waterthetrees.com",
+  "https://www.waterthetrees.com",
 ];
 var options = {
   origin(origin, callback) {
@@ -49,14 +48,14 @@ app.use(cors(options));
 // ROUTES
 app.use("/", router);
 
-router.route("/tree")
+router.route("/api/tree")
   .get(getTree)
   .post(postTree)
 
-router.route("/treemap")
+router.route("/api/treemap")
   .get(getMap);
 
-router.route("/treehistory")
+router.route("/api/treehistory")
   .get(getTreeHistory)
   .post(postTreeHistory);
 

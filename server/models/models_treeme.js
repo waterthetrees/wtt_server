@@ -3,6 +3,7 @@ const treeDB = require("../db/treedb.js");
 const { logger } = require("./../../logger.js");
 ("use strict");
 const has = Object.prototype.hasOwnProperty;
+console.log('treeDB', treeDB);
 
 async function queryTreeDB(queryString) {
   try {
@@ -96,25 +97,25 @@ async function getTreeHistoryModel(currentTreeId) {
 }
 
 function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
-  let query = `SELECT id_tree AS "idTree" FROM treehistory 
+  let query = `SELECT id_tree AS "id_tree" FROM treehistory 
     WHERE id_tree = ${newTreeHistory.idTree} 
     AND date_visit::date = CURRENT_DATE
     AND volunteer = '${newTreeHistory.volunteer}';`;
   return queryTreeDB(query);
 }
 
-function updateTreeNoteModel(idTree, notes) {
+function updateTreeNoteModel(id_tree, notes) {
   const query = ` UPDATE treedata
     SET notes = '${notes}'
-    WHERE id_tree = ${idTree}
+    WHERE id_tree = ${id_tree}
     RETURNING id_tree AS "idTree", notes;`;
   return queryTreeDB(query);
 }
 
-function updateTreeHealthModel(idTree, health) {
+function updateTreeHealthModel(id_tree, health) {
   const query = ` UPDATE treedata
     SET health = '${health}'
-    WHERE id_tree = ${idTree}
+    WHERE id_tree = ${id_tree}
     RETURNING id_tree AS "idTree", health;`;
   return queryTreeDB(query);
 }

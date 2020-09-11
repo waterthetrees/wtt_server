@@ -7,7 +7,7 @@ const pgp = require('pg-promise')({
 util = require("util");
 // const treeDB = require("../db/treedb.js");
 const { logger } = require("../../logger.js");
-const configTreeDB = require('../db/config_treedb.js');
+const { configTreeDB } = require('../db/config_treedb.js');
 
 const treeDB = pgp(configTreeDB);
 

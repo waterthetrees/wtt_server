@@ -3,12 +3,12 @@
 const env = process.argv[2] || "dev";
 // We are using pg-native for this script only, in order to create the tables synchronously
 const Client = require("pg-native");
-const {configPgNative} = require("./config_treedb.js");
-//console.log('config',configPgNative);
+const { configPgNative } = require("./config_treedb.js");
+
 /*
   README:
   After running this script, check that the table was created.
-  `psql trees`
+  `psql treedb`
   `\dt`
 
   Other helpful snippets for v2 (not useful now):

@@ -36,6 +36,18 @@ async function updateTreeModel(newTreeData, keys) {
   }
 }
 
+async function insertTreeModel(newTree, keys) {
+  const functionName = 'insertTreeModel';
+  try {
+    logger.debug(`${functionName} ${newTree} ${keys}`);
+    // const queryString = 'INSERT INTO treedata(${this:name}) VALUES(${this:csv}) RETURNING treedata.id_tree AS idTree, treedata.common, treedata.scientific, treedata.date_planted AS dateVisit';
+    // return await treeDB.query(queryString, newTree);
+  } catch (err) {
+    logger.error(`${functionName} CATCH ${err}`);
+    return {error: err};
+  }
+}
+
 
 async function updateTreeHistoryModel(newTreeHistory, keys) {
   const functionName = 'updateTreeHistoryModel';
@@ -63,5 +75,6 @@ async function insertTreeHistoryModel(newTreeHistory) {
 module.exports = {
   insertTreeHistoryModel,
   updateTreeHistoryModel,
-  updateTreeModel
+  updateTreeModel,
+  insertTreeModel,
 };

@@ -24,12 +24,13 @@ function getGeoJson(location) {
     FROM (
       SELECT jsonb_build_object(
         'type',       'Feature',
-        'id',         id_tree,
+        'id',         'treedata',
         'geometry',   json_build_object( 'type', 'Point', 'coordinates', json_build_array(lng, lat)),
         'properties', json_build_object(
                         'id', id_tree,
                         'idTree', id_tree,
-                        'common',common )
+                        'common', common,
+                        'health', health )
       ) AS feature
       FROM (
         SELECT * FROM treedata
@@ -44,7 +45,7 @@ async function getTreeModel(currentTreeId) {
   try {
     // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
 
-    const query = `SELECT id_tree AS "idTree", common, scientific, planted, health, 
+    const query = `SELECT id_tree AS "idTree", common, scientific, planted, health, health as "healthNum", 
       address, city, country, neighborhood, lat, lng, owner, ref, who, notes
      FROM treedata WHERE id_tree = ${currentTreeId};`;
     // console.debug(`${functionName}  query ${query}`);
@@ -58,6 +59,30 @@ async function getTreeModel(currentTreeId) {
     ) {
       // console.debug(`${functionName} results.rows[0] ${util.inspect(results.rows[0], false, 10, true)}`);
       return await results.rows[0];
+    }
+    return undefined;
+  } catch (err) {
+    logger.error(`${functionName} ${err}`);
+    return;
+  }
+}
+
+async function getTreeListModel() {
+  const functionName = "getTreeListModel";
+  try {
+    const query = `SELECT DISTINCT common, scientific, genus FROM treedata 
+    WHERE common <> '' limit 20;`;
+    // console.debug(`${functionName}  query ${query}`);
+    const results = await treeDB.query(query);
+    // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
+
+    if (
+      (await results) &&
+      has.call(results, "rows") &&
+      results.rows.length > 0
+    ) {
+      console.debug(`${functionName} results.rows[0] ${util.inspect(results.rows, false, 10, true)}`);
+      return await results.rows;
     }
     return undefined;
   } catch (err) {
@@ -123,6 +148,7 @@ module.exports = {
   getGeoJson,
   getTreeModel,
   getTreeHistoryModel,
+  getTreeListModel,
   findTreeHistoryVolunteerTodayModel,
   updateTreeNoteModel,
   updateTreeHealthModel,

@@ -38,6 +38,9 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1",
     "mocha": "^6.2.2",
     "null-loader": "^0.1.1",
     "puppeteer": "^2.0.0"

@@ -38,6 +38,13 @@ function validateGetTree(req) {
   return true;
 }
 
+function validateGetTreeList(req) {
+  if (validation(req, "req", req) === "") return false;
+  if (validation(req, "query", req.query) === "") return false;
+  if (validation(req, "coordinates", req.query.coordinates) === "") return false;
+  return true;
+}
+
 function validateGetTreeHistory(req) {
   if (validation(req, "req", req) === "") return false;
   if (validation(req, "query", req.query) === "") return false;
@@ -45,11 +52,22 @@ function validateGetTreeHistory(req) {
   return true;
 }
 
-function validatePostTree(req) {
+function validateUpdateTree(req) {
   if (validation(req, "req", req) === "") return false;
   if (validation(req, "body", req.body) === "") return false;
   if (validation(req, "idTree", req.body.idTree) === "") return false;
   return iterateOverObjCheckingForString(req.body);
+}
+
+function validatePostTree(req) {
+  if (validation(req, "req", req) === "") return false;
+  if (validation(req, "body", req.body) === "") return false;
+  if (validation(req, "common", req.body.common) === "") return false;
+  if (validation(req, "scientific", req.body.scientific) === "") return false;
+  if (validation(req, "lat", req.body.lat) === "") return false;
+  if (validation(req, "lng", req.body.lng) === "") return false;
+  if (validation(req, "datePlanted", req.body.datePlanted) === "") return false;
+  return true;
 }
 
 function validatePostTreeHistory(req) {
@@ -64,5 +82,7 @@ module.exports = {
   validateGetTree, 
   validateGetTreeHistory, 
   validatePostTree,
-  validatePostTreeHistory  
+  validateUpdateTree,
+  validatePostTreeHistory,
+  validateGetTreeList 
 };

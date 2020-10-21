@@ -66,6 +66,7 @@ const QUERIES = [
     state VARCHAR(255),
     zip VARCHAR(255),
     country VARCHAR(255),
+    side_type VARCHAR(255),
     neighborhood VARCHAR(255),
     health VARCHAR(255),
     dbh VARCHAR(255),
@@ -75,9 +76,13 @@ const QUERIES = [
     urlimage VARCHAR(255),
     status VARCHAR(255),
     notes TEXT,
+    planting_opt1_common VARCHAR(255),
+    planting_opt1 VARCHAR(255),
+    planting_opt2 VARCHAR(255),
+    planting_opt3 VARCHAR(255),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(id_tree),
-    UNIQUE (who, ref, lng, lat) -- TODO: victoria: there seem to be actual duplicates that violate this constraint. is this constraint false?
+    UNIQUE (who, ref, lng, lat, common) -- TODO: victoria: there seem to be actual duplicates that violate this constraint. is this constraint false?
   );`,
   },
   {

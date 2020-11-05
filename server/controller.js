@@ -13,10 +13,10 @@ const {
   insertTreeModel
 } = require('./models/models_wtt.js');
 
-const { 
-  validateGetMap, 
-  validateGetTree, 
-  validateGetTreeHistory, 
+const {
+  validateGetMap,
+  validateGetTree,
+  validateGetTreeHistory,
   validateUpdateTree,
   validatePostTree,
   validatePostTreeHistory,
@@ -33,9 +33,9 @@ function getMap(req, res) {
   const functionName = "getMap";
   // logger.debug(`req.query ${util.inspect(req.query)} ${functionName}`);
 
- const validated = validateGetMap(req);
+  const validated = validateGetMap(req);
   if (!validated) {
-    responder(res, 400, {error: 'trouble getting map'});
+    responder(res, 400, { error: 'trouble getting map' });
     return;
   }
 
@@ -67,7 +67,7 @@ function getTree(req, res) {
   // logger.debug(`req.query ${util.inspect(req.query)} ${functionName} HERE`);
   const validated = validateGetTree(req);
   if (!validated) {
-    responder(res, 400, {error: 'not a valid tree id'});
+    responder(res, 400, { error: 'not a valid tree id' });
     return;
   }
 
@@ -94,7 +94,7 @@ async function processGetTree(query, res) {
   }
 }
 
-function  convertHealthToNumber(health) {
+function convertHealthToNumber(health) {
   // console.log('convertHealthToNumber health', health);
   const healthValue = {
     good: 6,
@@ -112,7 +112,7 @@ function getTreeHistory(req, res) {
   // logger.debug(`req.query ${util.inspect(req.query)} ${functionName}`);
   const validated = validateGetTreeHistory(req);
   if (!validated) {
-    responder(res, 400, {error: 'trouble getting tree history'});
+    responder(res, 400, { error: 'trouble getting tree history' });
     return;
   }
 
@@ -161,7 +161,7 @@ async function processPostTree(body, res) {
     const insertTreeResults = await insertTreeModel(convertedTreeData, keys);
     logger.debug(`${functionName}, insertTreeResults, ${util.inspect(insertTreeResults)}`)
     if (!insertTreeResults) {
-      responder(res, 500, {error: 'error saving'});
+      responder(res, 500, { error: 'error saving' });
       return;
     }
     if (insertTreeResults.error) {
@@ -169,7 +169,7 @@ async function processPostTree(body, res) {
       return;
     }
     const returnMessage = body;
-    responder(res, 200, {data: returnMessage});
+    responder(res, 200, { data: returnMessage });
     return;
   } catch (err) {
     logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
@@ -202,17 +202,17 @@ async function processUpdateTree(body, res) {
     const updateTreeResults = await updateTreeModel(convertedTreeData, keys);
     // logger.debug(`${functionName}, updateTreeResults, ${util.inspect(updateTreeResults)}`)
     if (!updateTreeResults) {
-      responder(res, 500, {error: 'error saving'});
+      responder(res, 500, { error: 'error saving' });
       return;
     }
     if (updateTreeResults.error) {
       responder(res, 500, updateTreeResults);
       return;
     }
-    const returnMessage = body.hasOwnProperty('notes') 
+    const returnMessage = body.hasOwnProperty('notes')
       ? updateTreeResults[0].notes
       : updateTreeResults[0].health;
-    responder(res, 200, {data: returnMessage});
+    responder(res, 200, { data: returnMessage });
     return;
   } catch (err) {
     logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
@@ -237,7 +237,7 @@ function postTreeHistory(req, res) {
 
 async function processPostTreeHistory(body, res) {
   const functionName = "processPostHistory";
-  try{
+  try {
     // logger.debug(`${functionName}, "body",  ${util.inspect(body)} ${functionName}`);
     const convertedTreeHistory = convertObjectToSnakeCase(body);
     const keys = Object.keys(convertedTreeHistory);
@@ -245,22 +245,22 @@ async function processPostTreeHistory(body, res) {
     const findTreeHistoryVolunteerTodayResults = await findTreeHistoryVolunteerTodayModel(body);
     const rowCount = JSON.parse(JSON.stringify(findTreeHistoryVolunteerTodayResults)).rowCount;
     if (rowCount === 0) {
-      const insertTreeHistoryResults = await  insertTreeHistoryModel(convertedTreeHistory, keys);
+      const insertTreeHistoryResults = await insertTreeHistoryModel(convertedTreeHistory, keys);
       // logger.debug("insertTreeHistoryResults ", await insertTreeHistoryResults );
       if (!insertTreeHistoryResults) {
-        responder(res, 500, {error: 'error saving'});
+        responder(res, 500, { error: 'error saving' });
         return;
       }
-      responder(res, 200, {data: await insertTreeHistoryResults[0]});
-      return;
-    } 
-    const updateTreeHistoryResults = await  updateTreeHistoryModel(convertedTreeHistory, keys);
-    // logger.debug(`updateTreeHistoryResults, ${await updateTreeHistoryResults} ${functionName}` );
-    if (!updateTreeHistoryResults) {
-      responder(res, 500, {error: 'error saving'});
+      responder(res, 200, { data: await insertTreeHistoryResults[0] });
       return;
     }
-    responder(res, 200, {data: await updateTreeHistoryResults[0]});
+    const updateTreeHistoryResults = await updateTreeHistoryModel(convertedTreeHistory, keys);
+    // logger.debug(`updateTreeHistoryResults, ${await updateTreeHistoryResults} ${functionName}` );
+    if (!updateTreeHistoryResults) {
+      responder(res, 500, { error: 'error saving' });
+      return;
+    }
+    responder(res, 200, { data: await updateTreeHistoryResults[0] });
     return;
   } catch (err) {
     logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
@@ -275,7 +275,7 @@ function getTreeList(req, res) {
   const validated = validateGetTreeList(req);
   // logger.debug(`validated ${util.inspect(validated)} ${functionName} HERE`);
   if (!validated) {
-    responder(res, 400, {error: 'not a valid request'});
+    responder(res, 400, { error: 'not a valid request' });
     return;
   }
 
@@ -296,7 +296,7 @@ async function processGetTreeList(coordinates, res) {
     // logger.debug(`scientific ${util.inspect(scientific)} ${functionName}`);
 
     // const genus = treeResults.map(elem => elem.genus).filter(i => i);
-    logger.verbose(`sortedTreeResults ${util.inspect(await sortedTreeResults)} ${functionName}`);
+    // logger.verbose(`sortedTreeResults ${util.inspect(await sortedTreeResults)} ${functionName}`);
     responder(res, 200, await sortedTreeResults);
     return;
   } catch (err) {
@@ -311,7 +311,7 @@ const snakeToCamelCase = (snakeIn) => snakeIn.replace(/(\_\w)/g, (letter) => let
 const camelToSnakeCase = (camelIn) => camelIn.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 
 function convertObjectToSnakeCase(obj) {
- const newObj = {}
+  const newObj = {}
   for (let key in obj) {
     if (key == key.toLowerCase()) {
       newObj[key] = obj[key];

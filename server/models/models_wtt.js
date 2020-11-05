@@ -1,7 +1,7 @@
 ("use strict");
 const pgp = require('pg-promise')({
-    /* initialization options */
-    capSQL: true // capitalize all generated SQL
+  /* initialization options */
+  capSQL: true // capitalize all generated SQL
 });
 
 util = require("util");
@@ -18,7 +18,7 @@ async function queryTreeDB(queryString) {
     // logger.debug(`queryTreeDB results`, results);
     return results;
   } catch (err) {
-    logger.error(`${functionName} CATCH in query treeDB with pgp ${err}` );
+    logger.error(`${functionName} CATCH in query treeDB with pgp ${err}`);
     return err;
   }
 }
@@ -26,25 +26,25 @@ async function queryTreeDB(queryString) {
 async function updateTreeModel(newTreeData, keys) {
   const functionName = 'updateTreeModel';
   try {
-    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} RETURNING id_tree AS "idTree", health, notes', newTreeData); 
+    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} RETURNING id_tree AS "idTree", health, notes', newTreeData);
     const queryString = () => pgp.helpers.update(newTreeData, keys, 'treedata') + condition;
     const results = await treeDB.query(queryString, newTreeData);
     return results;
   } catch (err) {
     logger.error(`${functionName} CATCH ${err}`);
-    return {error: err};
+    return { error: err };
   }
 }
 
 async function insertTreeModel(newTree, keys) {
   const functionName = 'insertTreeModel';
   try {
-    logger.debug(`${functionName} ${newTree} ${keys}`);
+    logger.debug(`${functionName} newTree ${util.inspect(newTree)} keys ${keys}`);
     // const queryString = 'INSERT INTO treedata(${this:name}) VALUES(${this:csv}) RETURNING treedata.id_tree AS idTree, treedata.common, treedata.scientific, treedata.date_planted AS dateVisit';
     // return await treeDB.query(queryString, newTree);
   } catch (err) {
     logger.error(`${functionName} CATCH ${err}`);
-    return {error: err};
+    return { error: err };
   }
 }
 
@@ -57,7 +57,7 @@ async function updateTreeHistoryModel(newTreeHistory, keys) {
     return await treeDB.query(queryString, newTreeHistory);
   } catch (err) {
     logger.error(`${functionName} CATCH ${err}`);
-    return {error: err};
+    return { error: err };
   }
 }
 
@@ -68,7 +68,7 @@ async function insertTreeHistoryModel(newTreeHistory) {
     return await treeDB.query(queryString, newTreeHistory);
   } catch (err) {
     logger.error(`${functionName} CATCH ${err}`);
-    return {error: err};
+    return { error: err };
   }
 }
 

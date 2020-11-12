@@ -63,7 +63,7 @@ function validatePostTree(req) {
   if (validation(req, "req", req) === "") return false;
   if (validation(req, "body", req.body) === "") return false;
   if (validation(req, "common", req.body.common) === "") return false;
-  if (validation(req, "scientific", req.body.scientific) === "") return false;
+  // if (validation(req, "scientific", req.body.scientific) === "") return false;
   if (validation(req, "lat", req.body.lat) === "") return false;
   if (validation(req, "lng", req.body.lng) === "") return false;
   if (validation(req, "datePlanted", req.body.datePlanted) === "") return false;

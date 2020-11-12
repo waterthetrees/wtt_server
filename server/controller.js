@@ -145,9 +145,10 @@ async function processGetTreeHistory(query, res) {
 
 function postTree(req, res) {
   const functionName = "postTree";
-  logger.debug(`req  ${util.inspect(req, false, 10, true)} ${functionName}`);
+  // logger.debug(`req  ${util.inspect(req, false, 10, true)} ${functionName}`);
   const validated = validatePostTree(req);
   if (!validated) {
+    logger.debug(`validated  ${validated} ${functionName}`);
     responder(res, 500, { error: 'not valid' });
     return;
   }

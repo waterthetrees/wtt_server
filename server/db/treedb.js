@@ -2,7 +2,7 @@ const env = process.argv[2] || "dev";
 // const Pool = require('pg-pool');
 const util = require("util");
 const { Pool } = require("pg");
-const {configTreeDB} = require('./config_treedb.js');
+const { configTreeDB } = require('./config_treedb.js');
 // console.log('configTreeDB', configTreeDB)
 // Example from here:
 // https://github.com/brianc/node-postgres/tree/master/packages/pg-pool

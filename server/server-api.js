@@ -21,10 +21,11 @@ const { getMap,
 const env = process.argv[2] || "local";
 const host = {
   prod: "https://waterthetrees.com",
-  dev: "https://dev.waterthetrees.com",
+  dev: "http://localhost",
+  blue: "http://localhost",
   local: "http://localhost",
 }[env];
-const port = { dev: 3441, prod: 3002, local: 3002 }[env];
+const port = { dev: 3002, blue: 3004, prod: 3002, local: 3002 }[env];
 
 //this is for whitelisting hosts for cors
 const whitelist = [

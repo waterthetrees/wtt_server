@@ -54,7 +54,7 @@ async function insertUserModel(user, keys) {
   const functionName = 'insertUserModel';
   try {
     logger.debug(`${functionName} user ${util.inspect(user)} keys ${keys}`);
-    const queryString = 'INSERT INTO treedata(${this:name}) VALUES(${this:csv}) RETURNING users.id_user AS idUser, users.email, users.name, users.nickname';
+    const queryString = 'INSERT INTO users(${this:name}) VALUES(${this:csv}) RETURNING users.id_user AS idUser, users.email, users.name, users.nickname';
     logger.info(`${functionName} queryString ${queryString}`);
     return await treeDB.query(queryString, user);
   } catch (err) {

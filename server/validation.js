@@ -20,7 +20,7 @@ function iterateOverObjCheckingForString(obj) {
   const removeMe = 'idTree';
   const { [removeMe]: removedKey, ...newObjWithoutId } = obj;
   return Object.entries(newObjWithoutId).every(([key, value]) => {
-   return isString(value);
+    return isString(value);
   });
 }
 
@@ -77,12 +77,22 @@ function validatePostTreeHistory(req) {
   return iterateOverObjCheckingForString(req.body);
 }
 
-module.exports = { 
-  validateGetMap, 
-  validateGetTree, 
-  validateGetTreeHistory, 
+function validatePostUser(req) {
+  if (validation(req, "req", req) === "") return false;
+  if (validation(req, "body", req.body) === "") return false;
+  if (validation(req, "name", req.body.name) === "") return false;
+  if (validation(req, "email", req.body.email) === "") return false;
+  if (validation(req, "nickname", req.body.nickname) === "") return false;
+  return true;
+}
+
+module.exports = {
+  validateGetMap,
+  validateGetTree,
+  validateGetTreeHistory,
   validatePostTree,
   validateUpdateTree,
   validatePostTreeHistory,
-  validateGetTreeList 
+  validateGetTreeList,
+  validatePostUser,
 };

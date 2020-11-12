@@ -6,7 +6,16 @@ const morgan = require("morgan");
 const parser = require("body-parser");
 util = require("util");
 
-const { getMap, getTree, getTreeList, postTree, updateTree, getTreeHistory, postTreeHistory } = require("./controller.js");
+const { getMap,
+  getTree,
+  getTreeList,
+  postTree,
+  updateTree,
+  getTreeHistory,
+  postTreeHistory,
+  postUser,
+  getUser
+} = require("./controller.js");
 
 // these are for various environments when we move to dev and live server vs local
 const env = process.argv[2] || "local";
@@ -62,6 +71,10 @@ router.route("/api/treemap")
 router.route("/api/treehistory")
   .get(getTreeHistory)
   .post(postTreeHistory);
+
+router.route("/api/user")
+  .get(getUser)
+  .post(postUser);
 
 const httpServer = http.createServer(app);
 const server = httpServer.listen(port, () => console.log(`${host}:${port}`));

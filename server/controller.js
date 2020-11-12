@@ -3,6 +3,7 @@ const {
   getTreeModel,
   getTreeListModel,
   getTreeHistoryModel,
+  findUserModel,
   findTreeHistoryVolunteerTodayModel,
 } = require('./models/models_treeme.js');
 
@@ -10,7 +11,8 @@ const {
   insertTreeHistoryModel,
   updateTreeHistoryModel,
   updateTreeModel,
-  insertTreeModel
+  insertTreeModel,
+  insertUserModel
 } = require('./models/models_wtt.js');
 
 const {
@@ -19,6 +21,7 @@ const {
   validateGetTreeHistory,
   validateUpdateTree,
   validatePostTree,
+  validatePostUser,
   validatePostTreeHistory,
   validateGetTreeList
 } = require('./validation.js');
@@ -96,6 +99,7 @@ async function processGetTree(query, res) {
 
 function convertHealthToNumber(health) {
   // console.log('convertHealthToNumber health', health);
+  if (!health) return 6;
   const healthValue = {
     good: 6,
     fair: 5,
@@ -138,18 +142,21 @@ async function processGetTreeHistory(query, res) {
   }
 }
 
+
 function postTree(req, res) {
   const functionName = "postTree";
-  // logger.debug(`req  ${util.inspect(req, false, 10, true)} ${functionName}`);
+  logger.debug(`req  ${util.inspect(req, false, 10, true)} ${functionName}`);
   const validated = validatePostTree(req);
   if (!validated) {
     responder(res, 500, { error: 'not valid' });
     return;
   }
-  // logger.debug(`req  ${util.inspect(req.body, false, 10, true)} ${functionName}`);
+  logger.debug(`req  ${util.inspect(req.body, false, 10, true)} ${functionName}`);
   processPostTree(req.body, res);
   return;
 }
+
+
 
 async function processPostTree(body, res) {
   const functionName = "processPostTree";
@@ -182,12 +189,12 @@ async function processPostTree(body, res) {
 function updateTree(req, res) {
   const functionName = "updateTree";
   logger.debug(`req  ${util.inspect(req, false, 10, true)} ${functionName}`);
-  const validated = validatePostTree(req);
+  const validated = validateUpdateTree(req);
   if (!validated) {
     responder(res, 500, { error: 'not valid' });
     return;
   }
-
+  logger.debug(`req.body  ${util.inspect(req.body, false, 10, true)} ${functionName}`);
   processUpdateTree(req.body, res);
   return;
 }
@@ -195,11 +202,15 @@ function updateTree(req, res) {
 async function processUpdateTree(body, res) {
   const functionName = "processUpdateTree";
   try {
-    logger.debug(`${functionName} body ${util.inspect(body)}`);
-    const convertedTreeData = convertObjectToSnakeCase(body);
+
+    const id_tree = body.idTree;
+    let { idTree, ...subSetBody } = body;
+    logger.debug(`${functionName} subSetBody ${util.inspect(subSetBody)}`);
+    const convertedTreeData = convertObjectToSnakeCase(subSetBody);
     const keys = Object.keys(convertedTreeData);
 
-    const updateTreeResults = await updateTreeModel(convertedTreeData, keys);
+    logger.info(`${functionName}, convertedTreeData, ${util.inspect(convertedTreeData)}`)
+    const updateTreeResults = await updateTreeModel(convertedTreeData, keys, id_tree);
     // logger.debug(`${functionName}, updateTreeResults, ${util.inspect(updateTreeResults)}`)
     if (!updateTreeResults) {
       responder(res, 500, { error: 'error saving' });
@@ -328,4 +339,51 @@ function responder(res, code, message) {
   res.json(message);
 }
 
-module.exports = { getMap, getTree, getTreeList, updateTree, postTree, getTreeHistory, postTreeHistory };
+function postUser(req, res) {
+  const functionName = "postUser";
+  const validated = validatePostUser(req);
+  if (!validated) {
+    return responder(res, 400, { error: 'not a valid request' });
+  }
+  logger.debug(`req.body ${util.inspect(req.body)} ${functionName} HERE`);
+  return processPostUser(req.body, res);
+}
+
+async function processPostUser(body, res) {
+  const functionName = "processPostUser";
+  try {
+    logger.debug(`${functionName}, "body",  ${util.inspect(body)} ${functionName}`);
+    let { email_verified, family_name, given_name, locale, sub, updated_at, ...subSetBody } = body;
+    const keys = Object.keys(subSetBody);
+
+    const findUserResults = await findUserModel(body);
+    const rowCount = JSON.parse(JSON.stringify(findUserResults)).rowCount;
+    // logger.debug(`${functionName} findUserResults${util.inspect(findUserResults)} rowCount ${rowCount}`);
+    if (rowCount === 0) {
+      const insertUserResults = await insertUserModel(subSetBody, keys);
+      // logger.debug("insertUserResults ", await insertUserResults);
+      if (!insertUserResults) {
+        responder(res, 500, { error: 'error saving' });
+        return;
+      }
+      responder(res, 200, { data: await insertUserResults[0] });
+      return;
+    }
+    responder(res, 200, { data: subSetBody });
+    return;
+  } catch (err) {
+    logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
+    responder(res, 500, { error: err });
+    return;
+  }
+}
+
+function getUser(req, res) {
+  const functionName = "getUser";
+  logger.debug(`req.query ${util.inspect(req.query)} ${functionName} HERE`);
+  return;
+}
+
+
+
+module.exports = { getMap, getTree, getTreeList, updateTree, postTree, getTreeHistory, postTreeHistory, postUser, getUser };

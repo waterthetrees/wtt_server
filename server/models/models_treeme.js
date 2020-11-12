@@ -45,7 +45,7 @@ async function getTreeModel(currentTreeId) {
   try {
     // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
 
-    const query = `SELECT id_tree AS "idTree", common, scientific, planted, health, health as "healthNum", 
+    const query = `SELECT id_tree AS "idTree", common, scientific, date_planted as datePlanted, health, health as "healthNum", 
       address, city, country, neighborhood, lat, lng, owner, ref, who, notes
      FROM treedata WHERE id_tree = ${currentTreeId};`;
     // console.debug(`${functionName}  query ${query}`);
@@ -66,6 +66,8 @@ async function getTreeModel(currentTreeId) {
     return;
   }
 }
+
+
 
 async function getTreeListModel() {
   const functionName = "getTreeListModel";
@@ -128,6 +130,16 @@ function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
   return queryTreeDB(query);
 }
 
+function findUserModel(user) {
+  const functionName = 'findUserModel';
+  let query = `SELECT id_user AS "idUser", email, name, nickname FROM users 
+    WHERE email = '${user.email}' 
+    OR name = '${user.name}'
+    OR nickname = '${user.nickname}';`;
+  logger.info(`${functionName} ${query}`);
+  return queryTreeDB(query);
+}
+
 function updateTreeNoteModel(id_tree, notes) {
   const query = ` UPDATE treedata
     SET notes = '${notes}'
@@ -152,4 +164,5 @@ module.exports = {
   findTreeHistoryVolunteerTodayModel,
   updateTreeNoteModel,
   updateTreeHealthModel,
+  findUserModel
 };

@@ -29,8 +29,9 @@ const port = { dev: 3002, blue: 3004, prod: 3002, local: 3002 }[env];
 
 //this is for whitelisting hosts for cors
 const whitelist = [
-  "http://localhost:3001",
-  "http://localhost",
+  'https://blue.waterthetrees.com',
+  "http://localhost:3005",
+  "http://localhost:3004",
   "https://dev.waterthetrees.com",
   "https://waterthetrees.com",
   "https://www.waterthetrees.com",

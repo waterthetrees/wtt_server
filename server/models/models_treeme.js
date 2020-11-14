@@ -46,7 +46,7 @@ async function getTreeModel(currentTreeId) {
     // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
 
     const query = `SELECT id_tree AS "idTree", common, scientific, date_planted as datePlanted, health, health as "healthNum", 
-      address, city, country, neighborhood, lat, lng, owner, ref, who, notes
+      address, city, country, zip, neighborhood, lat, lng, owner, id_reference as "idReference", who, notes
      FROM treedata WHERE id_tree = ${currentTreeId};`;
     // console.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);

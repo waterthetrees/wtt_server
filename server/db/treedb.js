@@ -1,4 +1,4 @@
-const env = process.argv[2] || "dev";
+//const env = process.argv[2] || "dev";
 // const Pool = require('pg-pool');
 const util = require("util");
 const { Pool } = require("pg");

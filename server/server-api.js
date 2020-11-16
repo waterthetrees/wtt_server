@@ -6,21 +6,32 @@ const morgan = require("morgan");
 const parser = require("body-parser");
 util = require("util");
 
-const { getMap, getTree, postTree, getTreeHistory, postTreeHistory } = require("./controller.js");
+const { getMap,
+  getTree,
+  getTreeList,
+  postTree,
+  updateTree,
+  getTreeHistory,
+  postTreeHistory,
+  postUser,
+  getUser
+} = require("./controller.js");
 
 // these are for various environments when we move to dev and live server vs local
 const env = process.argv[2] || "local";
 const host = {
   prod: "https://waterthetrees.com",
-  dev: "https://dev.waterthetrees.com",
+  dev: "http://localhost",
+  blue: "http://localhost",
   local: "http://localhost",
 }[env];
-const port = { dev: 3441, prod: 3002, local: 3002 }[env];
+const port = { dev: 3004, blue: 3004, prod: 3002, local: 3002 }[env];
 
 //this is for whitelisting hosts for cors
 const whitelist = [
-  "http://localhost:3001",
-  "http://localhost",
+  'https://blue.waterthetrees.com',
+  "http://localhost:3000",
+  "http://localhost:3004",
   "https://dev.waterthetrees.com",
   "https://waterthetrees.com",
   "https://www.waterthetrees.com",
@@ -50,7 +61,11 @@ app.use("/", router);
 
 router.route("/api/tree")
   .get(getTree)
+  .put(updateTree)
   .post(postTree)
+
+router.route("/api/treelist")
+  .get(getTreeList)
 
 router.route("/api/treemap")
   .get(getMap);
@@ -58,6 +73,10 @@ router.route("/api/treemap")
 router.route("/api/treehistory")
   .get(getTreeHistory)
   .post(postTreeHistory);
+
+router.route("/api/user")
+  .get(getUser)
+  .post(postUser);
 
 const httpServer = http.createServer(app);
 const server = httpServer.listen(port, () => console.log(`${host}:${port}`));

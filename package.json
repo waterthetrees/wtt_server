@@ -29,7 +29,6 @@
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.4",
     "pg": "^8.1.0",
-    "pg-native": "^3.0.0",
     "pg-promise": "^10.6.1",
     "pgtools": "^0.3.0",
     "validator": "^11.1.0",
@@ -38,6 +37,9 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1",
     "mocha": "^6.2.2",
     "null-loader": "^0.1.1",
     "puppeteer": "^2.0.0"
@@ -56,11 +58,17 @@
       "git add --force"
     ]
   },
+  "nodemonConfig": {
+    "ext": "js",
+    "ignore": [
+      "*.test.ts",
+      "db/*"
+    ],
+    "delay": "2"
+  },
   "scripts": {
-    "watch": "webpack -w",
-    "ngrok": "ngrok start --all -config ./ngrok.yml",
-    "serve": "node server/server-api.js",
-    "start": "node server/server-dashboard.js",
+    "serve": "node server/server-api.js local",
+    "start": "nodemon server/server-api.js local",
     "test": "mocha --timeout=90000 ./test/react-tests.js"
   }
 }

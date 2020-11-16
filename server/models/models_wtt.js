@@ -1,7 +1,7 @@
 ("use strict");
 const pgp = require('pg-promise')({
-    /* initialization options */
-    capSQL: true // capitalize all generated SQL
+  /* initialization options */
+  capSQL: true // capitalize all generated SQL
 });
 
 util = require("util");
@@ -18,23 +18,51 @@ async function queryTreeDB(queryString) {
     // logger.debug(`queryTreeDB results`, results);
     return results;
   } catch (err) {
-    logger.error(`${functionName} CATCH in query treeDB with pgp ${err}` );
+    logger.error(`${functionName} CATCH in query treeDB with pgp ${err}`);
     return err;
   }
 }
 
-async function updateTreeModel(newTreeData, keys) {
+async function updateTreeModel(newTreeData, keys, id_tree) {
   const functionName = 'updateTreeModel';
   try {
-    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} RETURNING id_tree AS "idTree", health, notes', newTreeData); 
+    const stringCondition = ` WHERE id_tree = ${id_tree} RETURNING id_tree AS "idTree", health, notes`;
+    const condition = pgp.as.format(stringCondition, newTreeData);
     const queryString = () => pgp.helpers.update(newTreeData, keys, 'treedata') + condition;
     const results = await treeDB.query(queryString, newTreeData);
     return results;
   } catch (err) {
     logger.error(`${functionName} CATCH ${err}`);
-    return {error: err};
+    return { error: err };
   }
 }
+
+async function insertTreeModel(newTree, keys) {
+  const functionName = 'insertTreeModel';
+  try {
+    logger.debug(`${functionName} newTree ${util.inspect(newTree)} keys ${keys}`);
+    const queryString = 'INSERT INTO treedata(${this:name}) VALUES(${this:csv}) RETURNING treedata.id_tree AS idTree, treedata.common, treedata.scientific, treedata.date_planted AS dateVisit';
+    logger.info(`${functionName} queryString ${queryString}`);
+    return await treeDB.query(queryString, newTree);
+  } catch (err) {
+    logger.error(`${functionName} CATCH ${err}`);
+    return { error: err };
+  }
+}
+
+async function insertUserModel(user, keys) {
+  const functionName = 'insertUserModel';
+  try {
+    logger.debug(`${functionName} user ${util.inspect(user)} keys ${keys}`);
+    const queryString = 'INSERT INTO users(${this:name}) VALUES(${this:csv}) RETURNING users.id_user AS idUser, users.email, users.name, users.nickname';
+    logger.info(`${functionName} queryString ${queryString}`);
+    return await treeDB.query(queryString, user);
+  } catch (err) {
+    logger.error(`${functionName} CATCH ${err}`);
+    return { error: err };
+  }
+}
+
 
 
 async function updateTreeHistoryModel(newTreeHistory, keys) {
@@ -45,7 +73,7 @@ async function updateTreeHistoryModel(newTreeHistory, keys) {
     return await treeDB.query(queryString, newTreeHistory);
   } catch (err) {
     logger.error(`${functionName} CATCH ${err}`);
-    return {error: err};
+    return { error: err };
   }
 }
 
@@ -56,12 +84,14 @@ async function insertTreeHistoryModel(newTreeHistory) {
     return await treeDB.query(queryString, newTreeHistory);
   } catch (err) {
     logger.error(`${functionName} CATCH ${err}`);
-    return {error: err};
+    return { error: err };
   }
 }
 
 module.exports = {
   insertTreeHistoryModel,
   updateTreeHistoryModel,
-  updateTreeModel
+  updateTreeModel,
+  insertTreeModel,
+  insertUserModel,
 };

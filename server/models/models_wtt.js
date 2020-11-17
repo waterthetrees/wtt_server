@@ -1,15 +1,13 @@
-("use strict");
 const pgp = require('pg-promise')({
   /* initialization options */
-  capSQL: true // capitalize all generated SQL
+  capSQL: true, // capitalize all generated SQL
 });
 
-util = require("util");
-const { logger } = require("../../logger.js");
+util = require('util');
+const { logger } = require('../../logger.js');
 const { configTreeDB } = require('../db/config_treedb.js');
 
 const treeDB = pgp(configTreeDB);
-
 
 async function queryTreeDB(queryString) {
   const functionName = 'updateTreeModel';
@@ -41,7 +39,7 @@ async function insertTreeModel(newTree, keys) {
   const functionName = 'insertTreeModel';
   try {
     logger.debug(`${functionName} newTree ${util.inspect(newTree)} keys ${keys}`);
-    const queryString = 'INSERT INTO treedata(${this:name}) VALUES(${this:csv}) RETURNING treedata.id_tree AS idTree, treedata.common, treedata.scientific, treedata.date_planted AS dateVisit';
+    const queryString = 'INSERT INTO treedata(${this:name}) VALUES(${this:csv}) RETURNING treedata.id_tree AS idTree, treedata.common, treedata.scientific,treedata.volunteer, treedata.date_planted AS dateVisit';
     logger.info(`${functionName} queryString ${queryString}`);
     return await treeDB.query(queryString, newTree);
   } catch (err) {
@@ -63,12 +61,10 @@ async function insertUserModel(user, keys) {
   }
 }
 
-
-
 async function updateTreeHistoryModel(newTreeHistory, keys) {
   const functionName = 'updateTreeHistoryModel';
   try {
-    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND created_at::date = CURRENT_DATE RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.date_visit AS dateVisit', newTreeHistory);
+    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND created::date = CURRENT_DATE RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.date_visit AS dateVisit', newTreeHistory);
     const queryString = () => pgp.helpers.update(newTreeHistory, keys, 'treehistory') + condition;
     return await treeDB.query(queryString, newTreeHistory);
   } catch (err) {

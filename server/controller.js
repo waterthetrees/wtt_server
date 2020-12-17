@@ -1,3 +1,4 @@
+const util = require('util');
 const {
   getGeoJson,
   getTreeModel,
@@ -5,6 +6,8 @@ const {
   getTreeHistoryModel,
   findUserModel,
   findTreeHistoryVolunteerTodayModel,
+  getCities,
+  updateCitiesTreeCount,
 } = require('./models/models_treeme.js');
 
 const {
@@ -29,7 +32,6 @@ const {
 const { sortTrees } = require('./utilities.js');
 
 const { logger } = require('../logger.js');
-util = require('util');
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -43,24 +45,46 @@ function getMap(req, res) {
     return;
   }
 
-  processGetMap(req.query, res);
+  processGetMap(req.query.city, res);
 }
 
-async function processGetMap(query, res) {
+function responder(res, code, message) {
+  const functionName = 'responder';
+  res.statusCode = code;
+  res.json(message);
+}
+
+async function processGetMap(city, res) {
   const functionName = 'processGetMap';
   try {
-    const treeMapResults = await getGeoJson(query);
-    if ((await treeMapResults) && has.call(treeMapResults, 'rows') && treeMapResults.rows.length > 0) {
-      const treeMapResultsObject = treeMapResults.rows[0].jsonb_build_object;
-      res.statusCode = 200;
-      res.json(await treeMapResultsObject);
+    logger.debug(`${util.inspect(city)} city ${functionName}`);
+
+    if (city === 'All') {
+      const citiesMapResults = await getCities();
+      if ((await citiesMapResults) && has.call(citiesMapResults, 'rows') && citiesMapResults.rows.length > 0) {
+        res.statusCode = 200;
+        res.json(await citiesMapResults.rows);
+        return citiesMapResults;
+      }
     }
 
-    return;
+    if (city !== 'All') {
+      const treeMapResults = await getGeoJson(city);
+      // logger.debug(`treeMapResults ${util.inspect(treeMapResults)} ${functionName} HERE`);
+      if ((await treeMapResults) && has.call(treeMapResults, 'rows') && treeMapResults.rows.length > 0) {
+        const treeMapResultsObject = treeMapResults.rows[0].jsonb_build_object;
+        res.statusCode = 200;
+        res.json(await treeMapResultsObject);
+      }
+      return treeMapResults;
+    }
+
+    return city;
   } catch (err) {
     logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
     res.statusCode = 500;
     res.json({ error: err });
+    return err;
   }
 }
 
@@ -125,9 +149,9 @@ async function processGetTreeHistory(query, res) {
   try {
     const { currentTreeId } = query;
     let treeHistoryResults = await getTreeHistoryModel(currentTreeId);
-    // console.log("query", query, "currentTreeId", currentTreeId, 'treeHistoryResults1', treeHistoryResults);
-    treeHistoryResults = (await treeHistoryResults && treeHistoryResults.length) ? treeHistoryResults : [];
-    // console.log("query", query, "currentTreeId", currentTreeId, 'treeHistoryResults2', treeHistoryResults);
+    treeHistoryResults = (await treeHistoryResults && treeHistoryResults.length)
+      ? treeHistoryResults
+      : [];
     responder(res, 200, await treeHistoryResults);
     return;
   } catch (err) {
@@ -135,6 +159,36 @@ async function processGetTreeHistory(query, res) {
     res.statusCode = 500;
     res.json({ error: err });
   }
+}
+
+async function processCopyNewData(query) {
+  const functionName = 'processCopyNewData';
+  try {
+    logger.debug(`${functionName} query  ${util.inspect(query)} ${functionName}`);
+
+    const keys = Object.keys(query);
+    logger.debug('query ', query);
+    const copyTreeData = await getTreetestModel(query);
+    const insertTreeHistoryResults = await insertTreeHistoryModel(firstTreeHistory, keys);
+    logger.debug('insertTreeHistoryResults ', await insertTreeHistoryResults);
+    return;
+  } catch (err) {
+    logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
+    responder(res, 500, { error: err });
+  }
+}
+
+function copyNewData(req, res) {
+  const functionName = 'copyNewData';
+  logger.debug(`req  ${util.inspect(req, false, 10, true)} ${functionName}`);
+  const validated = validateGetMap(req);
+  if (!validated) {
+    logger.debug(`validated  ${validated} ${functionName}`);
+    responder(res, 500, { error: 'not valid' });
+    return;
+  }
+  logger.debug(`req  ${util.inspect(req.body, false, 10, true)} ${functionName}`);
+  processCopyNewData(req.body, res);
 }
 
 function postTree(req, res) {
@@ -190,6 +244,11 @@ async function processPostTree(body, res) {
     }
     if (insertTreeResults.length !== 0) {
       processFirstTreeHistory(insertTreeResults[0]);
+      console.log('body.city', body.city);
+      const cityExists = getCityExistence(body.city);
+      if (cityExists) {
+        updateCitiesTreeCount(body.city);
+      }
     }
     const returnMessage = body;
     responder(res, 200, { data: returnMessage });
@@ -339,19 +398,13 @@ function convertObjectToSnakeCase(obj) {
   return newObj;
 }
 
-function responder(res, code, message) {
-  const functionName = 'responder';
-  res.statusCode = code;
-  res.json(message);
-}
-
 function postUser(req, res) {
   const functionName = 'postUser';
   const validated = validatePostUser(req);
   if (!validated) {
     return responder(res, 400, { error: 'not a valid request' });
   }
-  logger.debug(`req.body ${util.inspect(req.body)} ${functionName} HERE`);
+  // logger.debug(`req.body ${util.inspect(req.body)} ${functionName} HERE`);
   return processPostUser(req.body, res);
 }
 
@@ -387,9 +440,18 @@ async function processPostUser(body, res) {
 
 function getUser(req, res) {
   const functionName = 'getUser';
-  logger.debug(`req.query ${util.inspect(req.query)} ${functionName} HERE`);
+  // logger.debug(`req.query ${util.inspect(req.query)} ${functionName} HERE`);
 }
 
 module.exports = {
-  getMap, getTree, getTreeList, updateTree, postTree, getTreeHistory, postTreeHistory, postUser, getUser,
+  getMap,
+  getTree,
+  getTreeList,
+  updateTree,
+  postTree,
+  getTreeHistory,
+  postTreeHistory,
+  postUser,
+  getUser,
+  copyNewData,
 };

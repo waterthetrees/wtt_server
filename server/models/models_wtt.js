@@ -35,6 +35,19 @@ async function updateTreeModel(newTreeData, keys, id_tree) {
   }
 }
 
+async function insertTestTreeModel(newTree, keys) {
+  const functionName = 'insertTreeModel';
+  try {
+    logger.debug(`${functionName} newTree ${util.inspect(newTree)} keys ${keys}`);
+    const queryString = 'INSERT INTO treedata(${this:name}) VALUES(${this:csv}) RETURNING treedata.id_tree AS idTree, treedata.common, treedata.email';
+    logger.info(`${functionName} queryString ${queryString}`);
+    return await treeDB.query(queryString, newTree);
+  } catch (err) {
+    logger.error(`${functionName} CATCH ${err}`);
+    return { error: err };
+  }
+}
+
 async function insertTreeModel(newTree, keys) {
   const functionName = 'insertTreeModel';
   try {
@@ -90,4 +103,5 @@ module.exports = {
   updateTreeModel,
   insertTreeModel,
   insertUserModel,
+  insertTestTreeModel,
 };

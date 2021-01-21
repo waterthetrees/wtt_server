@@ -85,7 +85,6 @@ async function getTreeModel(currentTreeId) {
 //     // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
 //     const email = 'goods@swezlex.com';
 //     const query = `SELECT * FROM treedata WHERE email='${email}';`;
-//     // const query = `INSERT INTO treedb.treedata SELECT * FROM treedbtest.treedata where treedbtest.email='${email}'`;
 //     console.debug(`${functionName}  query ${query}`);
 //     const results = await treeDBTest.query(query);
 
@@ -94,7 +93,6 @@ async function getTreeModel(currentTreeId) {
 //       && has.call(results, 'rows')
 //       && results.rows.length > 0
 //     ) {
-//       console.debug(`${functionName} results.rows ${util.inspect(results.rows, false, 10, true)}`);
 //       return await results.rows;
 //     }
 //     return undefined;
@@ -104,30 +102,6 @@ async function getTreeModel(currentTreeId) {
 //   }
 // }
 // getTreetestModel()
-
-async function getTreeListModel() {
-  const functionName = 'getTreeListModel';
-  try {
-    const query = `SELECT DISTINCT common, scientific, genus FROM treedata 
-    WHERE common <> '' limit 20;`;
-    // console.debug(`${functionName}  query ${query}`);
-    const results = await treeDB.query(query);
-    // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
-
-    if (
-      (await results)
-      && has.call(results, 'rows')
-      && results.rows.length > 0
-    ) {
-      console.debug(`${functionName} results.rows[0] ${util.inspect(results.rows, false, 10, true)}`);
-      return await results.rows;
-    }
-    return undefined;
-  } catch (err) {
-    logger.error(`${functionName} ${err}`);
-    return err;
-  }
-}
 
 async function getTreeListModel() {
   const functionName = 'getTreeListModel';
@@ -200,24 +174,24 @@ function findUserModel(user) {
   return queryTreeDB(query);
 }
 
-function updateTreeNoteModel(id_tree, notes) {
+function updateTreeNoteModel(idTree, notes) {
   const query = ` UPDATE treedata
     SET notes = '${notes}'
-    WHERE id_tree = ${id_tree}
+    WHERE id_tree = ${idTree}
     RETURNING id_tree AS "idTree", notes;`;
   return queryTreeDB(query);
 }
 
-function updateTreeHealthModel(id_tree, health) {
+function updateTreeHealthModel(idTree, health) {
   const query = ` UPDATE treedata
     SET health = '${health}'
-    WHERE id_tree = ${id_tree}
+    WHERE id_tree = ${idTree}
     RETURNING id_tree AS "idTree", health;`;
   return queryTreeDB(query);
 }
 
-function getCities(){
-  const query = `SELECT city, lng, lat, count FROM cities;`;
+function getCities() {
+  const query = 'SELECT city, lng, lat, count FROM cities;';
   return queryTreeDB(query);
 }
 
@@ -235,8 +209,6 @@ function getCityExistence(city) {
   return queryTreeDB(query);
 }
 
-
-
 module.exports = {
   getGeoJson,
   getTreeModel,
@@ -249,5 +221,5 @@ module.exports = {
   // getTreetestModel,
   getCities,
   updateCitiesTreeCount,
-  getCityExistence
+  getCityExistence,
 };

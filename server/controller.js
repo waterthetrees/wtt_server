@@ -1,4 +1,5 @@
 const { inspect } = require('util');
+const { logger } = require('../logger');
 const {
   getGeoJson,
   getTreeModel,
@@ -6,7 +7,9 @@ const {
   getTreeHistoryModel,
   findUserModel,
   findTreeHistoryVolunteerTodayModel,
-} = require('./models/models_treeme.js');
+  getCities,
+  updateCitiesTreeCount,
+} = require('./models/models_treeme');
 
 const {
   insertTreeHistoryModel,
@@ -14,7 +17,7 @@ const {
   updateTreeModel,
   insertTreeModel,
   insertUserModel,
-} = require('./models/models_wtt.js');
+} = require('./models/models_wtt');
 
 const {
   validateGetMap,
@@ -25,16 +28,14 @@ const {
   validatePostUser,
   validatePostTreeHistory,
   validateGetTreeList,
-} = require('./validation.js');
+} = require('./validation');
 
 const {
   sortTrees,
   // snakeToCamelCase,
   // camelToSnakeCase,
   convertObjectToSnakeCase,
-} = require('./utilities.js');
-
-const { logger } = require('../logger.js');
+} = require('./utilities');
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -44,27 +45,44 @@ function responder(res, code, message) {
   res.json(message);
 }
 
-async function processGetMap(query, res) {
+async function processGetMap(city, res) {
   const functionName = 'processGetMap';
   try {
-    const treeMapResults = await getGeoJson(query);
-    if ((await treeMapResults) && has.call(treeMapResults, 'rows') && treeMapResults.rows.length > 0) {
-      const treeMapResultsObject = treeMapResults.rows[0].jsonb_build_object;
-      res.statusCode = 200;
-      res.json(await treeMapResultsObject);
+    logger.info(`${inspect(city)} city ${functionName}`);
+
+    if (city === 'All') {
+      const citiesMapResults = await getCities();
+      logger.info(`${functionName} citiesMapResults ${inspect(citiesMapResults, true, 3, false)}`);
+      if ((await citiesMapResults) && has.call(citiesMapResults, 'rows') && citiesMapResults.rows.length > 0) {
+        res.statusCode = 200;
+        res.json(await citiesMapResults.rows);
+        return citiesMapResults;
+      }
     }
 
-    return;
+    if (city !== 'All') {
+      const treeMapResults = await getGeoJson(city);
+      // logger.debug(`treeMapResults ${inspect(treeMapResults)} ${functionName} HERE`);
+      if ((await treeMapResults) && has.call(treeMapResults, 'rows') && treeMapResults.rows.length > 0) {
+        const treeMapResultsObject = treeMapResults.rows[0].jsonb_build_object;
+        res.statusCode = 200;
+        res.json(await treeMapResultsObject);
+      }
+      return treeMapResults;
+    }
+
+    return city;
   } catch (err) {
     logger.error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
     res.statusCode = 500;
     res.json({ error: err });
+    return err;
   }
 }
 
 function getMap(req, res) {
-  // const functionName = 'getMap';
-  // logger.debug(`req.query ${inspect(req.query)} ${functionName}`);
+  const functionName = 'getMap';
+  logger.info(`req.query ${inspect(req.query)} ${functionName}`);
 
   const validated = validateGetMap(req);
   if (!validated) {
@@ -72,7 +90,7 @@ function getMap(req, res) {
     return;
   }
 
-  processGetMap(req.query, res);
+  processGetMap(req.query.city, res);
 }
 
 function convertHealthToNumber(health) {
@@ -137,7 +155,7 @@ async function processGetTreeHistory(query, res) {
 }
 
 function getTreeHistory(req, res) {
-  // const functionName = 'getTree';
+  // const functionName = 'getTreeHistory';
   // logger.debug(`req.query ${inspect(req.query)} ${functionName}`);
   const validated = validateGetTreeHistory(req);
   if (!validated) {
@@ -146,6 +164,37 @@ function getTreeHistory(req, res) {
   }
 
   processGetTreeHistory(req.query, res);
+}
+
+async function processCopyNewData(query, res) {
+  const functionName = 'processCopyNewData';
+  try {
+    logger.debug(`${functionName} query  ${inspect(query)} ${functionName}`);
+
+    const keys = Object.keys(query);
+    logger.debug('query ', query);
+    const copyTreeData = await getTreetestModel(query);
+    logger.debug(`copyTreeData, ${copyTreeData}`);
+    const insertTreeHistoryResults = await insertTreeHistoryModel(firstTreeHistory, keys);
+    logger.debug('insertTreeHistoryResults ', await insertTreeHistoryResults);
+    return;
+  } catch (err) {
+    logger.error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    responder(res, 500, { error: err });
+  }
+}
+
+function copyNewData(req, res) {
+  const functionName = 'copyNewData';
+  logger.debug(`req  ${inspect(req, false, 10, true)} ${functionName}`);
+  const validated = validateGetMap(req);
+  if (!validated) {
+    logger.debug(`validated  ${validated} ${functionName}`);
+    responder(res, 500, { error: 'not valid' });
+    return;
+  }
+  logger.debug(`req  ${inspect(req.body, false, 10, true)} ${functionName}`);
+  processCopyNewData(req.body, res);
 }
 
 async function processFirstTreeHistory(insertTreeResults, res) {
@@ -187,7 +236,12 @@ async function processPostTree(body, res) {
       return;
     }
     if (insertTreeResults.length !== 0) {
-      processFirstTreeHistory(insertTreeResults[0], res);
+      processFirstTreeHistory(insertTreeResults[0]);
+      console.log('body.city', body.city);
+      const cityExists = getCityExistence(body.city);
+      if (cityExists) {
+        updateCitiesTreeCount(body.city);
+      }
     }
     const returnMessage = body;
     responder(res, 200, { data: returnMessage });
@@ -210,6 +264,18 @@ function postTree(req, res) {
   logger.debug(`req  ${inspect(req.body, false, 10, true)} ${functionName}`);
   processPostTree(req.body, res);
 }
+
+// function postTree(req, res) {
+//   const functionName = 'postTree';
+//   // logger.debug(`req  ${inspect(req, false, 10, true)} ${functionName}`);
+//   const validated = validatePostTree(req);
+//   if (!validated) {
+//     responder(res, 400, { error: 'trouble getting tree history' });
+//     return;
+//   }
+
+//   processGetTreeHistory(req.query, res);
+// }
 
 async function processUpdateTree(body, res) {
   const functionName = 'processUpdateTree';
@@ -392,4 +458,5 @@ module.exports = {
   postTreeHistory,
   postUser,
   getUser,
+  copyNewData,
 };

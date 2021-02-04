@@ -72,8 +72,9 @@ async function getTreeModel(currentTreeId) {
 async function getTreeListModel() {
   const functionName = "getTreeListModel";
   try {
-    const query = `SELECT DISTINCT common, scientific, genus FROM treedata 
-    WHERE common <> '' limit 20;`;
+    // const query = `SELECT DISTINCT common, scientific, genus FROM treedata 
+    // WHERE common <> '' limit 20;`;
+    const query = `SELECT DISTINCT common, scientific, genus FROM treedata where genus IS NOT NULL limit 20;`;
     // console.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);
     // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);

@@ -21,7 +21,6 @@ const queryStrings = [
     zipcode VARCHAR(255),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   );`,
-
   //   ALTER TABLE treedata RENAME planted TO date_planted;
   //   ALTER TABLE treedata RENAME planted_by_email TO email;
   // ALTER TABLE treedata ADD COLUMN planted_by_email VARCHAR(255) REFERENCES users(email);
@@ -32,6 +31,7 @@ const queryStrings = [
   // CONSTRAINT fk_treedata FOREIGN KEY(id_tree) REFERENCES treedata(id_tree)
 
   // ALTER TABLE treedata ADD COLUMN planted_by_email VARCHAR(255)
+  `ALTER TABLE users ADD COLUMN private BOOLEAN NOT NULL DEFAULT FALSE;`,
   // CONSTRAINT planted_by_email_fk REFERENCES users(email)
   // ON UPDATE CASCADE ON DELETE CASCADE;
   // ALTER TABLE treedata DROP COLUMN planted_by_email;

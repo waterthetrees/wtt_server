@@ -5,7 +5,8 @@ const {
   getTreeHistoryModel,
   findUserModel,
   findTreeHistoryVolunteerTodayModel,
-} = require('./models/models_treeme.js');
+  findUserTreeHistoryModel
+} = require("./models/models_treeme.js");
 
 const {
   insertTreeHistoryModel,
@@ -24,7 +25,8 @@ const {
   validatePostUser,
   validatePostTreeHistory,
   validateGetTreeList,
-} = require('./validation.js');
+  validateGetUserTreeHistory,
+} = require("./validation.js");
 
 const { sortTrees } = require('./utilities.js');
 
@@ -390,6 +392,43 @@ function getUser(req, res) {
   logger.debug(`req.query ${util.inspect(req.query)} ${functionName} HERE`);
 }
 
+function getUserTreeHistory(req, res) {
+  console.log(req.body)
+  const functionName = "getTree";
+  const validated = validateGetUserTreeHistory(req);
+  if (!validated) {
+    responder(res, 400, { error: "trouble getting tree history" });
+    return;
+  }
+
+  processGetUserTreeHistory(req.body, res);
+}
+
+async function processGetUserTreeHistory(body, res) {
+  const functionName = "processGetTree";
+  try {
+    const { nickname } = body;
+    let treeHistoryResults = await findUserTreeHistoryModel(nickname);
+    treeHistoryResults =
+      (await treeHistoryResults) && treeHistoryResults.rows.length ? treeHistoryResults.rows : [];
+    responder(res, 200, await treeHistoryResults);
+    return;
+  } catch (err) {
+    logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
+    res.statusCode = 500;
+    res.json({ error: err });
+  }
+}
+
 module.exports = {
-  getMap, getTree, getTreeList, updateTree, postTree, getTreeHistory, postTreeHistory, postUser, getUser,
+  getMap,
+  getTree,
+  getTreeList,
+  updateTree,
+  postTree,
+  getTreeHistory,
+  postTreeHistory,
+  postUser,
+  getUser,
+  getUserTreeHistory,
 };

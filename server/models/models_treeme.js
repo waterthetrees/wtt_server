@@ -156,6 +156,16 @@ function updateTreeHealthModel(id_tree, health) {
   return queryTreeDB(query);
 }
 
+function findUserTreeHistoryModel(nickname) {
+  console.log(nickname)
+   let query = `SELECT id_treehistory as "idTreeHistory", id_tree AS "idTree", 
+    watered, mulched, weeded, staked, braced, pruned, 
+    date_visit as "dateVisit", comment, volunteer 
+    FROM treehistory WHERE volunteer = '${nickname}'
+    ORDER BY date_visit DESC limit 20;`;
+   return queryTreeDB(query);
+}
+
 module.exports = {
   getGeoJson,
   getTreeModel,
@@ -164,5 +174,6 @@ module.exports = {
   findTreeHistoryVolunteerTodayModel,
   updateTreeNoteModel,
   updateTreeHealthModel,
-  findUserModel
+  findUserModel,
+  findUserTreeHistoryModel,
 };

@@ -86,6 +86,12 @@ function validatePostUser(req) {
   return true;
 }
 
+function validateGetUserTreeHistory(req) {
+  if (validation(req, "req", req) === "") return false;
+  if (validation(req, "nickname", req.body.nickname) === "") return false;
+  return true;
+}
+
 module.exports = {
   validateGetMap,
   validateGetTree,
@@ -95,4 +101,5 @@ module.exports = {
   validatePostTreeHistory,
   validateGetTreeList,
   validatePostUser,
+  validateGetUserTreeHistory,
 };

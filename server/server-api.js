@@ -6,7 +6,8 @@ const morgan = require("morgan");
 const parser = require("body-parser");
 util = require("util");
 
-const { getMap,
+const {
+  getMap,
   getTree,
   getTreeList,
   postTree,
@@ -14,7 +15,8 @@ const { getMap,
   getTreeHistory,
   postTreeHistory,
   postUser,
-  getUser
+  getUser,
+  getUserTreeHistory
 } = require("./controller.js");
 
 // these are for various environments when we move to dev and live server vs local
@@ -77,6 +79,9 @@ router.route("/api/treehistory")
 router.route("/api/user")
   .get(getUser)
   .post(postUser);
+
+router.route("/api/usertreehistory")
+  .get(getUserTreeHistory);
 
 const httpServer = http.createServer(app);
 const server = httpServer.listen(port, () => console.log(`${host}:${port}`));

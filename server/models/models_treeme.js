@@ -1,4 +1,4 @@
-const util = require('util');
+const { inspect } = require('util');
 const treeDB = require('../db/treedb.js');
 // const treeDBTest = require('../db/treedbtest.js');
 
@@ -49,21 +49,21 @@ function getGeoJson(city) {
       ) inputs
     ) features;`;
 
-  // console.debug(`results ${util.inspect(results, false, 10, true)}`);
+  // logger.debug(`results ${inspect(results, false, 10, true)}`);
   return queryTreeDB(query);
 }
 
 async function getTreeModel(currentTreeId) {
   const functionName = 'getTreeModel';
   try {
-    // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
+    logger.info(`${functionName} currentTreeId ${inspect(currentTreeId, true, 1, false)}`);
 
     const query = `SELECT id_tree AS "idTree", common, scientific, date_planted as datePlanted, health, health as "healthNum", 
       address, city, country, zip, neighborhood, lat, lng, owner, id_reference as "idReference", who, notes
      FROM treedata WHERE id_tree = ${currentTreeId};`;
-    // console.debug(`${functionName}  query ${query}`);
+    // logger.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);
-    // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
+    // logger.debug(`${functionName} results ${inspect(results, false, 10, true)}`);
 
     if (
       (await results)
@@ -82,10 +82,10 @@ async function getTreeModel(currentTreeId) {
 // async function getTreetestModel() {
 //   const functionName = 'getTreetestModel';
 //   try {
-//     // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
+//     // logger.debug(`${functionName} currentTreeId ${currentTreeId}`);
 //     const email = 'goods@swezlex.com';
 //     const query = `SELECT * FROM treedata WHERE email='${email}';`;
-//     console.debug(`${functionName}  query ${query}`);
+//     logger.debug(`${functionName}  query ${query}`);
 //     const results = await treeDBTest.query(query);
 
 //     if (
@@ -108,16 +108,15 @@ async function getTreeListModel() {
   try {
     const query = `SELECT DISTINCT common, scientific, genus FROM treedata 
     WHERE common <> '' limit 20;`;
-    // console.debug(`${functionName}  query ${query}`);
+    // logger.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);
-    // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
+    // logger.debug(`${functionName} results ${inspect(results, false, 10, true)}`);
 
     if (
       (await results)
       && has.call(results, 'rows')
       && results.rows.length > 0
     ) {
-      console.debug(`${functionName} results.rows[0] ${util.inspect(results.rows, false, 10, true)}`);
       return await results.rows;
     }
     return undefined;
@@ -130,23 +129,23 @@ async function getTreeListModel() {
 async function getTreeHistoryModel(currentTreeId) {
   const functionName = 'getTreeHistoryModel';
   try {
-    // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
+    // logger.debug(`${functionName} currentTreeId ${currentTreeId}`);
 
     const query = `SELECT id_treehistory as "idTreeHistory", id_tree AS "idTree", 
     watered, mulched, weeded, staked, braced, pruned, 
     date_visit as "dateVisit", comment, volunteer 
     FROM treehistory WHERE id_tree = ${currentTreeId}
     ORDER BY date_visit DESC limit 20;`;
-    // console.debug(`${functionName}  query ${query}`);
+    // logger.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);
-    // console.debug(`${functionName} results ${util.inspect(results)}`);
+    // logger.debug(`${functionName} results ${inspect(results)}`);
 
     if (
       (await results)
       && has.call(results, 'rows')
       && results.rows.length > 0
     ) {
-      // console.debug(`${functionName} results.rows[0] ${util.inspect(results, false, 10, true)}`);
+      // logger.debug(`${functionName} results.rows[0] ${inspect(results, false, 10, true)}`);
       return await results.rows;
     }
     return undefined;
@@ -209,6 +208,13 @@ function getCityExistence(city) {
   return queryTreeDB(query);
 }
 
+function insertNewCityModel(city, lng, lat, email, who) {
+  const query = `INSERT INTO cities(city, lng, lat, email, who)
+    VALUES ("${city}", "${lng}", "${lat}", "${email}", "${who}");`;
+  logger.info(`${query},query`);
+  return queryTreeDB(query);
+}
+
 module.exports = {
   getGeoJson,
   getTreeModel,
@@ -222,4 +228,5 @@ module.exports = {
   getCities,
   updateCitiesTreeCount,
   getCityExistence,
+  insertNewCityModel,
 };

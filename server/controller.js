@@ -9,6 +9,8 @@ const {
   findTreeHistoryVolunteerTodayModel,
   getCities,
   updateCitiesTreeCount,
+  insertNewCityModel,
+  getCityExistence,
 } = require('./models/models_treeme');
 
 const {
@@ -52,7 +54,7 @@ async function processGetMap(city, res) {
 
     if (city === 'All') {
       const citiesMapResults = await getCities();
-      logger.info(`${functionName} citiesMapResults ${inspect(citiesMapResults, true, 3, false)}`);
+      // logger.info(`citiesMapResults ${inspect(citiesMapResults)}`);
       if ((await citiesMapResults) && has.call(citiesMapResults, 'rows') && citiesMapResults.rows.length > 0) {
         res.statusCode = 200;
         res.json(await citiesMapResults.rows);
@@ -156,45 +158,14 @@ async function processGetTreeHistory(query, res) {
 
 function getTreeHistory(req, res) {
   // const functionName = 'getTreeHistory';
-  // logger.debug(`req.query ${inspect(req.query)} ${functionName}`);
+  // logger.debug(`req.body ${inspect(req.query)} ${functionName}`);
   const validated = validateGetTreeHistory(req);
   if (!validated) {
     responder(res, 400, { error: 'trouble getting tree history' });
     return;
   }
 
-  processGetTreeHistory(req.query, res);
-}
-
-async function processCopyNewData(query, res) {
-  const functionName = 'processCopyNewData';
-  try {
-    logger.debug(`${functionName} query  ${inspect(query)} ${functionName}`);
-
-    const keys = Object.keys(query);
-    logger.debug('query ', query);
-    const copyTreeData = await getTreetestModel(query);
-    logger.debug(`copyTreeData, ${copyTreeData}`);
-    const insertTreeHistoryResults = await insertTreeHistoryModel(firstTreeHistory, keys);
-    logger.debug('insertTreeHistoryResults ', await insertTreeHistoryResults);
-    return;
-  } catch (err) {
-    logger.error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
-    responder(res, 500, { error: err });
-  }
-}
-
-function copyNewData(req, res) {
-  const functionName = 'copyNewData';
-  logger.debug(`req  ${inspect(req, false, 10, true)} ${functionName}`);
-  const validated = validateGetMap(req);
-  if (!validated) {
-    logger.debug(`validated  ${validated} ${functionName}`);
-    responder(res, 500, { error: 'not valid' });
-    return;
-  }
-  logger.debug(`req  ${inspect(req.body, false, 10, true)} ${functionName}`);
-  processCopyNewData(req.body, res);
+  processGetTreeHistory(req.body.city, res);
 }
 
 async function processFirstTreeHistory(insertTreeResults, res) {
@@ -218,13 +189,32 @@ async function processFirstTreeHistory(insertTreeResults, res) {
   }
 }
 
+async function addNewCity(convertedTreeData) {
+  const functionName = 'addNewCity';
+  try {
+    const {
+      city, lng, lat, email, who,
+    } = convertedTreeData;
+    const cityExists = await getCityExistence(city);
+    const cityRowCount = JSON.parse(JSON.stringify(cityExists)).rowCount;
+    logger.info(`${functionName} cityRowCount ${cityRowCount}`);
+    if (cityRowCount === 0) await insertNewCityModel(city, lng, lat, email, who);
+    const newTreeCount = await updateCitiesTreeCount(city);
+    logger.info(`${functionName} newTreeCount ${inspect(newTreeCount, false, 10, true)}`);
+    return { newTreeCount };
+  } catch (err) {
+    logger.error(`CATCH ${functionName} ${inspect(err, false, 3, false)}`);
+    return err;
+  }
+}
+
 async function processPostTree(body, res) {
   const functionName = 'processPostTree';
   try {
-    logger.debug(`${functionName} body ${inspect(body, false, 10, true)}`);
+    logger.info(`${functionName} body ${inspect(body, false, 10, true)}`);
     const convertedTreeData = convertObjectToSnakeCase(body);
     const keys = Object.keys(convertedTreeData);
-
+    logger.info(`${functionName} keys ${inspect(keys, false, 10, true)}`);
     const insertTreeResults = await insertTreeModel(convertedTreeData, keys);
     logger.debug(`${functionName}, insertTreeResults, ${inspect(insertTreeResults)}`);
     if (!insertTreeResults) {
@@ -237,11 +227,7 @@ async function processPostTree(body, res) {
     }
     if (insertTreeResults.length !== 0) {
       processFirstTreeHistory(insertTreeResults[0]);
-      console.log('body.city', body.city);
-      const cityExists = getCityExistence(body.city);
-      if (cityExists) {
-        updateCitiesTreeCount(body.city);
-      }
+      addNewCity(convertedTreeData);
     }
     const returnMessage = body;
     responder(res, 200, { data: returnMessage });
@@ -458,5 +444,4 @@ module.exports = {
   postTreeHistory,
   postUser,
   getUser,
-  copyNewData,
 };

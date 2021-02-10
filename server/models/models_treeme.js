@@ -169,7 +169,7 @@ function findUserModel(user) {
     WHERE email = '${user.email}' 
     OR name = '${user.name}'
     OR nickname = '${user.nickname}';`;
-  logger.info(`${functionName} ${query}`);
+  // logger.info(`${functionName} ${query}`);
   return queryTreeDB(query);
 }
 

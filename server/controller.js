@@ -105,6 +105,7 @@ function convertHealthToNumber(health) {
     stump: 3,
     missing: 2,
     dead: 1,
+    vacant: 0,
   }[health];
   return parseInt(healthValue, 10);
 }
@@ -113,7 +114,6 @@ async function processGetTree(query, res) {
   const functionName = 'processGetTree';
   try {
     const { currentTreeId } = query;
-    // console.log("query", query, "currentTreeId", currentTreeId);
     const treeResults = await getTreeModel(currentTreeId);
     // logger.debug(`treeResults ${inspect(treeResults)} ${functionName}`);
     treeResults.healthNum = convertHealthToNumber(treeResults.health);
@@ -128,8 +128,8 @@ async function processGetTree(query, res) {
 }
 
 function getTree(req, res) {
-  // const functionName = 'getTree';
-  // logger.debug(`req.query ${inspect(req.query)} ${functionName} HERE`);
+  const functionName = 'getTree';
+  logger.debug(`req.query ${inspect(req.query)} ${functionName} HERE`);
   const validated = validateGetTree(req);
   if (!validated) {
     responder(res, 400, { error: 'not a valid tree id' });
@@ -142,6 +142,7 @@ function getTree(req, res) {
 async function processGetTreeHistory(query, res) {
   const functionName = 'processGetTree';
   try {
+    console.log(functionName, 'query', query);
     const { currentTreeId } = query;
     let treeHistoryResults = await getTreeHistoryModel(currentTreeId);
     treeHistoryResults = (await treeHistoryResults && treeHistoryResults.length)
@@ -297,7 +298,7 @@ async function processUpdateTree(body, res) {
 
 function updateTree(req, res) {
   const functionName = 'updateTree';
-  logger.debug(`req  ${inspect(req, false, 10, true)} ${functionName}`);
+  // logger.debug(`req  ${inspect(req, false, 10, true)} ${functionName}`);
   const validated = validateUpdateTree(req);
   if (!validated) {
     responder(res, 500, { error: 'not valid' });
@@ -310,7 +311,7 @@ function updateTree(req, res) {
 async function processPostTreeHistory(body, res) {
   const functionName = 'processPostHistory';
   try {
-    // logger.debug(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
+    logger.debug(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
     const convertedTreeHistory = convertObjectToSnakeCase(body);
     const keys = Object.keys(convertedTreeHistory);
 

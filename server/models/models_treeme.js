@@ -1,7 +1,8 @@
-util = require("util");
-const treeDB = require("../db/treedb.js");
-const { logger } = require("./../../logger.js");
-("use strict");
+util = require('util');
+const treeDB = require('../db/treedb.js');
+const { logger } = require('../../logger.js');
+
+('use strict');
 const has = Object.prototype.hasOwnProperty;
 
 async function queryTreeDB(queryString) {
@@ -9,7 +10,7 @@ async function queryTreeDB(queryString) {
     const results = await treeDB.query(queryString);
     return results;
   } catch (err) {
-    logger.error(`Error executing query to treeDB`, err);
+    logger.error('Error executing query to treeDB', err);
     return err;
   }
 }
@@ -41,7 +42,7 @@ function getGeoJson(location) {
 }
 
 async function getTreeModel(currentTreeId) {
-  const functionName = "getTreeModel";
+  const functionName = 'getTreeModel';
   try {
     // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
 
@@ -53,9 +54,9 @@ async function getTreeModel(currentTreeId) {
     // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
 
     if (
-      (await results) &&
-      has.call(results, "rows") &&
-      results.rows.length > 0
+      (await results)
+      && has.call(results, 'rows')
+      && results.rows.length > 0
     ) {
       // console.debug(`${functionName} results.rows[0] ${util.inspect(results.rows[0], false, 10, true)}`);
       return await results.rows[0];
@@ -63,14 +64,11 @@ async function getTreeModel(currentTreeId) {
     return undefined;
   } catch (err) {
     logger.error(`${functionName} ${err}`);
-    return;
   }
 }
 
-
-
 async function getTreeListModel() {
-  const functionName = "getTreeListModel";
+  const functionName = 'getTreeListModel';
   try {
     const query = `SELECT DISTINCT common, scientific, genus FROM treedata 
     WHERE common <> '' limit 20;`;
@@ -79,9 +77,9 @@ async function getTreeListModel() {
     // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
 
     if (
-      (await results) &&
-      has.call(results, "rows") &&
-      results.rows.length > 0
+      (await results)
+      && has.call(results, 'rows')
+      && results.rows.length > 0
     ) {
       console.debug(`${functionName} results.rows[0] ${util.inspect(results.rows, false, 10, true)}`);
       return await results.rows;
@@ -89,12 +87,11 @@ async function getTreeListModel() {
     return undefined;
   } catch (err) {
     logger.error(`${functionName} ${err}`);
-    return;
   }
 }
 
 async function getTreeHistoryModel(currentTreeId) {
-  const functionName = "getTreeHistoryModel";
+  const functionName = 'getTreeHistoryModel';
   try {
     // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
 
@@ -108,9 +105,9 @@ async function getTreeHistoryModel(currentTreeId) {
     // console.debug(`${functionName} results ${util.inspect(results)}`);
 
     if (
-      (await results) &&
-      has.call(results, "rows") &&
-      results.rows.length > 0
+      (await results)
+      && has.call(results, 'rows')
+      && results.rows.length > 0
     ) {
       // console.debug(`${functionName} results.rows[0] ${util.inspect(results, false, 10, true)}`);
       return await results.rows;
@@ -118,12 +115,11 @@ async function getTreeHistoryModel(currentTreeId) {
     return undefined;
   } catch (err) {
     logger.error(`${functionName} ${err}`);
-    return;
   }
 }
 
 function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
-  let query = `SELECT id_tree AS "id_tree" FROM treehistory 
+  const query = `SELECT id_tree AS "id_tree" FROM treehistory 
     WHERE id_tree = ${newTreeHistory.idTree} 
     AND date_visit::date = CURRENT_DATE
     AND volunteer = '${newTreeHistory.volunteer}';`;
@@ -132,11 +128,11 @@ function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
 
 function findUserModel(user) {
   const functionName = 'findUserModel';
-  let query = `SELECT id_user AS "idUser", email, name, nickname FROM users 
+  const query = `SELECT id_user AS "idUser", email, name, nickname FROM users 
     WHERE email = '${user.email}' 
     OR name = '${user.name}'
     OR nickname = '${user.nickname}';`;
-  logger.info(`${functionName} ${query}`);
+  // logger.info(`${functionName} ${query}`);
   return queryTreeDB(query);
 }
 
@@ -164,5 +160,5 @@ module.exports = {
   findTreeHistoryVolunteerTodayModel,
   updateTreeNoteModel,
   updateTreeHealthModel,
-  findUserModel
+  findUserModel,
 };

@@ -1,15 +1,13 @@
-("use strict");
 const pgp = require('pg-promise')({
   /* initialization options */
-  capSQL: true // capitalize all generated SQL
+  capSQL: true, // capitalize all generated SQL
 });
 
-util = require("util");
-const { logger } = require("../../logger.js");
+util = require('util');
+const { logger } = require('../../logger.js');
 const { configTreeDB } = require('../db/config_treedb.js');
 
 const treeDB = pgp(configTreeDB);
-
 
 async function queryTreeDB(queryString) {
   const functionName = 'updateTreeModel';
@@ -26,7 +24,7 @@ async function queryTreeDB(queryString) {
 async function updateTreeModel(newTreeData, keys, id_tree) {
   const functionName = 'updateTreeModel';
   try {
-    const stringCondition = ` WHERE id_tree = ${id_tree} RETURNING id_tree AS "idTree", health, notes`;
+    const stringCondition = ` WHERE id_tree = ${id_tree} RETURNING id_tree AS "idTree", common, health, notes`;
     const condition = pgp.as.format(stringCondition, newTreeData);
     const queryString = () => pgp.helpers.update(newTreeData, keys, 'treedata') + condition;
     const results = await treeDB.query(queryString, newTreeData);
@@ -62,8 +60,6 @@ async function insertUserModel(user, keys) {
     return { error: err };
   }
 }
-
-
 
 async function updateTreeHistoryModel(newTreeHistory, keys) {
   const functionName = 'updateTreeHistoryModel';

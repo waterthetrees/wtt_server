@@ -151,6 +151,27 @@ function postTree(req, res) {
   processPostTree(req.body, res);
 }
 
+async function processFirstTreeHistory(insertTreeResults) {
+  const functionName = 'processFirstTreeHistory';
+  try {
+    logger.debug(`${functionName}, "insertTreeResults",  ${util.inspect(insertTreeResults)} ${functionName}`);
+    const firstTreeHistory = {
+      id_tree: insertTreeResults.idtree,
+      date_visit: insertTreeResults.datevisit,
+      comment: `THIS ${insertTreeResults.common.toUpperCase()} IS PLANTED!!!`,
+      volunteer: insertTreeResults.volunteer,
+    };
+    const keys = Object.keys(firstTreeHistory);
+    logger.debug('firstTreeHistory ', firstTreeHistory);
+    const insertTreeHistoryResults = await insertTreeHistoryModel(firstTreeHistory, keys);
+    logger.debug('insertTreeHistoryResults ', await insertTreeHistoryResults);
+    return;
+  } catch (err) {
+    logger.error(`CATCH ${functionName} ${util.inspect(err, false, 10, true)}`);
+    responder(res, 500, { error: err });
+  }
+}
+
 async function processPostTree(body, res) {
   const functionName = 'processPostTree';
   try {
@@ -167,6 +188,9 @@ async function processPostTree(body, res) {
     if (insertTreeResults.error) {
       responder(res, 500, insertTreeResults);
       return;
+    }
+    if (insertTreeResults.length !== 0) {
+      processFirstTreeHistory(insertTreeResults[0]);
     }
     const returnMessage = body;
     responder(res, 200, { data: returnMessage });
@@ -241,9 +265,7 @@ async function processPostTreeHistory(body, res) {
     const keys = Object.keys(convertedTreeHistory);
 
     const findTreeHistoryVolunteerTodayResults = await findTreeHistoryVolunteerTodayModel(body);
-    logger.info(functionName, 'findTreeHistoryVolunteerTodayResults', await findTreeHistoryVolunteerTodayResults);
     const { rowCount } = JSON.parse(JSON.stringify(findTreeHistoryVolunteerTodayResults));
-    logger.info(functionName, 'rowCount', await rowCount);
     if (rowCount === 0) {
       const insertTreeHistoryResults = await insertTreeHistoryModel(convertedTreeHistory, keys);
       logger.debug(functionName, 'insertTreeHistoryResults ', await insertTreeHistoryResults);

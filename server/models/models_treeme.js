@@ -46,8 +46,11 @@ async function getTreeModel(currentTreeId) {
   try {
     // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
 
-    const query = `SELECT id_tree AS "idTree", common, scientific, date_planted as datePlanted, health, health as "healthNum", 
-      address, city, country, zip, neighborhood, lat, lng, owner, id_reference as "idReference", who, notes
+    const query = `SELECT id_tree AS "idTree", common, scientific, genus, 
+      date_planted as "datePlanted", health, health as "healthNum", 
+      address, city, country, zip, neighborhood, lat, lng, owner,
+      dbh, height, 
+      id_reference as "idReference", who, notes
      FROM treedata WHERE id_tree = ${currentTreeId};`;
     // console.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);
@@ -58,21 +61,21 @@ async function getTreeModel(currentTreeId) {
       && has.call(results, 'rows')
       && results.rows.length > 0
     ) {
-      // console.debug(`${functionName} results.rows[0] ${util.inspect(results.rows[0], false, 10, true)}`);
       return await results.rows[0];
     }
     return undefined;
   } catch (err) {
     logger.error(`${functionName} ${err}`);
+    return err;
   }
 }
 
 async function getTreeListModel() {
   const functionName = 'getTreeListModel';
   try {
-    // const query = `SELECT DISTINCT common, scientific, genus FROM treedata 
+    // const query = `SELECT DISTINCT common, scientific, genus FROM treedata
     // WHERE common <> '' limit 20;`;
-    const query = `SELECT DISTINCT common, scientific, genus FROM treedata where genus IS NOT NULL limit 20;`;
+    const query = 'SELECT DISTINCT common, scientific, genus FROM treedata where genus IS NOT NULL limit 20;';
     // console.debug(`${functionName}  query ${query}`);
     const results = await treeDB.query(query);
     // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);

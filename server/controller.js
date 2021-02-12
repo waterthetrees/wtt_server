@@ -203,7 +203,7 @@ async function processPostTree(body, res) {
 
 function updateTree(req, res) {
   const functionName = 'updateTree';
-  // logger.debug(`req  ${util.inspect(req, false, 10, true)} ${functionName}`);
+  logger.debug(`req  ${util.inspect(req.body, false, 10, true)} ${functionName}`);
   const validated = validateUpdateTree(req);
   if (!validated) {
     responder(res, 500, { error: 'not valid' });

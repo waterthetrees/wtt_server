@@ -180,7 +180,7 @@ async function processPostTree(body, res) {
     const keys = Object.keys(convertedTreeData);
 
     const insertTreeResults = await insertTreeModel(convertedTreeData, keys);
-    logger.debug(`${functionName}, insertTreeResults, ${util.inspect(insertTreeResults)}`);
+    logger.info(`${functionName}, insertTreeResults, ${util.inspect(insertTreeResults)}`);
     if (!insertTreeResults) {
       responder(res, 500, { error: 'error saving' });
       return;

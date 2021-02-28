@@ -24,7 +24,7 @@ async function queryTreeDB(queryString) {
 async function updateTreeModel(newTreeData, keys, id_tree) {
   const functionName = 'updateTreeModel';
   try {
-    const stringCondition = ` WHERE id_tree = ${id_tree} RETURNING id_tree AS "idTree", health, notes`;
+    const stringCondition = ` WHERE id_tree = ${id_tree} RETURNING id_tree AS "idTree", common, health, notes`;
     const condition = pgp.as.format(stringCondition, newTreeData);
     const queryString = () => pgp.helpers.update(newTreeData, keys, 'treedata') + condition;
     const results = await treeDB.query(queryString, newTreeData);

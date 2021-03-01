@@ -1,21 +1,22 @@
-util = require('util');
+/* eslint-disable camelcase */
+const util = require('util');
 const treeDB = require('../db/treedb.js');
 const { logger } = require('../../logger.js');
 
-('use strict');
 const has = Object.prototype.hasOwnProperty;
 
-async function queryTreeDB(queryString) {
+async function queryTreeDB(queryString, functionCallerName) {
   try {
     const results = await treeDB.query(queryString);
     return results;
   } catch (err) {
-    logger.error('Error executing query to treeDB', err);
+    logger.error(`Error executing query to treeDB: ${err}, ${functionCallerName}`);
     return err;
   }
 }
 
 function getGeoJson(location) {
+  const functionName = 'getGeoJson';
   // const {city} = location;
   const query = `
     SELECT jsonb_build_object(
@@ -38,7 +39,7 @@ function getGeoJson(location) {
       ) inputs
     ) features;`;
 
-  return queryTreeDB(query);
+  return queryTreeDB(query, functionName);
 }
 
 async function getTreeModel(currentTreeId) {
@@ -53,7 +54,7 @@ async function getTreeModel(currentTreeId) {
       id_reference as "idReference", who, notes
      FROM treedata WHERE id_tree = ${currentTreeId};`;
     // console.debug(`${functionName}  query ${query}`);
-    const results = await treeDB.query(query);
+    const results = await queryTreeDB(query, functionName);
     // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
 
     if (
@@ -77,7 +78,7 @@ async function getTreeListModel() {
     // WHERE common <> '' limit 20;`;
     const query = 'SELECT DISTINCT common, scientific, genus FROM treedata where genus IS NOT NULL limit 20;';
     // console.debug(`${functionName}  query ${query}`);
-    const results = await treeDB.query(query);
+    const results = await queryTreeDB(query, functionName);
     // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
 
     if (
@@ -91,6 +92,7 @@ async function getTreeListModel() {
     return undefined;
   } catch (err) {
     logger.error(`${functionName} ${err}`);
+    return err;
   }
 }
 
@@ -105,7 +107,7 @@ async function getTreeHistoryModel(currentTreeId) {
     FROM treehistory WHERE id_tree = ${currentTreeId}
     ORDER BY date_visit DESC limit 20;`;
     // console.debug(`${functionName}  query ${query}`);
-    const results = await treeDB.query(query);
+    const results = await queryTreeDB(query, functionName);
     // console.debug(`${functionName} results ${util.inspect(results)}`);
 
     if (
@@ -119,15 +121,17 @@ async function getTreeHistoryModel(currentTreeId) {
     return undefined;
   } catch (err) {
     logger.error(`${functionName} ${err}`);
+    return err;
   }
 }
 
 function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
+  const functionName = 'findTreeHistoryVolunteerTodayModel';
   const query = `SELECT id_tree AS "id_tree" FROM treehistory 
     WHERE id_tree = ${newTreeHistory.idTree} 
     AND date_visit::date = CURRENT_DATE
     AND volunteer = '${newTreeHistory.volunteer}';`;
-  return queryTreeDB(query);
+  return queryTreeDB(query, functionName);
 }
 
 function findUserModel(user) {
@@ -137,23 +141,25 @@ function findUserModel(user) {
     OR name = '${user.name}'
     OR nickname = '${user.nickname}';`;
   // logger.info(`${functionName} ${query}`);
-  return queryTreeDB(query);
+  return queryTreeDB(query, functionName);
 }
 
 function updateTreeNoteModel(id_tree, notes) {
+  const functionName = 'updateTreeNoteModel';
   const query = ` UPDATE treedata
     SET notes = '${notes}'
     WHERE id_tree = ${id_tree}
     RETURNING id_tree AS "idTree", notes;`;
-  return queryTreeDB(query);
+  return queryTreeDB(query, functionName);
 }
 
 function updateTreeHealthModel(id_tree, health) {
+  const functionName = 'updateTreeNoteModel';
   const query = ` UPDATE treedata
     SET health = '${health}'
     WHERE id_tree = ${id_tree}
     RETURNING id_tree AS "idTree", health;`;
-  return queryTreeDB(query);
+  return queryTreeDB(query, functionName);
 }
 
 module.exports = {

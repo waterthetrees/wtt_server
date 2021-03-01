@@ -25,9 +25,11 @@ const host = {
   dev: 'http://localhost',
   blue: 'http://localhost',
   local: 'http://localhost',
+  dockerlocal: 'http://localhost',
+
 }[env];
 const port = {
-  dev: 3002, blue: 3004, prod: 3002, local: 3002,
+  dev: 3002, blue: 3004, prod: 3002, local: 3002, dockerlocal: 3002,
 }[env];
 
 // this is for whitelisting hosts for cors

@@ -4,4 +4,4 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 EXPOSE 3002
-CMD [ "node", "server/server-api.js", "local" ]
+CMD [ "node", "server/server-api.js", "dockerlocal" ]

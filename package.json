@@ -68,7 +68,7 @@
   },
   "scripts": {
     "serve": "node server/server-api.js local",
-    "start": "nodemon server/server-api.js local",
+    "start": "nodemon server/server-api.js dockerlocal",
     "test": "mocha --timeout=90000 ./test/react-tests.js"
   }
 }

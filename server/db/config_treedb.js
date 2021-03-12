@@ -5,9 +5,9 @@ const configTreeDB = {
     connectionLimit: 10, // what does this mean?
     database: 'treedb',
     user: 'postgres',
-    host: 'postgres-wtt',
+    host: process.env.DATABASE_HOST || 'postgres-wtt',
     password: 'trees3r4t',
-    port: 5432,
+    port: process.env.DATABASE_PORT || 5432,
     dateStrings: 'date',
     connect_timeout: 10,
   },

@@ -1,7 +1,7 @@
-//const env = process.argv[2] || "dev";
+// const env = process.argv[2] || "dev";
 // const Pool = require('pg-pool');
-const util = require("util");
-const { Pool } = require("pg");
+// const { inspect } = require('util');
+const { Pool } = require('pg');
 const { configTreeDB } = require('./config_treedb.js');
 // console.log('configTreeDB', configTreeDB)
 // Example from here:

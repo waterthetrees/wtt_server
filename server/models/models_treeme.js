@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
-const util = require('util');
+const { inspect } = require('util');
 const treeDB = require('../db/treedb.js');
-const { logger } = require('../../logger.js');
+const {
+  info, error,
+} = require('../../logger.js');
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -10,11 +12,12 @@ async function queryTreeDB(queryString, functionCallerName) {
     const results = await treeDB.query(queryString);
     return results;
   } catch (err) {
-    logger.error(`Error executing query to treeDB: ${err}, ${functionCallerName}`);
+    error(`Error executing query to treeDB: ${err}, ${functionCallerName}`);
     return err;
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 function getGeoJson(location) {
   const functionName = 'getGeoJson';
   // const {city} = location;
@@ -45,7 +48,7 @@ function getGeoJson(location) {
 async function getTreeModel(currentTreeId) {
   const functionName = 'getTreeModel';
   try {
-    // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
+    // debug(`${functionName} currentTreeId ${currentTreeId}`);
 
     const query = `SELECT id_tree AS "idTree", common, scientific, genus, 
       date_planted as "datePlanted", health, health as "healthNum", 
@@ -53,9 +56,9 @@ async function getTreeModel(currentTreeId) {
       dbh, height, 
       id_reference as "idReference", who, notes
      FROM treedata WHERE id_tree = ${currentTreeId};`;
-    // console.debug(`${functionName}  query ${query}`);
+    // debug(`${functionName}  query ${query}`);
     const results = await queryTreeDB(query, functionName);
-    // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
+    // debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
 
     if (
       (await results)
@@ -66,7 +69,7 @@ async function getTreeModel(currentTreeId) {
     }
     return undefined;
   } catch (err) {
-    logger.error(`${functionName} ${err}`);
+    error(`${functionName} ${err}`);
     return err;
   }
 }
@@ -77,21 +80,21 @@ async function getTreeListModel() {
     // const query = `SELECT DISTINCT common, scientific, genus FROM treedata
     // WHERE common <> '' limit 20;`;
     const query = 'SELECT DISTINCT common, scientific, genus FROM treedata where genus IS NOT NULL limit 20;';
-    // console.debug(`${functionName}  query ${query}`);
+    // debug(`${functionName}  query ${query}`);
     const results = await queryTreeDB(query, functionName);
-    // console.debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
+    // debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
 
     if (
       (await results)
       && has.call(results, 'rows')
       && results.rows.length > 0
     ) {
-      console.debug(`${functionName} results.rows[0] ${util.inspect(results.rows, false, 10, true)}`);
+      // debug(`${functionName} results.rows[0] ${util.inspect(results.rows, false, 10, true)}`);
       return await results.rows;
     }
     return undefined;
   } catch (err) {
-    logger.error(`${functionName} ${err}`);
+    error(`${functionName} ${err}`);
     return err;
   }
 }
@@ -99,28 +102,28 @@ async function getTreeListModel() {
 async function getTreeHistoryModel(currentTreeId) {
   const functionName = 'getTreeHistoryModel';
   try {
-    // console.debug(`${functionName} currentTreeId ${currentTreeId}`);
+    // debug(`${functionName} currentTreeId ${currentTreeId}`);
 
     const query = `SELECT id_treehistory as "idTreeHistory", id_tree AS "idTree", 
     watered, mulched, weeded, staked, braced, pruned, 
     date_visit as "dateVisit", comment, volunteer 
     FROM treehistory WHERE id_tree = ${currentTreeId}
     ORDER BY date_visit DESC limit 20;`;
-    // console.debug(`${functionName}  query ${query}`);
+    // debug(`${functionName}  query ${query}`);
     const results = await queryTreeDB(query, functionName);
-    // console.debug(`${functionName} results ${util.inspect(results)}`);
+    // debug(`${functionName} results ${util.inspect(results)}`);
 
     if (
       (await results)
       && has.call(results, 'rows')
       && results.rows.length > 0
     ) {
-      // console.debug(`${functionName} results.rows[0] ${util.inspect(results, false, 10, true)}`);
+      // debug(`${functionName} results.rows[0] ${util.inspect(results, false, 10, true)}`);
       return await results.rows;
     }
     return undefined;
   } catch (err) {
-    logger.error(`${functionName} ${err}`);
+    error(`${functionName} ${err}`);
     return err;
   }
 }
@@ -140,7 +143,25 @@ function findUserModel(user) {
     WHERE email = '${user.email}' 
     OR name = '${user.name}'
     OR nickname = '${user.nickname}';`;
-  // logger.info(`${functionName} ${query}`);
+  // info(`${functionName} ${query}`);
+  return queryTreeDB(query, functionName);
+}
+
+function findTreeAdoptionModel(treeuser) {
+  const functionName = 'findTreeAdoptionModel';
+  const query = `SELECT id_adopted AS "idAdopted", id_tree AS "idTree", email, common
+    FROM treeadoption
+    WHERE email = '${treeuser.email}' AND id_tree = ${treeuser.id_tree};`;
+  // info(`${functionName} ${query}`);
+  return queryTreeDB(query, functionName);
+}
+
+function findTreeLikesModel(treeuser) {
+  const functionName = 'findTreeLikesModel';
+  const query = `SELECT id_liked AS "idLiked", id_tree AS "idTree", email, common
+    FROM treelikes
+    WHERE email = '${treeuser.email}' AND id_tree = ${treeuser.id_tree};`;
+  // info(`${functionName} ${query}`);
   return queryTreeDB(query, functionName);
 }
 
@@ -162,6 +183,22 @@ function updateTreeHealthModel(id_tree, health) {
   return queryTreeDB(query, functionName);
 }
 
+function deleteTreeAdoptionModel(treeadoption) {
+  const functionName = 'deleteTreeAdoptionModel';
+  info(`${inspect(treeadoption)} treeadoption ${functionName}`);
+  const query = `DELETE FROM treeadoption
+    WHERE id_adopted = ${treeadoption.idAdopted};`;
+  return queryTreeDB(query, functionName);
+}
+
+function deleteTreeLikesModel(treelikes) {
+  const functionName = 'deleteTreeLikesModel';
+  info(`${inspect(treelikes)} treelikes ${functionName}`);
+  const query = `DELETE FROM treelikes
+    WHERE id_liked = ${treelikes.idLiked};`;
+  return queryTreeDB(query, functionName);
+}
+
 module.exports = {
   getGeoJson,
   getTreeModel,
@@ -171,4 +208,8 @@ module.exports = {
   updateTreeNoteModel,
   updateTreeHealthModel,
   findUserModel,
+  findTreeAdoptionModel,
+  findTreeLikesModel,
+  deleteTreeAdoptionModel,
+  deleteTreeLikesModel,
 };

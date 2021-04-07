@@ -1,33 +1,35 @@
-const winston = require("winston");
-const { format } = require("logform");
+const winston = require('winston');
+const { format } = require('logform');
 
-const console_level = "debug";
+const consoleLevel = 'debug';
 
 const generalLevels = {
-  levels: { error: 0, warn: 1, info: 2, verbose: 3, debug: 4 },
+  levels: {
+    error: 0, warn: 1, info: 2, verbose: 3, debug: 4,
+  },
   colors: {
-    error: "red",
-    warn: "yellow",
-    info: "green",
-    verbose: "blue",
-    debug: "white",
+    error: 'red',
+    warn: 'yellow',
+    info: 'green',
+    verbose: 'blue',
+    debug: 'white',
   },
 };
 
 // log to file everything over level
 const logger = winston.createLogger({
-  level: "debug",
+  level: 'debug',
   levels: generalLevels.levels,
   format: format.combine(
-    format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-    format.json()
+    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    format.json(),
   ),
   transports: [
     new winston.transports.File({
       timestamp: true,
       colorize: true,
-      filename: "./logs/error.log",
-      level: "error",
+      filename: './logs/error.log',
+      level: 'error',
       handleExceptions: true,
       json: true,
       maxsize: 52428800,
@@ -36,8 +38,8 @@ const logger = winston.createLogger({
     new winston.transports.File({
       timestamp: true,
       colorize: true,
-      filename: "./logs/warn.log",
-      level: "warn",
+      filename: './logs/warn.log',
+      level: 'warn',
       handleExceptions: true,
       json: true,
       maxsize: 52428800,
@@ -46,8 +48,8 @@ const logger = winston.createLogger({
     new winston.transports.File({
       timestamp: true,
       colorize: true,
-      filename: "./logs/info.log",
-      level: "info",
+      filename: './logs/info.log',
+      level: 'info',
       handleExceptions: true,
       json: true,
       maxsize: 52428800,
@@ -56,8 +58,8 @@ const logger = winston.createLogger({
     new winston.transports.File({
       timestamp: true,
       colorize: true,
-      filename: "./logs/verbose.log",
-      level: "verbose",
+      filename: './logs/verbose.log',
+      level: 'verbose',
       handleExceptions: true,
       json: true,
       maxsize: 52428800,
@@ -66,8 +68,8 @@ const logger = winston.createLogger({
     new winston.transports.File({
       timestamp: true,
       colorize: true,
-      filename: "./logs/debug.log",
-      level: "debug",
+      filename: './logs/debug.log',
+      level: 'debug',
       handleExceptions: true,
       json: true,
       maxsize: 52428800,
@@ -76,30 +78,30 @@ const logger = winston.createLogger({
     new winston.transports.File({
       timestamp: true,
       colorize: true,
-      filename: "./logs/combined.log",
+      filename: './logs/combined.log',
       handleExceptions: true,
       json: true,
       maxsize: 52428800,
       maxFiles: 10,
     }),
     new winston.transports.Console({
-      level: console_level,
+      level: consoleLevel,
       handleExceptions: true,
       json: false,
       colorize: true,
       timestamp: true,
       format: format.combine(
         format.colorize(),
-        format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
         format.printf(
-          (info) => `${info.timestamp} ${info.level}: ${info.message}`
-        )
+          (info) => `${info.timestamp} ${info.level}: ${info.message}`,
+        ),
       ),
     }),
   ],
 });
 
-module.exports = { logger };
+module.exports = logger;
 module.exports.stream = {
   write(message, encoding) {
     logger.info(message);

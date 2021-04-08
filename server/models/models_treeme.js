@@ -131,8 +131,8 @@ async function getTreeHistoryModel(currentTreeId) {
 function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
   const functionName = 'findTreeHistoryVolunteerTodayModel';
   const query = `SELECT id_tree AS "id_tree" FROM treehistory 
-    WHERE id_tree = ${newTreeHistory.idTree} 
-    AND date_visit::date = CURRENT_DATE
+    WHERE id_tree = ${newTreeHistory.id_tree} 
+    AND '${newTreeHistory.date_visit}'::date = CURRENT_DATE
     AND volunteer = '${newTreeHistory.volunteer}';`;
   return queryTreeDB(query, functionName);
 }

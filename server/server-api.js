@@ -1,10 +1,11 @@
 const http = require('http');
-const https = require('https');
+// const https = require('https');
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const parser = require('body-parser');
-util = require('util');
+// const { inspect } = require('util');
+const { verbose } = require('../logger.js');
 
 const {
   getMap,
@@ -16,6 +17,8 @@ const {
   postTreeHistory,
   postUser,
   getUser,
+  postTreeUser,
+  getTreeUser,
 } = require('./controller.js');
 
 // these are for various environments when we move to dev and live server vs local
@@ -84,9 +87,13 @@ router.route('/api/user')
   .get(getUser)
   .post(postUser);
 
+router.route('/api/treeuser')
+  .get(getTreeUser)
+  .post(postTreeUser);
+
 const httpServer = http.createServer(app);
-const server = httpServer.listen(port, () => console.log(`${host}:${port}`));
+httpServer.listen(port, () => verbose(`${host}:${port}`));
 
 // TODO setup https/letsencrypt
 // const httpsServer = https.createServer(options, app);
-// const server = httpsServer.listen(port, () => logger.log('info', `${host}:${port}`));
+// httpsServer.listen(port, () => verbose(`${host}:${port}`));

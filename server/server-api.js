@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const parser = require('body-parser');
+const compression = require('compression');
 // const { inspect } = require('util');
 const { verbose } = require('../logger.js');
 
@@ -57,6 +58,7 @@ const options = {
 const app = express();
 const router = express.Router();
 
+app.use(compression());
 // for logging on command line
 app.use(morgan('dev'));
 app.use(parser.json());

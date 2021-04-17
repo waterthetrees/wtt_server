@@ -100,11 +100,11 @@ async function processGetTree(query, res) {
   const functionName = 'processGetTree';
   try {
     const { currentTreeId } = query;
-    // console.log("query", query, "currentTreeId", currentTreeId);
+    info(`'query: ${query} currentTreeId: ${currentTreeId} ${functionName}`);
     const treeResults = await getTreeModel(currentTreeId);
-    // debug(`treeResults ${inspect(treeResults)} ${functionName}`);
+    debug(`treeResults ${inspect(treeResults)} ${functionName}`);
     treeResults.healthNum = convertHealthToNumber(treeResults.health);
-    // debug(`treeResults ${inspect(treeResults)} ${functionName}`);
+    debug(`treeResults ${inspect(treeResults)} ${functionName}`);
     responder(res, 200, await treeResults);
     return;
   } catch (err) {
@@ -200,7 +200,7 @@ async function processPostTree(body, res) {
     const keys = Object.keys(convertedTreeData);
 
     const insertTreeResults = await insertTreeModel(convertedTreeData, keys);
-    // info(`${functionName}, insertTreeResults, ${inspect(insertTreeResults)}`);
+    info(`${functionName}, insertTreeResults, ${inspect(insertTreeResults)}`);
     if (!insertTreeResults) {
       responder(res, 500, { error: 'error saving' });
       return;

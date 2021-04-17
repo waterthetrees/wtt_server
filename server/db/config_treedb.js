@@ -4,8 +4,8 @@ const configTreeDB = {
   dockerlocal: {
     connectionLimit: 10, // what does this mean?
     database: 'treedb',
-    user: 'postgres',
-    host: process.env.DATABASE_HOST || 'postgres-wtt',
+    user: 'trees',
+    host: process.env.DATABASE_HOST || 'postgis-wtt',
     password: 'trees3r4t',
     port: process.env.DATABASE_PORT || 5432,
     dateStrings: 'date',

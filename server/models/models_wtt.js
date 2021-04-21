@@ -30,14 +30,9 @@ async function updateTreeModel(newTreeData, keys, id_tree) {
 async function insertTreeModel(newTree) {
   const functionName = 'insertTreeModel';
   try {
-<<<<<<< HEAD
-    const queryString = 'INSERT INTO treedata(${this:name}) VALUES(${this:csv}) RETURNING id_tree AS idTree, common, scientific,volunteer, date_planted AS dateVisit';
-    info(`${functionName} queryString ${queryString}`);
-=======
     // info(`${inspect(newTree, true, 5, true)} ${functionName}`);
     const queryString = 'INSERT INTO treedata(${this:name}) VALUES(${this:csv}) RETURNING treedata.id_tree AS idTree, treedata.common, treedata.scientific,treedata.volunteer, treedata.date_planted AS dateVisit';
     // info(`${functionName} queryString ${queryString}`);
->>>>>>> 3aa352f99a5726cff7c875e9bd05163d2a6a8e63
     return await treeDB.query(queryString, newTree);
   } catch (err) {
     error(`${functionName} CATCH ${err}`);

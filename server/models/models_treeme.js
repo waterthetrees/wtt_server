@@ -105,7 +105,7 @@ async function getTreeHistoryModel(currentTreeId) {
     // debug(`${functionName} currentTreeId ${currentTreeId}`);
 
     const query = `SELECT id_treehistory as "idTreeHistory", id_tree AS "idTree", 
-    watered, mulched, weeded, staked, braced, pruned, 
+    watered, mulched, weeded, staked, braced, pruned, liked, adopted,
     date_visit as "dateVisit", comment, volunteer 
     FROM treehistory WHERE id_tree = ${currentTreeId}
     ORDER BY date_visit DESC limit 20;`;

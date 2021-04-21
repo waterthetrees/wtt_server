@@ -265,22 +265,10 @@ async function processUpdateTree(body, res) {
   }
 }
 
-function postTreeHistory(req, res) {
-  const functionName = 'postHistory';
-  // debug(`req  ${inspect(req.body)} ${functionName}`);
-  const validated = validatePostTreeHistory(req);
-  if (!validated) {
-    responder(res, 500, { error: 'not valid' });
-    return;
-  }
-
-  processPostTreeHistory(req.body, res);
-}
-
 async function processPostTreeHistory(body, res) {
   const functionName = 'processPostHistory';
   try {
-    // info(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
+    info(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
     const convertedTreeHistory = convertObjectToSnakeCase(body);
     const keys = Object.keys(convertedTreeHistory);
 
@@ -289,9 +277,9 @@ async function processPostTreeHistory(body, res) {
     const { rowCount } = JSON.parse(JSON.stringify(findTreeHistoryVolunteerTodayResults));
     if (rowCount === 0) {
       const insertTreeHistoryResults = await insertTreeHistoryModel(convertedTreeHistory, keys);
-      // debug(functionName, 'insertTreeHistoryResults ', await insertTreeHistoryResults);
+      debug(functionName, 'insertTreeHistoryResults ', await insertTreeHistoryResults);
       if (!insertTreeHistoryResults) {
-        // debug('!insertTreeHistoryResults error saving');
+        debug('!insertTreeHistoryResults error saving');
         responder(res, 500, { error: 'error saving' });
         return;
       }
@@ -299,7 +287,7 @@ async function processPostTreeHistory(body, res) {
       return;
     }
     const updateTreeHistoryResults = await updateTreeHistoryModel(convertedTreeHistory, keys);
-    // debug(`updateTreeHistoryResults, ${await updateTreeHistoryResults} ${functionName}` );
+    debug(`updateTreeHistoryResults, ${await updateTreeHistoryResults} ${functionName}`);
     if (!updateTreeHistoryResults) {
       responder(res, 500, { error: 'error saving' });
       return;
@@ -310,6 +298,18 @@ async function processPostTreeHistory(body, res) {
     error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
     responder(res, 500, { error: err });
   }
+}
+
+function postTreeHistory(req, res) {
+  const functionName = 'postHistory';
+  debug(`req  ${inspect(req.body)} ${functionName}`);
+  const validated = validatePostTreeHistory(req);
+  if (!validated) {
+    responder(res, 500, { error: 'not valid' });
+    return;
+  }
+
+  processPostTreeHistory(req.body, res);
 }
 
 function getTreeList(req, res) {

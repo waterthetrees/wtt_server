@@ -75,7 +75,8 @@ function validatePostTreeHistory(req) {
   if (validation(req, 'req', req) === '') return false;
   if (validation(req, 'body', req.body) === '') return false;
   if (validation(req, 'idTree', req.body.idTree) === '') return false;
-  return iterateOverObjCheckingForString(req.body);
+  return true;
+  // return iterateOverObjCheckingForString(req.body);
 }
 
 function validatePostUser(req) {

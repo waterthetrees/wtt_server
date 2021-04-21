@@ -30,7 +30,7 @@ async function updateTreeModel(newTreeData, keys, id_tree) {
 async function insertTreeModel(newTree) {
   const functionName = 'insertTreeModel';
   try {
-    const queryString = 'INSERT INTO treedata(${this:name}) VALUES(${this:csv}) RETURNING treedata.id_tree AS idTree, treedata.common, treedata.scientific,treedata.volunteer, treedata.date_planted AS dateVisit';
+    const queryString = 'INSERT INTO treedata(${this:name}) VALUES(${this:csv}) RETURNING id_tree AS idTree, common, scientific,volunteer, date_planted AS dateVisit';
     info(`${functionName} queryString ${queryString}`);
     return await treeDB.query(queryString, newTree);
   } catch (err) {
@@ -54,7 +54,7 @@ async function insertUserModel(user) {
 async function updateTreeHistoryModel(newTreeHistory, keys) {
   const functionName = 'updateTreeHistoryModel';
   try {
-    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND created::date = CURRENT_DATE RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.date_visit AS dateVisit', newTreeHistory);
+    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND created::date = CURRENT_DATE RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.adopted, treehistory.liked, treehistory.volunteer, treehistory.date_visit AS dateVisit', newTreeHistory);
     const queryString = () => pgp.helpers.update(newTreeHistory, keys, 'treehistory') + condition;
     return await treeDB.query(queryString, newTreeHistory);
   } catch (err) {
@@ -66,7 +66,7 @@ async function updateTreeHistoryModel(newTreeHistory, keys) {
 async function insertTreeHistoryModel(newTreeHistory) {
   const functionName = 'insertTreeHistoryModel';
   try {
-    const queryString = 'INSERT INTO treehistory(${this:name}) VALUES(${this:csv}) RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.date_visit AS dateVisit';
+    const queryString = 'INSERT INTO treehistory(${this:name}) VALUES(${this:csv}) RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.adopted, treehistory.liked, treehistory.volunteer, treehistory.date_visit AS dateVisit';
     return await treeDB.query(queryString, newTreeHistory);
   } catch (err) {
     error(`${functionName} CATCH ${err}`);

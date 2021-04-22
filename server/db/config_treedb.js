@@ -33,7 +33,7 @@ const configTreeDB = {
   },
   blue: {
     connectionLimit: 10, // what does this mean?
-    database: 'treedbdev',
+    database: 'treedbblue',
     user: 'trees',
     host: 'localhost',
     password: 'trees3r4t',

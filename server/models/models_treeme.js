@@ -20,7 +20,7 @@ async function queryTreeDB(queryString, functionCallerName) {
 // eslint-disable-next-line no-unused-vars
 function getGeoJson(location) {
   const functionName = 'getGeoJson';
-  const { city } = location || { city: 'Alameda' };
+  const { city } = location || { city: '%' };
   const query = `
     SELECT jsonb_build_object(
       'type',     'FeatureCollection',
@@ -39,7 +39,7 @@ function getGeoJson(location) {
       ) AS feature
       FROM (
         SELECT * FROM treedata 
-        WHERE city='${city}'
+        WHERE city like '${city}'
         AND modified::date = CURRENT_DATE
       ) inputs
     ) features;`;

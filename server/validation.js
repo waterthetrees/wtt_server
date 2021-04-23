@@ -1,5 +1,12 @@
 // const { inspect } = require('util');
-// const logger = require('../logger.js');
+// const validator = require('validator');
+// const {
+// info, verbose, debu, error,
+// } = require('../logger.js');
+
+// const featureFlags = {
+//   live: false,
+// };
 
 // checks whether key exists in object also value at that key is not undefined
 function validation(objectIn, key, valueIn) {
@@ -17,8 +24,14 @@ function iterateOverObjCheckingForString(obj) {
   // eslint-disable-next-line no-unused-vars
   return Object.entries(newObjWithoutId).every(([key, value]) => isString(value));
 }
+function validateGetTodaysTrees(req) {
+  if (validation(req, 'req', req) === '') return false;
+  if (validation(req, 'query', req.query) === '') return false;
+  if (validation(req, 'city', req.query.city) === '') return false;
+  return true;
+}
 
-function validateGetMap(req) {
+function validateGetCities(req) {
   if (validation(req, 'req', req) === '') return false;
   if (validation(req, 'query', req.query) === '') return false;
   if (validation(req, 'city', req.query.city) === '') return false;
@@ -68,7 +81,8 @@ function validatePostTreeHistory(req) {
   if (validation(req, 'req', req) === '') return false;
   if (validation(req, 'body', req.body) === '') return false;
   if (validation(req, 'idTree', req.body.idTree) === '') return false;
-  return iterateOverObjCheckingForString(req.body);
+  return true;
+  // return iterateOverObjCheckingForString(req.body);
 }
 
 function validatePostUser(req) {
@@ -87,8 +101,27 @@ function validateAddNewCity(req) {
   return true;
 }
 
+// used for tree adoption and tree favorites
+function validatePostTreeUser(req) {
+  if (validation(req, 'req', req) === '') return false;
+  if (validation(req, 'body', req.body) === '') return false;
+  if (validation(req, 'idTree', req.body.idTree) === '') return false;
+  if (validation(req, 'common', req.body.common) === '') return false;
+  if (validation(req, 'email', req.body.email) === '') return false;
+  if (validation(req, 'nickname', req.body.nickname) === '') return false;
+  return true;
+}
+
+function validateGetTreeUser(req) {
+  if (validation(req, 'req', req) === '') return false;
+  if (validation(req, 'query', req.query) === '') return false;
+  if (validation(req, 'idTree', req.query.idTree) === '') return false;
+  if (validation(req, 'email', req.query.email) === '') return false;
+  return true;
+}
+
 module.exports = {
-  validateGetMap,
+  validateGetCities,
   validateGetTree,
   validateGetTreeHistory,
   validatePostTree,
@@ -97,4 +130,7 @@ module.exports = {
   validateGetTreeList,
   validatePostUser,
   validateAddNewCity,
+  validatePostTreeUser,
+  validateGetTreeUser,
+  validateGetTodaysTrees,
 };

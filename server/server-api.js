@@ -1,14 +1,13 @@
 const http = require('http');
-// const https = require('https');
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const parser = require('body-parser');
-// const { inspect } = require('util');
-const { logger } = require('../logger');
+const { verbose } = require('../logger.js');
 
 const {
-  getMap,
+  getCitiesRequest,
+  getTodaysTrees,
   getTree,
   getTreeList,
   postTree,
@@ -16,8 +15,8 @@ const {
   getTreeHistory,
   postTreeHistory,
   postUser,
-  getUser,
-  // copyNewData,
+  postTreeUser,
+  getTreeUser,
 } = require('./controller.js');
 
 // these are for various environments when we move to dev and live server vs local
@@ -27,9 +26,11 @@ const host = {
   dev: 'http://localhost',
   blue: 'http://localhost',
   local: 'http://localhost',
+  dockerlocal: 'http://localhost',
 }[env];
+
 const port = {
-  dev: 3002, blue: 3004, prod: 3002, local: 3002,
+  dev: 3002, blue: 3004, prod: 3002, local: 3002, dockerlocal: 3002,
 }[env];
 
 // this is for whitelisting hosts for cors
@@ -74,22 +75,21 @@ router.route('/api/treelist')
   .get(getTreeList);
 
 router.route('/api/treemap')
-  .get(getMap);
+  .get(getTodaysTrees);
+
+router.route('/api/cities')
+  .get(getCitiesRequest);
 
 router.route('/api/treehistory')
   .get(getTreeHistory)
   .post(postTreeHistory);
 
 router.route('/api/user')
-  .get(getUser)
   .post(postUser);
 
-// router.route('/api/alsdufykvjbnkjyerkuyhwieuhf/copy/email')
-//   .get(copyNewData);
+router.route('/api/treeuser')
+  .get(getTreeUser)
+  .post(postTreeUser);
 
 const httpServer = http.createServer(app);
-httpServer.listen(port, () => logger.info(`${host}:${port}`));
-
-// TODO setup https/letsencrypt
-// const httpsServer = https.createServer(options, app);
-// const server = httpsServer.listen(port, () => logger.log('info', `${host}:${port}`));
+httpServer.listen(port, () => verbose(`${host}:${port}`));

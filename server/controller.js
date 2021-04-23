@@ -1,5 +1,4 @@
 const { inspect } = require('util');
-const { logger } = require('../logger');
 const {
   getGeoJson,
   getTreeModel,
@@ -11,7 +10,11 @@ const {
   updateCitiesTreeCount,
   insertNewCityModel,
   getCityExistence,
-} = require('./models/models_treeme');
+  findTreeAdoptionModel,
+  findTreeLikesModel,
+  deleteTreeAdoptionModel,
+  deleteTreeLikesModel,
+} = require('./models/models_treeme.js');
 
 const {
   insertTreeHistoryModel,
@@ -19,10 +22,13 @@ const {
   updateTreeModel,
   insertTreeModel,
   insertUserModel,
-} = require('./models/models_wtt');
+  insertTreeAdoptionModel,
+  insertTreeLikesModel,
+  // updateTreeUserModel,
+} = require('./models/models_wtt.js');
 
 const {
-  validateGetMap,
+  validateGetCities,
   validateGetTree,
   validateGetTreeHistory,
   validateUpdateTree,
@@ -30,14 +36,20 @@ const {
   validatePostUser,
   validatePostTreeHistory,
   validateGetTreeList,
-} = require('./validation');
+  validatePostTreeUser,
+  validateGetTreeUser,
+  validateGetTodaysTrees,
+} = require('./validation.js');
 
 const {
-  sortTrees,
-  // snakeToCamelCase,
-  // camelToSnakeCase,
-  convertObjectToSnakeCase,
-} = require('./utilities');
+  sortTrees, convertObjectToSnakeCase,
+  convertHealthToNumber,
+} = require('./utilities.js');
+
+const {
+  // eslint-disable-next-line no-unused-vars
+  info, verbose, debug, error,
+} = require('../logger.js');
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -47,81 +59,97 @@ function responder(res, code, message) {
   res.json(message);
 }
 
-async function processGetMap(city, res) {
-  const functionName = 'processGetMap';
+async function processGetTodaysTrees(location, res) {
+  const functionName = 'processGetTodaysTrees';
   try {
-    logger.info(`${inspect(city)} city ${functionName}`);
+    info(`${inspect(location)} location ${functionName}`);
 
-    if (city === 'All') {
-      const citiesMapResults = await getCities();
-      // logger.info(`citiesMapResults ${inspect(citiesMapResults)}`);
-      if ((await citiesMapResults) && has.call(citiesMapResults, 'rows') && citiesMapResults.rows.length > 0) {
-        res.statusCode = 200;
-        res.json(await citiesMapResults.rows);
-        return citiesMapResults;
-      }
+    const results = await getGeoJson(location);
+    info(`todays getGeoJson trees results ${inspect(results)}`);
+
+    if ((await results) && has.call(results, 'rows') && results.rows.length > 0) {
+      const resultsObject = results.rows[0].jsonb_build_object;
+      res.statusCode = 200;
+      res.json(await resultsObject);
+      return resultsObject;
     }
 
-    if (city !== 'All') {
-      const treeMapResults = await getGeoJson(city);
-      // logger.debug(`treeMapResults ${inspect(treeMapResults)} ${functionName} HERE`);
-      if ((await treeMapResults) && has.call(treeMapResults, 'rows') && treeMapResults.rows.length > 0) {
-        const treeMapResultsObject = treeMapResults.rows[0].jsonb_build_object;
-        res.statusCode = 200;
-        res.json(await treeMapResultsObject);
-      }
-      return treeMapResults;
-    }
-
-    return city;
+    res.statusCode = 400;
+    res.json({ error: 'failed to get cities' });
+    return location;
   } catch (err) {
-    logger.error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
     res.statusCode = 500;
     res.json({ error: err });
     return err;
   }
 }
 
-function getMap(req, res) {
-  const functionName = 'getMap';
-  logger.info(`req.query ${inspect(req.query)} ${functionName}`);
+function getTodaysTrees(req, res) {
+  const functionName = 'getTodaysTrees';
+  info(`req.query ${inspect(req.query)} ${functionName}`);
 
-  const validated = validateGetMap(req);
+  const validated = validateGetTodaysTrees(req);
   if (!validated) {
-    responder(res, 400, { error: 'trouble getting map' });
+    info(`NOT VALIDATED ${validated} ${functionName}`);
+    responder(res, 400, { error: 'trouble getting cities' });
     return;
   }
 
-  processGetMap(req.query.city, res);
+  processGetTodaysTrees(req.query, res);
 }
 
-function convertHealthToNumber(health) {
-  // console.log('convertHealthToNumber health', health);
-  if (!health) return 6;
-  const healthValue = {
-    good: 6,
-    fair: 5,
-    poor: 4,
-    stump: 3,
-    missing: 2,
-    dead: 1,
-    vacant: 0,
-  }[health];
-  return parseInt(healthValue, 10);
+async function processGetCities(city, res) {
+  const functionName = 'processGetCities';
+  try {
+    info(`${inspect(city)} city ${functionName}`);
+
+    const citiesResults = await getCities();
+    info(`citiesResults ${inspect(citiesResults)}`);
+    if ((await citiesResults) && has.call(citiesResults, 'rows') && citiesResults.rows.length > 0) {
+      res.statusCode = 200;
+      info(`await citiesResults.rows ${inspect(await citiesResults.rows)}`);
+      res.json(await citiesResults.rows);
+      return citiesResults;
+    }
+    res.statusCode = 400;
+    res.json({ error: 'failed to get cities' });
+    return city;
+  } catch (err) {
+    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    res.statusCode = 500;
+    res.json({ error: err });
+    return err;
+  }
+}
+
+function getCitiesRequest(req, res) {
+  const functionName = 'getCities';
+  info(`req.query ${inspect(req.query)} ${functionName}`);
+
+  const validated = validateGetCities(req);
+  if (!validated) {
+    info(`NOT VALIDATED ${validated} ${functionName}`);
+    responder(res, 400, { error: 'trouble getting cities' });
+    return;
+  }
+
+  processGetCities(req.query.city, res);
 }
 
 async function processGetTree(query, res) {
   const functionName = 'processGetTree';
   try {
     const { currentTreeId } = query;
+    info(`'query: ${query} currentTreeId: ${currentTreeId} ${functionName}`);
     const treeResults = await getTreeModel(currentTreeId);
-    // logger.debug(`treeResults ${inspect(treeResults)} ${functionName}`);
+    debug(`treeResults ${inspect(treeResults)} ${functionName}`);
     treeResults.healthNum = convertHealthToNumber(treeResults.health);
-    // logger.debug(`treeResults ${inspect(treeResults)} ${functionName}`);
+    debug(`treeResults ${inspect(treeResults)} ${functionName}`);
     responder(res, 200, await treeResults);
     return;
   } catch (err) {
-    logger.error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
     res.statusCode = 500;
     res.json({ error: err });
   }
@@ -129,7 +157,7 @@ async function processGetTree(query, res) {
 
 function getTree(req, res) {
   const functionName = 'getTree';
-  logger.debug(`req.query ${inspect(req.query)} ${functionName} HERE`);
+  debug(`req.query ${inspect(req.query)} ${functionName} HERE`);
   const validated = validateGetTree(req);
   if (!validated) {
     responder(res, 400, { error: 'not a valid tree id' });
@@ -140,39 +168,37 @@ function getTree(req, res) {
 }
 
 async function processGetTreeHistory(query, res) {
-  const functionName = 'processGetTree';
+  const functionName = 'processGetTreeHistory';
   try {
-    console.log(functionName, 'query', query);
     const { currentTreeId } = query;
     let treeHistoryResults = await getTreeHistoryModel(currentTreeId);
     treeHistoryResults = (await treeHistoryResults && treeHistoryResults.length)
-      ? treeHistoryResults
-      : [];
+      ? treeHistoryResults : [];
+    debug(`treeHistoryResults ${inspect(treeHistoryResults)} ${functionName} HERE`);
     responder(res, 200, await treeHistoryResults);
     return;
   } catch (err) {
-    logger.error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
     res.statusCode = 500;
     res.json({ error: err });
   }
 }
 
 function getTreeHistory(req, res) {
-  // const functionName = 'getTreeHistory';
-  // logger.debug(`req.body ${inspect(req.query)} ${functionName}`);
+  const functionName = 'getTreeHistory';
+  debug(`req.query ${inspect(req.query)} ${functionName}`);
   const validated = validateGetTreeHistory(req);
   if (!validated) {
     responder(res, 400, { error: 'trouble getting tree history' });
     return;
   }
 
-  processGetTreeHistory(req.body.city, res);
+  processGetTreeHistory(req.query, res);
 }
 
 async function processFirstTreeHistory(insertTreeResults, res) {
   const functionName = 'processFirstTreeHistory';
   try {
-    logger.debug(`${functionName}, "insertTreeResults",  ${inspect(insertTreeResults)} ${functionName}`);
     const firstTreeHistory = {
       id_tree: insertTreeResults.idtree,
       date_visit: insertTreeResults.datevisit,
@@ -180,12 +206,12 @@ async function processFirstTreeHistory(insertTreeResults, res) {
       volunteer: insertTreeResults.volunteer,
     };
     const keys = Object.keys(firstTreeHistory);
-    logger.debug('firstTreeHistory ', firstTreeHistory);
+    // debug('firstTreeHistory ', firstTreeHistory);
     const insertTreeHistoryResults = await insertTreeHistoryModel(firstTreeHistory, keys);
-    logger.debug('insertTreeHistoryResults ', await insertTreeHistoryResults);
+    debug('insertTreeHistoryResults ', await insertTreeHistoryResults);
     return;
   } catch (err) {
-    logger.error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
     responder(res, 500, { error: err });
   }
 }
@@ -198,13 +224,13 @@ async function addNewCity(convertedTreeData) {
     } = convertedTreeData;
     const cityExists = await getCityExistence(city);
     const cityRowCount = JSON.parse(JSON.stringify(cityExists)).rowCount;
-    logger.info(`${functionName} cityRowCount ${cityRowCount}`);
+    // info(`${functionName} cityRowCount ${cityRowCount}`);
     if (cityRowCount === 0) await insertNewCityModel(city, lng, lat, email, who);
     const newTreeCount = await updateCitiesTreeCount(city);
-    logger.info(`${functionName} newTreeCount ${inspect(newTreeCount, false, 10, true)}`);
+    // info(`${functionName} newTreeCount ${inspect(newTreeCount, false, 10, true)}`);
     return { newTreeCount };
   } catch (err) {
-    logger.error(`CATCH ${functionName} ${inspect(err, false, 3, false)}`);
+    error(`CATCH ${functionName} ${inspect(err, false, 3, false)}`);
     return err;
   }
 }
@@ -212,12 +238,12 @@ async function addNewCity(convertedTreeData) {
 async function processPostTree(body, res) {
   const functionName = 'processPostTree';
   try {
-    logger.info(`${functionName} body ${inspect(body, false, 10, true)}`);
+    // debug(`${functionName} body ${inspect(body, false, 10, true)}`);
     const convertedTreeData = convertObjectToSnakeCase(body);
     const keys = Object.keys(convertedTreeData);
-    logger.info(`${functionName} keys ${inspect(keys, false, 10, true)}`);
+    info(`${functionName} keys ${inspect(keys, false, 10, true)}`);
     const insertTreeResults = await insertTreeModel(convertedTreeData, keys);
-    logger.debug(`${functionName}, insertTreeResults, ${inspect(insertTreeResults)}`);
+    info(`${functionName}, insertTreeResults, ${inspect(insertTreeResults)}`);
     if (!insertTreeResults) {
       responder(res, 500, { error: 'error saving' });
       return;
@@ -234,35 +260,23 @@ async function processPostTree(body, res) {
     responder(res, 200, { data: returnMessage });
     return;
   } catch (err) {
-    logger.error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
     responder(res, 500, { error: err });
   }
 }
 
 function postTree(req, res) {
-  const functionName = 'postTree';
-  // logger.debug(`req  ${inspect(req, false, 10, true)} ${functionName}`);
+  // const functionName = 'postTree';
+  // debug(`req  ${inspect(req, false, 10, true)} ${functionName}`);
   const validated = validatePostTree(req);
   if (!validated) {
-    logger.debug(`validated  ${validated} ${functionName}`);
+    // debug(`validated  ${validated} ${functionName}`);
     responder(res, 500, { error: 'not valid' });
     return;
   }
-  logger.debug(`req  ${inspect(req.body, false, 10, true)} ${functionName}`);
+  // debug(`req  ${inspect(req.body, false, 10, true)} ${functionName}`);
   processPostTree(req.body, res);
 }
-
-// function postTree(req, res) {
-//   const functionName = 'postTree';
-//   // logger.debug(`req  ${inspect(req, false, 10, true)} ${functionName}`);
-//   const validated = validatePostTree(req);
-//   if (!validated) {
-//     responder(res, 400, { error: 'trouble getting tree history' });
-//     return;
-//   }
-
-//   processGetTreeHistory(req.query, res);
-// }
 
 async function processUpdateTree(body, res) {
   const functionName = 'processUpdateTree';
@@ -270,13 +284,13 @@ async function processUpdateTree(body, res) {
     // eslint-disable-next-line camelcase
     const id_tree = body.idTree;
     const { idTree, ...subSetBody } = body;
-    logger.debug(`${functionName} subSetBody ${inspect(subSetBody)}`);
+    // debug(`${functionName} subSetBody ${inspect(subSetBody)}`);
     const convertedTreeData = convertObjectToSnakeCase(subSetBody);
     const keys = Object.keys(convertedTreeData);
 
-    logger.info(`${functionName}, convertedTreeData, ${inspect(convertedTreeData)}`);
+    // info(`${functionName}, convertedTreeData, ${inspect(convertedTreeData)}`);
     const updateTreeResults = await updateTreeModel(convertedTreeData, keys, id_tree);
-    // logger.debug(`${functionName}, updateTreeResults, ${inspect(updateTreeResults)}`)
+    // info(`${functionName}, updateTreeResults, ${inspect(updateTreeResults)}`);
     if (!updateTreeResults) {
       responder(res, 500, { error: 'error saving' });
       return;
@@ -288,39 +302,45 @@ async function processUpdateTree(body, res) {
     const returnMessage = Object.prototype.hasOwnProperty.call(body, 'notes')
       ? updateTreeResults[0].notes
       : updateTreeResults[0].health;
-    responder(res, 200, { data: returnMessage });
+    info(`${functionName}, returnMessage ${inspect(returnMessage)}`);
+    responder(res, 200, { data: updateTreeResults[0] });
     return;
   } catch (err) {
-    logger.error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
     responder(res, 500, { error: err });
   }
 }
 
 function updateTree(req, res) {
   const functionName = 'updateTree';
-  // logger.debug(`req  ${inspect(req, false, 10, true)} ${functionName}`);
+  // debug(`req  ${inspect(req.body, false, 10, true)} ${functionName}`);
   const validated = validateUpdateTree(req);
   if (!validated) {
+    debug(`validated  ${validated} ${functionName}`);
     responder(res, 500, { error: 'not valid' });
     return;
   }
-  logger.debug(`req.body  ${inspect(req.body, false, 10, true)} ${functionName}`);
+  // debug(`req.body  ${inspect(req.body, false, 10, true)} ${functionName}`);
   processUpdateTree(req.body, res);
 }
 
 async function processPostTreeHistory(body, res) {
   const functionName = 'processPostHistory';
   try {
-    logger.debug(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
+    info(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
     const convertedTreeHistory = convertObjectToSnakeCase(body);
     const keys = Object.keys(convertedTreeHistory);
 
-    const findTreeHistoryVolunteerTodayResults = await findTreeHistoryVolunteerTodayModel(body);
+    // eslint-disable-next-line max-len
+    const findTreeHistoryVolunteerTodayResults = await findTreeHistoryVolunteerTodayModel(convertedTreeHistory);
+    info(`findTreeHistoryVolunteerTodayResults ${inspect(findTreeHistoryVolunteerTodayResults)} ${functionName}`);
     const { rowCount } = JSON.parse(JSON.stringify(findTreeHistoryVolunteerTodayResults));
     if (rowCount === 0) {
       const insertTreeHistoryResults = await insertTreeHistoryModel(convertedTreeHistory, keys);
-      // logger.debug("insertTreeHistoryResults ", await insertTreeHistoryResults );
+
+      info(`insertTreeHistoryResults ${inspect(insertTreeHistoryResults)} ${functionName}`);
       if (!insertTreeHistoryResults) {
+        info('!insertTreeHistoryResults error saving');
         responder(res, 500, { error: 'error saving' });
         return;
       }
@@ -328,7 +348,6 @@ async function processPostTreeHistory(body, res) {
       return;
     }
     const updateTreeHistoryResults = await updateTreeHistoryModel(convertedTreeHistory, keys);
-    // logger.debug(`updateTreeHistoryResults, ${await updateTreeHistoryResults} ${functionName}` );
     if (!updateTreeHistoryResults) {
       responder(res, 500, { error: 'error saving' });
       return;
@@ -336,14 +355,14 @@ async function processPostTreeHistory(body, res) {
     responder(res, 200, { data: await updateTreeHistoryResults[0] });
     return;
   } catch (err) {
-    logger.error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
     responder(res, 500, { error: err });
   }
 }
 
 function postTreeHistory(req, res) {
-  // const functionName = 'postHistory';
-  // logger.debug(`req  ${inspect(req.body)} ${functionName}`);
+  const functionName = 'postHistory';
+  debug(`req  ${inspect(req.body)} ${functionName}`);
   const validated = validatePostTreeHistory(req);
   if (!validated) {
     responder(res, 500, { error: 'not valid' });
@@ -360,17 +379,17 @@ async function processGetTreeList(coordinates, res) {
     const treeResults = await getTreeListModel(lng, lat);
     const sortedTreeResults = sortTrees(await treeResults);
     // const common = treeResults.map(elem => elem.common).filter(i => i);
-    // logger.debug(`common ${inspect(common)} ${functionName}`);
+    // debug(`common ${inspect(common)} ${functionName}`);
 
     // const scientific = treeResults.map(elem => elem.scientific).filter(i => i);
-    // logger.debug(`scientific ${inspect(scientific)} ${functionName}`);
+    // debug(`scientific ${inspect(scientific)} ${functionName}`);
 
     // const genus = treeResults.map(elem => elem.genus).filter(i => i);
-    // logger.verbose(`sortedTreeResults ${inspect(await sortedTreeResults)} ${functionName}`);
+    // verbose(`sortedTreeResults ${inspect(await sortedTreeResults)} ${functionName}`);
     responder(res, 200, await sortedTreeResults);
     return;
   } catch (err) {
-    logger.error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
     res.statusCode = 500;
     res.json({ error: err });
   }
@@ -378,21 +397,21 @@ async function processGetTreeList(coordinates, res) {
 
 function getTreeList(req, res) {
   // const functionName = 'getTreeList';
-  // logger.debug(`req.query ${inspect(req.query)} ${functionName} HERE`);
+  // debug(`req.query ${inspect(req.query)} ${functionName} HERE`);
   const validated = validateGetTreeList(req);
-  // logger.debug(`validated ${inspect(validated)} ${functionName} HERE`);
+  // debug(`validated ${inspect(validated)} ${functionName} HERE`);
   if (!validated) {
-    responder(res, 400, { error: 'not a valid request' });
+    responder(res, 500, { error: 'not valid' });
     return;
   }
 
-  processGetTreeList(req.query.coordinates, res);
+  processGetTreeList(req.body, res);
 }
 
 async function processPostUser(body, res) {
   const functionName = 'processPostUser';
   try {
-    logger.debug(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
+    // debug(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
     const {
       // eslint-disable-next-line camelcase
       email_verified, family_name, given_name, locale, sub, updated_at, ...subSetBody
@@ -401,10 +420,10 @@ async function processPostUser(body, res) {
 
     const findUserResults = await findUserModel(body);
     const { rowCount } = JSON.parse(JSON.stringify(findUserResults));
-
+    // debug(`${functionName} findUserResults${inspect(findUserResults)} rowCount ${rowCount}`);
     if (rowCount === 0) {
       const insertUserResults = await insertUserModel(subSetBody, keys);
-      // logger.debug("insertUserResults ", await insertUserResults);
+      // debug("insertUserResults ", await insertUserResults);
       if (!insertUserResults) {
         responder(res, 500, { error: 'error saving' });
         return;
@@ -415,28 +434,106 @@ async function processPostUser(body, res) {
     responder(res, 200, { data: subSetBody });
     return;
   } catch (err) {
-    logger.error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
     responder(res, 500, { error: err });
   }
 }
 
 function postUser(req, res) {
-  const functionName = 'postUser';
+  // const functionName = 'postUser';
   const validated = validatePostUser(req);
   if (!validated) {
     return responder(res, 400, { error: 'not a valid request' });
   }
-  logger.debug(`req.body ${inspect(req.body)} ${functionName} HERE`);
+  // debug(`req.body ${inspect(req.body)} ${functionName} HERE`);
   return processPostUser(req.body, res);
 }
 
-function getUser(req) {
-  const functionName = 'getUser';
-  logger.debug(`req.query ${inspect(req.query)} ${functionName} HERE`);
+async function processPostTreeUser(body, res,
+  findTreeUserModelCallback, setTreeUserModelCallback, request) {
+  const functionName = 'processPostTreeUser';
+  try {
+    const convertedToSnake = convertObjectToSnakeCase(body);
+    const keys = Object.keys(convertedToSnake);
+
+    const findResults = await findTreeUserModelCallback(convertedToSnake);
+    const findResultsJSON = JSON.parse(JSON.stringify(findResults));
+    if (findResultsJSON.rowCount !== 0 && request[request.name] === true) {
+      return responder(res, 200, await findResultsJSON.rows[0]);
+    }
+    const insertObj = (request.type === 'DELETE') ? findResultsJSON.rows[0] : convertedToSnake;
+    const insertResults = await setTreeUserModelCallback(insertObj, keys);
+    const insertResultsJSON = JSON.parse(JSON.stringify(insertResults));
+    if (!insertResults) {
+      return responder(res, 500, { error: 'error saving' });
+    }
+    const requestType = request.type === 'POST';
+    const returnData = request.type === 'POST' ? await insertResultsJSON[0] : {};
+    const sendResult = { ...await returnData, ...{ [request.name]: requestType } };
+    return responder(res, 200, await sendResult);
+  } catch (err) {
+    error(`CATCH ${functionName} ${inspect(err, false, 4, true)}`);
+    return responder(res, 500, { error: err });
+  }
+}
+
+function setTreeUserCallBack(request) {
+  const callbackName = {
+    adopted: (request.adopted) ? insertTreeAdoptionModel : deleteTreeAdoptionModel,
+    liked: (request.liked) ? insertTreeLikesModel : deleteTreeLikesModel,
+  }[request.name];
+  return callbackName;
+}
+
+function postTreeUser(req, res) {
+  // const functionName = 'postTreeUser';
+  const validated = validatePostTreeUser(req);
+  if (!validated) {
+    return responder(res, 400, { error: 'not a valid request1' });
+  }
+  const { request, ...body } = req.body;
+  const findTreeUserModelCallback = (request.name === 'adopted')
+    ? findTreeAdoptionModel
+    : findTreeLikesModel;
+  const setTreeUserModelCallback = setTreeUserCallBack(request);
+  return processPostTreeUser(body, res,
+    findTreeUserModelCallback, setTreeUserModelCallback, request);
+}
+
+async function processGetTreeUser(query, res, findTreeUserModelCallback, request) {
+  const functionName = 'processGetTreeUser';
+  try {
+    const convertedToSnake = convertObjectToSnakeCase(query);
+    const findResults = await findTreeUserModelCallback(convertedToSnake);
+    const resultsJSON = JSON.parse(JSON.stringify(findResults));
+
+    if (resultsJSON.rowCount === 0) return responder(res, 200, { [request]: false });
+    const sendResult = { ...await resultsJSON.rows[0], ...{ [request]: true } };
+    return responder(res, 200, await sendResult);
+  } catch (err) {
+    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    res.statusCode = 500;
+    res.json({ error: err });
+    return err;
+  }
+}
+
+function getTreeUser(req, res) {
+  // const functionName = 'getTreeUser';
+  const validated = validateGetTreeUser(req);
+  if (!validated) {
+    responder(res, 400, { error: 'not a valid request' });
+    return;
+  }
+  const { request, ...query } = req.query;
+  const findTreeUserModelCallback = (request === 'adopted')
+    ? findTreeAdoptionModel
+    : findTreeLikesModel;
+  processGetTreeUser(query, res, findTreeUserModelCallback, request);
 }
 
 module.exports = {
-  getMap,
+  getTodaysTrees,
   getTree,
   getTreeList,
   updateTree,
@@ -444,5 +541,7 @@ module.exports = {
   getTreeHistory,
   postTreeHistory,
   postUser,
-  getUser,
+  postTreeUser,
+  getTreeUser,
+  getCitiesRequest,
 };

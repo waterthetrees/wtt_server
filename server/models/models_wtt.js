@@ -55,8 +55,10 @@ async function insertUserModel(user) {
 async function updateTreeHistoryModel(newTreeHistory, keys) {
   const functionName = 'updateTreeHistoryModel';
   try {
-    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND created::date = CURRENT_DATE RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.date_visit AS dateVisit', newTreeHistory);
+    info(`${functionName} newTreeHistory ${newTreeHistory}`);
+    const condition = pgp.as.format(' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND created::date = CURRENT_DATE RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.adopted, treehistory.liked, treehistory.volunteer, treehistory.date_visit AS dateVisit', newTreeHistory);
     const queryString = () => pgp.helpers.update(newTreeHistory, keys, 'treehistory') + condition;
+    info(`${functionName} queryString ${queryString}`);
     return await treeDB.query(queryString, newTreeHistory);
   } catch (err) {
     error(`${functionName} CATCH ${err}`);
@@ -67,7 +69,7 @@ async function updateTreeHistoryModel(newTreeHistory, keys) {
 async function insertTreeHistoryModel(newTreeHistory) {
   const functionName = 'insertTreeHistoryModel';
   try {
-    const queryString = 'INSERT INTO treehistory(${this:name}) VALUES(${this:csv}) RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.volunteer, treehistory.date_visit AS dateVisit';
+    const queryString = 'INSERT INTO treehistory(${this:name}) VALUES(${this:csv}) RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.adopted, treehistory.liked, treehistory.volunteer, treehistory.date_visit AS dateVisit';
     return await treeDB.query(queryString, newTreeHistory);
   } catch (err) {
     error(`${functionName} CATCH ${err}`);

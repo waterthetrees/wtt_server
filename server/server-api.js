@@ -37,6 +37,7 @@ const port = {
 const whitelist = [
   'https://blue.waterthetrees.com',
   'http://localhost:3000',
+  'http://localhost:3001',
   'http://localhost:3004',
   'https://dev.waterthetrees.com',
   'https://waterthetrees.com',

@@ -271,9 +271,9 @@ async function processUpdateTree(body, res) {
       responder(res, 500, updateTreeResults);
       return;
     }
-    const returnMessage = Object.prototype.hasOwnProperty.call(body, 'notes')
-      ? updateTreeResults[0].notes
-      : updateTreeResults[0].health;
+    // const returnMessage = Object.prototype.hasOwnProperty.call(body, 'notes')
+    //   ? updateTreeResults[0].notes
+    //   : updateTreeResults[0].health;
     responder(res, 200, { data: updateTreeResults[0] });
     return;
   } catch (err) {
@@ -283,10 +283,10 @@ async function processUpdateTree(body, res) {
 }
 
 function updateTree(req, res) {
-  const functionName = 'updateTree';
+  // const functionName = 'updateTree';
   const validated = validateUpdateTree(req);
   if (!validated) {
-    debug(`validated  ${validated} ${functionName}`);
+    // debug(`validated  ${validated} ${functionName}`);
     responder(res, 500, { error: 'not valid' });
     return;
   }
@@ -296,7 +296,7 @@ function updateTree(req, res) {
 async function processPostTreeHistory(body, res) {
   const functionName = 'processPostHistory';
   try {
-    info(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
+    // info(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
     const convertedTreeHistory = convertObjectToSnakeCase(body);
     const keys = Object.keys(convertedTreeHistory);
 

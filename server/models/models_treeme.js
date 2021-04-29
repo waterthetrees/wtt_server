@@ -40,10 +40,11 @@ function getGeoJson(location) {
       FROM (
         SELECT * FROM treedata 
         WHERE city like '${city}'
-        AND modified::date = CURRENT_DATE
+        AND (modified::date = CURRENT_DATE
+        OR created::date = CURRENT_DATE)
       ) inputs
     ) features;`;
-  info(`${functionName} query ${inspect(query, false, 10, true)}`);
+  // info(`${functionName} query ${inspect(query, false, 10, true)}`);
 
   return queryTreeDB(query, functionName);
 }
@@ -138,7 +139,7 @@ function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
     WHERE id_tree = ${newTreeHistory.id_tree}
     AND created::date = CURRENT_DATE
     AND volunteer = '${newTreeHistory.volunteer}';`;
-  info(`${functionName} ${query}`);
+  // info(`${functionName} ${query}`);
   return queryTreeDB(query, functionName);
 }
 
@@ -198,23 +199,23 @@ function deleteTreeAdoptionModel(treeadoption) {
 
 function deleteTreeLikesModel(treelikes) {
   const functionName = 'deleteTreeLikesModel';
-  info(`${inspect(treelikes)} treelikes ${functionName}`);
+  // info(`${inspect(treelikes)} treelikes ${functionName}`);
   const query = `DELETE FROM treelikes
     WHERE id_liked = ${treelikes.idLiked};`;
   return queryTreeDB(query, functionName);
 }
 
 function getCities() {
-  const query = 'SELECT city, lng, lat, count FROM cities;';
+  const query = 'SELECT city, lng, lat, city_count_trees AS "cityCountTrees", country FROM cities;';
   return queryTreeDB(query);
 }
 
 function updateCitiesTreeCount(city) {
-  const query = `update cities 
-    set count = (select count(*) 
-    from treedata 
-    where city='${city}') 
-    where city = '${city}';`;
+  const query = `UPDATE cities 
+    SET city_count_trees = (select count(id_tree) 
+    FROM treedata 
+    WHERE city='${city}') 
+    WHERE city = '${city}';`;
   return queryTreeDB(query);
 }
 

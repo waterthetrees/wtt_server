@@ -24,8 +24,14 @@ function iterateOverObjCheckingForString(obj) {
   // eslint-disable-next-line no-unused-vars
   return Object.entries(newObjWithoutId).every(([key, value]) => isString(value));
 }
+function validateGetTodaysTrees(req) {
+  if (validation(req, 'req', req) === '') return false;
+  if (validation(req, 'query', req.query) === '') return false;
+  if (validation(req, 'city', req.query.city) === '') return false;
+  return true;
+}
 
-function validateGetMap(req) {
+function validateGetCities(req) {
   if (validation(req, 'req', req) === '') return false;
   if (validation(req, 'query', req.query) === '') return false;
   if (validation(req, 'city', req.query.city) === '') return false;
@@ -75,7 +81,8 @@ function validatePostTreeHistory(req) {
   if (validation(req, 'req', req) === '') return false;
   if (validation(req, 'body', req.body) === '') return false;
   if (validation(req, 'idTree', req.body.idTree) === '') return false;
-  return iterateOverObjCheckingForString(req.body);
+  return true;
+  // return iterateOverObjCheckingForString(req.body);
 }
 
 function validatePostUser(req) {
@@ -84,6 +91,13 @@ function validatePostUser(req) {
   if (validation(req, 'name', req.body.name) === '') return false;
   if (validation(req, 'email', req.body.email) === '') return false;
   if (validation(req, 'nickname', req.body.nickname) === '') return false;
+  return true;
+}
+
+function validateAddNewCity(req) {
+  if (validation(req, 'req', req) === '') return false;
+  if (validation(req, 'body', req.body) === '') return false;
+  if (validation(req, 'city', req.body.city) === '') return false;
   return true;
 }
 
@@ -107,7 +121,7 @@ function validateGetTreeUser(req) {
 }
 
 module.exports = {
-  validateGetMap,
+  validateGetCities,
   validateGetTree,
   validateGetTreeHistory,
   validatePostTree,
@@ -115,6 +129,8 @@ module.exports = {
   validatePostTreeHistory,
   validateGetTreeList,
   validatePostUser,
+  validateAddNewCity,
   validatePostTreeUser,
   validateGetTreeUser,
+  validateGetTodaysTrees,
 };

@@ -24,6 +24,25 @@ function convertObjectToSnakeCase(obj) {
   return newObj;
 }
 
+function convertHealthToNumber(health) {
+  // console.log('convertHealthToNumber health', health);
+  if (!health) return 6;
+  const healthValue = {
+    good: 6,
+    fair: 5,
+    poor: 4,
+    stump: 3,
+    missing: 2,
+    dead: 1,
+    vacant: 0,
+  }[health];
+  return parseInt(healthValue, 10);
+}
+
 module.exports = {
-  sortTrees, convertObjectToSnakeCase, snakeToCamelCase, camelToSnakeCase,
+  convertHealthToNumber,
+  sortTrees,
+  convertObjectToSnakeCase,
+  snakeToCamelCase,
+  camelToSnakeCase,
 };

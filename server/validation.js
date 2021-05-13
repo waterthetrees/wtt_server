@@ -120,6 +120,22 @@ function validateGetTreeUser(req) {
   return true;
 }
 
+function validateCountUserTree(req) {
+  if (validation(req, 'req', req) === '') return false;
+  if (validation(req, 'query', req.query) === '') return false;
+  if (validation(req, 'request', req.query.request) === '') return false;
+  if (validation(req, 'user', req.query.user) === '') return false;
+  return true;
+}
+
+function validateGetUserTreehistory(req) {
+  if (validation(req, 'req', req) === '') return false;
+  if (validation(req, 'query', req.query) === '') return false;
+  if (validation(req, 'request', req.query.request) === '') return false;
+  if (validation(req, 'user', req.query.user) === '') return false;
+  return true;
+}
+
 module.exports = {
   validateGetCities,
   validateGetTree,
@@ -133,4 +149,6 @@ module.exports = {
   validatePostTreeUser,
   validateGetTreeUser,
   validateGetTodaysTrees,
+  validateCountUserTree,
+  validateGetUserTreehistory,
 };

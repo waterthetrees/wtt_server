@@ -376,11 +376,12 @@ function getTreeList(req, res) {
 async function processPostUser(body, res) {
   const functionName = 'processPostUser';
   try {
-    // debug(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
+    info(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
     const {
       // eslint-disable-next-line camelcase
       email_verified, family_name, given_name, locale, sub, updated_at, ...subSetBody
     } = body;
+    info(`${functionName}, "subSetBody",  ${inspect(subSetBody)} ${functionName}`);
     const keys = Object.keys(subSetBody);
 
     const findUserResults = await findUserModel(body);

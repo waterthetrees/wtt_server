@@ -30,9 +30,9 @@ async function updateTreeModel(newTreeData, keys, id_tree) {
 async function insertTreeModel(newTree) {
   const functionName = 'insertTreeModel';
   try {
-    // info(`${inspect(newTree, true, 5, true)} ${functionName}`);
+    info(`${inspect(newTree, true, 5, true)} ${functionName}`);
     const queryString = 'INSERT INTO treedata(${this:name}) VALUES(${this:csv}) RETURNING treedata.id_tree AS idTree, treedata.common, treedata.scientific,treedata.volunteer, treedata.date_planted AS dateVisit';
-    // info(`${functionName} queryString ${queryString}`);
+    info(`${functionName} queryString ${queryString}`);
     return await treeDB.query(queryString, newTree);
   } catch (err) {
     error(`${functionName} CATCH ${err}`);
@@ -43,8 +43,9 @@ async function insertTreeModel(newTree) {
 async function insertUserModel(user) {
   const functionName = 'insertUserModel';
   try {
+    info(`${functionName} user ${inspect(user, true, 5, true)}`);
     const queryString = 'INSERT INTO users(${this:name}) VALUES(${this:csv}) RETURNING users.id_user AS idUser, users.email, users.name, users.nickname';
-    // info(`${functionName} queryString ${queryString}`);
+    info(`${functionName} queryString ${queryString}`);
     return await treeDB.query(queryString, user);
   } catch (err) {
     error(`${functionName} CATCH ${err}`);

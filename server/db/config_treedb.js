@@ -11,6 +11,16 @@ const configTreeDB = {
     dateStrings: 'date',
     connect_timeout: 10,
   },
+  dockercl: {
+    connectionLimit: 10, // what does this mean?
+    database: 'treedb',
+    user: 'trees',
+    host: '127.0.0.1',
+    password: 'trees3r4t',
+    port: 5432,
+    dateStrings: 'date',
+    connect_timeout: 10,
+  },
   local: {
     connectionLimit: 10, // what does this mean?
     database: 'treedb',

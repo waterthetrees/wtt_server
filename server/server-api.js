@@ -27,7 +27,7 @@ const {
 // these are for various environments when we move to dev and live server vs local
 const env = process.argv[2] || 'local';
 const host = {
-  prod: 'http://localhost',
+  production: 'http://localhost',
   development: 'http://localhost',
   blue: 'http://localhost',
   local: 'http://localhost',
@@ -35,7 +35,7 @@ const host = {
 }[env];
 
 const port = {
-  development: 3002, blue: 3004, prod: 3002, local: 3002, dockerlocal: 3002,
+  development: 3002, blue: 3004, production: 3002, local: 3002, dockerlocal: 3002,
 }[env];
 
 // this is for whitelisting hosts for cors

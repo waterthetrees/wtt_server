@@ -4,8 +4,11 @@ const cors = require('cors');
 const morgan = require('morgan');
 const parser = require('body-parser');
 const compression = require('compression');
-// const { inspect } = require('util');
+const { inspect } = require('util');
 const { verbose } = require('../logger.js');
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
+//verbose(`${inspect(process.env,true,5,true)} process.env`);
 
 const {
   getCitiesRequest,
@@ -24,15 +27,15 @@ const {
 // these are for various environments when we move to dev and live server vs local
 const env = process.argv[2] || 'local';
 const host = {
-  prod: 'http://localhost',
-  dev: 'http://localhost',
+  production: 'http://localhost',
+  development: 'http://localhost',
   blue: 'http://localhost',
   local: 'http://localhost',
   dockerlocal: 'http://localhost',
 }[env];
 
 const port = {
-  dev: 3002, blue: 3004, prod: 3002, local: 3002, dockerlocal: 3002,
+  development: 3002, blue: 3004, production: 3002, local: 3002, dockerlocal: 3002,
 }[env];
 
 // this is for whitelisting hosts for cors
@@ -60,7 +63,7 @@ const router = express.Router();
 
 app.use(compression());
 // for logging on command line
-app.use(morgan('dev'));
+app.use(morgan('development'));
 app.use(parser.json());
 // Retrieve the raw body as a buffer and match all content types
 app.use(require('body-parser').raw({ type: '*/*' }));

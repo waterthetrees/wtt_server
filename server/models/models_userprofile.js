@@ -2,7 +2,7 @@
 // const { inspect } = require('util');
 const treeDB = require('../db/treedb.js');
 const {
-  // info,
+  info,
   error,
 } = require('../../logger.js');
 
@@ -16,11 +16,10 @@ async function queryTreeDB(queryString, functionCallerName) {
   }
 }
 
-function getUserTreehistoryModel(user) {
+function getUserTreehistoryModel(volunteer) {
   const functionName = 'getUserTreehistoryModel';
-  const query = `SELECT * FROM treehistory
-    WHERE email = '${user.email}'
-    OR nickname = '${user.nickname}';`;
+  const query = `SELECT * FROM treedata
+    WHERE volunteer = '${volunteer}';`;
   // info(`${functionName} ${query}`);
   return queryTreeDB(query, functionName);
 }
@@ -35,11 +34,13 @@ function findUserModel(user) {
   return queryTreeDB(query, functionName);
 }
 
-function countUserTreeModel(user, request, id) {
+function countUserTreeModel(email, request, id) {
   const functionName = 'countUserTreeModel';
-  const query = `SELECT count(${id}) 
+  const countName = `${request}Count`;
+  info(`${functionName} ${countName}`);
+  const query = `SELECT count(${id}) AS "${countName}"
     FROM ${request}
-    WHERE email = '${user.email}';`;
+    WHERE email = '${email}';`;
   // info(`${functionName} ${query}`);
   return queryTreeDB(query, functionName);
 }

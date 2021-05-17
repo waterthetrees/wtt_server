@@ -124,7 +124,7 @@ function validateCountUserTree(req) {
   if (validation(req, 'req', req) === '') return false;
   if (validation(req, 'query', req.query) === '') return false;
   if (validation(req, 'request', req.query.request) === '') return false;
-  if (validation(req, 'user', req.query.user) === '') return false;
+  if (validation(req, 'email', req.query.email) === '') return false;
   return true;
 }
 
@@ -132,7 +132,7 @@ function validateGetUserTreehistory(req) {
   if (validation(req, 'req', req) === '') return false;
   if (validation(req, 'query', req.query) === '') return false;
   if (validation(req, 'request', req.query.request) === '') return false;
-  if (validation(req, 'user', req.query.user) === '') return false;
+  if (validation(req, 'volunteer', req.query.volunteer) === '') return false;
   return true;
 }
 

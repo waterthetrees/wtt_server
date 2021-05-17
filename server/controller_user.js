@@ -30,20 +30,24 @@ function getIdString(request) {
 async function processCountUserTree(query, res) {
   const functionName = 'processCountUserTree';
   try {
-    const { request, user } = query;
+    info(`${query} query `);
+    const { request, email } = query;
+    info(`${request} request ${email} email`);
     const id = getIdString(request);
-    const results = await countUserTreeModel(user, request, id);
-    if ((await results) && has.call(results, 'rows') && results.rows.length > 0) {
-      info(await results, true, 10, true);
-      const resultsObject = results.rows;
+    info(`${id} id`);
+    const results = await countUserTreeModel(email, request, id);
+    // info(`${inspect(results, true, 10, true)} results`);
+    if ((await results) && results?.rows && results.rows.length > 0) {
+      info(`${inspect(results.rows[0], true, 10, true)} results.rows`);
+      const counts = results?.rows[0];
       res.statusCode = 200;
-      res.json(await resultsObject);
-      return resultsObject;
+      res.json({ ...counts, ...query });
+      return counts;
     }
-
+    error(`failed to get count  ${functionName}`);
     res.statusCode = 400;
-    res.json({ error: 'failed to get count' });
-    return location;
+    res.json({ error: 'failed to get count', ...query });
+    return email;
   } catch (err) {
     error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
     res.statusCode = 500;
@@ -54,6 +58,7 @@ async function processCountUserTree(query, res) {
 
 function countUserTree(req, res) {
   const functionName = 'countUserTree';
+  info(`${inspect(req.query, true, 10, true)} req.query TEST`);
   const validated = validateCountUserTree(req);
   if (!validated) {
     error(`NOT VALIDATED ${validated} ${functionName}`);
@@ -67,11 +72,11 @@ function countUserTree(req, res) {
 async function processGetUserTreehistory(query, res) {
   const functionName = 'processGetUserTreehistory';
   try {
-    const { user } = query;
-    const results = await getUserTreehistoryModel(user);
-    if ((await results) && has.call(results, 'rows') && results.rows.length > 0) {
-      info(await results, true, 10, true);
-      const resultsObject = results.rows;
+    const { volunteer } = query;
+    const results = await getUserTreehistoryModel(volunteer);
+    if ((await results) && results?.rows && results.rows.length > 0) {
+      // info(`${inspect(results.rows, true, 10, true)} results.rows`);
+      const resultsObject = results?.rows;
       res.statusCode = 200;
       res.json(await resultsObject);
       return resultsObject;
@@ -90,6 +95,7 @@ async function processGetUserTreehistory(query, res) {
 
 function getUserTreehistory(req, res) {
   const functionName = 'getUserTreehistory';
+  // info(`${inspect(req.query, true, 10, true)} req.query----`);
   const validated = validateGetUserTreehistory(req);
   if (!validated) {
     error(`NOT VALIDATED ${validated} ${functionName}`);

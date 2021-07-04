@@ -38,7 +38,7 @@ function getGeoJson(location) {
                         'health', health )
       ) AS feature
       FROM (
-        SELECT * FROM treedata 
+        SELECT * FROM treedata
         WHERE city like '${city}'
         AND (modified::date = CURRENT_DATE
         OR created::date = CURRENT_DATE)
@@ -54,10 +54,10 @@ async function getTreeModel(currentTreeId) {
   try {
     // debug(`${functionName} currentTreeId ${currentTreeId}`);
 
-    const query = `SELECT id_tree AS "idTree", common, scientific, genus, 
-      date_planted as "datePlanted", health, health as "healthNum", 
+    const query = `SELECT id_tree AS "idTree", common, scientific, genus,
+      date_planted as "datePlanted", health, health as "healthNum",
       address, city, country, zip, neighborhood, lat, lng, owner,
-      dbh, height, 
+      dbh, height,
       id_reference as "idReference", who, notes
      FROM treedata WHERE id_tree = ${currentTreeId};`;
     // debug(`${functionName}  query ${query}`);
@@ -108,9 +108,9 @@ async function getTreeHistoryModel(currentTreeId) {
   try {
     // debug(`${functionName} currentTreeId ${currentTreeId}`);
 
-    const query = `SELECT id_treehistory as "idTreeHistory", id_tree AS "idTree", 
+    const query = `SELECT id_treehistory as "idTreeHistory", id_tree AS "idTree",
     watered, mulched, weeded, staked, braced, pruned, liked, adopted,
-    date_visit as "dateVisit", comment, volunteer 
+    date_visit as "dateVisit", comment, volunteer
     FROM treehistory WHERE id_tree = ${currentTreeId}
     ORDER BY date_visit DESC limit 20;`;
     // debug(`${functionName}  query ${query}`);
@@ -135,7 +135,7 @@ async function getTreeHistoryModel(currentTreeId) {
 
 function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
   const functionName = 'findTreeHistoryVolunteerTodayModel';
-  const query = `SELECT id_tree AS "idTree" FROM treehistory 
+  const query = `SELECT id_tree AS "idTree" FROM treehistory
     WHERE id_tree = ${newTreeHistory.id_tree}
     AND created::date = CURRENT_DATE
     AND volunteer = '${newTreeHistory.volunteer}';`;
@@ -145,8 +145,8 @@ function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
 
 function findUserModel(user) {
   const functionName = 'findUserModel';
-  const query = `SELECT id_user AS "idUser", email, name, nickname FROM users 
-    WHERE email = '${user.email}' 
+  const query = `SELECT id_user AS "idUser", email, name, nickname FROM users
+    WHERE email = '${user.email}'
     OR name = '${user.name}'
     OR nickname = '${user.nickname}';`;
   // info(`${functionName} ${query}`);
@@ -211,10 +211,10 @@ function getCities() {
 }
 
 function updateCitiesTreeCount(city) {
-  const query = `UPDATE cities 
-    SET city_count_trees = (select count(id_tree) 
-    FROM treedata 
-    WHERE city='${city}') 
+  const query = `UPDATE cities
+    SET city_count_trees = (select count(id_tree)
+    FROM treedata
+    WHERE city='${city}')
     WHERE city = '${city}';`;
   return queryTreeDB(query);
 }
@@ -229,6 +229,22 @@ function insertNewCityModel(city, lng, lat, email, who) {
     VALUES ("${city}", "${lng}", "${lat}", "${email}", "${who}");`;
   // logger.info(`${query},query`);
   return queryTreeDB(query);
+}
+
+function getTreeAdoptionCount(treeId) {
+  const functionName = 'getTreeAdoptionCount';
+  const query = `SELECT COUNT(id_adopted) AS "adoptionCount"
+    FROM treeadoption
+    WHERE treeadoption.id_tree = ${treeId};`
+  return queryTreeDB(query, functionName);
+}
+
+function getTreeLikesCount(treeId) {
+  const functionName = 'getTreeLikesCount';
+  const query = `SELECT COUNT(id_liked) AS "likesCount"
+    FROM treelikes
+    WHERE treelikes.id_tree = ${treeId};`
+  return queryTreeDB(query, functionName);
 }
 
 module.exports = {
@@ -248,4 +264,6 @@ module.exports = {
   findTreeLikesModel,
   deleteTreeAdoptionModel,
   deleteTreeLikesModel,
+  getTreeAdoptionCount,
+  getTreeLikesCount
 };

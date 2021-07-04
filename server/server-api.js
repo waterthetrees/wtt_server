@@ -19,6 +19,7 @@ const {
   postUser,
   postTreeUser,
   getTreeUser,
+  getTreeCount,
 } = require('./controller.js');
 
 // these are for various environments when we move to dev and live server vs local
@@ -94,6 +95,9 @@ router.route('/api/user')
 router.route('/api/treeuser')
   .get(getTreeUser)
   .post(postTreeUser);
+
+router.route('/api/treecount')
+  .get(getTreeCount);
 
 const httpServer = http.createServer(app);
 httpServer.listen(port, () => verbose(`${host}:${port}`));

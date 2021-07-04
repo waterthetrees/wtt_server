@@ -14,6 +14,8 @@ const {
   findTreeLikesModel,
   deleteTreeAdoptionModel,
   deleteTreeLikesModel,
+  getTreeAdoptionCount,
+  getTreeLikesCount
 } = require('./models/models_treeme.js');
 
 const {
@@ -497,6 +499,33 @@ function getTreeUser(req, res) {
   processGetTreeUser(query, res, findTreeUserModelCallback, request);
 }
 
+async function processGetTreeCount(query, getTreeCountCallback, request, res) {
+  try {
+    const { idTree } = query;
+    const results = await getTreeCountCallback(idTree);
+    if (results.rowCount === 0) return responder(res, 200, { [request]: false });
+
+    const sendResult = { ...results.rows[0], [request]: true };
+    return responder(res, 200, sendResult);
+  } catch (error) {
+    const functionName = 'processGetTreeCount';
+    error(`CATCH ${functionName} ${inspect(error, false, 10, true)}`);
+    res.statusCode = 500;
+    res.json({ error });
+  }
+}
+
+function getTreeCount(req, res) {
+  const validated = validateGetTreeUser(req);
+  if (!validated) return responder(res, 400, { error: 'not a valid request' });
+
+  const { request, ...query } = req.query;
+  const getTreeCountCallback = (request === 'adoption')
+    ? getTreeAdoptionCount
+    : getTreeLikesCount;
+  processGetTreeCount(query, getTreeCountCallback, request, res);
+}
+
 module.exports = {
   getTodaysTrees,
   getTree,
@@ -509,4 +538,5 @@ module.exports = {
   postTreeUser,
   getTreeUser,
   getCitiesRequest,
+  getTreeCount,
 };

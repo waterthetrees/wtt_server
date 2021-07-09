@@ -14,6 +14,7 @@ const {
   findTreeLikesModel,
   deleteTreeAdoptionModel,
   deleteTreeLikesModel,
+  findUserAdoptedTrees,
 } = require('./models/models_treeme.js');
 
 const {
@@ -497,6 +498,27 @@ function getTreeUser(req, res) {
   processGetTreeUser(query, res, findTreeUserModelCallback, request);
 }
 
+async function processGetUserAdoptedTrees(query, res, findUserAdoptedTreesCallback, request) {
+  try {
+    const {email} = query
+    const results = await findUserAdoptedTreesCallback(email)
+
+    if (results.rowCount === 0) return responder(res, 200, { [request]: false });
+    const sendResult = { ...results.rows[0], [request]: true  };
+    return responder(res, 200, await sendResult);
+  } catch (err) {
+    const functionName = 'processGetUserAdoptedTrees';
+    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    res.statusCode = 500;
+    res.json({ error: err });
+    return err;
+  }
+}
+
+function getUserAdoptedTrees(req, res) {
+  processGetUserAdoptedTrees(req.query, res, findUserAdoptedTrees, "");
+}
+
 module.exports = {
   getTodaysTrees,
   getTree,
@@ -509,4 +531,5 @@ module.exports = {
   postTreeUser,
   getTreeUser,
   getCitiesRequest,
+  getUserAdoptedTrees,
 };

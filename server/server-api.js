@@ -19,6 +19,7 @@ const {
   postUser,
   postTreeUser,
   getTreeUser,
+  getUserAdoptedTrees,
 } = require('./controller.js');
 
 const {
@@ -103,6 +104,9 @@ router.route('/api/usertreehistory')
 router.route('/api/treeuser')
   .get(getTreeUser)
   .post(postTreeUser);
+
+router.route('/api/usertrees')
+  .get(getUserAdoptedTrees);
 
 const httpServer = http.createServer(app);
 httpServer.listen(port, () => verbose(`${host}:${port}`));

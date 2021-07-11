@@ -15,6 +15,8 @@ const {
   deleteTreeAdoptionModel,
   deleteTreeLikesModel,
   findUserAdoptedTrees,
+  findUserLikedTrees,
+  findUserPlantedTrees,
 } = require('./models/models_treeme.js');
 
 const {
@@ -498,25 +500,42 @@ function getTreeUser(req, res) {
   processGetTreeUser(query, res, findTreeUserModelCallback, request);
 }
 
-async function processGetUserAdoptedTrees(query, res, findUserAdoptedTreesCallback, request) {
+async function processGetUserTreeHistory(query, res, findTreeUserModelCallback) {
   try {
-    const {email} = query
-    const results = await findUserAdoptedTreesCallback(email)
+    const { email } = query;
+    const results = await findTreeUserModelCallback(email);
 
-    if (results.rowCount === 0) return responder(res, 200, { [request]: false });
-    const sendResult = { ...results.rows[0], [request]: true  };
-    return responder(res, 200, await sendResult);
+    if (results.rowCount === 0) return responder(res, 200, {});
+
+    return responder(res, 200, results.rows);
   } catch (err) {
-    const functionName = 'processGetUserAdoptedTrees';
-    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
+    error(`CATCH ${processGetUserTreeHistory.name} ${inspect(err, false, 10, true)}`);
     res.statusCode = 500;
     res.json({ error: err });
+
     return err;
   }
 }
 
-function getUserAdoptedTrees(req, res) {
-  processGetUserAdoptedTrees(req.query, res, findUserAdoptedTrees, "");
+function getUserTreeHistory(req, res) {
+  const { request, ...query } = req.query;
+  let findTreeUserModelCallback = null;
+
+  switch (request) {
+    case 'adopted':
+      findTreeUserModelCallback = findUserAdoptedTrees;
+      break;
+    case 'liked':
+      findTreeUserModelCallback = findUserLikedTrees;
+      break;
+    case 'planted':
+      findTreeUserModelCallback = findUserPlantedTrees;
+      break;
+    default:
+      break;
+  }
+
+  processGetUserTreeHistory(query, res, findTreeUserModelCallback);
 }
 
 module.exports = {
@@ -531,5 +550,5 @@ module.exports = {
   postTreeUser,
   getTreeUser,
   getCitiesRequest,
-  getUserAdoptedTrees,
+  getUserTreeHistory,
 };

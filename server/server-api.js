@@ -19,12 +19,12 @@ const {
   postUser,
   postTreeUser,
   getTreeUser,
-  getUserAdoptedTrees,
+  getUserTreeHistory,
 } = require('./controller.js');
 
 const {
   countUserTree,
-  getUserTreehistory,
+  // getUserTreehistory,
 } = require('./controller_user.js');
 
 // these are for various environments when we move to dev and live server vs local
@@ -98,15 +98,12 @@ router.route('/api/user')
   .post(postUser)
   .get(countUserTree);
 
-router.route('/api/usertreehistory')
-  .get(getUserTreehistory);
-
 router.route('/api/treeuser')
   .get(getTreeUser)
   .post(postTreeUser);
 
-router.route('/api/usertrees')
-  .get(getUserAdoptedTrees);
+router.route('/api/usertreehistory')
+  .get(getUserTreeHistory);
 
 const httpServer = http.createServer(app);
 httpServer.listen(port, () => verbose(`${host}:${port}`));

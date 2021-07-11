@@ -238,6 +238,21 @@ function findUserAdoptedTrees(email) {
   return queryTreeDB(query, findUserAdoptedTrees.name);
 }
 
+function findUserLikedTrees(email) {
+  const query = `SELECT id_liked AS "idLiked", id_tree AS "idTree", common
+    FROM treelikes
+    WHERE email = '${email}';`;
+  return queryTreeDB(query, findUserLikedTrees.name);
+}
+
+
+function findUserPlantedTrees(email) {
+  const query = `SELECT id_treehistory AS "idPlanted", id_tree AS "idTree"
+    FROM treehistory
+    WHERE volunteer = '${email}';`;
+  return queryTreeDB(query, findUserPlantedTrees.name);
+}
+
 module.exports = {
   getGeoJson,
   getTreeModel,
@@ -256,4 +271,6 @@ module.exports = {
   deleteTreeAdoptionModel,
   deleteTreeLikesModel,
   findUserAdoptedTrees,
+  findUserLikedTrees,
+  findUserPlantedTrees
 };

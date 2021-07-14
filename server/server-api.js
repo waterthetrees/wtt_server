@@ -22,11 +22,6 @@ const {
   getUserTreeHistory,
 } = require('./controller.js');
 
-const {
-  countUserTree,
-  // getUserTreehistory,
-} = require('./controller_user.js');
-
 // these are for various environments when we move to dev and live server vs local
 const env = process.argv[2] || 'local';
 const host = {
@@ -96,7 +91,6 @@ router.route('/api/treehistory')
 
 router.route('/api/user')
   .post(postUser)
-  .get(countUserTree);
 
 router.route('/api/treeuser')
   .get(getTreeUser)

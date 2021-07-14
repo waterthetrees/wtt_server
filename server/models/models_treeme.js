@@ -247,9 +247,9 @@ function findUserLikedTrees(email) {
 
 
 function findUserPlantedTrees(email) {
-  const query = `SELECT id_treehistory AS "idPlanted", id_tree AS "idTree"
-    FROM treehistory
-    WHERE volunteer = '${email}';`;
+  const query = `SELECT id_tree AS "idTree", common, scientific, genus, date_planted AS "datePlanted"
+    FROM treedata
+    WHERE email = '${email}';`;
   return queryTreeDB(query, findUserPlantedTrees.name);
 }
 

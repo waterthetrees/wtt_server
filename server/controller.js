@@ -42,6 +42,7 @@ const {
   validatePostTreeUser,
   validateGetTreeUser,
   validateGetTodaysTrees,
+  validateGetUserTreeHistory,
 } = require('./validation.js');
 
 const {
@@ -500,9 +501,8 @@ function getTreeUser(req, res) {
   processGetTreeUser(query, res, findTreeUserModelCallback, request);
 }
 
-async function processGetUserTreeHistory(query, res, findTreeUserModelCallback) {
+async function processGetUserTreeHistory(email, res, findTreeUserModelCallback) {
   try {
-    const { email } = query;
     const results = await findTreeUserModelCallback(email);
 
     if (results.rowCount === 0) return responder(res, 200, {});
@@ -518,7 +518,11 @@ async function processGetUserTreeHistory(query, res, findTreeUserModelCallback) 
 }
 
 function getUserTreeHistory(req, res) {
-  const { request, ...query } = req.query;
+  const validated = validateGetUserTreeHistory(req);
+
+  if (!validated) return responder(res, 400, { error: 'not a valid request' });
+
+  const { request, email } = req.query;
   let findTreeUserModelCallback = null;
 
   switch (request) {
@@ -535,7 +539,7 @@ function getUserTreeHistory(req, res) {
       break;
   }
 
-  processGetUserTreeHistory(query, res, findTreeUserModelCallback);
+  processGetUserTreeHistory(email, res, findTreeUserModelCallback);
 }
 
 module.exports = {

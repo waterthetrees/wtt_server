@@ -1,13 +1,3 @@
-// const { inspect } = require('util');
-// const validator = require('validator');
-// const {
-// info, verbose, debu, error,
-// } = require('../logger.js');
-
-// const featureFlags = {
-//   live: false,
-// };
-
 // checks whether key exists in object also value at that key is not undefined
 function validation(objectIn, key, valueIn) {
   const valueOut = typeof valueIn === 'undefined' ? '' : valueIn;
@@ -120,14 +110,6 @@ function validateGetTreeUser(req) {
   return true;
 }
 
-function validateGetUserTreeHistory(req) {
-  if (validation(req, 'req', req) === '') return false;
-  if (validation(req, 'query', req.query) === '') return false;
-  if (validation(req, 'request', req.query.request) === '') return false;
-  if (validation(req, 'email', req.query.email) === '') return false;
-  return true;
-}
-
 module.exports = {
   validateGetCities,
   validateGetTree,
@@ -141,5 +123,4 @@ module.exports = {
   validatePostTreeUser,
   validateGetTreeUser,
   validateGetTodaysTrees,
-  validateGetUserTreeHistory,
 };

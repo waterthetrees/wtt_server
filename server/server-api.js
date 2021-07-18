@@ -4,7 +4,6 @@ const cors = require('cors');
 const morgan = require('morgan');
 const parser = require('body-parser');
 const compression = require('compression');
-// const { inspect } = require('util');
 const { verbose } = require('../logger.js');
 
 const {
@@ -19,8 +18,11 @@ const {
   postUser,
   postTreeUser,
   getTreeUser,
-  getUserTreeHistory,
-} = require('./controller.js');
+} = require('./controllers/controller.js');
+
+const { getUserCounts } = require('./controllers/user-counts');
+
+const { getUserTreeHistory } = require('./controllers/user-tree-history');
 
 // these are for various environments when we move to dev and live server vs local
 const env = process.argv[2] || 'local';
@@ -98,6 +100,9 @@ router.route('/api/treeuser')
 
 router.route('/api/usertreehistory')
   .get(getUserTreeHistory);
+
+router.route('/api/usercounts')
+  .get(getUserCounts);
 
 const httpServer = http.createServer(app);
 httpServer.listen(port, () => verbose(`${host}:${port}`));

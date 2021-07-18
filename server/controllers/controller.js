@@ -14,10 +14,7 @@ const {
   findTreeLikesModel,
   deleteTreeAdoptionModel,
   deleteTreeLikesModel,
-  findUserAdoptedTrees,
-  findUserLikedTrees,
-  findUserPlantedTrees,
-} = require('./models/models_treeme.js');
+} = require('../models/models_treeme.js');
 
 const {
   insertTreeHistoryModel,
@@ -27,8 +24,7 @@ const {
   insertUserModel,
   insertTreeAdoptionModel,
   insertTreeLikesModel,
-  // updateTreeUserModel,
-} = require('./models/models_wtt.js');
+} = require('../models/models_wtt.js');
 
 const {
   validateGetCities,
@@ -42,18 +38,17 @@ const {
   validatePostTreeUser,
   validateGetTreeUser,
   validateGetTodaysTrees,
-  validateGetUserTreeHistory,
-} = require('./validation.js');
+} = require('../validations/validation');
 
 const {
   sortTrees, convertObjectToSnakeCase,
   convertHealthToNumber,
-} = require('./utilities.js');
+} = require('../utilities.js');
 
 const {
   // eslint-disable-next-line no-unused-vars
   info, verbose, debug, error,
-} = require('../logger.js');
+} = require('../../logger.js');
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -501,47 +496,6 @@ function getTreeUser(req, res) {
   processGetTreeUser(query, res, findTreeUserModelCallback, request);
 }
 
-async function processGetUserTreeHistory(email, res, findTreeUserModelCallback) {
-  try {
-    const results = await findTreeUserModelCallback(email);
-
-    if (results.rowCount === 0) return responder(res, 200, {});
-
-    return responder(res, 200, results.rows);
-  } catch (err) {
-    error(`CATCH ${processGetUserTreeHistory.name} ${inspect(err, false, 10, true)}`);
-    res.statusCode = 500;
-    res.json({ error: err });
-
-    return err;
-  }
-}
-
-function getUserTreeHistory(req, res) {
-  const validated = validateGetUserTreeHistory(req);
-
-  if (!validated) return responder(res, 400, { error: 'not a valid request' });
-
-  const { request, email } = req.query;
-  let findTreeUserModelCallback = null;
-
-  switch (request) {
-    case 'adopted':
-      findTreeUserModelCallback = findUserAdoptedTrees;
-      break;
-    case 'liked':
-      findTreeUserModelCallback = findUserLikedTrees;
-      break;
-    case 'planted':
-      findTreeUserModelCallback = findUserPlantedTrees;
-      break;
-    default:
-      break;
-  }
-
-  processGetUserTreeHistory(email, res, findTreeUserModelCallback);
-}
-
 module.exports = {
   getTodaysTrees,
   getTree,
@@ -554,5 +508,4 @@ module.exports = {
   postTreeUser,
   getTreeUser,
   getCitiesRequest,
-  getUserTreeHistory,
 };

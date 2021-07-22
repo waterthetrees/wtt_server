@@ -189,22 +189,6 @@ function updateTreeHealthModel(id_tree, health) {
   return queryTreeDB(query, functionName);
 }
 
-function deleteTreeAdoptionModel(treeadoption) {
-  const functionName = 'deleteTreeAdoptionModel';
-  info(`${inspect(treeadoption)} treeadoption ${functionName}`);
-  const query = `DELETE FROM treeadoption
-    WHERE id_adopted = ${treeadoption.idAdopted};`;
-  return queryTreeDB(query, functionName);
-}
-
-function deleteTreeLikesModel(treelikes) {
-  const functionName = 'deleteTreeLikesModel';
-  // info(`${inspect(treelikes)} treelikes ${functionName}`);
-  const query = `DELETE FROM treelikes
-    WHERE id_liked = ${treelikes.idLiked};`;
-  return queryTreeDB(query, functionName);
-}
-
 function getCities() {
   const query = 'SELECT city, lng, lat, city_count_trees AS "cityCountTrees", country FROM cities;';
   return queryTreeDB(query);
@@ -231,20 +215,42 @@ function insertNewCityModel(city, lng, lat, email, who) {
   return queryTreeDB(query);
 }
 
-function getTreeAdoptionCount(treeId) {
-  const functionName = 'getTreeAdoptionCount';
-  const query = `SELECT COUNT(id_adopted) AS "adoptionCount"
+function findTreeAdoptionModel(idTree) {
+  const query = `
+    SELECT id_adopted AS "idAdopted", id_tree AS "idTree", email
     FROM treeadoption
-    WHERE treeadoption.id_tree = ${treeId};`
-  return queryTreeDB(query, functionName);
+    WHERE id_tree = ${idTree};
+  `;
+
+  return queryTreeDB(query, findTreeAdoptionModel.name);
 }
 
-function getTreeLikesCount(treeId) {
-  const functionName = 'getTreeLikesCount';
-  const query = `SELECT COUNT(id_liked) AS "likesCount"
+function findTreeLikesModel(idTree) {
+  const query = `
+    SELECT id_liked AS "idLiked", id_tree AS "idTree", email
     FROM treelikes
-    WHERE treelikes.id_tree = ${treeId};`
-  return queryTreeDB(query, functionName);
+    WHERE id_tree = ${idTree};
+  `;
+
+  return queryTreeDB(query, findTreeLikesModel.name);
+}
+
+function deleteTreeAdoptionModel({idTree, email}) {
+  const query = `
+    DELETE FROM treeadoption
+    WHERE id_tree = ${idTree} AND email = '${email}';
+  `;
+
+  return queryTreeDB(query, deleteTreeAdoptionModel.name);
+}
+
+function deleteTreeLikesModel({idTree, email}) {
+  const query = `
+    DELETE FROM treelikes
+    WHERE id_tree = ${idTree} AND email = '${email}';
+  `;
+
+  return queryTreeDB(query, deleteTreeLikesModel.name);
 }
 
 module.exports = {
@@ -264,6 +270,4 @@ module.exports = {
   findTreeLikesModel,
   deleteTreeAdoptionModel,
   deleteTreeLikesModel,
-  getTreeAdoptionCount,
-  getTreeLikesCount
 };

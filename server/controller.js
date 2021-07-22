@@ -14,8 +14,6 @@ const {
   findTreeLikesModel,
   deleteTreeAdoptionModel,
   deleteTreeLikesModel,
-  getTreeAdoptionCount,
-  getTreeLikesCount
 } = require('./models/models_treeme.js');
 
 const {
@@ -416,114 +414,77 @@ function postUser(req, res) {
   return processPostUser(req.body, res);
 }
 
-async function processPostTreeUser(body, res,
-  findTreeUserModelCallback, setTreeUserModelCallback, request) {
-  const functionName = 'processPostTreeUser';
+async function processPostTreeUser(body, res, processPostTreeUserCallback, request) {
   try {
-    const convertedToSnake = convertObjectToSnakeCase(body);
-    const keys = Object.keys(convertedToSnake);
+    if (request.type === 'DELETE') {
+      const { rowCount } = await processPostTreeUserCallback(body);
 
-    const findResults = await findTreeUserModelCallback(convertedToSnake);
-    const findResultsJSON = JSON.parse(JSON.stringify(findResults));
-    if (findResultsJSON.rowCount !== 0 && request[request.name] === true) {
-      return responder(res, 200, await findResultsJSON.rows[0]);
+      if (rowCount === 1) return responder(res, 200, [body]);
+    } else {
+      const formattedBody = convertObjectToSnakeCase(body);
+      const data = await processPostTreeUserCallback(formattedBody);
+
+      if (data.length === 1) return responder(res, 200, data);
     }
-    const insertObj = (request.type === 'DELETE') ? findResultsJSON.rows[0] : convertedToSnake;
-    const insertResults = await setTreeUserModelCallback(insertObj, keys);
-    const insertResultsJSON = JSON.parse(JSON.stringify(insertResults));
-    if (!insertResults) {
-      return responder(res, 500, { error: 'error saving' });
-    }
-    const requestType = request.type === 'POST';
-    const returnData = request.type === 'POST' ? await insertResultsJSON[0] : {};
-    const sendResult = { ...await returnData, ...{ [request.name]: requestType } };
-    return responder(res, 200, await sendResult);
+
+    return responder(res, 400, { error: `could not find the tree with id ${body.idTree}` })
   } catch (err) {
-    error(`CATCH ${functionName} ${inspect(err, false, 4, true)}`);
-    return responder(res, 500, { error: err });
+    error(`CATCH ${processPostTreeUser.name} ${inspect(err, false, 10, true)}`);
+
+    return responder(res, 500, `${err.name}: ${err.message}`);
   }
 }
 
-function setTreeUserCallBack(request) {
-  const callbackName = {
-    adopted: (request.adopted) ? insertTreeAdoptionModel : deleteTreeAdoptionModel,
-    liked: (request.liked) ? insertTreeLikesModel : deleteTreeLikesModel,
-  }[request.name];
-  return callbackName;
+function getProcessPostTreeUserCallback(request) {
+  if (request.name === 'adopted') {
+    return request.type === 'POST' ? insertTreeAdoptionModel : deleteTreeAdoptionModel;
+  }
+
+  return request.type === 'POST' ? insertTreeLikesModel : deleteTreeLikesModel;
 }
 
 function postTreeUser(req, res) {
-  // const functionName = 'postTreeUser';
   const validated = validatePostTreeUser(req);
-  if (!validated) {
-    return responder(res, 400, { error: 'not a valid request1' });
-  }
+
+  if (!validated) return responder(res, 400, { error: 'not a valid request' });
+
   const { request, ...body } = req.body;
-  const findTreeUserModelCallback = (request.name === 'adopted')
-    ? findTreeAdoptionModel
-    : findTreeLikesModel;
-  const setTreeUserModelCallback = setTreeUserCallBack(request);
-  return processPostTreeUser(body, res,
-    findTreeUserModelCallback, setTreeUserModelCallback, request);
+  const processPostTreeUserCallback = getProcessPostTreeUserCallback(request);
+
+  return processPostTreeUser(body, res, processPostTreeUserCallback, request);
 }
 
-async function processGetTreeUser(query, res, findTreeUserModelCallback, request) {
-  const functionName = 'processGetTreeUser';
-  try {
-    const convertedToSnake = convertObjectToSnakeCase(query);
-    const findResults = await findTreeUserModelCallback(convertedToSnake);
-    const resultsJSON = JSON.parse(JSON.stringify(findResults));
+async function processGetTreeUser(findTreeUserModelCallback, query, res) {
+  const { idTree, email, request } = query;
 
-    if (resultsJSON.rowCount === 0) return responder(res, 200, { [request]: false });
-    const sendResult = { ...await resultsJSON.rows[0], ...{ [request]: true } };
-    return responder(res, 200, await sendResult);
+  try {
+    const { rows } = await findTreeUserModelCallback(idTree);
+
+    if (rows === undefined) return responder(res, 400, { error: `could not find the tree with id ${idTree}` });
+
+    const data = {
+      [request]: rows.some((row) => row.email === email),
+      [`${request}Count`]: rows.length,
+    };
+
+    return responder(res, 200, data);
   } catch (err) {
-    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
-    res.statusCode = 500;
-    res.json({ error: err });
-    return err;
+    error(`CATCH ${processGetTreeUser.name} ${inspect(err, false, 10, true)}`);
+
+    return responder(res, 500, `${err.name}: ${err.message}`);
   }
 }
 
 function getTreeUser(req, res) {
-  // const functionName = 'getTreeUser';
   const validated = validateGetTreeUser(req);
-  if (!validated) {
-    responder(res, 400, { error: 'not a valid request' });
-    return;
-  }
-  const { request, ...query } = req.query;
-  const findTreeUserModelCallback = (request === 'adopted')
-    ? findTreeAdoptionModel
-    : findTreeLikesModel;
-  processGetTreeUser(query, res, findTreeUserModelCallback, request);
-}
 
-async function processGetTreeCount(query, getTreeCountCallback, request, res) {
-  try {
-    const { idTree } = query;
-    const results = await getTreeCountCallback(idTree);
-    if (results.rowCount === 0) return responder(res, 200, { [request]: false });
-
-    const sendResult = { ...results.rows[0], [request]: true };
-    return responder(res, 200, sendResult);
-  } catch (error) {
-    const functionName = 'processGetTreeCount';
-    error(`CATCH ${functionName} ${inspect(error, false, 10, true)}`);
-    res.statusCode = 500;
-    res.json({ error });
-  }
-}
-
-function getTreeCount(req, res) {
-  const validated = validateGetTreeUser(req);
   if (!validated) return responder(res, 400, { error: 'not a valid request' });
 
-  const { request, ...query } = req.query;
-  const getTreeCountCallback = (request === 'adoption')
-    ? getTreeAdoptionCount
-    : getTreeLikesCount;
-  processGetTreeCount(query, getTreeCountCallback, request, res);
+  const findTreeUserModelCallback = (req.query.request === 'adopted')
+    ? findTreeAdoptionModel
+    : findTreeLikesModel;
+
+  return processGetTreeUser(findTreeUserModelCallback, req.query, res);
 }
 
 module.exports = {
@@ -538,5 +499,4 @@ module.exports = {
   postTreeUser,
   getTreeUser,
   getCitiesRequest,
-  getTreeCount,
 };

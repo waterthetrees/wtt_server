@@ -1,13 +1,12 @@
 module.exports = {
   apps : [{
     script: 'server/server-api.js',
-    watch: '.',
     name: 'wtt_server',
     instances: 'max',
     exec_mode: 'fork',
     node_args: '--require dotenv/config',
     env: {
-      NODE_ENV: 'development',
+      NODE_ENV: 'production',
     },
     env_development: {
       DOTENV_CONFIG_DEBUG: true,
@@ -15,12 +14,12 @@ module.exports = {
     }
   }],
   deploy : {
-    development : {
+    production : {
       user : 'trees',
       host : 'localhost',
       ref  : 'origin/master',
       'pre-deploy-local': '',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env development',
+      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production',
       'pre-setup': ''
     }
   }

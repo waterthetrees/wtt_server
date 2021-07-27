@@ -64,6 +64,7 @@ async function processGetTodaysTrees(location, res) {
   try {
     const results = await getGeoJson(location);
     if ((await results) && has.call(results, 'rows') && results.rows.length > 0) {
+      info(`results ${functionName} ${inspect(results.rows, false, 10, true)}`)
       const resultsObject = results.rows[0].jsonb_build_object;
       res.statusCode = 200;
       res.json(await resultsObject);

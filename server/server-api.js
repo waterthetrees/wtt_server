@@ -65,7 +65,7 @@ const router = express.Router();
 
 app.use(compression());
 // for logging on command line
-app.use(morgan('development'));
+app.use(morgan('dev'));
 app.use(parser.json());
 // Retrieve the raw body as a buffer and match all content types
 app.use(require('body-parser').raw({ type: '*/*' }));

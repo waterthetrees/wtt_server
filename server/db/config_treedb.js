@@ -1,5 +1,3 @@
-const env = process.argv[2] || 'local';
-
 const configTreeDB = {
     connectionLimit: 10, // what does this mean?
     host: process.env.DATABASE_HOST || 'postgis-wtt',
@@ -19,5 +17,4 @@ const configPgNative = `
   port=${configTreeDB.port}
   connect_timeout=${configTreeDB.connect_timeout}`;
 
-//console.log(configTreeDB,'configTreeDB', ' configPgNative', configPgNative);
 module.exports = { configTreeDB, configPgNative };

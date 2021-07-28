@@ -43,7 +43,7 @@ function getGeoJson(location) {
         WHERE city like '${city}'
         AND ((modified > (CURRENT_DATE - INTERVAL '3 months'))
         OR (created > (CURRENT_DATE - INTERVAL '3 months'))
-	OR (date_planted > (CURRENT_DATE - INTERVAL '3 months')))
+	OR (date_planted > (CURRENT_DATE - INTERVAL '5 months')))
       ) inputs
     ) features;`;
   // info(`${functionName} query ${inspect(query, false, 10, true)}`);

@@ -35,18 +35,22 @@ function getGeoJson(location) {
                         'id', id_tree,
                         'idTree', id_tree,
                         'common', common,
+			'datePlanted', date_planted,
                         'health', health )
       ) AS feature
       FROM (
         SELECT * FROM treedata
         WHERE city like '${city}'
-        AND (modified::date = CURRENT_DATE
-        OR created::date = CURRENT_DATE)
+        AND ((modified > (CURRENT_DATE - INTERVAL '3 months'))
+        OR (created > (CURRENT_DATE - INTERVAL '3 months'))
+	OR (date_planted > (CURRENT_DATE - INTERVAL '5 months')))
       ) inputs
     ) features;`;
   // info(`${functionName} query ${inspect(query, false, 10, true)}`);
 
-  return queryTreeDB(query, functionName);
+  const result = queryTreeDB(query, functionName);
+  // info(`${functionName} result query ${inspect(result, false, 10, true)}`);
+  return result;
 }
 
 async function getTreeModel(currentTreeId) {

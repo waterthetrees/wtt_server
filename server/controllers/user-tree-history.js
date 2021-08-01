@@ -16,7 +16,7 @@ async function processGetUserTreeHistory(volunteer, res, findUserTreeHistory) {
     const results = await findUserTreeHistory(volunteer);
     const fixedResults = results.rows.map((obj) => {
       for (const key of Object.keys(obj)) {
-        if (key != "dateVisit") {
+        if (!["dateVisit", "common", "scientific"].includes(key)) {
           if (obj[key] === null) {
             obj[key] = false;
           } else {

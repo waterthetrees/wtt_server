@@ -1,10 +1,13 @@
-const { queryTreeDB } = require('../db/treedb.js');
+const { queryTreeDB } = require("../db/treedb.js");
 
 function findUserTreeHistory(volunteer) {
   const query = `
-    SELECT date_visit as "dateVisit", liked, adopted, watered, mulched, weeded, staked, braced, pruned
+    SELECT treehistory.date_visit as "dateVisit", treedata.common, treedata.scientific,
+           treehistory.liked, treehistory.adopted, treehistory.watered, treehistory.mulched,
+           treehistory.weeded, treehistory.staked, treehistory.braced, treehistory.pruned
     FROM treehistory
-    WHERE volunteer = 'rommims';
+    JOIN treedata USING (id_tree)
+    WHERE treehistory.volunteer = 'rommims';
   `;
 
   return queryTreeDB(query, findUserTreeHistory.name);

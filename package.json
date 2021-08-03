@@ -44,6 +44,8 @@
     "eslint": "^7.11.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.4.0",
+    "jest": "^27.0.6",
     "mocha": "^6.2.2",
     "null-loader": "^0.1.1",
     "puppeteer": "^2.0.0"
@@ -73,6 +75,6 @@
   "scripts": {
     "serve": "node server/server-api.js local",
     "start": "nodemon server/server-api.js dockerlocal",
-    "test": "mocha --timeout=90000 ./test/react-tests.js"
+    "test": "./bin/run_tests.sh"
   }
 }

@@ -14,4 +14,21 @@ const convertHealthToNumber = (health) => {
   return healthValue[health];
 };
 
-module.exports = { convertHealthToNumber };
+function camelToSnakeCase(camelIn) {
+  return camelIn.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+}
+
+function convertObjectToSnakeCase(obj) {
+  const newObj = {};
+  // eslint-disable-next-line no-restricted-syntax
+  for (const key in obj) {
+    if (key === key.toLowerCase()) {
+      newObj[key] = obj[key];
+    } else {
+      newObj[camelToSnakeCase(key)] = obj[key];
+    }
+  }
+  return newObj;
+}
+
+module.exports = { convertHealthToNumber, convertObjectToSnakeCase };

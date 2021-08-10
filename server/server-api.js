@@ -10,7 +10,6 @@ const {
   getCitiesRequest,
   getTodaysTrees,
   getTreeList,
-  postTree,
   updateTree,
   getTreeHistory,
   postTreeHistory,
@@ -78,7 +77,6 @@ app.use('/api/tree', treesRouter);
 
 router.route('/api/tree')
   .put(updateTree)
-  .post(postTree);
 
 router.route('/api/treelist')
   .get(getTreeList);
@@ -99,6 +97,5 @@ router.route('/api/user')
 router.route('/api/treeuser')
   .get(getTreeUser)
   .post(postTreeUser);
-
 const httpServer = http.createServer(app);
 httpServer.listen(port, () => verbose(`${host}:${port}`));

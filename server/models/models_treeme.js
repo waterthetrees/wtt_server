@@ -35,18 +35,22 @@ function getGeoJson(location) {
                         'id', id_tree,
                         'idTree', id_tree,
                         'common', common,
+			'datePlanted', date_planted,
                         'health', health )
       ) AS feature
       FROM (
-        SELECT * FROM treedata 
+        SELECT * FROM treedata
         WHERE city like '${city}'
-        AND (modified::date = CURRENT_DATE
-        OR created::date = CURRENT_DATE)
+        AND ((modified > (CURRENT_DATE - INTERVAL '3 months'))
+        OR (created > (CURRENT_DATE - INTERVAL '3 months'))
+	OR (date_planted > (CURRENT_DATE - INTERVAL '5 months')))
       ) inputs
     ) features;`;
   // info(`${functionName} query ${inspect(query, false, 10, true)}`);
 
-  return queryTreeDB(query, functionName);
+  const result = queryTreeDB(query, functionName);
+  // info(`${functionName} result query ${inspect(result, false, 10, true)}`);
+  return result;
 }
 
 async function getTreeModel(currentTreeId) {
@@ -54,10 +58,10 @@ async function getTreeModel(currentTreeId) {
   try {
     // debug(`${functionName} currentTreeId ${currentTreeId}`);
 
-    const query = `SELECT id_tree AS "idTree", common, scientific, genus, 
-      date_planted as "datePlanted", health, health as "healthNum", 
+    const query = `SELECT id_tree AS "idTree", common, scientific, genus,
+      date_planted as "datePlanted", health, health as "healthNum",
       address, city, country, zip, neighborhood, lat, lng, owner,
-      dbh, height, 
+      dbh, height,
       id_reference as "idReference", who, notes
      FROM treedata WHERE id_tree = ${currentTreeId};`;
     // debug(`${functionName}  query ${query}`);
@@ -108,9 +112,9 @@ async function getTreeHistoryModel(currentTreeId) {
   try {
     // debug(`${functionName} currentTreeId ${currentTreeId}`);
 
-    const query = `SELECT id_treehistory as "idTreeHistory", id_tree AS "idTree", 
+    const query = `SELECT id_treehistory as "idTreeHistory", id_tree AS "idTree",
     watered, mulched, weeded, staked, braced, pruned, liked, adopted,
-    date_visit as "dateVisit", comment, volunteer 
+    date_visit as "dateVisit", comment, volunteer
     FROM treehistory WHERE id_tree = ${currentTreeId}
     ORDER BY date_visit DESC limit 20;`;
     // debug(`${functionName}  query ${query}`);
@@ -135,7 +139,7 @@ async function getTreeHistoryModel(currentTreeId) {
 
 function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
   const functionName = 'findTreeHistoryVolunteerTodayModel';
-  const query = `SELECT id_tree AS "idTree" FROM treehistory 
+  const query = `SELECT id_tree AS "idTree" FROM treehistory
     WHERE id_tree = ${newTreeHistory.id_tree}
     AND created::date = CURRENT_DATE
     AND volunteer = '${newTreeHistory.volunteer}';`;
@@ -145,8 +149,8 @@ function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
 
 function findUserModel(user) {
   const functionName = 'findUserModel';
-  const query = `SELECT id_user AS "idUser", email, name, nickname FROM users 
-    WHERE email = '${user.email}' 
+  const query = `SELECT id_user AS "idUser", email, name, nickname FROM users
+    WHERE email = '${user.email}'
     OR name = '${user.name}'
     OR nickname = '${user.nickname}';`;
   // info(`${functionName} ${query}`);
@@ -189,32 +193,16 @@ function updateTreeHealthModel(id_tree, health) {
   return queryTreeDB(query, functionName);
 }
 
-function deleteTreeAdoptionModel(treeadoption) {
-  const functionName = 'deleteTreeAdoptionModel';
-  info(`${inspect(treeadoption)} treeadoption ${functionName}`);
-  const query = `DELETE FROM treeadoption
-    WHERE id_adopted = ${treeadoption.idAdopted};`;
-  return queryTreeDB(query, functionName);
-}
-
-function deleteTreeLikesModel(treelikes) {
-  const functionName = 'deleteTreeLikesModel';
-  // info(`${inspect(treelikes)} treelikes ${functionName}`);
-  const query = `DELETE FROM treelikes
-    WHERE id_liked = ${treelikes.idLiked};`;
-  return queryTreeDB(query, functionName);
-}
-
 function getCities() {
   const query = 'SELECT city, lng, lat, city_count_trees AS "cityCountTrees", country FROM cities;';
   return queryTreeDB(query);
 }
 
 function updateCitiesTreeCount(city) {
-  const query = `UPDATE cities 
-    SET city_count_trees = (select count(id_tree) 
-    FROM treedata 
-    WHERE city='${city}') 
+  const query = `UPDATE cities
+    SET city_count_trees = (select count(id_tree)
+    FROM treedata
+    WHERE city='${city}')
     WHERE city = '${city}';`;
   return queryTreeDB(query);
 }
@@ -229,6 +217,44 @@ function insertNewCityModel(city, lng, lat, email, who) {
     VALUES ("${city}", "${lng}", "${lat}", "${email}", "${who}");`;
   // logger.info(`${query},query`);
   return queryTreeDB(query);
+}
+
+function findTreeAdoptionModel(idTree) {
+  const query = `
+    SELECT id_adopted AS "idAdopted", id_tree AS "idTree", email
+    FROM treeadoption
+    WHERE id_tree = ${idTree};
+  `;
+
+  return queryTreeDB(query, findTreeAdoptionModel.name);
+}
+
+function findTreeLikesModel(idTree) {
+  const query = `
+    SELECT id_liked AS "idLiked", id_tree AS "idTree", email
+    FROM treelikes
+    WHERE id_tree = ${idTree};
+  `;
+
+  return queryTreeDB(query, findTreeLikesModel.name);
+}
+
+function deleteTreeAdoptionModel({idTree, email}) {
+  const query = `
+    DELETE FROM treeadoption
+    WHERE id_tree = ${idTree} AND email = '${email}';
+  `;
+
+  return queryTreeDB(query, deleteTreeAdoptionModel.name);
+}
+
+function deleteTreeLikesModel({idTree, email}) {
+  const query = `
+    DELETE FROM treelikes
+    WHERE id_tree = ${idTree} AND email = '${email}';
+  `;
+
+  return queryTreeDB(query, deleteTreeLikesModel.name);
 }
 
 module.exports = {

@@ -79,3 +79,4 @@ $ sudo apt-get update && sudo apt-get install yarn
 
 ## Production 
 pm2 reload ecosystem.config.js --env production
+node server/server-api.js production

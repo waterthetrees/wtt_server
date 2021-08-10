@@ -15,14 +15,16 @@ function validation(objectIn, key, valueIn) {
 }
 
 function isString(hopeString) {
-  return (typeof hopeString === 'string');
+  return typeof hopeString === 'string';
 }
 
 function iterateOverObjCheckingForString(obj) {
   const removeMe = 'idTree';
   const { [removeMe]: removedKey, ...newObjWithoutId } = obj;
   // eslint-disable-next-line no-unused-vars
-  return Object.entries(newObjWithoutId).every(([key, value]) => isString(value));
+  return Object.entries(newObjWithoutId).every(([key, value]) =>
+    isString(value)
+  );
 }
 function validateGetTodaysTrees(req) {
   if (validation(req, 'req', req) === '') return false;
@@ -38,24 +40,19 @@ function validateGetCities(req) {
   return true;
 }
 
-function validateGetTree(req) {
-  if (validation(req, 'req', req) === '') return false;
-  if (validation(req, 'query', req.query) === '') return false;
-  if (validation(req, 'currentTreeId', req.query.currentTreeId) === '') return false;
-  return true;
-}
-
 function validateGetTreeList(req) {
   if (validation(req, 'req', req) === '') return false;
   if (validation(req, 'query', req.query) === '') return false;
-  if (validation(req, 'coordinates', req.query.coordinates) === '') return false;
+  if (validation(req, 'coordinates', req.query.coordinates) === '')
+    return false;
   return true;
 }
 
 function validateGetTreeHistory(req) {
   if (validation(req, 'req', req) === '') return false;
   if (validation(req, 'query', req.query) === '') return false;
-  if (validation(req, 'currentTreeId', req.query.currentTreeId) === '') return false;
+  if (validation(req, 'currentTreeId', req.query.currentTreeId) === '')
+    return false;
   return true;
 }
 
@@ -122,7 +119,6 @@ function validateGetTreeUser(req) {
 
 module.exports = {
   validateGetCities,
-  validateGetTree,
   validateGetTreeHistory,
   validatePostTree,
   validateUpdateTree,

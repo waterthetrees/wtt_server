@@ -1,19 +1,14 @@
 const http = require('http');
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-const parser = require('body-parser');
+const path = require('path');
+const bodyParser = require('body-parser');
 const compression = require('compression');
-const { inspect } = require('util');
-const { verbose } = require('../logger.js');
-const path = require('path')
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
-//verbose(`${inspect(process.env,true,5,true)} process.env`);
-
+const cors = require('cors');
+const express = require('express');
+const morgan = require('morgan');
+const { verbose } = require('../logger');
 const {
   getCitiesRequest,
   getTodaysTrees,
-  getTree,
   getTreeList,
   postTree,
   updateTree,
@@ -22,7 +17,9 @@ const {
   postUser,
   postTreeUser,
   getTreeUser,
-} = require('./controller.js');
+} = require('./controller');
+const treesRouter = require('./routes/trees/controller');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 // these are for various environments when we move to dev and live server vs local
 const env = process.argv[2] || 'local';
@@ -35,7 +32,11 @@ const host = {
 }[env];
 
 const port = {
-  development: 3002, blue: 3004, production: 3002, local: 3002, dockerlocal: 3002,
+  development: 3002,
+  blue: 3004,
+  production: 3002,
+  local: 3002,
+  dockerlocal: 3002,
 }[env];
 
 // this is for whitelisting hosts for cors
@@ -64,17 +65,18 @@ const router = express.Router();
 app.use(compression());
 // for logging on command line
 app.use(morgan('dev'));
-app.use(parser.json());
+app.use(bodyParser.json());
 // Retrieve the raw body as a buffer and match all content types
-app.use(require('body-parser').raw({ type: '*/*' }));
+app.use(bodyParser.raw({ type: '*/*' }));
 
 app.use(cors(options));
 
 // ROUTES
 app.use('/', router);
 
+app.use('/api/tree', treesRouter);
+
 router.route('/api/tree')
-  .get(getTree)
   .put(updateTree)
   .post(postTree);
 

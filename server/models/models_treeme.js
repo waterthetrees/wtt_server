@@ -1,7 +1,5 @@
-/* eslint-disable camelcase */
-const { inspect } = require('util');
-const treeDB = require('../db/treedb.js');
 const { info, error } = require('../../logger.js');
+const treeDB = require('../db/treedb.js');
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -123,24 +121,6 @@ function findUserModel(user) {
   return queryTreeDB(query, functionName);
 }
 
-function findTreeAdoptionModel(treeuser) {
-  const functionName = 'findTreeAdoptionModel';
-  const query = `SELECT id_adopted AS "idAdopted", id_tree AS "idTree", email, common
-    FROM treeadoption
-    WHERE email = '${treeuser.email}' AND id_tree = ${treeuser.id_tree};`;
-  // info(`${functionName} ${query}`);
-  return queryTreeDB(query, functionName);
-}
-
-function findTreeLikesModel(treeuser) {
-  const functionName = 'findTreeLikesModel';
-  const query = `SELECT id_liked AS "idLiked", id_tree AS "idTree", email, common
-    FROM treelikes
-    WHERE email = '${treeuser.email}' AND id_tree = ${treeuser.id_tree};`;
-  // info(`${functionName} ${query}`);
-  return queryTreeDB(query, functionName);
-}
-
 function updateTreeNoteModel(id_tree, notes) {
   const functionName = 'updateTreeNoteModel';
   const query = ` UPDATE treedata
@@ -157,36 +137,6 @@ function updateTreeHealthModel(id_tree, health) {
     WHERE id_tree = ${id_tree}
     RETURNING id_tree AS "idTree", health;`;
   return queryTreeDB(query, functionName);
-}
-
-function getCities() {
-  const query = `
-    SELECT city, lng, lat, city_count_trees AS "cityCountTrees", country
-    FROM cities;
-  `;
-
-  return queryTreeDB(query);
-}
-
-function updateCitiesTreeCount(city) {
-  const query = `UPDATE cities
-    SET city_count_trees = (select count(id_tree)
-    FROM treedata
-    WHERE city='${city}')
-    WHERE city = '${city}';`;
-  return queryTreeDB(query);
-}
-
-function getCityExistence(city) {
-  const query = `select city from cities where city = '${city}';`;
-  return queryTreeDB(query);
-}
-
-function insertNewCityModel(city, lng, lat, email, who) {
-  const query = `INSERT INTO cities(city, lng, lat, email, who)
-    VALUES ("${city}", "${lng}", "${lat}", "${email}", "${who}");`;
-  // logger.info(`${query},query`);
-  return queryTreeDB(query);
 }
 
 function findTreeAdoptionModel(idTree) {
@@ -235,10 +185,6 @@ module.exports = {
   updateTreeNoteModel,
   updateTreeHealthModel,
   findUserModel,
-  getCities,
-  updateCitiesTreeCount,
-  getCityExistence,
-  insertNewCityModel,
   findTreeAdoptionModel,
   findTreeLikesModel,
   deleteTreeAdoptionModel,

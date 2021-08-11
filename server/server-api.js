@@ -7,7 +7,6 @@ const express = require('express');
 const morgan = require('morgan');
 const { verbose } = require('../logger');
 const {
-  getCitiesRequest,
   getTodaysTrees,
   getTreeList,
   updateTree,
@@ -17,6 +16,7 @@ const {
   postTreeUser,
   getTreeUser,
 } = require('./controller');
+const citiesRouter = require('./routes/cities/controller');
 const treesRouter = require('./routes/trees/controller');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
@@ -74,6 +74,7 @@ app.use(cors(options));
 app.use('/', router);
 
 app.use('/api/tree', treesRouter);
+app.use('/api/cities', citiesRouter);
 
 router.route('/api/tree')
   .put(updateTree)
@@ -83,9 +84,6 @@ router.route('/api/treelist')
 
 router.route('/api/treemap')
   .get(getTodaysTrees);
-
-router.route('/api/cities')
-  .get(getCitiesRequest);
 
 router.route('/api/treehistory')
   .get(getTreeHistory)

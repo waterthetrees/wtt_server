@@ -12,10 +12,6 @@ const {
   getTreeHistoryModel,
   findUserModel,
   findTreeHistoryVolunteerTodayModel,
-  getCities,
-  updateCitiesTreeCount,
-  insertNewCityModel,
-  getCityExistence,
   findTreeAdoptionModel,
   findTreeLikesModel,
   deleteTreeAdoptionModel,
@@ -25,7 +21,6 @@ const {
   insertTreeHistoryModel,
   updateTreeHistoryModel,
   updateTreeModel,
-  insertTreeModel,
   insertUserModel,
   insertTreeAdoptionModel,
   insertTreeLikesModel,
@@ -33,10 +28,8 @@ const {
 } = require('./models/models_wtt.js');
 const { sortTrees, convertObjectToSnakeCase } = require('./utilities.js');
 const {
-  validateGetCities,
   validateGetTreeHistory,
   validateUpdateTree,
-  validatePostTree,
   validatePostUser,
   validatePostTreeHistory,
   validateGetTreeList,
@@ -91,42 +84,6 @@ function getTodaysTrees(req, res) {
   processGetTodaysTrees(req.query, res);
 }
 
-async function processGetCities(city, res) {
-  const functionName = 'processGetCities';
-  try {
-    const citiesResults = await getCities();
-    if (
-      (await citiesResults) &&
-      has.call(citiesResults, 'rows') &&
-      citiesResults.rows.length > 0
-    ) {
-      res.statusCode = 200;
-      res.json(await citiesResults.rows);
-      return citiesResults;
-    }
-    res.statusCode = 400;
-    res.json({ error: 'failed to get cities' });
-    return city;
-  } catch (err) {
-    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
-    res.statusCode = 500;
-    res.json({ error: err });
-    return err;
-  }
-}
-
-function getCitiesRequest(req, res) {
-  const functionName = 'getCities';
-  const validated = validateGetCities(req);
-  if (!validated) {
-    error(`NOT VALIDATED ${validated} ${functionName}`);
-    responder(res, 400, { error: 'trouble getting cities' });
-    return;
-  }
-
-  processGetCities(req.query.city, res);
-}
-
 async function processGetTreeHistory(query, res) {
   const functionName = 'processGetTreeHistory';
   try {
@@ -154,77 +111,6 @@ function getTreeHistory(req, res) {
   }
 
   processGetTreeHistory(req.query, res);
-}
-
-async function processFirstTreeHistory(insertTreeResults, res) {
-  const functionName = 'processFirstTreeHistory';
-  try {
-    const firstTreeHistory = {
-      id_tree: insertTreeResults.idtree,
-      date_visit: insertTreeResults.datevisit,
-      comment: `THIS ${insertTreeResults.common.toUpperCase()} IS PLANTED!!!`,
-      volunteer: insertTreeResults.volunteer,
-    };
-    const keys = Object.keys(firstTreeHistory);
-    await insertTreeHistoryModel(firstTreeHistory, keys);
-    return;
-  } catch (err) {
-    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
-    responder(res, 500, { error: err });
-  }
-}
-
-async function addNewCity(convertedTreeData) {
-  const functionName = 'addNewCity';
-  try {
-    const { city, lng, lat, email, who } = convertedTreeData;
-    const cityExists = await getCityExistence(city);
-    const cityRowCount = JSON.parse(JSON.stringify(cityExists)).rowCount;
-    if (cityRowCount === 0)
-      await insertNewCityModel(city, lng, lat, email, who);
-    const newTreeCount = await updateCitiesTreeCount(city);
-    return { newTreeCount };
-  } catch (err) {
-    error(`CATCH ${functionName} ${inspect(err, false, 3, false)}`);
-    return err;
-  }
-}
-
-async function processPostTree(body, res) {
-  const functionName = 'processPostTree';
-  try {
-    const convertedTreeData = convertObjectToSnakeCase(body);
-    const keys = Object.keys(convertedTreeData);
-    const insertTreeResults = await insertTreeModel(convertedTreeData, keys);
-    if (!insertTreeResults) {
-      responder(res, 500, { error: 'error saving' });
-      return;
-    }
-    if (insertTreeResults.error) {
-      responder(res, 500, insertTreeResults);
-      return;
-    }
-    if (insertTreeResults.length !== 0) {
-      processFirstTreeHistory(insertTreeResults[0]);
-      addNewCity(convertedTreeData);
-    }
-    const returnMessage = { ...body, idTree: insertTreeResults[0].idTree };
-    responder(res, 200, returnMessage);
-    return;
-  } catch (err) {
-    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
-    responder(res, 500, { error: err });
-  }
-}
-
-function postTree(req, res) {
-  // const functionName = 'postTree';
-  const validated = validatePostTree(req);
-  if (!validated) {
-    responder(res, 500, { error: 'not valid' });
-    return;
-  }
-  processPostTree(req.body, res);
 }
 
 async function processUpdateTree(body, res) {
@@ -500,11 +386,9 @@ module.exports = {
   getTodaysTrees,
   getTreeList,
   updateTree,
-  postTree,
   getTreeHistory,
   postTreeHistory,
   postUser,
   postTreeUser,
   getTreeUser,
-  getCitiesRequest,
 };

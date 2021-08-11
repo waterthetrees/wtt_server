@@ -1,22 +1,13 @@
-const pgp = require('pg-promise')({
-  capSQL: true, // capitalize all generated SQL
-});
-const { configTreeDB } = require('../../db/config_treedb');
-const db = require('../../db/treedb');
-
-const db2 = pgp(configTreeDB);
+const pgPromiseDB = require('../../db');
 
 async function getTree(currentTreeId) {
   try {
-    const query = `
-      SELECT id_tree AS "idTree", common, scientific, genus,
-             date_planted as "datePlanted", health, address, city,
-             country, zip, neighborhood, lat, lng, owner, dbh, height,
-             id_reference as "idReference", who, notes
-      FROM treedata WHERE id_tree = ${currentTreeId};
-    `;
+    const tree = await pgPromiseDB.one(
+      'SELECT * FROM treedata WHERE id_tree = $1',
+      [currentTreeId]
+    );
 
-    return await db.query(query);
+    return tree;
   } catch (err) {
     throw new Error(err);
   }
@@ -24,16 +15,14 @@ async function getTree(currentTreeId) {
 
 async function insertTreeModel(newTree) {
   try {
+    // TODO: check if conversion to "dateVisit" is needed
     const queryString = `
       INSERT INTO treedata(\${this:name})
       VALUES(\${this:csv})
-      RETURNING id_tree AS "idTree", common, scientific, genus,
-                date_planted as "dateVisit", health, address, city,
-                country, zip, neighborhood, lat, lng, owner, dbh, height,
-                id_reference as "idReference", who, notes
+      RETURNING *, date_planted as "dateVisit"
     `;
 
-    return await db2.query(queryString, newTree);
+    return await pgPromiseDB.one(queryString, newTree);
   } catch (err) {
     throw new Error(err);
   }
@@ -41,13 +30,12 @@ async function insertTreeModel(newTree) {
 
 async function getCityExistence(city) {
   try {
-    const query = `
-      SELECT city
-      FROM cities
-      WHERE city = '${city}';
-    `;
+    const foundCity = await pgPromiseDB.oneOrNone(
+      'SELECT city FROM cities WHERE city = $1',
+      [city]
+    );
 
-    return await db.query(query);
+    return foundCity;
   } catch (err) {
     throw new Error(err);
   }
@@ -55,12 +43,12 @@ async function getCityExistence(city) {
 
 async function insertNewCityModel({ city, lng, lat, email, who }) {
   try {
-    const query = `
-      INSERT INTO cities(city, lng, lat, email, who)
-      VALUES ('${city}', '${lng}', '${lat}', '${email}', '${who}');
-    `;
+    const newCity = await pgPromiseDB.one(
+      `INSERT INTO cities(\${this:name}) VALUES(\${this:csv}) RETURNING *`,
+      { city, lng, lat, email, who }
+    );
 
-    return await db.query(query);
+    return newCity;
   } catch (err) {
     throw new Error(err);
   }
@@ -76,7 +64,7 @@ async function updateCitiesTreeCount(city) {
       WHERE city = '${city}';
     `;
 
-    return await db.query(query);
+    return await pgPromiseDB.none(query);
   } catch (err) {
     throw new Error(err);
   }
@@ -87,12 +75,12 @@ async function insertTreeHistoryModel(newTreeHistory) {
     const queryString = `
       INSERT INTO treehistory(\${this:name})
       VALUES(\${this:csv})
-      RETURNING id_treehistory AS idTreeHistory, id_tree AS idTree, watered,
-                mulched, pruned, staked, weeded, braced, adopted, liked,
-                volunteer, date_visit AS dateVisit
+      RETURNING *
     `;
 
-    return await db2.query(queryString, newTreeHistory);
+    const treeHistory = await pgPromiseDB.one(queryString, newTreeHistory);
+
+    return treeHistory;
   } catch (err) {
     throw new Error(err);
   }

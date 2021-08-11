@@ -12,20 +12,13 @@ treesRouter.get('/', async (req, res) => {
     });
   }
   try {
-    const results = await treesModel.getTree(currentTreeId);
+    const tree = await treesModel.getTree(currentTreeId);
 
-    if (results.rows.length !== 1) {
-      return res
-        .status(404)
-        .send({ error: `Could not find the tree with id ${currentTreeId}` });
-    }
-
-    const tree = results.rows[0];
     tree.healthNum = utils.convertHealthToNumber(tree.health);
 
     return res.status(200).json(tree);
   } catch (err) {
-    return res.status(500).send({ error: err.message });
+    return res.status(404).send({ error: err.message });
   }
 });
 
@@ -41,10 +34,11 @@ treesRouter.post('/', async (req, res) => {
     delete req.body.treeType;
 
     const convertedTreeData = utils.convertObjectToSnakeCase(req.body);
-    const [tree] = await treesModel.insertTreeModel(convertedTreeData);
-    const { rows } = await treesModel.getCityExistence(tree.city);
+    const tree = await treesModel.insertTreeModel(convertedTreeData);
+    const foundCity = await treesModel.getCityExistence(tree.city);
+    const isNewCity = tree.city && !foundCity;
 
-    if (tree.city && rows.length === 0) {
+    if (isNewCity) {
       await treesModel.insertNewCityModel(tree);
     }
 

@@ -92,99 +92,131 @@ describe('/api/trees/:id', () => {
   });
 
   describe('POST', () => {
-    describe('When given valid inputs', () => {
-      test('Then create a new tree', async () => {
-        /** Arrange */
-        // TODO: determine required inputs when adding a tree
-        const body = {
-          city: faker.fake(
-            '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
-          ),
-          common: faker.animal.dog(),
-          datePlanted: new Date(),
-          lat: Number(faker.address.latitude()),
-          lng: Number(faker.address.longitude()),
-        };
-
-        /** Act */
-        const newTree = await axiosAPIClient.post('/tree', body);
-
-        /** Assert */
-        expect(newTree).toMatchObject({
-          status: 201,
-          data: {
-            idTree: expect.any(Number),
-            common: body.common,
-            scientific: body.scientific ?? null,
-            genus: body.genus ?? null,
-            dateVisit: body.datePlanted.toJSON(),
-            health: body.health ?? null,
-            address: body.address ?? null,
-            city: body.city,
-            country: body.country ?? null,
-            zip: body.zip ?? null,
-            neighborhood: body.neighborhood ?? null,
-            lat: body.lat,
-            lng: body.lng,
-            owner: body.owner ?? null,
-            dbh: body.dbh ?? null,
-            height: body.height ?? null,
-            idReference: body.idReference ?? null,
-            who: body.who ?? null,
-            notes: body.notes ?? null,
-          },
-        });
-      });
-
-      test("Then initialize the new tree's history", async () => {
-        /** Arrange */
-        const body = {
-          city: faker.fake(
-            '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
-          ),
-          common: faker.animal.dog(),
-          datePlanted: new Date(),
-          lat: Number(faker.address.latitude()),
-          lng: Number(faker.address.longitude()),
-          // volunteer: faker.name.findName(), // TODO: volunteer will never end up in treehistory on tree creation
-        };
-
-        const {
-          data: { idTree },
-        } = await axiosAPIClient.post('/tree', body);
-
-        /** Act */
-        const { status, data } = await axiosAPIClient.get('/treehistory', {
-          params: { currentTreeId: idTree },
-        });
-
-        /** Assert */
-        expect({ status, data }).toMatchObject({
-          status: 200,
-          data: [
-            {
-              adopted: null,
-              braced: null,
-              comment: `THIS ${body.common.toUpperCase()} IS PLANTED!!!`,
-              dateVisit: body.datePlanted.toJSON(),
-              idTree,
-              idTreeHistory: expect.any(Number),
-              liked: null,
-              mulched: null,
-              pruned: null,
-              staked: null,
-              volunteer: body.volunteer ?? null,
-              watered: null,
-              weeded: null,
-            },
-          ],
-        });
-      });
-
-      test.todo("Then increment the city's tree count");
-
+    describe('When given all required inputs', () => {
       describe('When given a new city', () => {
-        test.todo('Then create the new city');
+        test('Then create a new tree', async () => {
+          /** Arrange */
+          // TODO: determine required inputs when adding a tree
+          const body = {
+            city: faker.fake(
+              '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
+            ),
+            common: faker.animal.dog(),
+            datePlanted: new Date(),
+            lat: Number(faker.address.latitude()),
+            lng: Number(faker.address.longitude()),
+          };
+
+          /** Act */
+          const newTree = await axiosAPIClient.post('/tree', body);
+
+          /** Assert */
+          expect(newTree).toMatchObject({
+            status: 201,
+            data: {
+              idTree: expect.any(Number),
+              common: body.common,
+              scientific: body.scientific ?? null,
+              genus: body.genus ?? null,
+              dateVisit: body.datePlanted.toJSON(),
+              health: body.health ?? null,
+              address: body.address ?? null,
+              city: body.city,
+              country: body.country ?? null,
+              zip: body.zip ?? null,
+              neighborhood: body.neighborhood ?? null,
+              lat: body.lat,
+              lng: body.lng,
+              owner: body.owner ?? null,
+              dbh: body.dbh ?? null,
+              height: body.height ?? null,
+              idReference: body.idReference ?? null,
+              who: body.who ?? null,
+              notes: body.notes ?? null,
+            },
+          });
+        });
+
+        test('Then create the new city', async () => {
+          /** Arrange */
+          const body = {
+            city: faker.fake(
+              '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
+            ),
+            common: faker.animal.dog(),
+            datePlanted: new Date(),
+            lat: Number(faker.address.latitude()),
+            lng: Number(faker.address.longitude()),
+          };
+
+          const newTree = await axiosAPIClient.post('/tree', body);
+
+          /** Act */
+          const newCity = await axiosAPIClient.get('/cities', {
+            params: {
+              city: newTree.data.city,
+            },
+          });
+
+          /** Assert */
+          expect(newCity).toMatchObject({
+            status: 200,
+            data: [
+              {
+                city: body.city,
+                cityCountTrees: 1,
+                country: body.country ?? null,
+                lat: body.lat,
+                lng: body.lng,
+              },
+            ],
+          });
+        });
+
+        test("Then initialize the new tree's history", async () => {
+          /** Arrange */
+          const body = {
+            city: faker.fake(
+              '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
+            ),
+            common: faker.animal.dog(),
+            datePlanted: new Date(),
+            lat: Number(faker.address.latitude()),
+            lng: Number(faker.address.longitude()),
+            // volunteer: faker.name.findName(), // TODO: volunteer will never end up in treehistory on tree creation
+          };
+
+          const {
+            data: { idTree },
+          } = await axiosAPIClient.post('/tree', body);
+
+          /** Act */
+          const { status, data } = await axiosAPIClient.get('/treehistory', {
+            params: { currentTreeId: idTree },
+          });
+
+          /** Assert */
+          expect({ status, data }).toMatchObject({
+            status: 200,
+            data: [
+              {
+                adopted: null,
+                braced: null,
+                comment: `THIS ${body.common.toUpperCase()} IS PLANTED!!!`,
+                dateVisit: body.datePlanted.toJSON(),
+                idTree,
+                idTreeHistory: expect.any(Number),
+                liked: null,
+                mulched: null,
+                pruned: null,
+                staked: null,
+                volunteer: body.volunteer ?? null,
+                watered: null,
+                weeded: null,
+              },
+            ],
+          });
+        });
       });
     });
 
@@ -201,7 +233,4 @@ describe('/api/trees/:id', () => {
       });
     });
   });
-
-  // describe('PATCH', () => {});
-  // describe('DELETE', () => {});
 });

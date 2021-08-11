@@ -13,20 +13,6 @@ const { configTreeDB } = require('../db/config_treedb.js');
 
 const treeDB = pgp(configTreeDB);
 
-async function updateTreeModel(newTreeData, keys, id_tree) {
-  const functionName = 'updateTreeModel';
-  try {
-    const stringCondition = ` WHERE id_tree = ${id_tree} RETURNING id_tree AS "idTree", common, health, notes`;
-    const condition = pgp.as.format(stringCondition, newTreeData);
-    const queryString = () => pgp.helpers.update(newTreeData, keys, 'treedata') + condition;
-    const results = await treeDB.query(queryString, newTreeData);
-    return results;
-  } catch (err) {
-    error(`${functionName} CATCH ${err}`);
-    return { error: err };
-  }
-}
-
 async function insertTreeModel(newTree) {
   const functionName = 'insertTreeModel';
   try {
@@ -101,7 +87,6 @@ async function insertTreeLikesModel(newTreeLiked) {
 module.exports = {
   insertTreeHistoryModel,
   updateTreeHistoryModel,
-  updateTreeModel,
   insertTreeModel,
   insertUserModel,
   insertTreeAdoptionModel,

@@ -49,4 +49,17 @@ treesRouter.post('/', async (req, res) => {
   res.status(201).json(tree);
 });
 
+treesRouter.put('/', async (req, res) => {
+  const { idTree, ...body } = req.body;
+
+  const convertedTreeData = utils.convertObjectToSnakeCase(body);
+
+  const updatedTree = await treesModel.updateTreeModel(
+    convertedTreeData,
+    idTree
+  );
+
+  return res.status(200).json(updatedTree);
+});
+
 module.exports = treesRouter;

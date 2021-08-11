@@ -233,4 +233,39 @@ describe('/api/trees/:id', () => {
       });
     });
   });
+
+  describe('PUT', () => {
+    describe('When given valid inputs', () => {
+      test('Then update the tree', async () => {
+        /** Arrange */
+        const body = {
+          city: faker.fake(
+            '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
+          ),
+          common: faker.animal.dog(),
+          datePlanted: new Date(),
+          lat: Number(faker.address.latitude()),
+          lng: Number(faker.address.longitude()),
+        };
+
+        const tree = await axiosAPIClient.post('/tree', body);
+
+        const updatedTreeBody = {
+          idTree: tree.data.idTree,
+          common: faker.animal.dog(),
+          genus: faker.lorem.word(),
+          scientific: faker.lorem.words(),
+        };
+
+        /** Act */
+        const updatedTree = await axiosAPIClient.put('/tree', updatedTreeBody);
+
+        /** Assert */
+        expect(updatedTree).toMatchObject({
+          status: 200,
+          data: updatedTreeBody,
+        });
+      });
+    });
+  });
 });

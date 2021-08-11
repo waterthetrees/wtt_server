@@ -1,5 +1,8 @@
-const utils = require('./utils');
+const pgp = require('pg-promise')({
+  capSQL: true,
+});
 const pgPromiseDB = require('../../db');
+const utils = require('./utils');
 
 async function getTree(currentTreeId) {
   const tree = await pgPromiseDB.one(
@@ -66,6 +69,18 @@ async function insertTreeHistoryModel(newTreeHistory) {
   return treeHistory;
 }
 
+async function updateTreeModel(newTreeData, idTree) {
+  const condition = pgp.as.format(` WHERE id_tree = ${idTree} RETURNING *`);
+
+  const queryString =
+    pgp.helpers.update(newTreeData, Object.keys(newTreeData), 'treedata') +
+    condition;
+
+  const updatedTree = await pgPromiseDB.one(queryString, newTreeData);
+
+  return updatedTree;
+}
+
 module.exports = {
   getTree,
   insertTreeModel,
@@ -73,4 +88,5 @@ module.exports = {
   insertNewCityModel,
   updateCitiesTreeCount,
   insertTreeHistoryModel,
+  updateTreeModel,
 };

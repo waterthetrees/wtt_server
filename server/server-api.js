@@ -10,7 +10,6 @@ const { verbose } = require('../logger');
 const {
   getTodaysTrees,
   getTreeList,
-  updateTree,
   getTreeHistory,
   postTreeHistory,
   postUser,
@@ -77,9 +76,6 @@ app.use('/', router);
 
 app.use('/api/tree', treesRouter);
 app.use('/api/cities', citiesRouter);
-
-router.route('/api/tree')
-  .put(updateTree)
 
 router.route('/api/treelist')
   .get(getTreeList);

@@ -20,7 +20,6 @@ const {
 const {
   insertTreeHistoryModel,
   updateTreeHistoryModel,
-  updateTreeModel,
   insertUserModel,
   insertTreeAdoptionModel,
   insertTreeLikesModel,
@@ -29,7 +28,6 @@ const {
 const { sortTrees, convertObjectToSnakeCase } = require('./utilities.js');
 const {
   validateGetTreeHistory,
-  validateUpdateTree,
   validatePostUser,
   validatePostTreeHistory,
   validateGetTreeList,
@@ -111,53 +109,6 @@ function getTreeHistory(req, res) {
   }
 
   processGetTreeHistory(req.query, res);
-}
-
-async function processUpdateTree(body, res) {
-  const functionName = 'processUpdateTree';
-  try {
-    // eslint-disable-next-line camelcase
-    const id_tree = body.idTree;
-    const { idTree, ...subSetBody } = body;
-    // debug(`${functionName} subSetBody ${inspect(subSetBody)}`);
-    const convertedTreeData = convertObjectToSnakeCase(subSetBody);
-    const keys = Object.keys(convertedTreeData);
-
-    // info(`${functionName}, convertedTreeData, ${inspect(convertedTreeData)}`);
-    const updateTreeResults = await updateTreeModel(
-      convertedTreeData,
-      keys,
-      id_tree
-    );
-    // info(`${functionName}, updateTreeResults, ${inspect(updateTreeResults)}`);
-    if (!updateTreeResults) {
-      responder(res, 500, { error: 'error saving' });
-      return;
-    }
-    if (updateTreeResults.error) {
-      responder(res, 500, updateTreeResults);
-      return;
-    }
-    // const returnMessage = Object.prototype.hasOwnProperty.call(body, 'notes')
-    //   ? updateTreeResults[0].notes
-    //   : updateTreeResults[0].health;
-    responder(res, 200, { data: updateTreeResults[0] });
-    return;
-  } catch (err) {
-    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
-    responder(res, 500, { error: err });
-  }
-}
-
-function updateTree(req, res) {
-  // const functionName = 'updateTree';
-  const validated = validateUpdateTree(req);
-  if (!validated) {
-    // debug(`validated  ${validated} ${functionName}`);
-    responder(res, 500, { error: 'not valid' });
-    return;
-  }
-  processUpdateTree(req.body, res);
 }
 
 async function processPostTreeHistory(body, res) {
@@ -385,7 +336,6 @@ function getTreeUser(req, res) {
 module.exports = {
   getTodaysTrees,
   getTreeList,
-  updateTree,
   getTreeHistory,
   postTreeHistory,
   postUser,

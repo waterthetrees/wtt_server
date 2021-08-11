@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
 const express = require('express');
+require('express-async-errors');
 const morgan = require('morgan');
 const { verbose } = require('../logger');
 const {
@@ -18,6 +19,7 @@ const {
 } = require('./controller');
 const citiesRouter = require('./routes/cities/controller');
 const treesRouter = require('./routes/trees/controller');
+const middleware = require('./utils/middleware');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 // these are for various environments when we move to dev and live server vs local
@@ -95,5 +97,9 @@ router.route('/api/user')
 router.route('/api/treeuser')
   .get(getTreeUser)
   .post(postTreeUser);
+
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
+
 const httpServer = http.createServer(app);
 httpServer.listen(port, () => verbose(`${host}:${port}`));

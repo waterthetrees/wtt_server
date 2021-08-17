@@ -1,18 +1,19 @@
 const treesRouter = require('express').Router();
-const treesModel = require('./model');
-const utils = require('./utils');
-const { validatePostTree } = require('./validation');
+const cities = require('../cities/citiesQueries');
+const sharedRoutesUtils = require('../sharedRoutesUtils');
+const trees = require('./treesQueries');
+const { validatePostTree } = require('./treesValidations');
 
 treesRouter.get('/', async (req, res) => {
   const { currentTreeId } = req.query;
 
-  if (Number.isNaN(Number(currentTreeId))) {
+  if (!currentTreeId) {
     res.status(400).send({
-      error: 'Missing required query param: currentTreeId',
+      error: 'Missing required parameter(s): currentTreeId',
     });
   }
 
-  const tree = await treesModel.getTree(currentTreeId);
+  const tree = await trees.findTreeById(currentTreeId);
 
   res.status(200).json(tree);
 });
@@ -26,16 +27,18 @@ treesRouter.post('/', async (req, res) => {
   // ERROR: column "tree_type" of relation "treedata" does not exist
   delete req.body.treeType;
 
-  const convertedTreeData = utils.convertObjectToSnakeCase(req.body);
-  const tree = await treesModel.insertTreeModel(convertedTreeData);
-  const foundCity = await treesModel.getCityExistence(tree.city);
+  const convertedTreeData = sharedRoutesUtils.convertObjectToSnakeCase(
+    req.body
+  );
+  const tree = await trees.addTree(convertedTreeData);
+  const foundCity = await cities.findCitiesByName(tree.city);
   const isNewCity = tree.city && !foundCity;
 
   if (isNewCity) {
-    await treesModel.insertNewCityModel(tree);
+    await cities.addCity(tree);
   }
 
-  await treesModel.updateCitiesTreeCount(tree.city);
+  await cities.updateCityTreeCount(tree.city);
 
   const firstTreeHistory = {
     id_tree: tree.idTree,
@@ -44,7 +47,7 @@ treesRouter.post('/', async (req, res) => {
     volunteer: tree.volunteer,
   };
 
-  await treesModel.insertTreeHistoryModel(firstTreeHistory);
+  await trees.insertTreeHistoryModel(firstTreeHistory);
 
   res.status(201).json(tree);
 });
@@ -52,12 +55,9 @@ treesRouter.post('/', async (req, res) => {
 treesRouter.put('/', async (req, res) => {
   const { idTree, ...body } = req.body;
 
-  const convertedTreeData = utils.convertObjectToSnakeCase(body);
+  const convertedTreeData = sharedRoutesUtils.convertObjectToSnakeCase(body);
 
-  const updatedTree = await treesModel.updateTreeModel(
-    convertedTreeData,
-    idTree
-  );
+  const updatedTree = await trees.updateTreeById(convertedTreeData, idTree);
 
   return res.status(200).json(updatedTree);
 });

@@ -139,44 +139,6 @@ function updateTreeHealthModel(id_tree, health) {
   return queryTreeDB(query, functionName);
 }
 
-function findTreeAdoptionModel(idTree) {
-  const query = `
-    SELECT id_adopted AS "idAdopted", id_tree AS "idTree", email
-    FROM treeadoption
-    WHERE id_tree = ${idTree};
-  `;
-
-  return queryTreeDB(query, findTreeAdoptionModel.name);
-}
-
-function findTreeLikesModel(idTree) {
-  const query = `
-    SELECT id_liked AS "idLiked", id_tree AS "idTree", email
-    FROM treelikes
-    WHERE id_tree = ${idTree};
-  `;
-
-  return queryTreeDB(query, findTreeLikesModel.name);
-}
-
-function deleteTreeAdoptionModel({ idTree, email }) {
-  const query = `
-    DELETE FROM treeadoption
-    WHERE id_tree = ${idTree} AND email = '${email}';
-  `;
-
-  return queryTreeDB(query, deleteTreeAdoptionModel.name);
-}
-
-function deleteTreeLikesModel({ idTree, email }) {
-  const query = `
-    DELETE FROM treelikes
-    WHERE id_tree = ${idTree} AND email = '${email}';
-  `;
-
-  return queryTreeDB(query, deleteTreeLikesModel.name);
-}
-
 module.exports = {
   getGeoJson,
   getTreeHistoryModel,
@@ -185,8 +147,4 @@ module.exports = {
   updateTreeNoteModel,
   updateTreeHealthModel,
   findUserModel,
-  findTreeAdoptionModel,
-  findTreeLikesModel,
-  deleteTreeAdoptionModel,
-  deleteTreeLikesModel,
 };

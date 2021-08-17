@@ -98,25 +98,6 @@ function validateAddNewCity(req) {
   return true;
 }
 
-// used for tree adoption and tree favorites
-function validatePostTreeUser(req) {
-  if (validation(req, 'req', req) === '') return false;
-  if (validation(req, 'body', req.body) === '') return false;
-  if (validation(req, 'idTree', req.body.idTree) === '') return false;
-  if (validation(req, 'common', req.body.common) === '') return false;
-  if (validation(req, 'email', req.body.email) === '') return false;
-  if (validation(req, 'nickname', req.body.nickname) === '') return false;
-  return true;
-}
-
-function validateGetTreeUser(req) {
-  if (validation(req, 'req', req) === '') return false;
-  if (validation(req, 'query', req.query) === '') return false;
-  if (validation(req, 'idTree', req.query.idTree) === '') return false;
-  if (validation(req, 'email', req.query.email) === '') return false;
-  return true;
-}
-
 module.exports = {
   validateGetCities,
   validateGetTreeHistory,
@@ -126,7 +107,5 @@ module.exports = {
   validateGetTreeList,
   validatePostUser,
   validateAddNewCity,
-  validatePostTreeUser,
-  validateGetTreeUser,
   validateGetTodaysTrees,
 };

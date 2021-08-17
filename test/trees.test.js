@@ -17,10 +17,12 @@ beforeAll(() => {
   nock.enableNetConnect('127.0.0.1');
 });
 
-afterAll(() => {
+afterEach(() => {
   // Remove all interceptors
   nock.cleanAll();
+});
 
+afterAll(() => {
   // Re-enable requests to all hosts
   nock.enableNetConnect();
 });
@@ -161,15 +163,13 @@ describe('/api/trees/:id', () => {
           /** Assert */
           expect(newCity).toMatchObject({
             status: 200,
-            data: [
-              {
-                city: body.city,
-                cityCountTrees: 1,
-                country: body.country ?? null,
-                lat: body.lat,
-                lng: body.lng,
-              },
-            ],
+            data: {
+              city: body.city,
+              cityCountTrees: 1,
+              country: body.country ?? null,
+              lat: body.lat,
+              lng: body.lng,
+            },
           });
         });
 

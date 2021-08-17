@@ -1,19 +1,3 @@
-const convertHealthToNumber = (health) => {
-  if (!health) return 6;
-
-  const healthValue = {
-    good: 6,
-    fair: 5,
-    poor: 4,
-    stump: 3,
-    missing: 2,
-    dead: 1,
-    vacant: 0,
-  };
-
-  return healthValue[health];
-};
-
 function camelToSnakeCase(camelIn) {
   return camelIn.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 }
@@ -31,4 +15,4 @@ function convertObjectToSnakeCase(obj) {
   return newObj;
 }
 
-module.exports = { convertHealthToNumber, convertObjectToSnakeCase };
+module.exports = { convertObjectToSnakeCase };

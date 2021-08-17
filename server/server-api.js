@@ -13,11 +13,10 @@ const {
   getTreeHistory,
   postTreeHistory,
   postUser,
-  postTreeUser,
-  getTreeUser,
 } = require('./controller');
-const citiesRouter = require('./routes/cities/controller');
-const treesRouter = require('./routes/trees/controller');
+const citiesRouter = require('./routes/cities/citiesRouter');
+const treesRouter = require('./routes/trees/treesRouter');
+const treeuserRouter = require('./routes/treeuser/treeuserRouter');
 const middleware = require('./utils/middleware');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
@@ -76,23 +75,15 @@ app.use('/', router);
 
 app.use('/api/tree', treesRouter);
 app.use('/api/cities', citiesRouter);
+app.use('/api/treeuser', treeuserRouter);
 
-router.route('/api/treelist')
-  .get(getTreeList);
+router.route('/api/treelist').get(getTreeList);
 
-router.route('/api/treemap')
-  .get(getTodaysTrees);
+router.route('/api/treemap').get(getTodaysTrees);
 
-router.route('/api/treehistory')
-  .get(getTreeHistory)
-  .post(postTreeHistory);
+router.route('/api/treehistory').get(getTreeHistory).post(postTreeHistory);
 
-router.route('/api/user')
-  .post(postUser);
-
-router.route('/api/treeuser')
-  .get(getTreeUser)
-  .post(postTreeUser);
+router.route('/api/user').post(postUser);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

@@ -1,28 +1,14 @@
 const { inspect } = require('util');
-const {
-  // eslint-disable-next-line no-unused-vars
-  info,
-  verbose,
-  debug,
-  error,
-} = require('../logger.js');
+const { error } = require('../logger.js');
 const {
   getGeoJson,
   getTreeListModel,
-  getTreeHistoryModel,
   findUserModel,
-  findTreeHistoryVolunteerTodayModel,
 } = require('./models/models_treeme.js');
+const { insertUserModel } = require('./models/models_wtt.js');
+const { sortTrees } = require('./utilities.js');
 const {
-  insertTreeHistoryModel,
-  updateTreeHistoryModel,
-  insertUserModel,
-} = require('./models/models_wtt.js');
-const { sortTrees, convertObjectToSnakeCase } = require('./utilities.js');
-const {
-  validateGetTreeHistory,
   validatePostUser,
-  validatePostTreeHistory,
   validateGetTreeList,
   validateGetTodaysTrees,
 } = require('./validation.js');
@@ -71,88 +57,6 @@ function getTodaysTrees(req, res) {
   }
 
   processGetTodaysTrees(req.query, res);
-}
-
-async function processGetTreeHistory(query, res) {
-  const functionName = 'processGetTreeHistory';
-  try {
-    const { currentTreeId } = query;
-    let treeHistoryResults = await getTreeHistoryModel(currentTreeId);
-    treeHistoryResults =
-      (await treeHistoryResults) && treeHistoryResults.length
-        ? treeHistoryResults
-        : [];
-    responder(res, 200, await treeHistoryResults);
-    return;
-  } catch (err) {
-    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
-    res.statusCode = 500;
-    res.json({ error: err });
-  }
-}
-
-function getTreeHistory(req, res) {
-  // const functionName = 'getTreeHistory';
-  const validated = validateGetTreeHistory(req);
-  if (!validated) {
-    responder(res, 400, { error: 'trouble getting tree history' });
-    return;
-  }
-
-  processGetTreeHistory(req.query, res);
-}
-
-async function processPostTreeHistory(body, res) {
-  const functionName = 'processPostHistory';
-  try {
-    // info(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
-    const convertedTreeHistory = convertObjectToSnakeCase(body);
-    const keys = Object.keys(convertedTreeHistory);
-
-    // eslint-disable-next-line max-len
-    const findTreeHistoryVolunteerTodayResults =
-      await findTreeHistoryVolunteerTodayModel(convertedTreeHistory);
-    const { rowCount } = JSON.parse(
-      JSON.stringify(findTreeHistoryVolunteerTodayResults)
-    );
-    if (rowCount === 0) {
-      const insertTreeHistoryResults = await insertTreeHistoryModel(
-        convertedTreeHistory,
-        keys
-      );
-
-      if (!insertTreeHistoryResults) {
-        responder(res, 500, { error: 'error saving' });
-        return;
-      }
-      responder(res, 200, { data: await insertTreeHistoryResults[0] });
-      return;
-    }
-    const updateTreeHistoryResults = await updateTreeHistoryModel(
-      convertedTreeHistory,
-      keys
-    );
-    if (!updateTreeHistoryResults) {
-      responder(res, 500, { error: 'error saving' });
-      return;
-    }
-    responder(res, 200, { data: await updateTreeHistoryResults[0] });
-    return;
-  } catch (err) {
-    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
-    responder(res, 500, { error: err });
-  }
-}
-
-function postTreeHistory(req, res) {
-  const functionName = 'postHistory';
-  const validated = validatePostTreeHistory(req);
-  if (!validated) {
-    responder(res, 500, { error: 'not valid' });
-    return;
-  }
-
-  processPostTreeHistory(req.body, res);
 }
 
 async function processGetTreeList(coordinates, res) {
@@ -241,7 +145,5 @@ function postUser(req, res) {
 module.exports = {
   getTodaysTrees,
   getTreeList,
-  getTreeHistory,
-  postTreeHistory,
   postUser,
 };

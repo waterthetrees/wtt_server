@@ -132,7 +132,59 @@ describe('/treeuser', () => {
         });
       });
 
-      test.todo('Then update the tree history');
+      // test('Then update the tree history', async () => {
+      //   /** Arrange */
+      //   const body = {
+      //     city: faker.fake(
+      //       '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
+      //     ),
+      //     common: faker.animal.dog(),
+      //     datePlanted: new Date(),
+      //     lat: Number(faker.address.latitude()),
+      //     lng: Number(faker.address.longitude()),
+      //   };
+
+      //   const {
+      //     data: { idTree },
+      //   } = await axiosAPIClient.post('/tree', body);
+
+      //   const params = {
+      //     idTree,
+      //     email: faker.internet.email(),
+      //     request: 'liked',
+      //   };
+
+      //   const treeLikes = await axiosAPIClient.get('/treeuser', {
+      //     params,
+      //   });
+
+      //   /** Act */
+      //   const newTreeHistory = await axiosAPIClient.get('/treehistory', {
+      //     params: { currentTreeId: idTree },
+      //   });
+
+      //   /** Assert */
+      //   expect(newTreeHistory).toMatchObject({
+      //     status: 200,
+      //     data: [
+      //       {
+      //         adopted: null,
+      //         braced: null,
+      //         comment: `THIS ${body.common.toUpperCase()} IS PLANTED!!!`,
+      //         dateVisit: body.datePlanted.toJSON(),
+      //         idTree,
+      //         idTreehistory: expect.any(Number),
+      //         liked: true,
+      //         mulched: null,
+      //         pruned: null,
+      //         staked: null,
+      //         volunteer: body.volunteer ?? null,
+      //         watered: null,
+      //         weeded: null,
+      //       },
+      //     ],
+      //   });
+      // });
     });
   });
 

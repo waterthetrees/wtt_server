@@ -191,12 +191,12 @@ describe('/api/trees/:id', () => {
           } = await axiosAPIClient.post('/tree', body);
 
           /** Act */
-          const { status, data } = await axiosAPIClient.get('/treehistory', {
+          const newTreeHistory = await axiosAPIClient.get('/treehistory', {
             params: { currentTreeId: idTree },
           });
 
           /** Assert */
-          expect({ status, data }).toMatchObject({
+          expect(newTreeHistory).toMatchObject({
             status: 200,
             data: [
               {
@@ -205,7 +205,7 @@ describe('/api/trees/:id', () => {
                 comment: `THIS ${body.common.toUpperCase()} IS PLANTED!!!`,
                 dateVisit: body.datePlanted.toJSON(),
                 idTree,
-                idTreeHistory: expect.any(Number),
+                idTreehistory: expect.any(Number),
                 liked: null,
                 mulched: null,
                 pruned: null,

@@ -71,46 +71,6 @@ async function getTreeListModel() {
   }
 }
 
-async function getTreeHistoryModel(currentTreeId) {
-  const functionName = 'getTreeHistoryModel';
-  try {
-    // debug(`${functionName} currentTreeId ${currentTreeId}`);
-
-    const query = `SELECT id_treehistory as "idTreeHistory", id_tree AS "idTree",
-    watered, mulched, weeded, staked, braced, pruned, liked, adopted,
-    date_visit as "dateVisit", comment, volunteer
-    FROM treehistory WHERE id_tree = ${currentTreeId}
-    ORDER BY date_visit DESC limit 20;`;
-    // debug(`${functionName}  query ${query}`);
-    const results = await queryTreeDB(query, functionName);
-    // debug(`${functionName} results ${inspect(results)}`);
-
-    if (
-      (await results) &&
-      has.call(results, 'rows') &&
-      results.rows.length > 0
-    ) {
-      // debug(`${functionName} results.rows[0] ${inspect(results.rows[0], false, 10, true)}`);
-      // return ALL rows please
-      return await results.rows;
-    }
-    return undefined;
-  } catch (err) {
-    error(`${functionName} ${err}`);
-    return err;
-  }
-}
-
-function findTreeHistoryVolunteerTodayModel(newTreeHistory) {
-  const functionName = 'findTreeHistoryVolunteerTodayModel';
-  const query = `SELECT id_tree AS "idTree" FROM treehistory
-    WHERE id_tree = ${newTreeHistory.id_tree}
-    AND created::date = CURRENT_DATE
-    AND volunteer = '${newTreeHistory.volunteer}';`;
-  // info(`${functionName} ${query}`);
-  return queryTreeDB(query, functionName);
-}
-
 function findUserModel(user) {
   const functionName = 'findUserModel';
   const query = `SELECT id_user AS "idUser", email, name, nickname FROM users
@@ -141,9 +101,7 @@ function updateTreeHealthModel(id_tree, health) {
 
 module.exports = {
   getGeoJson,
-  getTreeHistoryModel,
   getTreeListModel,
-  findTreeHistoryVolunteerTodayModel,
   updateTreeNoteModel,
   updateTreeHealthModel,
   findUserModel,

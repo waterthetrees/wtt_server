@@ -2,6 +2,12 @@ const citiesRouter = require('express').Router();
 const cities = require('./citiesQueries');
 
 citiesRouter.get('/', async (req, res) => {
+  const { city } = req.query.city;
+
+  // if (!city) {
+  //   res.status(400).json({ error: 'Missing required parameter: city' });
+  // }
+
   const foundCities = await cities.findCitiesByName(req.query.city);
 
   if (!foundCities) {

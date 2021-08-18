@@ -27,33 +27,23 @@ async function addTree(newTree) {
   return pgPromiseDB.one(queryString, newTree);
 }
 
-async function updateTreeById(newTreeData, idTree) {
-  const condition = pgp.as.format(` WHERE id_tree = ${idTree} RETURNING *`);
+async function updateTreeById(updatedTreeData, idTree) {
+  const condition = pgp.as.format(`WHERE id_tree = ${idTree} RETURNING *`);
 
   const queryString =
-    pgp.helpers.update(newTreeData, Object.keys(newTreeData), 'treedata') +
-    condition;
+    pgp.helpers.update(
+      updatedTreeData,
+      Object.keys(updatedTreeData),
+      'treedata'
+    ) + condition;
 
-  const updatedTree = await pgPromiseDB.one(queryString, newTreeData);
+  const updatedTree = await pgPromiseDB.one(queryString, updatedTreeData);
 
   return updatedTree;
-}
-
-async function insertTreeHistoryModel(newTreeHistory) {
-  const queryString = `
-    INSERT INTO treehistory(\${this:name})
-    VALUES(\${this:csv})
-    RETURNING *
-  `;
-
-  const treeHistory = await pgPromiseDB.one(queryString, newTreeHistory);
-
-  return treeHistory;
 }
 
 module.exports = {
   findTreeById,
   addTree,
   updateTreeById,
-  insertTreeHistoryModel,
 };

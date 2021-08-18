@@ -4,25 +4,10 @@ const pgp = require('pg-promise')({
   /* initialization options */
   capSQL: true, // capitalize all generated SQL
 });
-const { inspect } = require('util');
 const { info, error } = require('../../logger.js');
 const { configTreeDB } = require('../db/config_treedb.js');
 
 const treeDB = pgp(configTreeDB);
-
-async function insertTreeModel(newTree) {
-  const functionName = 'insertTreeModel';
-  try {
-    // info(`${inspect(newTree, true, 5, true)} ${functionName}`);
-    const queryString =
-      'INSERT INTO treedata(${this:name}) VALUES(${this:csv}) RETURNING treedata.id_tree AS "idTree", treedata.common, treedata.scientific,treedata.volunteer, treedata.date_planted AS "dateVisit"';
-    // info(`${functionName} queryString ${queryString}`);
-    return await treeDB.query(queryString, newTree);
-  } catch (err) {
-    error(`${functionName} CATCH ${err}`);
-    return { error: err };
-  }
-}
 
 async function insertUserModel(user) {
   const functionName = 'insertUserModel';
@@ -37,39 +22,6 @@ async function insertUserModel(user) {
   }
 }
 
-async function updateTreeHistoryModel(newTreeHistory, keys) {
-  const functionName = 'updateTreeHistoryModel';
-  try {
-    // info(`${functionName} newTreeHistory ${newTreeHistory}`);
-    const condition = pgp.as.format(
-      ' WHERE id_tree = ${id_tree} AND volunteer = ${volunteer} AND created::date = CURRENT_DATE RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.adopted, treehistory.liked, treehistory.volunteer, treehistory.date_visit AS dateVisit',
-      newTreeHistory
-    );
-    const queryString = () =>
-      pgp.helpers.update(newTreeHistory, keys, 'treehistory') + condition;
-    // info(`${functionName} queryString ${queryString}`);
-    return await treeDB.query(queryString, newTreeHistory);
-  } catch (err) {
-    error(`${functionName} CATCH ${err}`);
-    return { error: err };
-  }
-}
-
-async function insertTreeHistoryModel(newTreeHistory) {
-  const functionName = 'insertTreeHistoryModel';
-  try {
-    const queryString =
-      'INSERT INTO treehistory(${this:name}) VALUES(${this:csv}) RETURNING treehistory.id_treehistory AS idTreeHistory, treehistory.id_tree AS idTree, treehistory.watered, treehistory.mulched, treehistory.pruned, treehistory.staked, treehistory.weeded, treehistory.braced, treehistory.adopted, treehistory.liked, treehistory.volunteer, treehistory.date_visit AS dateVisit';
-    return await treeDB.query(queryString, newTreeHistory);
-  } catch (err) {
-    error(`${functionName} CATCH ${err}`);
-    return { error: err };
-  }
-}
-
 module.exports = {
-  insertTreeHistoryModel,
-  updateTreeHistoryModel,
-  insertTreeModel,
   insertUserModel,
 };

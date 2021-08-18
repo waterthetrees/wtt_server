@@ -1,6 +1,7 @@
 const treesRouter = require('express').Router();
 const cities = require('../cities/citiesQueries');
 const sharedRoutesUtils = require('../sharedRoutesUtils');
+const treeHistory = require('../treehistory/treehistoryQueries');
 const trees = require('./treesQueries');
 const { validatePostTree } = require('./treesValidations');
 
@@ -47,13 +48,17 @@ treesRouter.post('/', async (req, res) => {
     volunteer: tree.volunteer,
   };
 
-  await trees.insertTreeHistoryModel(firstTreeHistory);
+  await treeHistory.addTreeHistory(firstTreeHistory);
 
   res.status(201).json(tree);
 });
 
 treesRouter.put('/', async (req, res) => {
   const { idTree, ...body } = req.body;
+
+  if (!idTree) {
+    res.status(400).json({ error: 'Missing required parameter: idTree' });
+  }
 
   const convertedTreeData = sharedRoutesUtils.convertObjectToSnakeCase(body);
 

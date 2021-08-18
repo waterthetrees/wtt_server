@@ -1,17 +1,18 @@
 const citiesRouter = require('express').Router();
+const AppError = require('../../errors/AppError');
 const cities = require('./citiesQueries');
 
 citiesRouter.get('/', async (req, res) => {
-  const { city } = req.query.city;
+  const { city } = req.query;
 
-  // if (!city) {
-  //   res.status(400).json({ error: 'Missing required parameter: city' });
-  // }
+  if (!city) {
+    throw new AppError(400, 'Missing required parameter: city.');
+  }
 
-  const foundCities = await cities.findCitiesByName(req.query.city);
+  const foundCities = await cities.findCitiesByName(city);
 
   if (!foundCities) {
-    res.status(404).json({ error: 'Failed to find cities' });
+    throw new AppError(404, 'Failed to find cities.');
   }
 
   res.status(200).json(foundCities);

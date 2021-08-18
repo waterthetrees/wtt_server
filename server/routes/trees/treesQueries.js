@@ -1,43 +1,37 @@
-const pgp = require('pg-promise')({
-  capSQL: true,
-});
-const pgPromiseDB = require('../../db');
-const utils = require('./treesUtils');
+const { db, pgp } = require('../../db');
+const treesUtils = require('./treesUtils');
 
 async function findTreeById(currentTreeId) {
-  const tree = await pgPromiseDB.one(
-    'SELECT * FROM treedata WHERE id_tree = $1',
-    [currentTreeId]
-  );
+  const query = 'SELECT * FROM treedata WHERE id_tree = $1';
+  const values = [currentTreeId];
+  const tree = await db.one(query, values);
 
-  tree.healthNum = utils.convertHealthToNumber(tree.health);
+  tree.healthNum = treesUtils.convertHealthToNumber(tree.health);
 
   return tree;
 }
 
-async function addTree(newTree) {
-  // TODO: check if conversion to "dateVisit" is needed
+async function addTree(newTreeData) {
+  // TODO: check if 'date_planted as "dateVisit"' is needed
+  const query = `
+    INSERT INTO treedata(\${this:name})
+    VALUES(\${this:csv})
+    RETURNING *, date_planted as "dateVisit"
+  `;
+  const newTree = db.one(query, newTreeData);
 
-  const queryString = `
-      INSERT INTO treedata(\${this:name})
-      VALUES(\${this:csv})
-      RETURNING *, date_planted as "dateVisit"
-    `;
-
-  return pgPromiseDB.one(queryString, newTree);
+  return newTree;
 }
 
 async function updateTreeById(updatedTreeData, idTree) {
   const condition = pgp.as.format(`WHERE id_tree = ${idTree} RETURNING *`);
-
-  const queryString =
+  const query =
     pgp.helpers.update(
       updatedTreeData,
       Object.keys(updatedTreeData),
       'treedata'
     ) + condition;
-
-  const updatedTree = await pgPromiseDB.one(queryString, updatedTreeData);
+  const updatedTree = await db.one(query, updatedTreeData);
 
   return updatedTree;
 }

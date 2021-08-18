@@ -1,4 +1,5 @@
 const treesRouter = require('express').Router();
+const AppError = require('../../errors/AppError');
 const cities = require('../cities/citiesQueries');
 const sharedRoutesUtils = require('../sharedRoutesUtils');
 const treeHistory = require('../treehistory/treehistoryQueries');
@@ -9,9 +10,7 @@ treesRouter.get('/', async (req, res) => {
   const { currentTreeId } = req.query;
 
   if (!currentTreeId) {
-    res.status(400).send({
-      error: 'Missing required parameter(s): currentTreeId',
-    });
+    throw new AppError(400, 'Missing required parameter: currentTreeId.');
   }
 
   const tree = await trees.findTreeById(currentTreeId);
@@ -22,16 +21,14 @@ treesRouter.get('/', async (req, res) => {
 treesRouter.post('/', async (req, res) => {
   const validated = validatePostTree(req);
 
-  if (!validated) res.status(400).json({ error: 'Missing required inputs' });
+  if (!validated) {
+    throw new AppError(400, 'Missing required parameter(s).');
+  }
 
-  // TODO: bug - tree_type should be a column in the treedata table
-  // ERROR: column "tree_type" of relation "treedata" does not exist
-  delete req.body.treeType;
-
-  const convertedTreeData = sharedRoutesUtils.convertObjectToSnakeCase(
+  const snakeCaseTreeData = sharedRoutesUtils.convertObjectToSnakeCase(
     req.body
   );
-  const tree = await trees.addTree(convertedTreeData);
+  const tree = await trees.addTree(snakeCaseTreeData);
   const foundCity = await cities.findCitiesByName(tree.city);
   const isNewCity = tree.city && !foundCity;
 
@@ -57,14 +54,13 @@ treesRouter.put('/', async (req, res) => {
   const { idTree, ...body } = req.body;
 
   if (!idTree) {
-    res.status(400).json({ error: 'Missing required parameter: idTree' });
+    throw new AppError(400, 'Missing required parameter: idTree.');
   }
 
-  const convertedTreeData = sharedRoutesUtils.convertObjectToSnakeCase(body);
+  const snakeCaseTreeData = sharedRoutesUtils.convertObjectToSnakeCase(body);
+  const updatedTree = await trees.updateTreeById(snakeCaseTreeData, idTree);
 
-  const updatedTree = await trees.updateTreeById(convertedTreeData, idTree);
-
-  return res.status(200).json(updatedTree);
+  res.status(200).json(updatedTree);
 });
 
 module.exports = treesRouter;

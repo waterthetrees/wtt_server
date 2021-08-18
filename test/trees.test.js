@@ -30,7 +30,7 @@ afterAll(() => {
 describe('/api/trees/:id', () => {
   describe('GET', () => {
     describe('When the tree exists', () => {
-      test('Then returns the correct data and a 200 status code', async () => {
+      test('Then returns the tree data and a 200 status code', async () => {
         /** Arrange */
         const body = {
           common: faker.animal.dog(),
@@ -44,8 +44,12 @@ describe('/api/trees/:id', () => {
         } = await axiosAPIClient.post('/tree', body);
 
         /** Act */
+        const params = {
+          currentTreeId: idTree,
+        };
+
         const newTree = await axiosAPIClient.get('/tree', {
-          params: { currentTreeId: idTree },
+          params,
         });
 
         /** Assert */
@@ -88,7 +92,12 @@ describe('/api/trees/:id', () => {
         });
 
         /** Assert */
-        expect(tree.status).toBe(404);
+        expect(tree).toMatchObject({
+          status: 404,
+          data: {
+            error: 'No data returned from the query.',
+          },
+        });
       });
     });
   });
@@ -139,7 +148,7 @@ describe('/api/trees/:id', () => {
           });
         });
 
-        test('Then create the new city', async () => {
+        test("Then create the new city and update it's tree count", async () => {
           /** Arrange */
           const body = {
             city: faker.fake(
@@ -221,7 +230,7 @@ describe('/api/trees/:id', () => {
     });
 
     describe('When missing required inputs', () => {
-      test('Then returns a 400 status code', async () => {
+      test('Then returns an error message and a 400 status code', async () => {
         /** Arrange */
         const body = {};
 
@@ -229,7 +238,12 @@ describe('/api/trees/:id', () => {
         const newTree = await axiosAPIClient.post('/tree', body);
 
         /** Assert */
-        expect(newTree.status).toBe(400);
+        expect(newTree).toMatchObject({
+          status: 400,
+          data: {
+            error: 'Missing required parameter(s).',
+          },
+        });
       });
     });
   });

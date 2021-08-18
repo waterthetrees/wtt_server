@@ -1,13 +1,13 @@
-const pgPromiseDB = require('../../db');
+const { db } = require('../../db');
 
 async function findCitiesByName(city) {
   if (city === 'All') {
-    const allCities = await pgPromiseDB.manyOrNone('SELECT * FROM cities');
+    const allCities = await db.many('SELECT * FROM cities');
 
     return allCities;
   }
 
-  const requestedCities = await pgPromiseDB.oneOrNone(
+  const requestedCities = await db.oneOrNone(
     'SELECT * FROM cities WHERE city = $1',
     [city]
   );
@@ -16,10 +16,14 @@ async function findCitiesByName(city) {
 }
 
 async function addCity({ city, lng, lat, email, who }) {
-  const newCity = await pgPromiseDB.one(
-    `INSERT INTO cities(\${this:name}) VALUES(\${this:csv}) RETURNING *`,
-    { city, lng, lat, email, who }
-  );
+  const query = `
+    INSERT INTO cities(\${this:name})
+    VALUES(\${this:csv})
+    RETURNING *
+  `;
+  const newCityData = { city, lng, lat, email, who };
+
+  const newCity = await db.one(query, newCityData);
 
   return newCity;
 }
@@ -33,7 +37,7 @@ async function updateCityTreeCount(city) {
     WHERE city = '${city}';
   `;
 
-  return pgPromiseDB.none(query);
+  return db.none(query);
 }
 
 module.exports = { findCitiesByName, addCity, updateCityTreeCount };

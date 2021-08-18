@@ -1,7 +1,4 @@
-const pgp = require('pg-promise')({
-  capSQL: true,
-});
-const pgPromiseDB = require('../../db');
+const { db, pgp } = require('../../db');
 
 async function addTreeHistory(newTreeHistory) {
   const queryString = `
@@ -10,7 +7,7 @@ async function addTreeHistory(newTreeHistory) {
     RETURNING *
   `;
 
-  const treeHistory = await pgPromiseDB.oneOrNone(queryString, newTreeHistory);
+  const treeHistory = await db.oneOrNone(queryString, newTreeHistory);
 
   return treeHistory;
 }
@@ -25,10 +22,7 @@ async function findTodaysTreeHistoryByTreeIdAndVolunteerName(
     WHERE created::date = CURRENT_DATE AND id_tree = $1 AND volunteer = $2
   `;
 
-  const todaysTreeHistory = await pgPromiseDB.oneOrNone(query, [
-    idTree,
-    volunteer,
-  ]);
+  const todaysTreeHistory = await db.oneOrNone(query, [idTree, volunteer]);
 
   return todaysTreeHistory;
 }
@@ -50,7 +44,7 @@ async function updateTreeHistory(updatedTreeHistoryData) {
       'treehistory'
     ) + condition;
 
-  const updatedTreeHistory = await pgPromiseDB.oneOrNone(
+  const updatedTreeHistory = await db.oneOrNone(
     queryString,
     updatedTreeHistoryData
   );
@@ -68,7 +62,7 @@ async function findTreeHistoryByTreeId(idTree) {
     LIMIT 20
   `;
 
-  const treeHistory = await pgPromiseDB.manyOrNone(query, [idTree]);
+  const treeHistory = await db.manyOrNone(query, [idTree]);
 
   return treeHistory;
 }

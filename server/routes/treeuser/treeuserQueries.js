@@ -1,4 +1,4 @@
-const pgPromiseDB = require('../../db');
+const { db } = require('../../db');
 
 async function findTreeLikesModel(idTree) {
   const query = `
@@ -6,20 +6,21 @@ async function findTreeLikesModel(idTree) {
     FROM treelikes
     WHERE id_tree = $1;
   `;
-
-  const treeLikes = pgPromiseDB.manyOrNone(query, [idTree]);
+  const values = [idTree];
+  const treeLikes = db.manyOrNone(query, values);
 
   return treeLikes;
 }
 
-async function insertTreeLikesModel(newTreeLiked) {
+async function insertTreeLikesModel(newLikedTree) {
   const queryString = `
     INSERT INTO treelikes(\${this:name})
     VALUES(\${this:csv})
     RETURNING *
   `;
+  const newTreeLiked = db.one(queryString, newLikedTree);
 
-  return pgPromiseDB.oneOrNone(queryString, newTreeLiked);
+  return newTreeLiked;
 }
 
 function deleteTreeLikesModel({ idTree, email }) {
@@ -27,8 +28,10 @@ function deleteTreeLikesModel({ idTree, email }) {
     DELETE FROM treelikes
     WHERE id_tree = $1 AND email = $2;
   `;
+  const values = [idTree, email];
+  const results = db.result(query, values);
 
-  return pgPromiseDB.result(query, [idTree, email]);
+  return results;
 }
 
 async function findTreeAdoptionModel(idTree) {
@@ -37,18 +40,21 @@ async function findTreeAdoptionModel(idTree) {
     FROM treeadoption
     WHERE id_tree = $1;
   `;
+  const values = [idTree];
+  const treeAdoptions = db.manyOrNone(query, values);
 
-  return pgPromiseDB.manyOrNone(query, [idTree]);
+  return treeAdoptions;
 }
 
-async function insertTreeAdoptionModel(newTreeAdopted) {
-  const queryString = `
+async function insertTreeAdoptionModel(newAdoptedTree) {
+  const query = `
     INSERT INTO treeadoption(\${this:name})
     VALUES(\${this:csv})
     RETURNING *
   `;
+  const newTreeAdoption = db.one(query, newAdoptedTree);
 
-  return pgPromiseDB.oneOrNone(queryString, newTreeAdopted);
+  return newTreeAdoption;
 }
 
 function deleteTreeAdoptionModel({ idTree, email }) {
@@ -56,8 +62,10 @@ function deleteTreeAdoptionModel({ idTree, email }) {
     DELETE FROM treeadoption
     WHERE id_tree = $1 AND email = $2;
   `;
+  const values = [idTree, email];
+  const results = db.result(query, values);
 
-  return pgPromiseDB.result(query, [idTree, email]);
+  return results;
 }
 
 module.exports = {

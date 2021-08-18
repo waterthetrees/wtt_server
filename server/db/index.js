@@ -1,3 +1,4 @@
+const pgPromise = require('pg-promise');
 const { configTreeDB } = require('./config_treedb');
 
 function camelizeColumns(data) {
@@ -14,14 +15,14 @@ function camelizeColumns(data) {
   }
 }
 
-// TODO: snake case on query, camel case on return
 const options = {
   capSQL: true,
   receive: (data) => camelizeColumns(data),
 };
-
-const pgp = require('pg-promise')(options);
-
+const pgp = pgPromise(options);
 const db = pgp(configTreeDB);
 
-module.exports = db;
+module.exports = {
+  pgp,
+  db,
+};

@@ -28,16 +28,8 @@ function validatePostUser(req) {
   return true;
 }
 
-function validateAddNewCity(req) {
-  if (validation(req, 'req', req) === '') return false;
-  if (validation(req, 'body', req.body) === '') return false;
-  if (validation(req, 'city', req.body.city) === '') return false;
-  return true;
-}
-
 module.exports = {
   validateGetTreeList,
   validatePostUser,
-  validateAddNewCity,
   validateGetTodaysTrees,
 };

@@ -1,13 +1,20 @@
 const treeuserRouter = require('express').Router();
+const AppError = require('../../errors/AppError');
 const sharedRoutesUtils = require('../sharedRoutesUtils');
 const treeuserQueries = require('./treeuserQueries');
+const { validateGetTreeuser } = require('./treeuserValidations');
 
 treeuserRouter.get('/', async (req, res) => {
-  const { idTree, email, request } = req.query;
+  const validated = validateGetTreeuser(req);
 
-  if (!idTree || !email || !request) {
-    res.status(400).json({ error: 'Missing required parameter(s)' });
+  if (!validated) {
+    throw new AppError(
+      400,
+      'Missing required parameter(s): idTree, email, or request.'
+    );
   }
+
+  const { idTree, email, request } = req.query;
 
   const findTreeUserModelCallback =
     request === 'adopted'
@@ -15,12 +22,6 @@ treeuserRouter.get('/', async (req, res) => {
       : treeuserQueries.findTreeLikesModel;
 
   const rows = await findTreeUserModelCallback(idTree);
-
-  if (!rows) {
-    res.status(404).json({
-      error: 'Failed to find tree',
-    });
-  }
 
   const data = {
     [request]: rows.some((row) => row.email === email),
@@ -49,14 +50,14 @@ treeuserRouter.post('/', async (req, res) => {
   if (request.type === 'DELETE') {
     const { rowCount } = await processPostTreeUserCallback(body);
 
-    if (rowCount !== 1) res.status(404).json({ error: 'Failed to find tree' });
+    if (rowCount !== 1) {
+      throw new AppError(404, 'Failed to find tree.');
+    }
 
     res.status(200).json({ success: true });
   } else {
     const formattedBody = sharedRoutesUtils.convertObjectToSnakeCase(body);
     const data = await processPostTreeUserCallback(formattedBody);
-
-    if (!data) res.status(404).json({ error: 'Failed to find tree' });
 
     res.status(200).json(data);
   }

@@ -1,4 +1,5 @@
 const treehistoryRouter = require('express').Router();
+const AppError = require('../../errors/AppError');
 const sharedRoutesUtils = require('../sharedRoutesUtils');
 const treeHistory = require('./treehistoryQueries');
 
@@ -6,9 +7,7 @@ treehistoryRouter.get('/', async (req, res) => {
   const { currentTreeId } = req.query;
 
   if (!currentTreeId) {
-    res
-      .status(400)
-      .json({ error: 'Missing required parameter: currentTreeId' });
+    throw new AppError(400, 'Missing required parameter: currentTreeId.');
   }
 
   const foundTreeHistory = await treeHistory.findTreeHistoryByTreeId(
@@ -21,8 +20,11 @@ treehistoryRouter.get('/', async (req, res) => {
 treehistoryRouter.post('/', async (req, res) => {
   const { idTree, volunteer } = req.body;
 
-  if (!idTree) {
-    res.status(400).json({ error: 'Missing required parameter: idTree' });
+  if (!idTree || !volunteer) {
+    throw new AppError(
+      400,
+      'Missing required parameter(s): idTree or volunteer.'
+    );
   }
 
   const formattedRequestBody = sharedRoutesUtils.convertObjectToSnakeCase(
@@ -41,7 +43,7 @@ treehistoryRouter.post('/', async (req, res) => {
     );
 
     if (!newTreeHistory) {
-      res.status(400).json({ error: 'Failed to create new tree history' });
+      throw new AppError(400, 'Failed to create new tree history.');
     }
 
     res.status(201).json({ newTreeHistory });
@@ -51,7 +53,7 @@ treehistoryRouter.post('/', async (req, res) => {
     );
 
     if (!updatedTreeHistory) {
-      res.status(400).json({ error: 'Failed to update tree history ' });
+      throw new AppError(400, 'Failed to update tree history.');
     }
 
     res.status(200).json(updatedTreeHistory);

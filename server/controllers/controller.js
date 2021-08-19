@@ -63,7 +63,7 @@ async function processGetTodaysTrees(location, res) {
   try {
     const results = await getGeoJson(location);
     if ((await results) && has.call(results, 'rows') && results.rows.length > 0) {
-      info(`results ${functionName} ${inspect(results.rows, false, 10, true)}`)
+      //info(`results ${functionName} ${inspect(results.rows, false, 10, true)}`)
       const resultsObject = results.rows[0].jsonb_build_object;
       res.statusCode = 200;
       res.json(await resultsObject);
@@ -376,11 +376,12 @@ function getTreeList(req, res) {
 async function processPostUser(body, res) {
   const functionName = 'processPostUser';
   try {
-    // debug(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
+
     const {
       // eslint-disable-next-line camelcase
       email_verified, family_name, given_name, locale, sub, updated_at, ...subSetBody
     } = body;
+
     const keys = Object.keys(subSetBody);
 
     const findUserResults = await findUserModel(body);

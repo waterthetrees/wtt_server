@@ -1,14 +1,12 @@
-const env = process.argv[2] || 'local';
-
 const configTreeDB = {
-    connectionLimit: 10, // what does this mean?
-    host: process.env.DATABASE_HOST || 'postgis-wtt',
-    database: process.env.DATABASE_NAME,
-    port: process.env.DATABASE_PORT || 5432,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASS,
-    dateStrings: 'date',
-    connect_timeout: 10,
+  connectionLimit: 10, // what does this mean?
+  host: process.env.DATABASE_HOST || 'postgis-wtt',
+  database: process.env.DATABASE_NAME,
+  port: process.env.DATABASE_PORT || 5432,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASS,
+  dateStrings: 'date',
+  connect_timeout: 10,
 };
 
 const configPgNative = `
@@ -17,7 +15,7 @@ const configPgNative = `
   user=${configTreeDB.user}
   password=${configTreeDB.password}
   port=${configTreeDB.port}
-  connect_timeout=${configTreeDB.connect_timeout}`;
+  connect_timeout=${configTreeDB.connect_timeout}
+`;
 
-//console.log(configTreeDB,'configTreeDB', ' configPgNative', configPgNative);
 module.exports = { configTreeDB, configPgNative };

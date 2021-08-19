@@ -1,23 +1,36 @@
 module.exports = {
+  root: true,
   env: {
-    browser: true,
     commonjs: true,
     es2021: true,
+    jest: true,
+    node: true,
   },
   extends: [
     'airbnb-base',
+    'plugin:import/recommended',
+    'plugin:jest/recommended',
+    'plugin:jest/style',
+    'prettier', // Must be last to override other configs
   ],
+  plugins: ['jest'],
   parserOptions: {
     ecmaVersion: 12,
   },
   rules: {
-    // we only want single quotes
-    quotes: ['error', 'single'],
-    // we want to force semicolons
-    semi: ['error', 'always'],
-    // we use 2 spaces to indent our code
-    indent: ['error', 2],
-    // we want to avoid useless spaces
-    'no-multi-spaces': ['error'],
+    'import/order': [
+      'warn',
+      {
+        alphabetize: {
+          order: 'asc',
+        },
+        groups: [
+          'builtin',
+          ['external', 'internal'],
+          'parent',
+          ['sibling', 'index'],
+        ],
+      },
+    ],
   },
 };

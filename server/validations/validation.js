@@ -1,13 +1,3 @@
-// const { inspect } = require('util');
-// const validator = require('validator');
-// const {
-// info, verbose, debu, error,
-// } = require('../logger.js');
-
-// const featureFlags = {
-//   live: false,
-// };
-
 // checks whether key exists in object also value at that key is not undefined
 function validation(objectIn, key, valueIn) {
   const valueOut = typeof valueIn === 'undefined' ? '' : valueIn;

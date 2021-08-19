@@ -4,11 +4,9 @@ const cors = require('cors');
 const morgan = require('morgan');
 const parser = require('body-parser');
 const compression = require('compression');
-const { inspect } = require('util');
 const { verbose } = require('../logger.js');
 const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
-//verbose(`${inspect(process.env,true,5,true)} process.env`);
 
 const {
   getCitiesRequest,
@@ -22,7 +20,11 @@ const {
   postUser,
   postTreeUser,
   getTreeUser,
-} = require('./controller.js');
+} = require('./controllers/controller.js');
+
+const { getUserCounts } = require('./controllers/user-counts');
+
+const { getUserTreeHistory } = require('./controllers/user-tree-history');
 
 // these are for various environments when we move to dev and live server vs local
 const env = process.argv[2] || 'local';
@@ -92,11 +94,17 @@ router.route('/api/treehistory')
   .post(postTreeHistory);
 
 router.route('/api/user')
-  .post(postUser);
+  .post(postUser)
 
 router.route('/api/treeuser')
   .get(getTreeUser)
   .post(postTreeUser);
+
+router.route('/api/usertreehistory')
+  .get(getUserTreeHistory);
+
+router.route('/api/usercounts')
+  .get(getUserCounts);
 
 const httpServer = http.createServer(app);
 httpServer.listen(port, () => verbose(`${host}:${port}`));

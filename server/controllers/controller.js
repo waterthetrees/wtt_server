@@ -14,7 +14,7 @@ const {
   findTreeLikesModel,
   deleteTreeAdoptionModel,
   deleteTreeLikesModel,
-} = require('./models/models_treeme.js');
+} = require('../models/models_treeme.js');
 
 const {
   insertTreeHistoryModel,
@@ -24,8 +24,7 @@ const {
   insertUserModel,
   insertTreeAdoptionModel,
   insertTreeLikesModel,
-  // updateTreeUserModel,
-} = require('./models/models_wtt.js');
+} = require('../models/models_wtt.js');
 
 const {
   validateGetCities,
@@ -39,17 +38,17 @@ const {
   validatePostTreeUser,
   validateGetTreeUser,
   validateGetTodaysTrees,
-} = require('./validation.js');
+} = require('../validations/validation');
 
 const {
   sortTrees, convertObjectToSnakeCase,
   convertHealthToNumber,
-} = require('./utilities.js');
+} = require('../utilities.js');
 
 const {
   // eslint-disable-next-line no-unused-vars
   info, verbose, debug, error,
-} = require('../logger.js');
+} = require('../../logger.js');
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -377,12 +376,12 @@ function getTreeList(req, res) {
 async function processPostUser(body, res) {
   const functionName = 'processPostUser';
   try {
-    info(`${functionName}, "body",  ${inspect(body)} ${functionName}`);
+
     const {
       // eslint-disable-next-line camelcase
       email_verified, family_name, given_name, locale, sub, updated_at, ...subSetBody
     } = body;
-    info(`${functionName}, "subSetBody",  ${inspect(subSetBody)} ${functionName}`);
+
     const keys = Object.keys(subSetBody);
 
     const findUserResults = await findUserModel(body);

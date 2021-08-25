@@ -11,10 +11,11 @@ const logger = require('../logger');
 const middleware = require('./utils/middleware');
 
 const citiesRouter = require('./routes/cities/citiesRouter');
-const treehistoryRouter = require('./routes/treehistory/treehistoryRouter');
-const treemapRouter = require('./routes/treemap/treemapRouter');
 const treesRouter = require('./routes/trees/treesRouter');
-const treeuserRouter = require('./routes/treeuser/treeuserRouter');
+const treeadoptionsRouter = require('./routes/treeadoptions/treeadoptionsRouter');
+const treehistoryRouter = require('./routes/treehistory/treehistoryRouter');
+const treelikesRouter = require('./routes/treelikes/treelikesRouter');
+const treemapRouter = require('./routes/treemap/treemapRouter');
 const userRouter = require('./routes/user/userRouter');
 
 // these are for various environments when we move to dev and live server vs local
@@ -72,9 +73,10 @@ app.use('/', router);
 
 app.use('/api/cities', citiesRouter);
 app.use('/api/tree', treesRouter);
+app.use('/api/treeadoptions', treeadoptionsRouter);
 app.use('/api/treehistory', treehistoryRouter);
 app.use('/api/treemap', treemapRouter);
-app.use('/api/treeuser', treeuserRouter);
+app.use('/api/treelikes', treelikesRouter);
 app.use('/api/user', userRouter);
 
 app.use(middleware.unknownEndpoint);

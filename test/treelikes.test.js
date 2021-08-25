@@ -27,7 +27,7 @@ afterAll(() => {
   nock.enableNetConnect();
 });
 
-describe('/treeuser', () => {
+describe('/treelikes', () => {
   describe('GET', () => {
     describe('when valid tree and valid user', () => {
       // test.todo('then should receive the correct total number of likes');
@@ -54,7 +54,7 @@ describe('/treeuser', () => {
             request: 'liked',
           };
 
-          const treeLikes = await axiosAPIClient.get('/treeuser', {
+          const treeLikes = await axiosAPIClient.get('/treelikes', {
             params,
           });
 
@@ -109,7 +109,7 @@ describe('/treeuser', () => {
           },
         };
 
-        const likedTree = await axiosAPIClient.post('/treeuser', treeUserBody);
+        const likedTree = await axiosAPIClient.post('/treelikes', treeUserBody);
 
         /** Act */
         const params = {
@@ -118,7 +118,7 @@ describe('/treeuser', () => {
           request: 'liked',
         };
 
-        const treeLikes = await axiosAPIClient.get('/treeuser', {
+        const treeLikes = await axiosAPIClient.get('/treelikes', {
           params,
         });
 
@@ -154,7 +154,7 @@ describe('/treeuser', () => {
       //     request: 'liked',
       //   };
 
-      //   const treeLikes = await axiosAPIClient.get('/treeuser', {
+      //   const treeLikes = await axiosAPIClient.get('/treelikes', {
       //     params,
       //   });
 
@@ -218,7 +218,7 @@ describe('/treeuser', () => {
           },
         };
 
-        const likedTree = await axiosAPIClient.post('/treeuser', treeUserBody);
+        const likedTree = await axiosAPIClient.post('/treelikes', treeUserBody);
 
         /** Act */
         const unLikedTreeBody = {
@@ -230,7 +230,7 @@ describe('/treeuser', () => {
         };
 
         const unLikedTree = await axiosAPIClient.post(
-          '/treeuser',
+          '/treelikes',
           unLikedTreeBody
         );
 

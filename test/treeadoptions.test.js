@@ -55,7 +55,7 @@ describe('/trees/:id', () => {
               request: 'adopted',
             };
 
-            const treeLikes = await axiosAPIClient.get('/treeuser', {
+            const treeLikes = await axiosAPIClient.get('/treeadoptions', {
               params,
             });
 
@@ -111,7 +111,7 @@ describe('/trees/:id', () => {
           };
 
           const adoptedTree = await axiosAPIClient.post(
-            '/treeuser',
+            '/treeadoptions',
             treeUserBody
           );
 
@@ -122,7 +122,7 @@ describe('/trees/:id', () => {
             request: 'adopted',
           };
 
-          const treeAdoptions = await axiosAPIClient.get('/treeuser', {
+          const treeAdoptions = await axiosAPIClient.get('/treeadoptions', {
             params,
           });
 
@@ -169,7 +169,7 @@ describe('/trees/:id', () => {
           };
 
           const adoptedTree = await axiosAPIClient.post(
-            '/treeuser',
+            '/treeadoptions',
             treeUserBody
           );
 
@@ -183,7 +183,7 @@ describe('/trees/:id', () => {
           };
 
           const unAdoptedTree = await axiosAPIClient.post(
-            '/treeuser',
+            '/treeadoptions',
             unAdoptedTreeBody
           );
 

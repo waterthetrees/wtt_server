@@ -1,7 +1,5 @@
-const { info, error } = require('../../logger.js');
-const treeDB = require('../db/treedb.js');
-
-const has = Object.prototype.hasOwnProperty;
+const { error } = require('../../logger');
+const treeDB = require('../db/treedb');
 
 async function queryTreeDB(queryString, functionCallerName) {
   try {
@@ -45,32 +43,6 @@ function getGeoJson(location) {
   return queryTreeDB(query, functionName);
 }
 
-async function getTreeListModel() {
-  const functionName = 'getTreeListModel';
-  try {
-    // const query = `SELECT DISTINCT common, scientific, genus FROM treedata
-    // WHERE common <> '' limit 20;`;
-    const query =
-      'SELECT DISTINCT common, scientific, genus FROM treedata where genus IS NOT NULL limit 20;';
-    // debug(`${functionName}  query ${query}`);
-    const results = await queryTreeDB(query, functionName);
-    // debug(`${functionName} results ${util.inspect(results, false, 10, true)}`);
-
-    if (
-      (await results) &&
-      has.call(results, 'rows') &&
-      results.rows.length > 0
-    ) {
-      // debug(`${functionName} results.rows[0] ${util.inspect(results.rows, false, 10, true)}`);
-      return await results.rows;
-    }
-    return undefined;
-  } catch (err) {
-    error(`${functionName} ${err}`);
-    return err;
-  }
-}
-
 function findUserModel(user) {
   const functionName = 'findUserModel';
   const query = `SELECT id_user AS "idUser", email, name, nickname FROM users
@@ -101,7 +73,6 @@ function updateTreeHealthModel(id_tree, health) {
 
 module.exports = {
   getGeoJson,
-  getTreeListModel,
   updateTreeNoteModel,
   updateTreeHealthModel,
   findUserModel,

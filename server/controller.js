@@ -1,17 +1,8 @@
 const { inspect } = require('util');
-const { error } = require('../logger.js');
-const {
-  getGeoJson,
-  getTreeListModel,
-  findUserModel,
-} = require('./models/models_treeme.js');
-const { insertUserModel } = require('./models/models_wtt.js');
-const { sortTrees } = require('./utilities.js');
-const {
-  validatePostUser,
-  validateGetTreeList,
-  validateGetTodaysTrees,
-} = require('./validation.js');
+const { error } = require('../logger');
+const { getGeoJson, findUserModel } = require('./models/models_treeme');
+const { insertUserModel } = require('./models/models_wtt');
+const { validatePostUser, validateGetTodaysTrees } = require('./validation');
 
 const has = Object.prototype.hasOwnProperty;
 
@@ -57,42 +48,6 @@ function getTodaysTrees(req, res) {
   }
 
   processGetTodaysTrees(req.query, res);
-}
-
-async function processGetTreeList(coordinates, res) {
-  const functionName = 'processGetTreeList';
-  try {
-    const { lng, lat } = coordinates;
-    const treeResults = await getTreeListModel(lng, lat);
-    const sortedTreeResults = sortTrees(await treeResults);
-    // const common = treeResults.map(elem => elem.common).filter(i => i);
-    // debug(`common ${inspect(common)} ${functionName}`);
-
-    // const scientific = treeResults.map(elem => elem.scientific).filter(i => i);
-    // debug(`scientific ${inspect(scientific)} ${functionName}`);
-
-    // const genus = treeResults.map(elem => elem.genus).filter(i => i);
-    // verbose(`sortedTreeResults ${inspect(await sortedTreeResults)} ${functionName}`);
-    responder(res, 200, await sortedTreeResults);
-    return;
-  } catch (err) {
-    error(`CATCH ${functionName} ${inspect(err, false, 10, true)}`);
-    res.statusCode = 500;
-    res.json({ error: err });
-  }
-}
-
-function getTreeList(req, res) {
-  // const functionName = 'getTreeList';
-  // debug(`req.query ${inspect(req.query)} ${functionName} HERE`);
-  const validated = validateGetTreeList(req);
-  // debug(`validated ${inspect(validated)} ${functionName} HERE`);
-  if (!validated) {
-    responder(res, 500, { error: 'not valid' });
-    return;
-  }
-
-  processGetTreeList(req.body, res);
 }
 
 async function processPostUser(body, res) {
@@ -144,6 +99,5 @@ function postUser(req, res) {
 
 module.exports = {
   getTodaysTrees,
-  getTreeList,
   postUser,
 };

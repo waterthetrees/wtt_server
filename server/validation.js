@@ -11,14 +11,6 @@ function validateGetTodaysTrees(req) {
   return true;
 }
 
-function validateGetTreeList(req) {
-  if (validation(req, 'req', req) === '') return false;
-  if (validation(req, 'query', req.query) === '') return false;
-  if (validation(req, 'coordinates', req.query.coordinates) === '')
-    return false;
-  return true;
-}
-
 function validatePostUser(req) {
   if (validation(req, 'req', req) === '') return false;
   if (validation(req, 'body', req.body) === '') return false;
@@ -29,7 +21,6 @@ function validatePostUser(req) {
 }
 
 module.exports = {
-  validateGetTreeList,
   validatePostUser,
   validateGetTodaysTrees,
 };

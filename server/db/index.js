@@ -1,28 +1,11 @@
-const pgPromise = require('pg-promise');
-const { configTreeDB } = require('./config_treedb');
+const pgp = require('pg-promise');
+const dbConfig = require('./dbConfig');
+const pgPromiseConfig = require('./pgPromiseConfig');
 
-function camelizeColumns(data) {
-  const tmp = data[0];
-  for (const prop in tmp) {
-    const camel = pgp.utils.camelize(prop);
-    if (!(camel in tmp)) {
-      for (let i = 0; i < data.length; i++) {
-        const d = data[i];
-        d[camel] = d[prop];
-        delete d[prop];
-      }
-    }
-  }
-}
-
-const options = {
-  capSQL: true,
-  receive: (data) => camelizeColumns(data),
-};
-const pgp = pgPromise(options);
-const db = pgp(configTreeDB);
+const pgPromise = pgp(pgPromiseConfig);
+const db = pgPromise(dbConfig);
 
 module.exports = {
-  pgp,
+  pgPromise,
   db,
 };

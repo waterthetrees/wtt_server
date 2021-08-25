@@ -1,4 +1,4 @@
-const { db, pgp } = require('../../db');
+const { db, pgPromise } = require('../../db');
 
 async function addTreeHistory(newTreeHistory) {
   const queryString = `
@@ -28,7 +28,7 @@ async function findTodaysTreeHistoryByTreeIdAndVolunteerName(
 }
 
 async function updateTreeHistory(updatedTreeHistoryData) {
-  const condition = pgp.as.format(
+  const condition = pgPromise.as.format(
     `WHERE created::date = CURRENT_DATE
             AND id_tree = $\{id_tree}
             AND volunteer = $\{volunteer}
@@ -38,7 +38,7 @@ async function updateTreeHistory(updatedTreeHistoryData) {
   );
 
   const queryString =
-    pgp.helpers.update(
+    pgPromise.helpers.update(
       updatedTreeHistoryData,
       Object.keys(updatedTreeHistoryData),
       'treehistory'

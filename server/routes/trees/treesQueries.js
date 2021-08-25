@@ -1,4 +1,4 @@
-const { db, pgp } = require('../../db');
+const { db, pgPromise } = require('../../db');
 const treesUtils = require('./treesUtils');
 
 async function findTreeById(currentTreeId) {
@@ -24,9 +24,11 @@ async function addTree(newTreeData) {
 }
 
 async function updateTreeById(updatedTreeData, idTree) {
-  const condition = pgp.as.format(`WHERE id_tree = ${idTree} RETURNING *`);
+  const condition = pgPromise.as.format(
+    `WHERE id_tree = ${idTree} RETURNING *`
+  );
   const query =
-    pgp.helpers.update(
+    pgPromise.helpers.update(
       updatedTreeData,
       Object.keys(updatedTreeData),
       'treedata'

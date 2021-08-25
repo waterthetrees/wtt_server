@@ -18,19 +18,6 @@ module.exports = {
     ecmaVersion: 12,
   },
   rules: {
-    'import/order': [
-      'warn',
-      {
-        alphabetize: {
-          order: 'asc',
-        },
-        groups: [
-          'builtin',
-          ['external', 'internal'],
-          'parent',
-          ['sibling', 'index'],
-        ],
-      },
-    ],
+    'no-plusplus': 'off',
   },
 };

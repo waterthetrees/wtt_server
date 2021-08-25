@@ -1,20 +1,21 @@
 const http = require('http');
 const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
 const express = require('express');
 require('express-async-errors');
 const morgan = require('morgan');
-const { verbose } = require('../logger');
+const logger = require('../logger');
+const middleware = require('./utils/middleware');
+
 const citiesRouter = require('./routes/cities/citiesRouter');
 const treehistoryRouter = require('./routes/treehistory/treehistoryRouter');
 const treemapRouter = require('./routes/treemap/treemapRouter');
 const treesRouter = require('./routes/trees/treesRouter');
 const treeuserRouter = require('./routes/treeuser/treeuserRouter');
 const userRouter = require('./routes/user/userRouter');
-const middleware = require('./utils/middleware');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 // these are for various environments when we move to dev and live server vs local
 const env = process.argv[2] || 'local';
@@ -80,4 +81,4 @@ app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
 const httpServer = http.createServer(app);
-httpServer.listen(port, () => verbose(`${host}:${port}`));
+httpServer.listen(port, () => logger.verbose(`${host}:${port}`));

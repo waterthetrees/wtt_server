@@ -1,5 +1,5 @@
 const logger = require('../../logger');
-const { pgp } = require('../db');
+const { pgPromise } = require('../db');
 
 function unknownEndpoint(req, res) {
   res
@@ -10,7 +10,7 @@ function unknownEndpoint(req, res) {
 function errorHandler(err, req, res, next) {
   logger.error(err.toString());
 
-  if (err instanceof pgp.errors.QueryResultError) {
+  if (err instanceof pgPromise.errors.QueryResultError) {
     res.status(404).json({ error: err.message });
   }
 

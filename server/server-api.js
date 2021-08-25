@@ -7,9 +7,9 @@ const express = require('express');
 require('express-async-errors');
 const morgan = require('morgan');
 const { verbose } = require('../logger');
-const { getTodaysTrees } = require('./controller');
 const citiesRouter = require('./routes/cities/citiesRouter');
 const treehistoryRouter = require('./routes/treehistory/treehistoryRouter');
+const treemapRouter = require('./routes/treemap/treemapRouter');
 const treesRouter = require('./routes/trees/treesRouter');
 const treeuserRouter = require('./routes/treeuser/treeuserRouter');
 const userRouter = require('./routes/user/userRouter');
@@ -72,10 +72,9 @@ app.use('/', router);
 app.use('/api/cities', citiesRouter);
 app.use('/api/tree', treesRouter);
 app.use('/api/treehistory', treehistoryRouter);
+app.use('/api/treemap', treemapRouter);
 app.use('/api/treeuser', treeuserRouter);
 app.use('/api/user', userRouter);
-
-router.route('/api/treemap').get(getTodaysTrees);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

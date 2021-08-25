@@ -11,38 +11,6 @@ async function queryTreeDB(queryString, functionCallerName) {
   }
 }
 
-// eslint-disable-next-line no-unused-vars
-function getGeoJson(location) {
-  const functionName = 'getGeoJson';
-  const { city } = location || { city: '%' };
-  const query = `
-    SELECT jsonb_build_object(
-      'type',     'FeatureCollection',
-      'features', jsonb_agg(feature)
-    )
-    FROM (
-      SELECT jsonb_build_object(
-        'type',       'Feature',
-        'id',         'treedata',
-        'geometry',   json_build_object( 'type', 'Point', 'coordinates', json_build_array(lng, lat)),
-        'properties', json_build_object(
-                        'id', id_tree,
-                        'idTree', id_tree,
-                        'common', common,
-                        'health', health )
-      ) AS feature
-      FROM (
-        SELECT * FROM treedata
-        WHERE city like '${city}'
-        AND (modified::date = CURRENT_DATE
-        OR created::date = CURRENT_DATE)
-      ) inputs
-    ) features;`;
-  // info(`${functionName} query ${inspect(query, false, 10, true)}`);
-
-  return queryTreeDB(query, functionName);
-}
-
 function updateTreeNoteModel(id_tree, notes) {
   const functionName = 'updateTreeNoteModel';
   const query = ` UPDATE treedata
@@ -62,7 +30,6 @@ function updateTreeHealthModel(id_tree, health) {
 }
 
 module.exports = {
-  getGeoJson,
   updateTreeNoteModel,
   updateTreeHealthModel,
 };

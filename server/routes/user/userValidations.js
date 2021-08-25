@@ -4,13 +4,15 @@ function validation(objectIn, key, valueIn) {
   return Reflect.has(objectIn, key) ? Reflect.get(objectIn, key) : valueOut;
 }
 
-function validateGetTodaysTrees(req) {
+function validatePostUser(req) {
   if (validation(req, 'req', req) === '') return false;
-  if (validation(req, 'query', req.query) === '') return false;
-  if (validation(req, 'city', req.query.city) === '') return false;
+  if (validation(req, 'body', req.body) === '') return false;
+  if (validation(req, 'name', req.body.name) === '') return false;
+  if (validation(req, 'email', req.body.email) === '') return false;
+  if (validation(req, 'nickname', req.body.nickname) === '') return false;
   return true;
 }
 
 module.exports = {
-  validateGetTodaysTrees,
+  validatePostUser,
 };

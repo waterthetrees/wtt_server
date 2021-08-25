@@ -7,11 +7,12 @@ const express = require('express');
 require('express-async-errors');
 const morgan = require('morgan');
 const { verbose } = require('../logger');
-const { getTodaysTrees, postUser } = require('./controller');
+const { getTodaysTrees } = require('./controller');
 const citiesRouter = require('./routes/cities/citiesRouter');
 const treehistoryRouter = require('./routes/treehistory/treehistoryRouter');
 const treesRouter = require('./routes/trees/treesRouter');
 const treeuserRouter = require('./routes/treeuser/treeuserRouter');
+const userRouter = require('./routes/user/userRouter');
 const middleware = require('./utils/middleware');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
@@ -68,14 +69,13 @@ app.use(cors(options));
 // ROUTES
 app.use('/', router);
 
-app.use('/api/tree', treesRouter);
 app.use('/api/cities', citiesRouter);
-app.use('/api/treeuser', treeuserRouter);
+app.use('/api/tree', treesRouter);
 app.use('/api/treehistory', treehistoryRouter);
+app.use('/api/treeuser', treeuserRouter);
+app.use('/api/user', userRouter);
 
 router.route('/api/treemap').get(getTodaysTrees);
-
-router.route('/api/user').post(postUser);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

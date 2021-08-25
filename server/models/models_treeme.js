@@ -43,16 +43,6 @@ function getGeoJson(location) {
   return queryTreeDB(query, functionName);
 }
 
-function findUserModel(user) {
-  const functionName = 'findUserModel';
-  const query = `SELECT id_user AS "idUser", email, name, nickname FROM users
-    WHERE email = '${user.email}'
-    OR name = '${user.name}'
-    OR nickname = '${user.nickname}';`;
-  // info(`${functionName} ${query}`);
-  return queryTreeDB(query, functionName);
-}
-
 function updateTreeNoteModel(id_tree, notes) {
   const functionName = 'updateTreeNoteModel';
   const query = ` UPDATE treedata
@@ -75,5 +65,4 @@ module.exports = {
   getGeoJson,
   updateTreeNoteModel,
   updateTreeHealthModel,
-  findUserModel,
 };

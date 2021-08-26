@@ -1,13 +1,20 @@
 const { db, pgPromise } = require('../../db');
+const sharedRoutesUtils = require('../sharedRoutesUtils');
 
-async function addTreeHistory(newTreeHistory) {
+async function addTreeHistory(newTreeHistoryData) {
+  const newTreeHistoryDataInSnakeCase =
+    sharedRoutesUtils.convertObjectKeysToSnakeCase(newTreeHistoryData);
+
   const queryString = `
     INSERT INTO treehistory(\${this:name})
     VALUES(\${this:csv})
     RETURNING *
   `;
 
-  const treeHistory = await db.oneOrNone(queryString, newTreeHistory);
+  const treeHistory = await db.oneOrNone(
+    queryString,
+    newTreeHistoryDataInSnakeCase
+  );
 
   return treeHistory;
 }
@@ -28,25 +35,28 @@ async function findTodaysTreeHistoryByTreeIdAndVolunteerName(
 }
 
 async function updateTreeHistory(updatedTreeHistoryData) {
+  const updatedTreeHistoryDataInSnakeCase =
+    sharedRoutesUtils.convertObjectKeysToSnakeCase(updatedTreeHistoryData);
+
   const condition = pgPromise.as.format(
     `WHERE created::date = CURRENT_DATE
             AND id_tree = $\{id_tree}
             AND volunteer = $\{volunteer}
       RETURNING id_treehistory, id_tree, watered, mulched, pruned, staked,
                 weeded, braced, adopted, liked, volunteer, date_visit`,
-    updatedTreeHistoryData
+    updatedTreeHistoryDataInSnakeCase
   );
 
   const queryString =
     pgPromise.helpers.update(
-      updatedTreeHistoryData,
-      Object.keys(updatedTreeHistoryData),
+      updatedTreeHistoryDataInSnakeCase,
+      Object.keys(updatedTreeHistoryDataInSnakeCase),
       'treehistory'
     ) + condition;
 
   const updatedTreeHistory = await db.oneOrNone(
     queryString,
-    updatedTreeHistoryData
+    updatedTreeHistoryDataInSnakeCase
   );
 
   return updatedTreeHistory;

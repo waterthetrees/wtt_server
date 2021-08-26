@@ -1,6 +1,5 @@
 const treehistoryRouter = require('express').Router();
 const AppError = require('../../errors/AppError');
-const sharedRoutesUtils = require('../sharedRoutesUtils');
 const treeHistory = require('./treehistoryQueries');
 
 treehistoryRouter.get('/', async (req, res) => {
@@ -27,10 +26,6 @@ treehistoryRouter.post('/', async (req, res) => {
     );
   }
 
-  const formattedRequestBody = sharedRoutesUtils.convertObjectToSnakeCase(
-    req.body
-  );
-
   const todaysTreeHistory =
     await treeHistory.findTodaysTreeHistoryByTreeIdAndVolunteerName(
       idTree,
@@ -38,9 +33,7 @@ treehistoryRouter.post('/', async (req, res) => {
     );
 
   if (!todaysTreeHistory) {
-    const newTreeHistory = await treeHistory.addTreeHistory(
-      formattedRequestBody
-    );
+    const newTreeHistory = await treeHistory.addTreeHistory(req.body);
 
     if (!newTreeHistory) {
       throw new AppError(400, 'Failed to create new tree history.');
@@ -48,9 +41,7 @@ treehistoryRouter.post('/', async (req, res) => {
 
     res.status(201).json({ newTreeHistory });
   } else {
-    const updatedTreeHistory = await treeHistory.updateTreeHistory(
-      formattedRequestBody
-    );
+    const updatedTreeHistory = await treeHistory.updateTreeHistory(req.body);
 
     if (!updatedTreeHistory) {
       throw new AppError(400, 'Failed to update tree history.');

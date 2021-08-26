@@ -1,6 +1,5 @@
 const treeadoptionsRouter = require('express').Router();
 const AppError = require('../../errors/AppError');
-const sharedRoutesUtils = require('../sharedRoutesUtils');
 const treeadoptionsQueries = require('./treeadoptionsQueries');
 
 treeadoptionsRouter.get('/', async (req, res) => {
@@ -24,9 +23,7 @@ treeadoptionsRouter.post('/', async (req, res) => {
   const { request, ...body } = req.body;
 
   if (request.type === 'DELETE') {
-    const { rowCount } = await treeadoptionsQueries.deleteTreeAdoptionModel(
-      body
-    );
+    const { rowCount } = await treeadoptionsQueries.unadoptTree(body);
 
     if (rowCount !== 1) {
       throw new AppError(404, 'Failed to find tree.');
@@ -34,10 +31,7 @@ treeadoptionsRouter.post('/', async (req, res) => {
 
     res.status(200).json({ success: true });
   } else {
-    const formattedBody = sharedRoutesUtils.convertObjectToSnakeCase(body);
-    const data = await treeadoptionsQueries.insertTreeAdoptionModel(
-      formattedBody
-    );
+    const data = await treeadoptionsQueries.adoptTree(body);
 
     res.status(200).json(data);
   }

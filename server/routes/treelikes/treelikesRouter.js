@@ -1,6 +1,5 @@
 const treelikesRouter = require('express').Router();
 const AppError = require('../../errors/AppError');
-const sharedRoutesUtils = require('../sharedRoutesUtils');
 const treelikesQueries = require('./treelikesQueries');
 
 treelikesRouter.get('/', async (req, res) => {
@@ -24,7 +23,7 @@ treelikesRouter.post('/', async (req, res) => {
   const { request, ...body } = req.body;
 
   if (request.type === 'DELETE') {
-    const { rowCount } = await treelikesQueries.deleteTreeLikesModel(body);
+    const { rowCount } = await treelikesQueries.unlikeTree(body);
 
     if (rowCount !== 1) {
       throw new AppError(404, 'Failed to find tree.');
@@ -32,8 +31,7 @@ treelikesRouter.post('/', async (req, res) => {
 
     res.status(200).json({ success: true });
   } else {
-    const formattedBody = sharedRoutesUtils.convertObjectToSnakeCase(body);
-    const data = await treelikesQueries.insertTreeLikesModel(formattedBody);
+    const data = await treelikesQueries.likeTree(body);
 
     res.status(200).json(data);
   }

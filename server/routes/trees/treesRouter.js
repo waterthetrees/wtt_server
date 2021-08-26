@@ -1,7 +1,6 @@
 const treesRouter = require('express').Router();
 const AppError = require('../../errors/AppError');
 const cities = require('../cities/citiesQueries');
-const sharedRoutesUtils = require('../sharedRoutesUtils');
 const treeHistory = require('../treehistory/treehistoryQueries');
 const trees = require('./treesQueries');
 const { validatePostTree } = require('./treesValidations');
@@ -25,10 +24,7 @@ treesRouter.post('/', async (req, res) => {
     throw new AppError(400, 'Missing required parameter(s).');
   }
 
-  const snakeCaseTreeData = sharedRoutesUtils.convertObjectToSnakeCase(
-    req.body
-  );
-  const tree = await trees.addTree(snakeCaseTreeData);
+  const tree = await trees.addTree(req.body);
   const foundCity = await cities.findCitiesByName(tree.city);
   const isNewCity = tree.city && !foundCity;
 
@@ -57,8 +53,7 @@ treesRouter.put('/', async (req, res) => {
     throw new AppError(400, 'Missing required parameter: idTree.');
   }
 
-  const snakeCaseTreeData = sharedRoutesUtils.convertObjectToSnakeCase(body);
-  const updatedTree = await trees.updateTreeById(snakeCaseTreeData, idTree);
+  const updatedTree = await trees.updateTreeById(body, idTree);
 
   res.status(200).json(updatedTree);
 });

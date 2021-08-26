@@ -1,4 +1,5 @@
 const { db } = require('../../db');
+const sharedRoutesUtils = require('../sharedRoutesUtils');
 
 async function findTreeLikesById(idTree) {
   const query = `
@@ -12,18 +13,21 @@ async function findTreeLikesById(idTree) {
   return treeLikes;
 }
 
-async function insertTreeLikesModel(newLikedTree) {
+async function likeTree(likedTreeData) {
+  const likedTreeDataInSnakeCase =
+    sharedRoutesUtils.convertObjectKeysToSnakeCase(likedTreeData);
+
   const queryString = `
     INSERT INTO treelikes(\${this:name})
     VALUES(\${this:csv})
     RETURNING *
   `;
-  const newTreeLiked = db.one(queryString, newLikedTree);
+  const newTreeLiked = db.one(queryString, likedTreeDataInSnakeCase);
 
   return newTreeLiked;
 }
 
-function deleteTreeLikesModel({ idTree, email }) {
+function unlikeTree({ idTree, email }) {
   const query = `
     DELETE FROM treelikes
     WHERE id_tree = $1 AND email = $2;
@@ -36,6 +40,6 @@ function deleteTreeLikesModel({ idTree, email }) {
 
 module.exports = {
   findTreeLikesById,
-  insertTreeLikesModel,
-  deleteTreeLikesModel,
+  likeTree,
+  unlikeTree,
 };

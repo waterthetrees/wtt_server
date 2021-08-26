@@ -1,4 +1,5 @@
 const { db } = require('../../db');
+const sharedRoutesUtils = require('../sharedRoutesUtils');
 
 async function findTreeAdoptionsById(idTree) {
   const query = `
@@ -12,18 +13,21 @@ async function findTreeAdoptionsById(idTree) {
   return treeAdoptions;
 }
 
-async function insertTreeAdoptionModel(newAdoptedTree) {
+async function adoptTree(adoptedTreeData) {
+  const adoptedTreeDataInSnakeCase =
+    sharedRoutesUtils.convertObjectKeysToSnakeCase(adoptedTreeData);
+
   const query = `
     INSERT INTO treeadoption(\${this:name})
     VALUES(\${this:csv})
     RETURNING *
   `;
-  const newTreeAdoption = db.one(query, newAdoptedTree);
+  const newTreeAdoption = db.one(query, adoptedTreeDataInSnakeCase);
 
   return newTreeAdoption;
 }
 
-function deleteTreeAdoptionModel({ idTree, email }) {
+function unadoptTree({ idTree, email }) {
   const query = `
     DELETE FROM treeadoption
     WHERE id_tree = $1 AND email = $2;
@@ -36,6 +40,6 @@ function deleteTreeAdoptionModel({ idTree, email }) {
 
 module.exports = {
   findTreeAdoptionsById,
-  insertTreeAdoptionModel,
-  deleteTreeAdoptionModel,
+  adoptTree,
+  unadoptTree,
 };

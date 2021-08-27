@@ -17,7 +17,7 @@ const treehistoryRouter = require('./routes/treehistory/treehistory-router');
 const treelikesRouter = require('./routes/treelikes/treelikes-router');
 const treemapRouter = require('./routes/treemap/treemap-router');
 const treesRouter = require('./routes/trees/trees-router');
-const userRouter = require('./routes/user/user-router');
+const usersRouter = require('./routes/users/users-router');
 
 // these are for various environments when we move to dev and live server vs local
 const env = process.argv[2] || 'local';
@@ -77,7 +77,7 @@ app.use('/api/treehistory', treehistoryRouter);
 app.use('/api/treelikes', treelikesRouter);
 app.use('/api/treemap', treemapRouter);
 app.use('/api/tree', treesRouter);
-app.use('/api/user', userRouter);
+app.use('/api/users', usersRouter);
 
 app.use(unknownEndpointHandler);
 app.use(expressErrorHandler);

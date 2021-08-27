@@ -27,7 +27,7 @@ afterAll(() => {
   nock.enableNetConnect();
 });
 
-describe('/api/user', () => {
+describe('/api/users', () => {
   describe('GET', () => {
     describe('When given an existing user', () => {
       test('Then return the user', async () => {
@@ -39,12 +39,12 @@ describe('/api/user', () => {
           email: faker.internet.email(),
         };
 
-        const newUser = await axiosAPIClient.post('/user', body);
+        const newUser = await axiosAPIClient.post('/users', body);
 
         /** Act */
         const params = { email: newUser.data.email };
 
-        const user = await axiosAPIClient.get('/user', {
+        const user = await axiosAPIClient.get('/users', {
           params,
         });
 
@@ -67,7 +67,7 @@ describe('/api/user', () => {
         const params = { email: faker.internet.email() };
 
         /** Act */
-        const user = await axiosAPIClient.get('/user', { params });
+        const user = await axiosAPIClient.get('/users', { params });
 
         /** Assert */
         expect(user).toMatchObject({
@@ -92,7 +92,7 @@ describe('/api/user', () => {
         };
 
         /** Act */
-        const user = await axiosAPIClient.post('/user', body);
+        const user = await axiosAPIClient.post('/users', body);
 
         /** Assert */
         expect(user).toMatchObject({
@@ -117,12 +117,12 @@ describe('/api/user', () => {
           email: faker.internet.email(),
         };
 
-        const newUser = await axiosAPIClient.post('/user', body);
+        const newUser = await axiosAPIClient.post('/users', body);
 
         /** Act */
         const params = { email: newUser.data.email };
 
-        const user = await axiosAPIClient.get('/user', { params });
+        const user = await axiosAPIClient.get('/users', { params });
 
         /** Assert */
         expect(user).toMatchObject({

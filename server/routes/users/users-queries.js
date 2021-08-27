@@ -12,6 +12,8 @@ function findUserByEmail(email) {
 }
 
 async function addUser(newUser) {
+  console.log(JSON.stringify(newUser));
+
   const query = `
     INSERT INTO users(\${this:name})
     VALUES(\${this:csv})

@@ -75,8 +75,7 @@
     "delay": "2"
   },
   "scripts": {
-    "serve": "node server/server-api.js local",
-    "start": "nodemon server/server-api.js dockerlocal",
+    "start": "nodemon server/index.js",
     "test": "jest",
     "test:dev": "jest --watch --silent --runInBand",
     "test:dev:debug": "node --inspect-brk node_modules/.bin/jest --watch --runInBand --silent",

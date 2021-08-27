@@ -8,7 +8,8 @@ const express = require('express');
 require('express-async-errors');
 const morgan = require('morgan');
 const logger = require('../logger');
-const middleware = require('./utils/middleware');
+const unknownEndpointHandler = require('./middleware/unknownEndpointHandler');
+const expressErrorHandler = require('./middleware/expressErrorHandler');
 
 const citiesRouter = require('./routes/cities/citiesRouter');
 const treesRouter = require('./routes/trees/treesRouter');
@@ -57,7 +58,6 @@ const options = {
 };
 
 const app = express();
-const router = express.Router();
 
 app.use(compression());
 // for logging on command line
@@ -69,8 +69,6 @@ app.use(bodyParser.raw({ type: '*/*' }));
 app.use(cors(options));
 
 // ROUTES
-app.use('/', router);
-
 app.use('/api/cities', citiesRouter);
 app.use('/api/tree', treesRouter);
 app.use('/api/treeadoptions', treeadoptionsRouter);
@@ -79,8 +77,8 @@ app.use('/api/treemap', treemapRouter);
 app.use('/api/treelikes', treelikesRouter);
 app.use('/api/user', userRouter);
 
-app.use(middleware.unknownEndpoint);
-app.use(middleware.errorHandler);
+app.use(unknownEndpointHandler);
+app.use(expressErrorHandler);
 
 const httpServer = http.createServer(app);
 httpServer.listen(port, () => logger.verbose(`${host}:${port}`));

@@ -2,17 +2,7 @@ const { db, pgPromise } = require('../../db');
 const treesUtils = require('./trees-utils');
 const sharedRoutesUtils = require('../shared-routes-utils');
 
-async function findTreeById(currentTreeId) {
-  const query = 'SELECT * FROM treedata WHERE id_tree = $1';
-  const values = [currentTreeId];
-  const tree = await db.one(query, values);
-
-  tree.healthNum = treesUtils.convertHealthToNumber(tree.health);
-
-  return tree;
-}
-
-async function addTree(newTreeData) {
+async function createTree(newTreeData) {
   const newTreeDataInSnakeCase =
     sharedRoutesUtils.convertObjectKeysToSnakeCase(newTreeData);
 
@@ -25,6 +15,16 @@ async function addTree(newTreeData) {
   const newTree = db.one(query, newTreeDataInSnakeCase);
 
   return newTree;
+}
+
+async function findTreeById(currentTreeId) {
+  const query = 'SELECT * FROM treedata WHERE id_tree = $1';
+  const values = [currentTreeId];
+  const tree = await db.one(query, values);
+
+  tree.healthNum = treesUtils.convertHealthToNumber(tree.health);
+
+  return tree;
 }
 
 async function updateTreeById(updatedTreeData, idTree) {
@@ -46,7 +46,7 @@ async function updateTreeById(updatedTreeData, idTree) {
 }
 
 module.exports = {
+  createTree,
   findTreeById,
-  addTree,
   updateTreeById,
 };

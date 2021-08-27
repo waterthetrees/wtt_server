@@ -1,6 +1,10 @@
 const treeadoptionsRouter = require('express').Router();
 const AppError = require('../../errors/AppError');
-const treeadoptionsQueries = require('./treeadoptions-queries');
+const {
+  findTreeAdoptionsByTreeId,
+  adoptTree,
+  unadoptTree,
+} = require('./treeadoptions-queries');
 
 treeadoptionsRouter.get('/', async (req, res) => {
   const { idTree, email } = req.query;
@@ -9,29 +13,30 @@ treeadoptionsRouter.get('/', async (req, res) => {
     throw new AppError(400, 'Missing required parameter(s): idTree or email.');
   }
 
-  const rows = await treeadoptionsQueries.findTreeAdoptionsById(idTree);
+  const treeAdoptions = await findTreeAdoptionsByTreeId(idTree);
 
   const data = {
-    adopted: rows.some((row) => row.email === email),
-    adoptedCount: rows.length,
+    adopted: treeAdoptions.some((treeAdoption) => treeAdoption.email === email),
+    adoptedCount: treeAdoptions.length,
   };
 
   res.status(200).json(data);
 });
 
 treeadoptionsRouter.post('/', async (req, res) => {
+  // TODO: make POST and DELETE separate requests
   const { request, ...body } = req.body;
 
   if (request.type === 'DELETE') {
-    const { rowCount } = await treeadoptionsQueries.unadoptTree(body);
+    const { rowCount } = await unadoptTree(body);
 
     if (rowCount !== 1) {
-      throw new AppError(404, 'Failed to find tree.');
+      throw new AppError(404, 'Failed to unadopt tree.');
     }
 
     res.status(200).json({ success: true });
   } else {
-    const data = await treeadoptionsQueries.adoptTree(body);
+    const data = await adoptTree(body);
 
     res.status(200).json(data);
   }

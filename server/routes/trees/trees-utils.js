@@ -1,7 +1,7 @@
 const convertHealthToNumber = (health) => {
   if (!health) return 6;
 
-  const healthValue = {
+  const healthNumber = {
     good: 6,
     fair: 5,
     poor: 4,
@@ -11,7 +11,7 @@ const convertHealthToNumber = (health) => {
     vacant: 0,
   };
 
-  return healthValue[health];
+  return healthNumber[health];
 };
 
 module.exports = { convertHealthToNumber };

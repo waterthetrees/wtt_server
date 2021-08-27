@@ -1,10 +1,12 @@
 function validatePostTree(req) {
-  if (req.body.common === undefined) return false;
-  if (req.body.lat === undefined) return false;
-  if (req.body.lng === undefined) return false;
-  if (req.body.datePlanted === undefined) return false;
+  const { common, lat, lng, datePlanted } = req.body;
+
+  if (common === undefined) return false;
+  if (lat === undefined) return false;
+  if (lng === undefined) return false;
+  if (datePlanted === undefined) return false;
 
   return true;
 }
 
-module.exports = { validatePostTree }
+module.exports = { validatePostTree };

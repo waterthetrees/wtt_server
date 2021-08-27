@@ -4,6 +4,7 @@ function camelToSnakeCase(camelIn) {
 
 function convertObjectKeysToSnakeCase(obj) {
   const newObj = {};
+
   // eslint-disable-next-line no-restricted-syntax
   for (const key in obj) {
     if (key === key.toLowerCase()) {

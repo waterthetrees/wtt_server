@@ -1,6 +1,6 @@
 const { db } = require('../../db');
 
-async function getGeoJSON(city) {
+async function findGeoJSONByCityName(city) {
   const query = `
     SELECT jsonb_build_object(
       'type',     'FeatureCollection',
@@ -26,9 +26,10 @@ async function getGeoJSON(city) {
     ) features;
   `;
   const values = [city];
-  const geoJSON = await db.one(query, values);
+  const data = await db.one(query, values);
+  const geoJSON = data.jsonbBuildObject;
 
   return geoJSON;
 }
 
-module.exports = { getGeoJSON };
+module.exports = { findGeoJSONByCityName };

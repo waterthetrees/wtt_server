@@ -1,7 +1,7 @@
 const { db } = require('../../db');
 const sharedRoutesUtils = require('../shared-routes-utils');
 
-async function findTreeLikesById(idTree) {
+async function findTreeLikesByTreeId(idTree) {
   const query = `
     SELECT id_liked, id_tree, email
     FROM treelikes
@@ -39,7 +39,7 @@ function unlikeTree({ idTree, email }) {
 }
 
 module.exports = {
-  findTreeLikesById,
+  findTreeLikesByTreeId,
   likeTree,
   unlikeTree,
 };

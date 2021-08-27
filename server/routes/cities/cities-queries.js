@@ -1,31 +1,27 @@
 const { db } = require('../../db');
 
-async function findCitiesByName(city) {
-  if (city === 'All') {
-    const allCities = await db.many('SELECT * FROM cities');
-
-    return allCities;
-  }
-
-  const requestedCities = await db.oneOrNone(
-    'SELECT * FROM cities WHERE city = $1',
-    [city]
-  );
-
-  return requestedCities;
-}
-
-async function addCity({ city, lng, lat, email, who }) {
+async function createCity(newCityData) {
   const query = `
     INSERT INTO cities(\${this:name})
     VALUES(\${this:csv})
-    RETURNING *
   `;
-  const newCityData = { city, lng, lat, email, who };
 
-  const newCity = await db.one(query, newCityData);
+  await db.none(query, newCityData);
+}
 
-  return newCity;
+async function findAllCities() {
+  const query = 'SELECT * FROM cities';
+  const allCities = await db.many(query);
+
+  return allCities;
+}
+
+async function findCityByName(cityName) {
+  const query = 'SELECT * FROM cities WHERE city = $1';
+  const values = [cityName];
+  const city = await db.oneOrNone(query, values);
+
+  return city;
 }
 
 async function updateCityTreeCount(city) {
@@ -37,7 +33,12 @@ async function updateCityTreeCount(city) {
     WHERE city = '${city}';
   `;
 
-  return db.none(query);
+  await db.none(query);
 }
 
-module.exports = { findCitiesByName, addCity, updateCityTreeCount };
+module.exports = {
+  createCity,
+  findAllCities,
+  findCityByName,
+  updateCityTreeCount,
+};

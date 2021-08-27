@@ -1,7 +1,7 @@
 const { db, pgPromise } = require('../../db');
 const sharedRoutesUtils = require('../shared-routes-utils');
 
-async function addTreeHistory(newTreeHistoryData) {
+async function createTreeHistory(newTreeHistoryData) {
   const newTreeHistoryDataInSnakeCase =
     sharedRoutesUtils.convertObjectKeysToSnakeCase(newTreeHistoryData);
 
@@ -28,10 +28,26 @@ async function findTodaysTreeHistoryByTreeIdAndVolunteerName(
     FROM treehistory
     WHERE created::date = CURRENT_DATE AND id_tree = $1 AND volunteer = $2
   `;
+  const values = [idTree, volunteer];
 
-  const todaysTreeHistory = await db.oneOrNone(query, [idTree, volunteer]);
+  const todaysTreeHistory = await db.oneOrNone(query, values);
 
   return todaysTreeHistory;
+}
+
+async function findTreeHistoryByTreeId(idTree) {
+  const query = `
+    SELECT id_treehistory, id_tree, watered, mulched, weeded, staked, braced,
+           pruned, liked, adopted, date_visit, comment, volunteer
+    FROM treehistory
+    WHERE id_tree = $1
+    ORDER BY date_visit DESC
+    LIMIT 20
+  `;
+  const values = [idTree];
+  const treeHistory = await db.manyOrNone(query, values);
+
+  return treeHistory;
 }
 
 async function updateTreeHistory(updatedTreeHistoryData) {
@@ -62,24 +78,9 @@ async function updateTreeHistory(updatedTreeHistoryData) {
   return updatedTreeHistory;
 }
 
-async function findTreeHistoryByTreeId(idTree) {
-  const query = `
-    SELECT id_treehistory, id_tree, watered, mulched, weeded, staked, braced,
-           pruned, liked, adopted, date_visit, comment, volunteer
-    FROM treehistory
-    WHERE id_tree = $1
-    ORDER BY date_visit DESC
-    LIMIT 20
-  `;
-
-  const treeHistory = await db.manyOrNone(query, [idTree]);
-
-  return treeHistory;
-}
-
 module.exports = {
-  addTreeHistory,
+  createTreeHistory,
   findTodaysTreeHistoryByTreeIdAndVolunteerName,
-  updateTreeHistory,
   findTreeHistoryByTreeId,
+  updateTreeHistory,
 };

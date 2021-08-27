@@ -1,6 +1,6 @@
 const userRouter = require('express').Router();
 const AppError = require('../../errors/AppError');
-const userQueries = require('./users-queries');
+const { createUser, findUserByEmail } = require('./users-queries');
 const { validatePostUser } = require('./users-validations');
 
 userRouter.get('/', async (req, res) => {
@@ -10,7 +10,7 @@ userRouter.get('/', async (req, res) => {
     throw new AppError(400, 'Missing required parameter: email.');
   }
 
-  const user = await userQueries.findUserByEmail(email);
+  const user = await findUserByEmail(email);
 
   if (user) {
     res.status(200).json(user);
@@ -26,13 +26,13 @@ userRouter.post('/', async (req, res) => {
     throw new AppError(400, 'Missing required parameter(s).');
   }
 
-  const user = await userQueries.findUserByEmail(req.body.email);
+  const user = await findUserByEmail(req.body.email);
 
   if (user) {
     res.status(200).json(user);
   }
 
-  const newUser = await userQueries.addUser(req.body);
+  const newUser = await createUser(req.body);
 
   res.status(201).json(newUser);
 });

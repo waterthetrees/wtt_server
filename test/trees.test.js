@@ -41,14 +41,14 @@ describe('/api/trees/:id', () => {
 
         const {
           data: { idTree },
-        } = await axiosAPIClient.post('/tree', body);
+        } = await axiosAPIClient.post('/trees', body);
 
         /** Act */
         const params = {
           currentTreeId: idTree,
         };
 
-        const newTree = await axiosAPIClient.get('/tree', {
+        const newTree = await axiosAPIClient.get('/trees', {
           params,
         });
 
@@ -87,7 +87,7 @@ describe('/api/trees/:id', () => {
         const params = { currentTreeId: 0 };
 
         /** Act */
-        const tree = await axiosAPIClient.get('/tree', {
+        const tree = await axiosAPIClient.get('/trees', {
           params,
         });
 
@@ -119,7 +119,7 @@ describe('/api/trees/:id', () => {
           };
 
           /** Act */
-          const newTree = await axiosAPIClient.post('/tree', body);
+          const newTree = await axiosAPIClient.post('/trees', body);
 
           /** Assert */
           expect(newTree).toMatchObject({
@@ -160,7 +160,7 @@ describe('/api/trees/:id', () => {
             lng: Number(faker.address.longitude()),
           };
 
-          const newTree = await axiosAPIClient.post('/tree', body);
+          const newTree = await axiosAPIClient.post('/trees', body);
 
           /** Act */
           const newCity = await axiosAPIClient.get('/cities', {
@@ -197,7 +197,7 @@ describe('/api/trees/:id', () => {
 
           const {
             data: { idTree },
-          } = await axiosAPIClient.post('/tree', body);
+          } = await axiosAPIClient.post('/trees', body);
 
           /** Act */
           const newTreeHistory = await axiosAPIClient.get('/treehistory', {
@@ -235,7 +235,7 @@ describe('/api/trees/:id', () => {
         const body = {};
 
         /** Act */
-        const newTree = await axiosAPIClient.post('/tree', body);
+        const newTree = await axiosAPIClient.post('/trees', body);
 
         /** Assert */
         expect(newTree).toMatchObject({
@@ -262,7 +262,7 @@ describe('/api/trees/:id', () => {
           lng: Number(faker.address.longitude()),
         };
 
-        const tree = await axiosAPIClient.post('/tree', body);
+        const tree = await axiosAPIClient.post('/trees', body);
 
         const updatedTreeBody = {
           idTree: tree.data.idTree,
@@ -272,7 +272,7 @@ describe('/api/trees/:id', () => {
         };
 
         /** Act */
-        const updatedTree = await axiosAPIClient.put('/tree', updatedTreeBody);
+        const updatedTree = await axiosAPIClient.put('/trees', updatedTreeBody);
 
         /** Assert */
         expect(updatedTree).toMatchObject({

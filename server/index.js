@@ -76,7 +76,7 @@ app.use('/api/treeadoptions', treeadoptionsRouter);
 app.use('/api/treehistory', treehistoryRouter);
 app.use('/api/treelikes', treelikesRouter);
 app.use('/api/treemap', treemapRouter);
-app.use('/api/tree', treesRouter);
+app.use('/api/trees', treesRouter);
 app.use('/api/users', usersRouter);
 
 app.use(unknownEndpointHandler);

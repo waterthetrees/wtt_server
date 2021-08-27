@@ -42,7 +42,7 @@ describe('/api/treemap', () => {
           lng: Number(faker.address.longitude()),
         };
 
-        const newTree = await axiosAPIClient.post('/tree', body);
+        const newTree = await axiosAPIClient.post('/trees', body);
 
         /** Act */
         const params = { city: '%' };

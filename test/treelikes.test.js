@@ -45,7 +45,7 @@ describe('/treelikes', () => {
             lng: Number(faker.address.longitude()),
           };
 
-          const tree = await axiosAPIClient.post('/tree', body);
+          const tree = await axiosAPIClient.post('/trees', body);
 
           /** Act */
           const params = {
@@ -95,7 +95,7 @@ describe('/treelikes', () => {
           lng: Number(faker.address.longitude()),
         };
 
-        const tree = await axiosAPIClient.post('/tree', body);
+        const tree = await axiosAPIClient.post('/trees', body);
 
         // Like the tree
         const treeUserBody = {
@@ -146,7 +146,7 @@ describe('/treelikes', () => {
 
       //   const {
       //     data: { idTree },
-      //   } = await axiosAPIClient.post('/tree', body);
+      //   } = await axiosAPIClient.post('/trees', body);
 
       //   const params = {
       //     idTree,
@@ -204,7 +204,7 @@ describe('/treelikes', () => {
           lng: Number(faker.address.longitude()),
         };
 
-        const tree = await axiosAPIClient.post('/tree', body);
+        const tree = await axiosAPIClient.post('/trees', body);
 
         // Like the tree
         const treeUserBody = {

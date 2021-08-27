@@ -1,6 +1,6 @@
 const citiesRouter = require('express').Router();
 const AppError = require('../../errors/AppError');
-const cities = require('./citiesQueries');
+const cities = require('./cities-queries');
 
 citiesRouter.get('/', async (req, res) => {
   const { city } = req.query;

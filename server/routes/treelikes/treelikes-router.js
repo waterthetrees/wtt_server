@@ -1,6 +1,6 @@
 const treelikesRouter = require('express').Router();
 const AppError = require('../../errors/AppError');
-const treelikesQueries = require('./treelikesQueries');
+const treelikesQueries = require('./treelikes-queries');
 
 treelikesRouter.get('/', async (req, res) => {
   const { idTree, email } = req.query;

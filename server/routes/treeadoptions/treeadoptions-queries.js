@@ -1,5 +1,5 @@
 const { db } = require('../../db');
-const sharedRoutesUtils = require('../sharedRoutesUtils');
+const sharedRoutesUtils = require('../shared-routes-utils');
 
 async function findTreeAdoptionsById(idTree) {
   const query = `

@@ -1,9 +1,9 @@
 const treesRouter = require('express').Router();
 const AppError = require('../../errors/AppError');
-const cities = require('../cities/citiesQueries');
-const treeHistory = require('../treehistory/treehistoryQueries');
-const trees = require('./treesQueries');
-const { validatePostTree } = require('./treesValidations');
+const cities = require('../cities/cities-queries');
+const treeHistory = require('../treehistory/treehistory-queries');
+const trees = require('./trees-queries');
+const { validatePostTree } = require('./trees-validations');
 
 treesRouter.get('/', async (req, res) => {
   const { currentTreeId } = req.query;

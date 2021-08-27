@@ -1,6 +1,6 @@
 const { db, pgPromise } = require('../../db');
-const treesUtils = require('./treesUtils');
-const sharedRoutesUtils = require('../sharedRoutesUtils');
+const treesUtils = require('./trees-utils');
+const sharedRoutesUtils = require('../shared-routes-utils');
 
 async function findTreeById(currentTreeId) {
   const query = 'SELECT * FROM treedata WHERE id_tree = $1';

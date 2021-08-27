@@ -1,6 +1,6 @@
 const treemapRouter = require('express').Router();
 const AppError = require('../../errors/AppError');
-const treemapQueries = require('./treemapQueries');
+const treemapQueries = require('./treemap-queries');
 
 treemapRouter.get('/', async (req, res) => {
   const { city } = req.query;

@@ -1,7 +1,7 @@
 const userRouter = require('express').Router();
 const AppError = require('../../errors/AppError');
-const userQueries = require('./userQueries');
-const { validatePostUser } = require('./userValidations');
+const userQueries = require('./user-queries');
+const { validatePostUser } = require('./user-validations');
 
 userRouter.get('/', async (req, res) => {
   const { email } = req.query;

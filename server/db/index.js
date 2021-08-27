@@ -1,6 +1,6 @@
 const pgp = require('pg-promise');
-const dbConfig = require('./dbConfig');
-const pgPromiseConfig = require('./pgPromiseConfig');
+const dbConfig = require('./db-config');
+const pgPromiseConfig = require('./pg-promise-config');
 
 const pgPromise = pgp(pgPromiseConfig);
 const db = pgPromise(dbConfig);

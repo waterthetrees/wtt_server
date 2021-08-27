@@ -1,6 +1,6 @@
 const treeadoptionsRouter = require('express').Router();
 const AppError = require('../../errors/AppError');
-const treeadoptionsQueries = require('./treeadoptionsQueries');
+const treeadoptionsQueries = require('./treeadoptions-queries');
 
 treeadoptionsRouter.get('/', async (req, res) => {
   const { idTree, email } = req.query;

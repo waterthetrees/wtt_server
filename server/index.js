@@ -8,19 +8,20 @@ const express = require('express');
 require('express-async-errors');
 const morgan = require('morgan');
 const logger = require('../logger');
-const unknownEndpointHandler = require('./middleware/unknownEndpointHandler');
-const expressErrorHandler = require('./middleware/expressErrorHandler');
+const unknownEndpointHandler = require('./middleware/unknown-endpoint-handler');
+const expressErrorHandler = require('./middleware/express-error-handler');
 
-const citiesRouter = require('./routes/cities/citiesRouter');
-const treesRouter = require('./routes/trees/treesRouter');
-const treeadoptionsRouter = require('./routes/treeadoptions/treeadoptionsRouter');
-const treehistoryRouter = require('./routes/treehistory/treehistoryRouter');
-const treelikesRouter = require('./routes/treelikes/treelikesRouter');
-const treemapRouter = require('./routes/treemap/treemapRouter');
-const userRouter = require('./routes/user/userRouter');
+const citiesRouter = require('./routes/cities/cities-router');
+const treeadoptionsRouter = require('./routes/treeadoptions/treeadoptions-router');
+const treehistoryRouter = require('./routes/treehistory/treehistory-router');
+const treelikesRouter = require('./routes/treelikes/treelikes-router');
+const treemapRouter = require('./routes/treemap/treemap-router');
+const treesRouter = require('./routes/trees/trees-router');
+const userRouter = require('./routes/user/user-router');
 
 // these are for various environments when we move to dev and live server vs local
 const env = process.argv[2] || 'local';
+
 const host = {
   production: 'http://localhost',
   development: 'http://localhost',
@@ -47,6 +48,7 @@ const whitelist = [
   'https://waterthetrees.com',
   'https://www.waterthetrees.com',
 ];
+
 const options = {
   origin(origin, callback) {
     if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -70,11 +72,11 @@ app.use(cors(options));
 
 // ROUTES
 app.use('/api/cities', citiesRouter);
-app.use('/api/tree', treesRouter);
 app.use('/api/treeadoptions', treeadoptionsRouter);
 app.use('/api/treehistory', treehistoryRouter);
-app.use('/api/treemap', treemapRouter);
 app.use('/api/treelikes', treelikesRouter);
+app.use('/api/treemap', treemapRouter);
+app.use('/api/tree', treesRouter);
 app.use('/api/user', userRouter);
 
 app.use(unknownEndpointHandler);

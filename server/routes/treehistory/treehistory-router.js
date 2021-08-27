@@ -1,6 +1,6 @@
 const treehistoryRouter = require('express').Router();
 const AppError = require('../../errors/AppError');
-const treeHistory = require('./treehistoryQueries');
+const treeHistory = require('./treehistory-queries');
 
 treehistoryRouter.get('/', async (req, res) => {
   const { currentTreeId } = req.query;

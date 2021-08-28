@@ -27,7 +27,7 @@ async function likeTree(likedTreeData) {
   return newTreeLiked;
 }
 
-function unlikeTree({ idTree, email }) {
+async function unlikeTree({ idTree, email }) {
   const query = `
     DELETE FROM treelikes
     WHERE id_tree = $1 AND email = $2;

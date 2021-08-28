@@ -11,7 +11,7 @@ async function createUser(newUserData) {
   return newUser;
 }
 
-function findUserByEmail(email) {
+async function findUserByEmail(email) {
   const query = `
     SELECT id_user, email, name, nickname
     FROM users

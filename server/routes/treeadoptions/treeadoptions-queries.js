@@ -27,7 +27,7 @@ async function adoptTree(adoptedTreeData) {
   return newTreeAdoption;
 }
 
-function unadoptTree({ idTree, email }) {
+async function unadoptTree({ idTree, email }) {
   const query = `
     DELETE FROM treeadoption
     WHERE id_tree = $1 AND email = $2;

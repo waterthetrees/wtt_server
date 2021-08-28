@@ -29,11 +29,12 @@ async function updateCityTreeCount(city) {
     UPDATE cities
     SET city_count_trees = (SELECT count(id_tree)
                             FROM treedata
-                            WHERE city = '${city}')
-    WHERE city = '${city}';
+                            WHERE city = $1)
+    WHERE city = $1;
   `;
+  const values = [city];
 
-  await db.none(query);
+  await db.none(query, values);
 }
 
 module.exports = {

@@ -1,12 +1,14 @@
-const { db } = require('../../db');
+const { db, pgPromise } = require('../../db');
+
+const usersTable = new pgPromise.helpers.ColumnSet(
+  ['nickname', 'name', 'picture', 'email'],
+  { table: 'users' }
+);
 
 async function createUser(newUserData) {
-  const query = `
-    INSERT INTO users(\${this:name})
-    VALUES(\${this:csv})
-    RETURNING name, nickname, email, id_user
-  `;
-  const newUser = db.oneOrNone(query, newUserData);
+  const query = pgPromise.helpers.insert(newUserData, usersTable);
+  const returningClause = 'RETURNING name, nickname, email, id_user';
+  const newUser = await db.oneOrNone(query + returningClause, newUserData);
 
   return newUser;
 }
@@ -18,7 +20,7 @@ async function findUserByEmail(email) {
     WHERE email = $1
   `;
   const values = [email];
-  const user = db.oneOrNone(query, values);
+  const user = await db.oneOrNone(query, values);
 
   return user;
 }

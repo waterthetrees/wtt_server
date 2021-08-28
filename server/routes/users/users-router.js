@@ -14,9 +14,9 @@ userRouter.get('/', async (req, res) => {
 
   if (user) {
     res.status(200).json(user);
+  } else {
+    throw new AppError(404, 'Failed to find user.');
   }
-
-  throw new AppError(404, 'Failed to find user.');
 });
 
 userRouter.post('/', async (req, res) => {
@@ -30,11 +30,11 @@ userRouter.post('/', async (req, res) => {
 
   if (user) {
     res.status(200).json(user);
+  } else {
+    const newUser = await createUser(req.body);
+
+    res.status(201).json(newUser);
   }
-
-  const newUser = await createUser(req.body);
-
-  res.status(201).json(newUser);
 });
 
 module.exports = userRouter;

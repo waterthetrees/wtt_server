@@ -32,14 +32,14 @@ describe('/api/users', () => {
     describe('When given an existing user', () => {
       test('Then return the user', async () => {
         /** Arrange */
-        const body = {
+        const newUserData = {
           nickname: faker.internet.userName(),
           name: faker.name.findName(),
           picture: faker.random.image(),
           email: faker.internet.email(),
         };
 
-        const newUser = await axiosAPIClient.post('/users', body);
+        const newUser = await axiosAPIClient.post('/users', newUserData);
 
         /** Act */
         const params = { email: newUser.data.email };
@@ -52,9 +52,9 @@ describe('/api/users', () => {
         expect(user).toMatchObject({
           status: 200,
           data: {
-            nickname: body.nickname,
-            name: body.name,
-            email: body.email,
+            nickname: newUser.data.nickname,
+            name: newUser.data.name,
+            email: newUser.data.email,
             idUser: expect.any(Number),
           },
         });
@@ -62,11 +62,10 @@ describe('/api/users', () => {
     });
 
     describe('When given a non-existent user', () => {
-      test('Then return 404 error', async () => {
-        /** Arrane */
+      test('Then return a 404 error', async () => {
+        /** Act */
         const params = { email: faker.internet.email() };
 
-        /** Act */
         const user = await axiosAPIClient.get('/users', { params });
 
         /** Assert */
@@ -84,7 +83,7 @@ describe('/api/users', () => {
     describe('When given a new user', () => {
       test('Then add the user to the database', async () => {
         /** Arrange */
-        const body = {
+        const newUserData = {
           nickname: faker.internet.userName(),
           name: faker.name.findName(),
           picture: faker.random.image(),
@@ -92,15 +91,15 @@ describe('/api/users', () => {
         };
 
         /** Act */
-        const user = await axiosAPIClient.post('/users', body);
+        const user = await axiosAPIClient.post('/users', newUserData);
 
         /** Assert */
         expect(user).toMatchObject({
           status: 201,
           data: {
-            nickname: body.nickname,
-            name: body.name,
-            email: body.email,
+            nickname: newUserData.nickname,
+            name: newUserData.name,
+            email: newUserData.email,
             idUser: expect.any(Number),
           },
         });
@@ -110,14 +109,14 @@ describe('/api/users', () => {
     describe('When given an existing user', () => {
       test('Then return the existing user', async () => {
         /** Arrange */
-        const body = {
+        const newUserData = {
           nickname: faker.internet.userName(),
           name: faker.name.findName(),
           picture: faker.random.image(),
           email: faker.internet.email(),
         };
 
-        const newUser = await axiosAPIClient.post('/users', body);
+        const newUser = await axiosAPIClient.post('/users', newUserData);
 
         /** Act */
         const params = { email: newUser.data.email };
@@ -128,9 +127,9 @@ describe('/api/users', () => {
         expect(user).toMatchObject({
           status: 200,
           data: {
-            nickname: body.nickname,
-            name: body.name,
-            email: body.email,
+            nickname: newUser.data.nickname,
+            name: newUser.data.name,
+            email: newUser.data.email,
             idUser: newUser.data.idUser,
           },
         });

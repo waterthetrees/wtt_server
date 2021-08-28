@@ -29,13 +29,11 @@ afterAll(() => {
 
 describe('/treelikes', () => {
   describe('GET', () => {
-    describe('when valid tree and valid user', () => {
-      // test.todo('then should receive the correct total number of likes');
-
-      describe('when the user has not liked the tree', () => {
-        test('then should confirm the user has not liked the tree', async () => {
+    describe('When valid tree and valid user', () => {
+      describe('When the user has not liked the tree', () => {
+        test('Then confirm the user has not liked the tree', async () => {
           /** Arrange */
-          const body = {
+          const treeData = {
             city: faker.fake(
               '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
             ),
@@ -45,13 +43,12 @@ describe('/treelikes', () => {
             lng: Number(faker.address.longitude()),
           };
 
-          const tree = await axiosAPIClient.post('/trees', body);
+          const tree = await axiosAPIClient.post('/trees', treeData);
 
           /** Act */
           const params = {
             idTree: tree.data.idTree,
             email: faker.internet.email(),
-            request: 'liked',
           };
 
           const treeLikes = await axiosAPIClient.get('/treelikes', {
@@ -69,13 +66,61 @@ describe('/treelikes', () => {
         });
       });
 
-      //   describe('when the user has liked the tree', () => {
-      //     test('then should confirm the user has liked the tree', async () => {});
-      //   });
-    });
+      describe('When the user has liked the tree', () => {
+        test('Then confirm the user has liked the tree', async () => {
+          /** Arrange */
+          const treeData = {
+            city: faker.fake(
+              '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
+            ),
+            common: faker.animal.dog(),
+            datePlanted: new Date(),
+            lat: Number(faker.address.latitude()),
+            lng: Number(faker.address.longitude()),
+          };
 
-    describe('when invalid tree', () => {
-      test.todo('then should return 404 response');
+          const tree = await axiosAPIClient.post('/trees', treeData);
+
+          const user = {
+            email: faker.internet.email(),
+            nickname: faker.internet.userName(),
+          };
+
+          const newTreeLikeData = {
+            idTree: tree.data.idTree,
+            common: tree.data.common,
+            email: user.email,
+            nickname: user.nickname,
+            request: {
+              type: 'POST',
+            },
+          };
+
+          const newTreeLike = await axiosAPIClient.post(
+            '/treelikes',
+            newTreeLikeData
+          );
+
+          /** Act */
+          const params = {
+            idTree: newTreeLike.data.idTree,
+            email: user.email,
+          };
+
+          const treeLikes = await axiosAPIClient.get('/treelikes', {
+            params,
+          });
+
+          /** Assert */
+          expect(treeLikes).toMatchObject({
+            status: 200,
+            data: {
+              liked: true,
+              likedCount: 1,
+            },
+          });
+        });
+      });
     });
   });
 
@@ -83,9 +128,7 @@ describe('/treelikes', () => {
     describe('When given valid input', () => {
       test('Then like the tree', async () => {
         /** Arrange */
-
-        // Create a tree
-        const body = {
+        const treeData = {
           city: faker.fake(
             '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
           ),
@@ -95,10 +138,9 @@ describe('/treelikes', () => {
           lng: Number(faker.address.longitude()),
         };
 
-        const tree = await axiosAPIClient.post('/trees', body);
+        const tree = await axiosAPIClient.post('/trees', treeData);
 
-        // Like the tree
-        const treeUserBody = {
+        const treeLikeData = {
           idTree: tree.data.idTree,
           email: faker.internet.email(),
           common: tree.data.common,
@@ -109,12 +151,12 @@ describe('/treelikes', () => {
           },
         };
 
-        const likedTree = await axiosAPIClient.post('/treelikes', treeUserBody);
+        const likedTree = await axiosAPIClient.post('/treelikes', treeLikeData);
 
         /** Act */
         const params = {
           idTree: likedTree.data.idTree,
-          email: treeUserBody.email,
+          email: treeLikeData.email,
           request: 'liked',
         };
 
@@ -132,59 +174,7 @@ describe('/treelikes', () => {
         });
       });
 
-      // test('Then update the tree history', async () => {
-      //   /** Arrange */
-      //   const body = {
-      //     city: faker.fake(
-      //       '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
-      //     ),
-      //     common: faker.animal.dog(),
-      //     datePlanted: new Date(),
-      //     lat: Number(faker.address.latitude()),
-      //     lng: Number(faker.address.longitude()),
-      //   };
-
-      //   const {
-      //     data: { idTree },
-      //   } = await axiosAPIClient.post('/trees', body);
-
-      //   const params = {
-      //     idTree,
-      //     email: faker.internet.email(),
-      //     request: 'liked',
-      //   };
-
-      //   const treeLikes = await axiosAPIClient.get('/treelikes', {
-      //     params,
-      //   });
-
-      //   /** Act */
-      //   const newTreeHistory = await axiosAPIClient.get('/treehistory', {
-      //     params: { currentTreeId: idTree },
-      //   });
-
-      //   /** Assert */
-      //   expect(newTreeHistory).toMatchObject({
-      //     status: 200,
-      //     data: [
-      //       {
-      //         adopted: null,
-      //         braced: null,
-      //         comment: `THIS ${body.common.toUpperCase()} IS PLANTED!!!`,
-      //         dateVisit: body.datePlanted.toJSON(),
-      //         idTree,
-      //         idTreehistory: expect.any(Number),
-      //         liked: true,
-      //         mulched: null,
-      //         pruned: null,
-      //         staked: null,
-      //         volunteer: body.volunteer ?? null,
-      //         watered: null,
-      //         weeded: null,
-      //       },
-      //     ],
-      //   });
-      // });
+      test.todo('Then update the tree history');
     });
   });
 
@@ -192,9 +182,7 @@ describe('/treelikes', () => {
     describe('When given valid input', () => {
       test('Then unlike the tree', async () => {
         /** Arrange */
-
-        // Create a tree
-        const body = {
+        const treeData = {
           city: faker.fake(
             '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
           ),
@@ -204,10 +192,10 @@ describe('/treelikes', () => {
           lng: Number(faker.address.longitude()),
         };
 
-        const tree = await axiosAPIClient.post('/trees', body);
+        const tree = await axiosAPIClient.post('/trees', treeData);
 
         // Like the tree
-        const treeUserBody = {
+        const likedTreeData = {
           idTree: tree.data.idTree,
           email: faker.internet.email(),
           common: tree.data.common,
@@ -218,11 +206,14 @@ describe('/treelikes', () => {
           },
         };
 
-        const likedTree = await axiosAPIClient.post('/treelikes', treeUserBody);
+        const likedTree = await axiosAPIClient.post(
+          '/treelikes',
+          likedTreeData
+        );
 
         /** Act */
-        const unLikedTreeBody = {
-          ...treeUserBody,
+        const unLikedTreeData = {
+          ...likedTreeData,
           request: {
             name: 'liked',
             type: 'DELETE',
@@ -231,7 +222,7 @@ describe('/treelikes', () => {
 
         const unLikedTree = await axiosAPIClient.post(
           '/treelikes',
-          unLikedTreeBody
+          unLikedTreeData
         );
 
         /** Assert */
@@ -243,5 +234,7 @@ describe('/treelikes', () => {
         });
       });
     });
+
+    test.todo('Then update the tree history');
   });
 });

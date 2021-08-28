@@ -5,6 +5,7 @@ const {
   adoptTree,
   unadoptTree,
 } = require('./treeadoptions-queries');
+const { validatePostTreeAdoptions } = require('./treeadoptions-validations');
 
 treeadoptionsRouter.get('/', async (req, res) => {
   const { idTree, email } = req.query;
@@ -23,8 +24,15 @@ treeadoptionsRouter.get('/', async (req, res) => {
   res.status(200).json(data);
 });
 
+/**
+ * TODO: make POST and DELETE separate requests
+ */
 treeadoptionsRouter.post('/', async (req, res) => {
-  // TODO: make POST and DELETE separate requests
+  const isValidated = validatePostTreeAdoptions(req);
+
+  if (!isValidated) {
+    throw new AppError(400, 'Missing required parameter(s).');
+  }
   const { request, ...body } = req.body;
 
   if (request.type === 'DELETE') {

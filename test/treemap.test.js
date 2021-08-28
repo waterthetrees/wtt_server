@@ -32,7 +32,7 @@ describe('/api/treemap', () => {
     describe('When a new tree is created', () => {
       test('Then the tree cached as GeoJSON', async () => {
         /** Arrange */
-        const body = {
+        const newTreeData = {
           city: faker.fake(
             '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
           ),
@@ -42,7 +42,7 @@ describe('/api/treemap', () => {
           lng: Number(faker.address.longitude()),
         };
 
-        const newTree = await axiosAPIClient.post('/trees', body);
+        const newTree = await axiosAPIClient.post('/trees', newTreeData);
 
         /** Act */
         const params = { city: '%' };

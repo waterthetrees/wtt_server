@@ -5,6 +5,7 @@ const {
   likeTree,
   unlikeTree,
 } = require('./treelikes-queries');
+const { validatePostTreeLikes } = require('./treelikes-validations');
 
 treelikesRouter.get('/', async (req, res) => {
   const { idTree, email } = req.query;
@@ -23,8 +24,16 @@ treelikesRouter.get('/', async (req, res) => {
   res.status(200).json(data);
 });
 
+/**
+ * TODO: make POST and DELETE separate requests
+ */
 treelikesRouter.post('/', async (req, res) => {
-  // TODO: make POST and DELETE separate requests
+  const isValidated = validatePostTreeLikes(req);
+
+  if (!isValidated) {
+    throw new AppError(400, 'Missing required parameter(s).');
+  }
+
   const { request, ...body } = req.body;
 
   if (request.type === 'DELETE') {

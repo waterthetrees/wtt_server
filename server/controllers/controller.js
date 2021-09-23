@@ -14,6 +14,7 @@ const {
   findTreeLikesModel,
   deleteTreeAdoptionModel,
   deleteTreeLikesModel,
+  getCountries,
 } = require('../models/models_treeme.js');
 
 const {
@@ -123,6 +124,19 @@ function getCitiesRequest(req, res) {
   }
 
   processGetCities(req.query.city, res);
+}
+
+async function getCountriesRequest(req, res) {
+  // get data
+  const { rows } = await getCountries();
+
+  // if no data return error message
+  if (!rows?.length) {
+    return res.status(404).json({ error: "Failed to get countries." });
+  }
+
+  // otherwise return data
+  return res.status(200).json(rows);
 }
 
 async function processGetTree(query, res) {
@@ -500,4 +514,5 @@ module.exports = {
   postTreeUser,
   getTreeUser,
   getCitiesRequest,
+  getCountriesRequest,
 };

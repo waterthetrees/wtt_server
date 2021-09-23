@@ -198,6 +198,11 @@ function getCities() {
   return queryTreeDB(query);
 }
 
+function getCountries() {
+  const query = 'SELECT country, lng, lat, country_count_trees AS "countryCountTrees" FROM countries;';
+  return queryTreeDB(query);
+}
+
 function updateCitiesTreeCount(city) {
   const query = `UPDATE cities
     SET city_count_trees = (select count(id_tree)
@@ -267,6 +272,7 @@ module.exports = {
   updateTreeHealthModel,
   findUserModel,
   getCities,
+  getCountries,
   updateCitiesTreeCount,
   getCityExistence,
   insertNewCityModel,

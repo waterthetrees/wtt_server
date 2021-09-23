@@ -10,6 +10,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const {
   getCitiesRequest,
+  getCountriesRequest,
   getTodaysTrees,
   getTree,
   getTreeList,
@@ -88,6 +89,9 @@ router.route('/api/treemap')
 
 router.route('/api/cities')
   .get(getCitiesRequest);
+
+router.route('/api/countries')
+  .get(getCountriesRequest);
 
 router.route('/api/treehistory')
   .get(getTreeHistory)

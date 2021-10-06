@@ -12,6 +12,7 @@ const unknownEndpointHandler = require('./middleware/unknown-endpoint-handler');
 const expressErrorHandler = require('./middleware/express-error-handler');
 
 const citiesRouter = require('./routes/cities/cities-router');
+const countriesRouter = require('./routes/countries/countries-router');
 const treeadoptionsRouter = require('./routes/treeadoptions/treeadoptions-router');
 const treehistoryRouter = require('./routes/treehistory/treehistory-router');
 const treelikesRouter = require('./routes/treelikes/treelikes-router');
@@ -74,6 +75,7 @@ app.use(cors(options));
 
 // ROUTES
 app.use('/api/cities', citiesRouter);
+app.use('/api/countries', countriesRouter);
 app.use('/api/treeadoptions', treeadoptionsRouter);
 app.use('/api/treehistory', treehistoryRouter);
 app.use('/api/treelikes', treelikesRouter);

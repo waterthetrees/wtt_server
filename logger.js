@@ -33,7 +33,7 @@ const logger = winston.createLogger({
       handleExceptions: true,
       json: true,
       maxsize: 52428800,
-      maxFiles: 10,
+      maxFiles: 1,
     }),
     new winston.transports.File({
       timestamp: true,
@@ -43,7 +43,7 @@ const logger = winston.createLogger({
       handleExceptions: true,
       json: true,
       maxsize: 52428800,
-      maxFiles: 10,
+      maxFiles: 1,
     }),
     new winston.transports.File({
       timestamp: true,
@@ -53,7 +53,7 @@ const logger = winston.createLogger({
       handleExceptions: true,
       json: true,
       maxsize: 52428800,
-      maxFiles: 10,
+      maxFiles: 1,
     }),
     new winston.transports.File({
       timestamp: true,
@@ -63,7 +63,7 @@ const logger = winston.createLogger({
       handleExceptions: true,
       json: true,
       maxsize: 52428800,
-      maxFiles: 10,
+      maxFiles: 1,
     }),
     new winston.transports.File({
       timestamp: true,
@@ -73,7 +73,7 @@ const logger = winston.createLogger({
       handleExceptions: true,
       json: true,
       maxsize: 52428800,
-      maxFiles: 10,
+      maxFiles: 1,
     }),
     new winston.transports.File({
       timestamp: true,
@@ -82,7 +82,7 @@ const logger = winston.createLogger({
       handleExceptions: true,
       json: true,
       maxsize: 52428800,
-      maxFiles: 10,
+      maxFiles: 1,
     }),
     new winston.transports.Console({
       level: consoleLevel,

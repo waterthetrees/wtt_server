@@ -1,6 +1,6 @@
 module.exports = {
   apps : [{
-    script: 'server/server-api.js',
+    script: 'server/index.js',
     name: 'wtt_server',
     instances: 'max',
     exec_mode: 'fork',

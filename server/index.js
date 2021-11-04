@@ -1,6 +1,7 @@
 const http = require('http');
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
+// require('dotenv').config({ path: path.resolve(__dirname, '/.env') });
+require('dotenv').config()
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "engines": {
-    "node": "14.10.1"
+    "node": "16.11.1"
   },
   "browserslist": [
     ">1%",

@@ -22,7 +22,8 @@ function camelizeColumns(data) {
 
 const pgPromiseConfig = {
   capSQL: true,
-  receive: (data) => camelizeColumns(data),
+  // receive: (data) => camelizeColumns(data),
+  // receive: data,
 };
 
 module.exports = pgPromiseConfig;

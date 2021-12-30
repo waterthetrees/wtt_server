@@ -12,8 +12,7 @@ async function findGeoJSONByCityName(city) {
         'id',         'treedata',
         'geometry',   json_build_object( 'type', 'Point', 'coordinates', json_build_array(lng, lat)),
         'properties', json_build_object(
-                        'id', id_tree,
-                        'idTree', id_tree,
+                        'id', id,
                         'common', common,
                         'health', health )
       ) AS feature

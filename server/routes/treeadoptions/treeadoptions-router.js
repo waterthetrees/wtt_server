@@ -8,13 +8,13 @@ const {
 const { validatePostTreeAdoptions } = require('./treeadoptions-validations');
 
 treeadoptionsRouter.get('/', async (req, res) => {
-  const { idTree, email } = req.query;
+  const { id, email } = req.query;
 
-  if (!idTree || !email) {
-    throw new AppError(400, 'Missing required parameter(s): idTree or email.');
+  if (!id || !email) {
+    throw new AppError(400, 'Missing required parameter(s): id or email.');
   }
 
-  const treeAdoptions = await findTreeAdoptionsByTreeId(idTree);
+  const treeAdoptions = await findTreeAdoptionsByTreeId(id);
 
   const data = {
     adopted: treeAdoptions.some((treeAdoption) => treeAdoption.email === email),

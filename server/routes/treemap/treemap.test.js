@@ -66,10 +66,10 @@ describe('/api/treemap', () => {
                     coordinates: [newTree.data.lng, newTree.data.lat],
                   },
                   properties: {
-                    id: newTree.data.idTree,
+                    id: newTree.data.id,
                     common: newTree.data.common,
                     health: null,
-                    idTree: newTree.data.idTree,
+                    id: newTree.data.id,
                   },
                 },
               ]),

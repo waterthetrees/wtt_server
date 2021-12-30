@@ -1,13 +1,13 @@
 const { db } = require('../../db');
 const sharedRoutesUtils = require('../shared-routes-utils');
 
-async function findTreeLikesByTreeId(idTree) {
+async function findTreeLikesByTreeId(id) {
   const query = `
-    SELECT id_liked, id_tree, email
+    SELECT id_liked, id, email
     FROM treelikes
-    WHERE id_tree = $1;
+    WHERE id = $1;
   `;
-  const values = [idTree];
+  const values = [id];
   const treeLikes = db.manyOrNone(query, values);
 
   return treeLikes;
@@ -27,12 +27,12 @@ async function likeTree(likedTreeData) {
   return newTreeLiked;
 }
 
-async function unlikeTree({ idTree, email }) {
+async function unlikeTree({ id, email }) {
   const query = `
     DELETE FROM treelikes
-    WHERE id_tree = $1 AND email = $2;
+    WHERE id = $1 AND email = $2;
   `;
-  const values = [idTree, email];
+  const values = [id, email];
   const results = db.result(query, values);
 
   return results;

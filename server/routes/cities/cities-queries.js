@@ -27,7 +27,7 @@ async function findCityByName(cityName) {
 async function updateCityTreeCount(city) {
   const query = `
     UPDATE cities
-    SET city_count_trees = (SELECT count(id_tree)
+    SET city_count_trees = (SELECT count(id)
                             FROM treedata
                             WHERE city = $1)
     WHERE city = $1;

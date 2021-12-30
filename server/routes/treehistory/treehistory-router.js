@@ -8,29 +8,29 @@ const {
 } = require('./treehistory-queries');
 
 treehistoryRouter.get('/', async (req, res) => {
-  const { currentTreeId } = req.query;
+  const { id } = req.query;
 
-  if (!currentTreeId) {
-    throw new AppError(400, 'Missing required parameter: currentTreeId.');
+  if (!id) {
+    throw new AppError(400, 'Missing required parameter: id.');
   }
 
-  const foundTreeHistory = await findTreeHistoryByTreeId(currentTreeId);
+  const foundTreeHistory = await findTreeHistoryByTreeId(id);
 
   res.status(200).json(foundTreeHistory);
 });
 
 treehistoryRouter.post('/', async (req, res) => {
-  const { idTree, volunteer } = req.body;
+  const { id, volunteer } = req.body;
 
-  if (!idTree || !volunteer) {
+  if (!id || !volunteer) {
     throw new AppError(
       400,
-      'Missing required parameter(s): idTree or volunteer.'
+      'Missing required parameter(s): id or volunteer.'
     );
   }
 
   const todaysTreeHistory = await findTodaysTreeHistoryByTreeIdAndVolunteerName(
-    idTree,
+    id,
     volunteer
   );
 

@@ -47,7 +47,7 @@ describe('/treelikes', () => {
 
           /** Act */
           const params = {
-            idTree: tree.data.idTree,
+            id: tree.data.id,
             email: faker.internet.email(),
           };
 
@@ -87,7 +87,7 @@ describe('/treelikes', () => {
           };
 
           const newTreeLikeData = {
-            idTree: tree.data.idTree,
+            id: tree.data.id,
             common: tree.data.common,
             email: user.email,
             nickname: user.nickname,
@@ -103,7 +103,7 @@ describe('/treelikes', () => {
 
           /** Act */
           const params = {
-            idTree: newTreeLike.data.idTree,
+            id: newTreeLike.data.id,
             email: user.email,
           };
 
@@ -141,7 +141,7 @@ describe('/treelikes', () => {
         const tree = await axiosAPIClient.post('/trees', treeData);
 
         const treeLikeData = {
-          idTree: tree.data.idTree,
+          id: tree.data.id,
           email: faker.internet.email(),
           common: tree.data.common,
           nickname: faker.name.findName(),
@@ -155,7 +155,7 @@ describe('/treelikes', () => {
 
         /** Act */
         const params = {
-          idTree: likedTree.data.idTree,
+          id: likedTree.data.id,
           email: treeLikeData.email,
           request: 'liked',
         };
@@ -196,7 +196,7 @@ describe('/treelikes', () => {
 
         // Like the tree
         const likedTreeData = {
-          idTree: tree.data.idTree,
+          id: tree.data.id,
           email: faker.internet.email(),
           common: tree.data.common,
           nickname: faker.name.findName(),

@@ -40,12 +40,12 @@ describe('/api/trees/:id', () => {
         };
 
         const {
-          data: { idTree },
+          data: { id },
         } = await axiosAPIClient.post('/trees', body);
 
         /** Act */
         const params = {
-          currentTreeId: idTree,
+          currentTreeId: id,
         };
 
         const newTree = await axiosAPIClient.get('/trees', {
@@ -56,7 +56,7 @@ describe('/api/trees/:id', () => {
         expect(newTree).toMatchObject({
           status: 200,
           data: {
-            idTree,
+            id,
             common: body.common,
             scientific: body.scientific ?? null,
             genus: body.genus ?? null,
@@ -125,7 +125,7 @@ describe('/api/trees/:id', () => {
           expect(newTree).toMatchObject({
             status: 201,
             data: {
-              idTree: expect.any(Number),
+              id: expect.any(Number),
               common: body.common,
               scientific: body.scientific ?? null,
               genus: body.genus ?? null,
@@ -196,12 +196,12 @@ describe('/api/trees/:id', () => {
           };
 
           const {
-            data: { idTree },
+            data: { id },
           } = await axiosAPIClient.post('/trees', body);
 
           /** Act */
           const newTreeHistory = await axiosAPIClient.get('/treehistory', {
-            params: { currentTreeId: idTree },
+            params: { currentTreeId: id },
           });
 
           /** Assert */
@@ -213,8 +213,8 @@ describe('/api/trees/:id', () => {
                 braced: null,
                 comment: `THIS ${body.common.toUpperCase()} IS PLANTED!!!`,
                 dateVisit: body.datePlanted.toJSON(),
-                idTree,
-                idTreehistory: expect.any(Number),
+                id,
+                idhistory: expect.any(Number),
                 liked: null,
                 mulched: null,
                 pruned: null,
@@ -265,7 +265,7 @@ describe('/api/trees/:id', () => {
         const tree = await axiosAPIClient.post('/trees', body);
 
         const updatedTreeBody = {
-          idTree: tree.data.idTree,
+          id: tree.data.id,
           common: faker.animal.dog(),
           genus: faker.lorem.word(),
           scientific: faker.lorem.words(),

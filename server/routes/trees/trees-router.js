@@ -30,9 +30,7 @@ treesRouter.post('/', async (req, res) => {
   }
 
   const id = IDForTree(req.body);
-  console.log('treesRouter.post id', id)
   const data = {...req.body, id}
-  console.log('treesRouter.post data', data)
   const tree = await createTree(data);
   const { city, lng, lat, email, who } = tree;
   const foundCity = await findCityByName(city);

@@ -19,7 +19,6 @@ async function findAndReplaceTreeIds() {
  for (let i = 0; i < treeIdRows.length; i++) {
   const id = IDForTree(treeIdRows[i]);
   const {id_tree} = treeIdRows[i];
-  console.log(id, id_tree);
   updateTreeId(id, id_tree);
  }
 }
@@ -49,7 +48,6 @@ async function deleteDuplicates(){
 async function findAndRemoveDuplicateTrees() {
  const treeIdRows = await findDuplicateTreeCounts();
  for await (const row of treeIdRows) {
-  console.log(`row',${row.id}`)
   await updateDuplicates(row.id)
  }
  // await deleteDuplicates()

@@ -8,7 +8,7 @@ const {
 const treeHistory = require('../treehistory/treehistory-queries');
 const { createTree, findTreeById, updateTreeById } = require('./trees-queries');
 const { validatePostTree } = require('./trees-validations');
-const { IDForTree } = require('./id');
+const { createIdForTree } = require('./id');
 
 treesRouter.get('/', async (req, res) => {
   const { id } = req.query;
@@ -29,7 +29,7 @@ treesRouter.post('/', async (req, res) => {
     throw new AppError(400, 'Missing required parameter(s).');
   }
 
-  const id = IDForTree(req.body);
+  const id = createIdForTree(req.body);
   const data = {...req.body, id}
   const tree = await createTree(data);
   const { city, lng, lat, email, who } = tree;

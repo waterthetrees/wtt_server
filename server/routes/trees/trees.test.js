@@ -45,7 +45,7 @@ describe('/api/trees/:id', () => {
 
         /** Act */
         const params = {
-          currentTreeId: id,
+          id,
         };
 
         const newTree = await axiosAPIClient.get('/trees', {
@@ -84,7 +84,7 @@ describe('/api/trees/:id', () => {
     describe('When the tree does not exist', () => {
       test('Then return a 404 status code', async () => {
         /** Arrange */
-        const params = { currentTreeId: 0 };
+        const params = { id: 0 };
 
         /** Act */
         const tree = await axiosAPIClient.get('/trees', {
@@ -201,7 +201,7 @@ describe('/api/trees/:id', () => {
 
           /** Act */
           const newTreeHistory = await axiosAPIClient.get('/treehistory', {
-            params: { currentTreeId: id },
+            params: { id },
           });
 
           /** Assert */

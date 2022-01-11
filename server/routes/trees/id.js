@@ -58,10 +58,10 @@ const geohashToInt = (latitude, longitude, bitDepth) => {
 
 /* ALERT ALERT If you change anything here, change it in wtt_area id.js as well!!! */
 
-const IDForTree = (data) => {
+const createIdForTree = (data) => {
   const { common, lat, lng, scientific, city } = data;
   const hashed = geohashToInt(lat, lng, 52);
   return hashcode(`${city}-${common}-${scientific}-${hashed}`);
 };
 
-module.exports = { IDForTree };
+module.exports = { createIdForTree };

@@ -17,9 +17,9 @@ async function createTree(newTreeData) {
   return newTree;
 }
 
-async function findTreeById(currentTreeId) {
+async function findTreeById(id) {
   const query = 'SELECT * FROM treedata WHERE id = $1';
-  const values = [currentTreeId];
+  const values = [id];
   const tree = await db.one(query, values);
 
   tree.healthNum = treesUtils.convertHealthToNumber(tree.health);
@@ -27,12 +27,12 @@ async function findTreeById(currentTreeId) {
   return tree;
 }
 
-async function updateTreeById(updatedTreeData, currentTreeId) {
+async function updateTreeById(updatedTreeData, id) {
   const updatedTreeDataInSnakeCase =
     sharedRoutesUtils.convertObjectKeysToSnakeCase(updatedTreeData);
 
   const condition = pgPromise.as.format(
-    `WHERE id = ${currentTreeId} RETURNING *`
+    `WHERE id = ${id} RETURNING *`
   );
   const query =
     pgPromise.helpers.update(

@@ -8,13 +8,13 @@ const {
 const { validatePostTreeLikes } = require('./treelikes-validations');
 
 treelikesRouter.get('/', async (req, res) => {
-  const { idTree, email } = req.query;
+  const { id, email } = req.query;
 
-  if (!idTree || !email) {
-    throw new AppError(400, 'Missing required parameter(s): idTree or email.');
+  if (!id || !email) {
+    throw new AppError(400, 'Missing required parameter(s): id or email.');
   }
 
-  const treeLikes = await findTreeLikesByTreeId(idTree);
+  const treeLikes = await findTreeLikesByTreeId(id);
 
   const data = {
     liked: treeLikes.some((treeLike) => treeLike.email === email),

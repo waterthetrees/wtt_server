@@ -1,13 +1,13 @@
 const { db } = require('../../db');
 const sharedRoutesUtils = require('../shared-routes-utils');
 
-async function findTreeAdoptionsByTreeId(idTree) {
+async function findTreeAdoptionsByTreeId(id) {
   const query = `
-    SELECT id_adopted, id_tree, email
+    SELECT id_adopted, id, email
     FROM treeadoption
-    WHERE id_tree = $1;
+    WHERE id = $1;
   `;
-  const values = [idTree];
+  const values = [id];
   const treeAdoptions = db.manyOrNone(query, values);
 
   return treeAdoptions;
@@ -27,12 +27,12 @@ async function adoptTree(adoptedTreeData) {
   return newTreeAdoption;
 }
 
-async function unadoptTree({ idTree, email }) {
+async function unadoptTree({ id, email }) {
   const query = `
     DELETE FROM treeadoption
-    WHERE id_tree = $1 AND email = $2;
+    WHERE id = $1 AND email = $2;
   `;
-  const values = [idTree, email];
+  const values = [id, email];
   const results = db.result(query, values);
 
   return results;

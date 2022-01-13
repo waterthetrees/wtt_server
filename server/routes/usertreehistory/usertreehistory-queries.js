@@ -6,7 +6,7 @@ async function findUserTreeHistoryByVolunteerName(volunteer) {
            treehistory.liked, treehistory.adopted, treehistory.watered, treehistory.mulched,
            treehistory.weeded, treehistory.staked, treehistory.braced, treehistory.pruned
     FROM treehistory
-    JOIN treedata USING (id_tree)
+    JOIN treedata USING (id)
     WHERE treehistory.volunteer = $1;
   `;
   const values = [volunteer];

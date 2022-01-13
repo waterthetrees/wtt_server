@@ -1,7 +1,7 @@
 function validatePostTreeLikes(req) {
-  const { idTree, common, email, nickname, request } = req.body;
+  const { id, common, email, nickname, request } = req.body;
 
-  if (idTree === undefined) return false;
+  if (id === undefined) return false;
   if (common === undefined) return false;
   if (email === undefined) return false;
   if (nickname === undefined) return false;

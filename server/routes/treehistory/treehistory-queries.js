@@ -20,31 +20,31 @@ async function createTreeHistory(newTreeHistoryData) {
 }
 
 async function findTodaysTreeHistoryByTreeIdAndVolunteerName(
-  idTree,
+  id,
   volunteer
 ) {
   const query = `
-    SELECT id_tree
+    SELECT id
     FROM treehistory
-    WHERE created::date = CURRENT_DATE AND id_tree = $1 AND volunteer = $2
+    WHERE created::date = CURRENT_DATE AND id = $1 AND volunteer = $2
   `;
-  const values = [idTree, volunteer];
+  const values = [id, volunteer];
 
   const todaysTreeHistory = await db.oneOrNone(query, values);
 
   return todaysTreeHistory;
 }
 
-async function findTreeHistoryByTreeId(idTree) {
+async function findTreeHistoryByTreeId(id) {
   const query = `
-    SELECT id_treehistory, id_tree, watered, mulched, weeded, staked, braced,
+    SELECT id_treehistory, id, watered, mulched, weeded, staked, braced,
            pruned, liked, adopted, date_visit, comment, volunteer
     FROM treehistory
-    WHERE id_tree = $1
+    WHERE id = $1
     ORDER BY date_visit DESC
     LIMIT 20
   `;
-  const values = [idTree];
+  const values = [id];
   const treeHistory = await db.manyOrNone(query, values);
 
   return treeHistory;
@@ -56,9 +56,9 @@ async function updateTreeHistory(updatedTreeHistoryData) {
 
   const condition = pgPromise.as.format(
     `WHERE created::date = CURRENT_DATE
-            AND id_tree = $\{id_tree}
+            AND id = $\{id}
             AND volunteer = $\{volunteer}
-      RETURNING id_treehistory, id_tree, watered, mulched, pruned, staked,
+      RETURNING id_treehistory, id, watered, mulched, pruned, staked,
                 weeded, braced, adopted, liked, volunteer, date_visit`,
     updatedTreeHistoryDataInSnakeCase
   );

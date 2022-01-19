@@ -34,10 +34,9 @@ describe('/treelikes', () => {
         test('Then confirm the user has not liked the tree', async () => {
           /** Arrange */
           const treeData = {
-            city: faker.fake(
-              '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
-            ),
             common: faker.animal.dog(),
+            scientific: faker.animal.cat(),
+            city: faker.address.cityName(),
             datePlanted: new Date(),
             lat: Number(faker.address.latitude()),
             lng: Number(faker.address.longitude()),
@@ -70,10 +69,9 @@ describe('/treelikes', () => {
         test('Then confirm the user has liked the tree', async () => {
           /** Arrange */
           const treeData = {
-            city: faker.fake(
-              '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
-            ),
             common: faker.animal.dog(),
+            scientific: faker.animal.cat(),
+            city: faker.address.cityName(),
             datePlanted: new Date(),
             lat: Number(faker.address.latitude()),
             lng: Number(faker.address.longitude()),
@@ -129,10 +127,9 @@ describe('/treelikes', () => {
       test('Then like the tree', async () => {
         /** Arrange */
         const treeData = {
-          city: faker.fake(
-            '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
-          ),
           common: faker.animal.dog(),
+          scientific: faker.animal.cat(),
+          city: faker.address.cityName(),
           datePlanted: new Date(),
           lat: Number(faker.address.latitude()),
           lng: Number(faker.address.longitude()),
@@ -183,10 +180,9 @@ describe('/treelikes', () => {
       test('Then unlike the tree', async () => {
         /** Arrange */
         const treeData = {
-          city: faker.fake(
-            '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
-          ),
           common: faker.animal.dog(),
+          scientific: faker.animal.cat(),
+          city: faker.address.cityName(),
           datePlanted: new Date(),
           lat: Number(faker.address.latitude()),
           lng: Number(faker.address.longitude()),

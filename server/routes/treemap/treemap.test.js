@@ -33,10 +33,9 @@ describe('/api/treemap', () => {
       test('Then the tree cached as GeoJSON', async () => {
         /** Arrange */
         const newTreeData = {
-          city: faker.fake(
-            '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
-          ),
           common: faker.animal.dog(),
+          scientific: faker.animal.cat(),
+          city: faker.address.cityName(),
           datePlanted: new Date(),
           lat: Number(faker.address.latitude()),
           lng: Number(faker.address.longitude()),

@@ -34,6 +34,8 @@ describe('/api/trees/:id', () => {
         /** Arrange */
         const body = {
           common: faker.animal.dog(),
+          scientific: faker.animal.cat(),
+          city: faker.address.cityName(),
           datePlanted: new Date(),
           lat: Number(faker.address.latitude()),
           lng: Number(faker.address.longitude()),
@@ -107,12 +109,10 @@ describe('/api/trees/:id', () => {
       describe('When given a new city', () => {
         test('Then create a new tree', async () => {
           /** Arrange */
-          // TODO: determine required inputs when adding a tree
           const body = {
-            city: faker.fake(
-              '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
-            ),
             common: faker.animal.dog(),
+            scientific: faker.animal.cat(),
+            city: faker.address.cityName(),
             datePlanted: new Date(),
             lat: Number(faker.address.latitude()),
             lng: Number(faker.address.longitude()),
@@ -151,10 +151,9 @@ describe('/api/trees/:id', () => {
         test("Then create the new city and update it's tree count", async () => {
           /** Arrange */
           const body = {
-            city: faker.fake(
-              '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
-            ),
             common: faker.animal.dog(),
+            scientific: faker.animal.cat(),
+            city: faker.address.cityName(),
             datePlanted: new Date(),
             lat: Number(faker.address.latitude()),
             lng: Number(faker.address.longitude()),
@@ -185,14 +184,12 @@ describe('/api/trees/:id', () => {
         test("Then initialize the new tree's history", async () => {
           /** Arrange */
           const body = {
-            city: faker.fake(
-              '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
-            ),
             common: faker.animal.dog(),
+            scientific: faker.animal.cat(),
+            city: faker.address.cityName(),
             datePlanted: new Date(),
             lat: Number(faker.address.latitude()),
             lng: Number(faker.address.longitude()),
-            // volunteer: faker.name.findName(), // TODO: volunteer will never end up in treehistory on tree creation
           };
 
           const {
@@ -214,7 +211,7 @@ describe('/api/trees/:id', () => {
                 comment: `THIS ${body.common.toUpperCase()} IS PLANTED!!!`,
                 dateVisit: body.datePlanted.toJSON(),
                 id,
-                idhistory: expect.any(Number),
+                idTreehistory: expect.any(Number),
                 liked: null,
                 mulched: null,
                 pruned: null,
@@ -253,10 +250,9 @@ describe('/api/trees/:id', () => {
       test('Then update the tree', async () => {
         /** Arrange */
         const body = {
-          city: faker.fake(
-            '{{address.cityPrefix}} {{address.cityName}}{{address.citySuffix}}'
-          ),
           common: faker.animal.dog(),
+          scientific: faker.animal.cat(),
+          city: faker.address.cityName(),
           datePlanted: new Date(),
           lat: Number(faker.address.latitude()),
           lng: Number(faker.address.longitude()),

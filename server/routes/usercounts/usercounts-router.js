@@ -1,10 +1,12 @@
-const usercountsRouter = require('express').Router();
-const AppError = require('../../errors/AppError');
-const {
+import express from 'express';
+import AppError from '../../errors/AppError.js';
+import {
   findUserAdoptedTrees,
   findUserLikedTrees,
   findUserPlantedTrees,
-} = require('./usercounts-queries');
+} from './usercounts-queries.js';
+
+const usercountsRouter = express.Router();
 
 usercountsRouter.get('/', async (req, res) => {
   const { email, request } = req.query;
@@ -32,4 +34,4 @@ usercountsRouter.get('/', async (req, res) => {
   res.status(200).json(userCounts);
 });
 
-module.exports = usercountsRouter;
+export default usercountsRouter;

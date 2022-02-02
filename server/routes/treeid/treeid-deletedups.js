@@ -1,27 +1,6 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable camelcase */
-const { db } = require('../../db');
-const { IDForTree } = require('./id');
-
-async function findAllTreeIds() {
- const query = `SELECT id_tree AS id_tree, common, scientific, city, lat, lng FROM treedata`;
- const treeIds = await db.manyOrNone(query);
- return treeIds;
-}
-
-async function updateTreeId(id, id_tree) {
-  const query = `update treedata set id = ${id} WHERE id_tree = ${id_tree}`;
-  const updatedTree = await db.manyOrNone(query);
-  return updatedTree;
-}
-
-async function findAndReplaceTreeIds() {
- const treeIdRows = await findAllTreeIds();
- for (let i = 0; i < treeIdRows.length; i++) {
-  const id = IDForTree(treeIdRows[i]);
-  const {id_tree} = treeIdRows[i];
-  updateTreeId(id, id_tree);
- }
-}
+import { db } from '../../db/index.js';
 
 async function findDuplicateTreeCounts() {
  const query = `select id, count(1) AS counted from treedata group by id having count(1) > 1;`;
@@ -50,7 +29,7 @@ async function findAndRemoveDuplicateTrees() {
  for await (const row of treeIdRows) {
   await updateDuplicates(row.id)
  }
- // await deleteDuplicates()
+ // BE VERY CAREFUL WITH THIS ONE - IT WILL DELETE ALL DUPLICATES
+ await deleteDuplicates()
 }
 findAndRemoveDuplicateTrees()
-// findAndReplaceTreeIds()

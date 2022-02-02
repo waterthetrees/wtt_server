@@ -1,11 +1,11 @@
-const { db, pgPromise } = require('../../db');
+import { db, pgPromise } from '../../db/index.js';
 
 const usersTable = new pgPromise.helpers.ColumnSet(
   ['nickname', 'name', 'picture', 'email'],
   { table: 'users' }
 );
 
-async function createUser(newUserData) {
+export async function createUser(newUserData) {
   const query = pgPromise.helpers.insert(newUserData, usersTable);
   const returningClause = 'RETURNING name, nickname, email, id_user';
   const newUser = await db.oneOrNone(query + returningClause, newUserData);
@@ -13,7 +13,7 @@ async function createUser(newUserData) {
   return newUser;
 }
 
-async function findUserByEmail(email) {
+export async function findUserByEmail(email) {
   const query = `
     SELECT id_user, email, name, nickname
     FROM users
@@ -24,8 +24,3 @@ async function findUserByEmail(email) {
 
   return user;
 }
-
-module.exports = {
-  createUser,
-  findUserByEmail,
-};

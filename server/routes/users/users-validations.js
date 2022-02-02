@@ -7,7 +7,4 @@ function validatePostUser(req) {
 
   return true;
 }
-
-module.exports = {
-  validatePostUser,
-};
+export default validatePostUser;

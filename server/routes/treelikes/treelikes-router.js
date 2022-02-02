@@ -1,11 +1,13 @@
-const treelikesRouter = require('express').Router();
-const AppError = require('../../errors/AppError');
-const {
+import express from 'express';
+import AppError from '../../errors/AppError.js';
+import {
   findTreeLikesByTreeId,
   likeTree,
   unlikeTree,
-} = require('./treelikes-queries');
-const { validatePostTreeLikes } = require('./treelikes-validations');
+} from './treelikes-queries.js';
+import validatePostTreeLikes from './treelikes-validations.js';
+
+const treelikesRouter = express.Router();
 
 treelikesRouter.get('/', async (req, res) => {
   const { id, email } = req.query;
@@ -51,4 +53,4 @@ treelikesRouter.post('/', async (req, res) => {
   }
 });
 
-module.exports = treelikesRouter;
+export default  treelikesRouter;

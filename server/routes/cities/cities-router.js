@@ -1,6 +1,8 @@
-const citiesRouter = require('express').Router();
-const AppError = require('../../errors/AppError');
-const { findAllCities, findCityByName } = require('./cities-queries');
+import express from 'express';
+import AppError from '../../errors/AppError.js'
+import { findAllCities, findCityByName } from './cities-queries.js';
+
+const citiesRouter = express.Router();
 
 citiesRouter.get('/', async (req, res) => {
   const { city } = req.query;
@@ -20,4 +22,4 @@ citiesRouter.get('/', async (req, res) => {
   res.status(200).json(cities);
 });
 
-module.exports = citiesRouter;
+export default citiesRouter;

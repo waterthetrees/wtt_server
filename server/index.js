@@ -1,29 +1,29 @@
-const http = require('http');
-const path = require('path');
-// require('dotenv').config({ path: path.resolve(__dirname, '/.env') });
-require('dotenv').config()
-const bodyParser = require('body-parser');
-const compression = require('compression');
-const cors = require('cors');
-const express = require('express');
-require('express-async-errors');
-const morgan = require('morgan');
-const logger = require('../logger');
-const unknownEndpointHandler = require('./middleware/unknown-endpoint-handler');
-const expressErrorHandler = require('./middleware/express-error-handler');
+import http from 'http';
+import bodyParser from 'body-parser';
+import compression from 'compression';
+import cors from 'cors';
+import express from 'express';
+import 'express-async-errors';
+import morgan from 'morgan';
+import dotenv from "dotenv";
+import logger from '../logger.js';
+import unknownEndpointHandler from './middleware/unknown-endpoint-handler.js';
+import expressErrorHandler from './middleware/express-error-handler.js';
 
-const citiesRouter = require('./routes/cities/cities-router');
-const countriesRouter = require('./routes/countries/countries-router');
-const csvRouter = require('./routes/csv/csv-router');
-const treeadoptionsRouter = require('./routes/treeadoptions/treeadoptions-router');
-const treehistoryRouter = require('./routes/treehistory/treehistory-router');
-const treelikesRouter = require('./routes/treelikes/treelikes-router');
-const treemapRouter = require('./routes/treemap/treemap-router');
-const treesRouter = require('./routes/trees/trees-router');
-const usercountsRouter = require('./routes/usercounts/usercounts-router');
-const usersRouter = require('./routes/users/users-router');
-const usertreehistoryRouter = require('./routes/usertreehistory/usertreehistory-router');
+import citiesRouter from './routes/cities/cities-router.js';
+import countriesRouter from './routes/countries/countries-router.js';
+import csvRouter from './routes/csv/csv-router.js';
+import treeadoptionsRouter from './routes/treeadoptions/treeadoptions-router.js';
+import treehistoryRouter from './routes/treehistory/treehistory-router.js';
+import treelikesRouter from './routes/treelikes/treelikes-router.js';
+import treemapRouter from './routes/treemap/treemap-router.js';
+import treesRouter from './routes/trees/trees-router.js';
+import treeidRouter from './routes/treeid/treeid-router.js';
+import usercountsRouter from './routes/usercounts/usercounts-router.js';
+import usersRouter from './routes/users/users-router.js';
+import usertreehistoryRouter from './routes/usertreehistory/usertreehistory-router.js';
 
+dotenv.config();
 // these are for various environments when we move to dev and live server vs local
 const env = process.argv[2] || 'local';
 
@@ -84,6 +84,7 @@ app.use('/api/treehistory', treehistoryRouter);
 app.use('/api/treelikes', treelikesRouter);
 app.use('/api/treemap', treemapRouter);
 app.use('/api/trees', treesRouter);
+app.use('/api/treeid', treeidRouter);
 app.use('/api/usercounts', usercountsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/usertreehistory', usertreehistoryRouter);

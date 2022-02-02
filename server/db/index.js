@@ -1,11 +1,6 @@
-const pgp = require('pg-promise');
-const dbConfig = require('./db-config');
-const pgPromiseConfig = require('./pg-promise-config');
+import pgp from 'pg-promise'
+import dbConfig from './db-config.js'
+import pgPromiseConfig from './pg-promise-config.js'
 
-const pgPromise = pgp(pgPromiseConfig);
-const db = pgPromise(dbConfig);
-
-module.exports = {
-  pgPromise,
-  db,
-};
+export const pgPromise = pgp(pgPromiseConfig);
+export const db = pgPromise(dbConfig);

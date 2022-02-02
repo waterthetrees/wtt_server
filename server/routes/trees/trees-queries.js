@@ -1,10 +1,11 @@
-const { db, pgPromise } = require('../../db');
-const treesUtils = require('./trees-utils');
-const sharedRoutesUtils = require('../shared-routes-utils');
+import { db, pgPromise } from '../../db/index.js';
+import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
 
-async function createTree(newTreeData) {
+import convertHealthToNumber from './trees-utils.js';
+
+export async function createTree(newTreeData) {
   const newTreeDataInSnakeCase =
-    sharedRoutesUtils.convertObjectKeysToSnakeCase(newTreeData);
+    convertObjectKeysToSnakeCase(newTreeData);
 
   // TODO: check if 'date_planted as "dateVisit"' is needed
   const query = `
@@ -17,19 +18,19 @@ async function createTree(newTreeData) {
   return newTree;
 }
 
-async function findTreeById(id) {
+export async function findTreeById(id) {
   const query = 'SELECT * FROM treedata WHERE id = $1';
   const values = [id];
   const tree = await db.one(query, values);
 
-  tree.healthNum = treesUtils.convertHealthToNumber(tree.health);
+  tree.healthNum = convertHealthToNumber(tree.health);
 
   return tree;
 }
 
-async function updateTreeById(updatedTreeData, id) {
+export async function updateTreeById(updatedTreeData, id) {
   const updatedTreeDataInSnakeCase =
-    sharedRoutesUtils.convertObjectKeysToSnakeCase(updatedTreeData);
+    convertObjectKeysToSnakeCase(updatedTreeData);
 
   const condition = pgPromise.as.format(
     `WHERE id = ${id} RETURNING *`
@@ -44,9 +45,3 @@ async function updateTreeById(updatedTreeData, id) {
 
   return updatedTree;
 }
-
-module.exports = {
-  createTree,
-  findTreeById,
-  updateTreeById,
-};

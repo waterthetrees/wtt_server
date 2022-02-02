@@ -1,9 +1,9 @@
-const { db, pgPromise } = require('../../db');
-const sharedRoutesUtils = require('../shared-routes-utils');
+import { db, pgPromise } from '../../db/index.js';
+import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
 
-async function createTreeHistory(newTreeHistoryData) {
+export async function createTreeHistory(newTreeHistoryData) {
   const newTreeHistoryDataInSnakeCase =
-    sharedRoutesUtils.convertObjectKeysToSnakeCase(newTreeHistoryData);
+    convertObjectKeysToSnakeCase(newTreeHistoryData);
 
   const queryString = `
     INSERT INTO treehistory(\${this:name})
@@ -19,7 +19,7 @@ async function createTreeHistory(newTreeHistoryData) {
   return treeHistory;
 }
 
-async function findTodaysTreeHistoryByTreeIdAndVolunteerName(
+export async function findTodaysTreeHistoryByTreeIdAndVolunteerName(
   id,
   volunteer
 ) {
@@ -35,7 +35,7 @@ async function findTodaysTreeHistoryByTreeIdAndVolunteerName(
   return todaysTreeHistory;
 }
 
-async function findTreeHistoryByTreeId(id) {
+export async function findTreeHistoryByTreeId(id) {
   const query = `
     SELECT id_treehistory, id, watered, mulched, weeded, staked, braced,
            pruned, liked, adopted, date_visit, comment, volunteer
@@ -50,9 +50,9 @@ async function findTreeHistoryByTreeId(id) {
   return treeHistory;
 }
 
-async function updateTreeHistory(updatedTreeHistoryData) {
+export async function updateTreeHistory(updatedTreeHistoryData) {
   const updatedTreeHistoryDataInSnakeCase =
-    sharedRoutesUtils.convertObjectKeysToSnakeCase(updatedTreeHistoryData);
+    convertObjectKeysToSnakeCase(updatedTreeHistoryData);
 
   const condition = pgPromise.as.format(
     `WHERE created::date = CURRENT_DATE
@@ -77,10 +77,3 @@ async function updateTreeHistory(updatedTreeHistoryData) {
 
   return updatedTreeHistory;
 }
-
-module.exports = {
-  createTreeHistory,
-  findTodaysTreeHistoryByTreeIdAndVolunteerName,
-  findTreeHistoryByTreeId,
-  updateTreeHistory,
-};

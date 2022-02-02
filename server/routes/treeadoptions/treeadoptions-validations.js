@@ -1,4 +1,4 @@
-function validatePostTreeAdoptions(req) {
+export default function validatePostTreeAdoptions(req) {
   const { id, common, email, nickname, request } = req.body;
 
   if (id === undefined) return false;
@@ -9,7 +9,3 @@ function validatePostTreeAdoptions(req) {
 
   return true;
 }
-
-module.exports = {
-  validatePostTreeAdoptions,
-};

@@ -1,6 +1,6 @@
-const { db } = require('../../db');
+import { db } from '../../db/index.js'
 
-async function findGeoJSONByCityName(city) {
+export default async function findGeoJSONByCityName(city) {
   const query = `
     SELECT jsonb_build_object(
       'type',     'FeatureCollection',
@@ -30,5 +30,3 @@ async function findGeoJSONByCityName(city) {
 
   return geoJSON;
 }
-
-module.exports = { findGeoJSONByCityName };

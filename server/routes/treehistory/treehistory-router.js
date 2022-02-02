@@ -1,11 +1,14 @@
-const treehistoryRouter = require('express').Router();
-const AppError = require('../../errors/AppError');
-const {
+import express from 'express';
+import AppError from '../../errors/AppError.js';
+
+import {
   createTreeHistory,
   findTodaysTreeHistoryByTreeIdAndVolunteerName,
   findTreeHistoryByTreeId,
   updateTreeHistory,
-} = require('./treehistory-queries');
+} from './treehistory-queries.js';
+
+const treehistoryRouter = express.Router();
 
 treehistoryRouter.get('/', async (req, res) => {
   const { id } = req.query;
@@ -53,4 +56,4 @@ treehistoryRouter.post('/', async (req, res) => {
   }
 });
 
-module.exports = treehistoryRouter;
+export default treehistoryRouter;

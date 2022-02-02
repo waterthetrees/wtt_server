@@ -1,7 +1,7 @@
-const logger = require('../../logger');
-const { pgPromise } = require('../db');
+import logger from '../../logger.js'
+import { pgPromise } from '../db/index.js'
 
-function expressErrorHandler(err, req, res, next) {
+export default function expressErrorHandler(err, req, res, next) {
   logger.error(err.toString());
 
   if (err instanceof pgPromise.errors.QueryResultError) {
@@ -11,5 +11,3 @@ function expressErrorHandler(err, req, res, next) {
   res.status(err.statusCode || 500).json({ error: err.message });
   next();
 }
-
-module.exports = expressErrorHandler;

@@ -1,6 +1,6 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
-const pgp = require('pg-promise');
+import pgp from 'pg-promise'
 
 /**
  * source:
@@ -25,4 +25,4 @@ const pgPromiseConfig = {
   receive: (data) => camelizeColumns(data),
 };
 
-module.exports = pgPromiseConfig;
+export default pgPromiseConfig;

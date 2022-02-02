@@ -1,4 +1,4 @@
-function validatePostTree(req) {
+export default function validatePostTree(req) {
   const { common, scientific, city, lat, lng, datePlanted } = req.body;
 
   if (common === undefined) return false;
@@ -10,5 +10,3 @@ function validatePostTree(req) {
 
   return true;
 }
-
-module.exports = { validatePostTree };

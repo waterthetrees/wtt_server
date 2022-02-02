@@ -1,4 +1,4 @@
-const { db } = require('../../db');
+import { db } from '../../db/index.js';
 
 async function getCountries() {
   const query = `SELECT country, 
@@ -8,7 +8,4 @@ async function getCountries() {
   const countries = await db.many(query);
   return countries;
 }
-
-module.exports = {
-  getCountries,
-};
+export default getCountries;

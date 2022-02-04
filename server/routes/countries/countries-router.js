@@ -1,6 +1,7 @@
-const countriesRouter = require('express').Router();
-const AppError = require('../../errors/AppError');
-const { getCountries } = require('./countries-queries');
+import express from 'express';
+import getCountries from './countries-queries.js';
+
+const countriesRouter = express.Router();
 
 countriesRouter.get('/', async (req, res) => {
   const rows = await getCountries();
@@ -13,4 +14,4 @@ countriesRouter.get('/', async (req, res) => {
   return res.status(200).json(rows);
 });
 
-module.exports = countriesRouter;
+export default countriesRouter;

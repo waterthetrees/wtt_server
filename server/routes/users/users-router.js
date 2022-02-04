@@ -1,7 +1,10 @@
-const userRouter = require('express').Router();
-const AppError = require('../../errors/AppError');
-const { createUser, findUserByEmail } = require('./users-queries');
-const { validatePostUser } = require('./users-validations');
+
+import express from 'express';
+import AppError from '../../errors/AppError.js';
+import { createUser, findUserByEmail } from './users-queries.js';
+import validatePostUser from './users-validations.js';
+
+const userRouter = express.Router();
 
 userRouter.get('/', async (req, res) => {
   const { email } = req.query;
@@ -37,4 +40,4 @@ userRouter.post('/', async (req, res) => {
   }
 });
 
-module.exports = userRouter;
+export default userRouter;

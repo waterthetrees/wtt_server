@@ -14,4 +14,4 @@ const convertHealthToNumber = (health) => {
   return healthNumber[health];
 };
 
-module.exports = { convertHealthToNumber };
+export default convertHealthToNumber;

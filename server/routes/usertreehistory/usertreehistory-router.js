@@ -1,8 +1,11 @@
-const usertreehistoryRouter = require('express').Router();
-const AppError = require('../../errors/AppError');
-const {
-  findUserTreeHistoryByVolunteerName,
-} = require('./usertreehistory-queries');
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-param-reassign */
+import express from 'express';
+import AppError from '../../errors/AppError.js';
+import findUserTreeHistoryByVolunteerName from './usertreehistory-queries.js';
+
+const usertreehistoryRouter = express.Router();
+
 
 usertreehistoryRouter.get('/', async (req, res) => {
   const { volunteer } = req.query;
@@ -30,4 +33,4 @@ usertreehistoryRouter.get('/', async (req, res) => {
   res.status(200).json(formattedUserTreeHistory);
 });
 
-module.exports = usertreehistoryRouter;
+export default usertreehistoryRouter;

@@ -8,5 +8,4 @@ const dbConfig = {
   user: process.env.POSTGRES_USER || 'trees',
   password: process.env.POSTGRES_PASSWORD || 'trees3r4t',
 };
-
-module.exports = dbConfig;
+export default dbConfig

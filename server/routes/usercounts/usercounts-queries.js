@@ -1,6 +1,6 @@
-const { db } = require('../../db');
+import { db } from '../../db/index.js';
 
-async function findUserAdoptedTrees(email) {
+export async function findUserAdoptedTrees(email) {
   const query = `
     SELECT id_adopted, id, common
     FROM treeadoption
@@ -12,7 +12,7 @@ async function findUserAdoptedTrees(email) {
   return userAdoptedTrees;
 }
 
-async function findUserLikedTrees(email) {
+export async function findUserLikedTrees(email) {
   const query = `
     SELECT id_liked, id, common
     FROM treelikes
@@ -24,7 +24,7 @@ async function findUserLikedTrees(email) {
   return userLikedTrees;
 }
 
-async function findUserPlantedTrees(email) {
+export async function findUserPlantedTrees(email) {
   const query = `
     SELECT id, common, scientific, genus, date_planted
     FROM treedata
@@ -35,9 +35,3 @@ async function findUserPlantedTrees(email) {
 
   return userPlantedTrees;
 }
-
-module.exports = {
-  findUserAdoptedTrees,
-  findUserLikedTrees,
-  findUserPlantedTrees,
-};

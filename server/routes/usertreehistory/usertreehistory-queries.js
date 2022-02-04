@@ -1,6 +1,6 @@
-const { db } = require('../../db');
+import { db } from '../../db/index.js';
 
-async function findUserTreeHistoryByVolunteerName(volunteer) {
+export default async function findUserTreeHistoryByVolunteerName(volunteer) {
   const query = `
     SELECT treehistory.date_visit as "dateVisit", treedata.common, treedata.scientific,
            treehistory.liked, treehistory.adopted, treehistory.watered, treehistory.mulched,
@@ -14,7 +14,3 @@ async function findUserTreeHistoryByVolunteerName(volunteer) {
 
   return userTreeHistory;
 }
-
-module.exports = {
-  findUserTreeHistoryByVolunteerName,
-};

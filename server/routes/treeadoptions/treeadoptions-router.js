@@ -1,11 +1,14 @@
-const treeadoptionsRouter = require('express').Router();
-const AppError = require('../../errors/AppError');
-const {
+import express from 'express';
+import AppError from '../../errors/AppError.js';
+
+import {
   findTreeAdoptionsByTreeId,
   adoptTree,
   unadoptTree,
-} = require('./treeadoptions-queries');
-const { validatePostTreeAdoptions } = require('./treeadoptions-validations');
+} from './treeadoptions-queries.js';
+import validatePostTreeAdoptions from './treeadoptions-validations.js';
+
+const treeadoptionsRouter = express.Router();
 
 treeadoptionsRouter.get('/', async (req, res) => {
   const { id, email } = req.query;
@@ -50,4 +53,4 @@ treeadoptionsRouter.post('/', async (req, res) => {
   }
 });
 
-module.exports = treeadoptionsRouter;
+export default treeadoptionsRouter;

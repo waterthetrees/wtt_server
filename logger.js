@@ -1,5 +1,5 @@
-const winston = require('winston');
-const { format } = require('logform');
+import winston from 'winston';
+import { format } from 'logform';
 
 const consoleLevel = 'debug';
 
@@ -101,9 +101,11 @@ const logger = winston.createLogger({
   ],
 });
 
-module.exports = logger;
-module.exports.stream = {
+
+export const stream = {
   write(message, encoding) {
     logger.info(`${message}, ${encoding}`);
   },
 };
+
+export default logger;

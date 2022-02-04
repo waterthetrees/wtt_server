@@ -2,7 +2,7 @@ function camelToSnakeCase(camelIn) {
   return camelIn.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 }
 
-function convertObjectKeysToSnakeCase(obj) {
+export default function convertObjectKeysToSnakeCase(obj) {
   const newObj = {};
 
   // eslint-disable-next-line no-restricted-syntax
@@ -15,5 +15,3 @@ function convertObjectKeysToSnakeCase(obj) {
   }
   return newObj;
 }
-
-module.exports = { convertObjectKeysToSnakeCase };

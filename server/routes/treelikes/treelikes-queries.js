@@ -1,7 +1,7 @@
-const { db } = require('../../db');
-const sharedRoutesUtils = require('../shared-routes-utils');
+import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
+import { db } from '../../db/index.js';
 
-async function findTreeLikesByTreeId(id) {
+export async function findTreeLikesByTreeId(id) {
   const query = `
     SELECT id_liked, id, email
     FROM treelikes
@@ -13,9 +13,9 @@ async function findTreeLikesByTreeId(id) {
   return treeLikes;
 }
 
-async function likeTree(likedTreeData) {
+export async function likeTree(likedTreeData) {
   const likedTreeDataInSnakeCase =
-    sharedRoutesUtils.convertObjectKeysToSnakeCase(likedTreeData);
+    convertObjectKeysToSnakeCase(likedTreeData);
 
   const queryString = `
     INSERT INTO treelikes(\${this:name})
@@ -27,7 +27,7 @@ async function likeTree(likedTreeData) {
   return newTreeLiked;
 }
 
-async function unlikeTree({ id, email }) {
+export async function unlikeTree({ id, email }) {
   const query = `
     DELETE FROM treelikes
     WHERE id = $1 AND email = $2;
@@ -37,9 +37,3 @@ async function unlikeTree({ id, email }) {
 
   return results;
 }
-
-module.exports = {
-  findTreeLikesByTreeId,
-  likeTree,
-  unlikeTree,
-};

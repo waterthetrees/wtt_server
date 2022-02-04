@@ -1,4 +1,4 @@
-function validatePostTreeLikes(req) {
+export default function validatePostTreeLikes(req) {
   const { id, common, email, nickname, request } = req.body;
 
   if (id === undefined) return false;
@@ -9,7 +9,3 @@ function validatePostTreeLikes(req) {
 
   return true;
 }
-
-module.exports = {
-  validatePostTreeLikes,
-};

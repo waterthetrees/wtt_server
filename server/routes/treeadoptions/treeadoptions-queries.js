@@ -1,7 +1,8 @@
-const { db } = require('../../db');
-const sharedRoutesUtils = require('../shared-routes-utils');
+import { db } from '../../db/index.js';
+import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
 
-async function findTreeAdoptionsByTreeId(id) {
+
+export async function findTreeAdoptionsByTreeId(id) {
   const query = `
     SELECT id_adopted, id, email
     FROM treeadoption
@@ -13,9 +14,9 @@ async function findTreeAdoptionsByTreeId(id) {
   return treeAdoptions;
 }
 
-async function adoptTree(adoptedTreeData) {
+export async function adoptTree(adoptedTreeData) {
   const adoptedTreeDataInSnakeCase =
-    sharedRoutesUtils.convertObjectKeysToSnakeCase(adoptedTreeData);
+    convertObjectKeysToSnakeCase(adoptedTreeData);
 
   const query = `
     INSERT INTO treeadoption(\${this:name})
@@ -27,7 +28,7 @@ async function adoptTree(adoptedTreeData) {
   return newTreeAdoption;
 }
 
-async function unadoptTree({ id, email }) {
+export async function unadoptTree({ id, email }) {
   const query = `
     DELETE FROM treeadoption
     WHERE id = $1 AND email = $2;
@@ -37,9 +38,3 @@ async function unadoptTree({ id, email }) {
 
   return results;
 }
-
-module.exports = {
-  findTreeAdoptionsByTreeId,
-  adoptTree,
-  unadoptTree,
-};

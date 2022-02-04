@@ -17,7 +17,7 @@ treesRouter.get('/', async (req, res) => {
   const { id } = req.query;
 
   if (!id) {
-    throw new AppError(400, `Need to send id in query`);
+    throw new AppError(400, 'Need to send id in query');
   }
 
   const tree = await findTreeById(id);

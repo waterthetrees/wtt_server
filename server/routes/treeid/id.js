@@ -7,19 +7,21 @@ export const MAX_LAT = 90;
 export const MIN_LON = -180;
 export const MAX_LON = 180;
 
-// export const hashcode = (s) => {
-//   let h = 0;
-//   let i = s.length;
-//   while (i > 0) {
-//     h = ((h << 5) - h + s.charCodeAt(--i)) | 0;
-//   }
-//   return Math.abs(h);
-// };
-
 // This code originally appeared here: 
 // https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript/34842797#34842797
-// const TSH1=s=>{for(var i=0,h=9;i<s.length;)h=Math.imul(h^s.charCodeAt(i++),9**9);return h^h>>>9}
-const TSH=s=>{for(var i=s.length,h=9;i;)h=Math.imul(h^s.charCodeAt(--i),9**9);return h^h>>>9}
+
+const cyrb53 = (str, seed = 1) => {
+  let h1 = 0xdeadbeef ^ seed;
+  let h2 = 0x41c6ce57 ^ seed;
+  for (let i = 0, ch; i < str.length; i++) {
+      ch = str.charCodeAt(i);
+      h1 = Math.imul(h1 ^ ch, 2654435761);
+      h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1>>>16), 2246822507) ^ Math.imul(h2 ^ (h2>>>13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2>>>16), 2246822507) ^ Math.imul(h1 ^ (h1>>>13), 3266489909);
+  return 4294967296 * (2097151 & h2) + (h1>>>0);
+};
 
 // This code originally appeared here: https://github.com/sunng87/node-geohash/blob/master/main.js#L127-L161
 const geohashToInt = (latitude, longitude, bitDepth) => {
@@ -58,14 +60,27 @@ const geohashToInt = (latitude, longitude, bitDepth) => {
   return combinedBits;
 };
 
-/* ALERT ALERT If you change anything here, change it in wtt_area id.js as well!!! */
+
+// To fixed 8 decimal places
+const truncateTo = (unRouned, nrOfDecimals = 8) => {
+  const parts = String(unRouned).split(".");
+  if (parts.length !== 2) {
+      // without any decimal part
+    return unRouned;
+  }
+  const newDecimals = parts[1].slice(0, nrOfDecimals);
+  const newString = `${parts[0]}.${newDecimals}`;
+
+  return Number(newString);
+};
 
 export const createIdForTree = (data) => {
   const { common, lng, lat, scientific, city } = data;
-
-  const hashed = geohashToInt(lat.toFixed(7), lng.toFixed(7), 52);
-  const cityState = data?.state ? `${city.toLowerCase()}_${data?.state.toLowerCase()}` : city.toLowerCase(); ;
+  const latitude = truncateTo(lat,8);
+  const longitude = truncateTo(lng,8);
+  const hashed = geohashToInt(latitude, longitude, 52);
+  const cityState = data?.state ? `${city.toLowerCase()}_${data?.state.toLowerCase()}` : city.toLowerCase();
   const idString = `${cityState}-${common}-${scientific}-${hashed}`;
-  const id = Math.abs(TSH(idString));
+  const id = Math.abs(cyrb53(idString));
   return id;
 };

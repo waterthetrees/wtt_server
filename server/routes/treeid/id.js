@@ -9,7 +9,6 @@ export const MAX_LON = 180;
 
 // This code originally appeared here: 
 // https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript/34842797#34842797
-
 const cyrb53 = (str, seed = 1) => {
   let h1 = 0xdeadbeef ^ seed;
   let h2 = 0x41c6ce57 ^ seed;
@@ -74,13 +73,51 @@ const truncateTo = (unRouned, nrOfDecimals = 8) => {
   return Number(newString);
 };
 
+const formatStrings = (d) => {
+  const citySource = (d.sourceID || d.city || 'unknown').toLowerCase().replaceAll(' ', '_');
+  return {
+    common: d.common ? `-${d.common.toLowerCase()}` : '',
+    scientific: d.scientific ? `-${d.scientific.toLowerCase()}` : '',
+    cityState: d.state ? `${citySource}_${d.state.toLowerCase()}` : citySource,
+    lat: truncateTo(d.lat,8),
+    lng: truncateTo(d.lng,8),
+  };
+}
+
 export const createIdForTree = (data) => {
-  const { common, lng, lat, scientific, city } = data;
-  const latitude = truncateTo(lat,8);
-  const longitude = truncateTo(lng,8);
-  const hashed = geohashToInt(latitude, longitude, 52);
-  const cityState = data?.state ? `${city.toLowerCase()}_${data?.state.toLowerCase()}` : city.toLowerCase();
-  const idString = `${cityState}-${common}-${scientific}-${hashed}`;
+  const { common, lng, lat, scientific, cityState } = formatStrings(data);
+  const hashed = geohashToInt(lat, lng, 52);
+
+  const idString = `${cityState}${common}${scientific}-${hashed}`;
+  // console.log(idString, 'idString');
   const id = Math.abs(cyrb53(idString));
+  // console.log(id, 'id');
   return id;
 };
+
+// function testFindAndReplaceTreeIds() {
+//   const data = [
+//     ['Oakland','California','Dracaena, Giant','Cordyline australis',-122.2987539, 37.80969809 ],
+//     ['Oakland','CA','Oak, Coastal/ California Live','Quercus agrifolia',-122.2705264,37.79770322],
+//     ['Alameda','CA','MAIDENHAIRTREE','Ginkgobiloba',-122.2260514,37.75744973],
+//     ['Alameda','CA','ASPHALTED WELL','Asphalted well',-122.2654197,37.76083234],
+//     ['San Francisco', 'CA', 'Lemon Bottlebrush', 'Callistemon citrinus', -122.39180689548819, 37.73816558097692],
+//     ['San Francisco', 'CA', 'Lemon Bottlebrush', 'Callistemon citrinus', -122.39180445292185, 37.7381657644348]
+//   ];
+  
+//   const ids = data.map(async d => {
+//      const params = {
+//        common: d[2],
+//        scientific: d[3],
+//        lat: Number(d[5]),
+//        lng: Number(d[4]),
+//        city: d[0],
+//        state: d[1],
+//      }
+//     const id = createIdForTree(params);
+//     return id;
+//    });
+//   // console.log('ids', ids);
+// }
+
+// testFindAndReplaceTreeIds();

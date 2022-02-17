@@ -24,9 +24,8 @@ export async function adoptTree(adoptedTreeData) {
     INNER JOIN users u ON td.volunteer = u.nickname
     WHERE td.id = $1
     RETURNING *;`;
-
   const newTreeAdoption = db.one(query, adoptedTreeDataInSnakeCase.id);
-
+  
   return newTreeAdoption;
 }
 

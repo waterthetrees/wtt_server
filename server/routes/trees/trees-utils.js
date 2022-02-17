@@ -1,4 +1,4 @@
-const convertHealthToNumber = (health) => {
+export const convertHealthToNumber = (health) => {
   if (!health) return 6;
 
   const healthNumber = {
@@ -14,4 +14,12 @@ const convertHealthToNumber = (health) => {
   return healthNumber[health];
 };
 
-export default convertHealthToNumber;
+// https://stackoverflow.com/questions/44082153/javascript-method-for-changing-snake-case-to-pascalcase
+export const capEachWord = (str) => {
+    str +='';
+    str = str.split('_');
+    for(var i=0;i<str.length;i++){ 
+        str[i] = str[i].slice(0,1).toUpperCase() + str[i].slice(1,str[i].length);
+    }
+    return str.join(' ');
+}

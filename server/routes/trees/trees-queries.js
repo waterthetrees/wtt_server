@@ -1,11 +1,11 @@
 import { db, pgPromise } from '../../db/index.js';
 import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
 
-import convertHealthToNumber from './trees-utils.js';
+import * as treeUtils from './trees-utils.js';
 
 export async function createTree(newTreeData) {
   const newTreeDataInSnakeCase =
-    convertObjectKeysToSnakeCase(newTreeData);
+  convertObjectKeysToSnakeCase(newTreeData);
 
   // TODO: check if 'date_planted as "dateVisit"' is needed
   const query = `
@@ -18,12 +18,15 @@ export async function createTree(newTreeData) {
   return newTree;
 }
 
-export async function findTreeById(id) {
-  const query = 'SELECT * FROM treedata WHERE id = $1';
-  const values = [id];
+export async function findTreeById(id, city, address, id_reference, lng, lat) {
+  const query = `SELECT * FROM treedata 
+    WHERE id = $1
+    OR (city = $2 AND address = $3 AND id_reference = $4)
+    OR (lat = $5 AND lng = $6))`;
+  const values = [id, city, address, id_reference, lng, lat];
   const tree = await db.one(query, values);
 
-  tree.healthNum = convertHealthToNumber(tree.health);
+  tree.healthNum = treeUtils.convertHealthToNumber(tree.health);
 
   return tree;
 }

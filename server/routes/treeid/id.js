@@ -95,29 +95,31 @@ export const createIdForTree = (data) => {
   return id;
 };
 
-// function testFindAndReplaceTreeIds() {
-//   const data = [
-//     ['Oakland','California','Dracaena, Giant','Cordyline australis',-122.2987539, 37.80969809 ],
-//     ['Oakland','CA','Oak, Coastal/ California Live','Quercus agrifolia',-122.2705264,37.79770322],
-//     ['Alameda','CA','MAIDENHAIRTREE','Ginkgobiloba',-122.2260514,37.75744973],
-//     ['Alameda','CA','ASPHALTED WELL','Asphalted well',-122.2654197,37.76083234],
-//     ['San Francisco', 'CA', 'Lemon Bottlebrush', 'Callistemon citrinus', -122.39180689548819, 37.73816558097692],
-//     ['San Francisco', 'CA', 'Lemon Bottlebrush', 'Callistemon citrinus', -122.39180445292185, 37.7381657644348]
-//   ];
+function testFindAndReplaceTreeIds() {
+  const data = [
+    ['alameda', 'WATER GUM','Tristaniopsis laurina', -122.2805283,37.77269597],
+    // ['Oakland','California','Dracaena, Giant','Cordyline australis',-122.2987539, 37.80969809 ],
+    // ['Oakland','CA','Oak, Coastal/ California Live','Quercus agrifolia',-122.2705264,37.79770322],
+    // ['Alameda','CA','MAIDENHAIRTREE','Ginkgobiloba',-122.2260514,37.75744973],
+    // ['Alameda','CA','ASPHALTED WELL','Asphalted well',-122.2654197,37.76083234],
+    // ['San Francisco', 'CA', 'Lemon Bottlebrush', 'Callistemon citrinus', -122.39180689548819, 37.73816558097692],
+    // ['San Francisco', 'CA', 'Lemon Bottlebrush', 'Callistemon citrinus', -122.39180445292185, 37.7381657644348]
+  ];
   
-//   const ids = data.map(async d => {
-//      const params = {
-//        common: d[2],
-//        scientific: d[3],
-//        lat: Number(d[5]),
-//        lng: Number(d[4]),
-//        city: d[0],
-//        state: d[1],
-//      }
-//     const id = createIdForTree(params);
-//     return id;
-//    });
-//   // console.log('ids', ids);
-// }
+  const ids = data.map(async d => {
+    const params = {
+       sourceID: d[0],
+       common: d[1],
+       scientific: d[2],
+       lat: Number(d[3]),
+       lng: Number(d[4]),
+     }
+     console.log('params', params);
+    const id = createIdForTree(params);
+    console.log('ids', id);
+    return id;
+   });
+  
+}
 
-// testFindAndReplaceTreeIds();
+testFindAndReplaceTreeIds();

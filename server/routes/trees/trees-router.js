@@ -8,19 +8,21 @@ import {
 } from '../cities/cities-queries.js';
 import * as treeHistory from '../treehistory/treehistory-queries.js';
 import { createTree, findTreeById, updateTreeById } from './trees-queries.js';
-import validatePostTree from './trees-validations.js';
+import * as validateTrees from './trees-validations.js';
 import { createIdForTree } from '../treeid/id.js';
+import * as treeUtils from './trees-utils.js';
 
 const treesRouter = express.Router();
 
 treesRouter.get('/', async (req, res) => {
-  const { id } = req.query;
 
-  if (!id) {
-    throw new AppError(400, 'Need to send id in query');
+  const validated = validateTrees.validateGetTree(req?.query);
+  if (!validated) {
+    throw new AppError(400, 'Need id or city, address, ref or lng, lat in query');
   }
-
-  const tree = await findTreeById(id);
+  const { id, city, address, id_reference: ref, lng, lat } = req?.query;
+  const cityFormatted = treeUtils.capEachWord(city);
+  const tree = await findTreeById(id, cityFormatted, address, id_reference, lng, lat);
   if (!tree.id) { 
     res.status(404).json({id, error: `Tree ${id} not found`});
   }
@@ -29,7 +31,7 @@ treesRouter.get('/', async (req, res) => {
 });
 
 treesRouter.post('/', async (req, res) => {
-  const validated = validatePostTree(req);
+  const validated = validateTrees.validatePostTree(req);
 
   if (!validated) {
     throw new AppError(400, 'Missing required parameter(s).');

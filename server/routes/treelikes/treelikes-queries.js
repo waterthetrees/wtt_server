@@ -23,7 +23,7 @@ export async function likeTree(likedTreeData) {
     INNER JOIN users u ON td.volunteer = u.nickname
     WHERE td.id = $1
     RETURNING *;`;
-  const newTreeLiked = db.one(queryString, likedTreeDataInSnakeCase.id);
+  const newTreeLiked = db.one(query, likedTreeDataInSnakeCase.id);
 
   return newTreeLiked;
 }

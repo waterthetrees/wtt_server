@@ -19,12 +19,17 @@ export async function adoptTree(adoptedTreeData) {
     convertObjectKeysToSnakeCase(adoptedTreeData);
 
   const query = `INSERT INTO treeadoption (id, id_tree, common, nickname, email)
-    SELECT td.id, td.id_tree, td.common, u.nickname, u.email
+    SELECT td.id, td.id_tree, td.common, $1, $2
     FROM treedata td
-    INNER JOIN users u ON td.volunteer = u.nickname
-    WHERE td.id = $1
+    WHERE td.id = $3
     RETURNING *;`;
-  const newTreeAdoption = db.one(query, adoptedTreeDataInSnakeCase.id);
+  const values = [
+    adoptedTreeDataInSnakeCase.nickname, 
+    adoptedTreeDataInSnakeCase.email, 
+    adoptedTreeDataInSnakeCase.id
+  ];
+
+  const newTreeAdoption = db.one(query, values);
   
   return newTreeAdoption;
 }

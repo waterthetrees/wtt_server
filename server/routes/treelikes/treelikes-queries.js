@@ -16,14 +16,19 @@ export async function findTreeLikesByTreeId(id) {
 export async function likeTree(likedTreeData) {
   const likedTreeDataInSnakeCase =
     convertObjectKeysToSnakeCase(likedTreeData);
-
+    
   const query = `INSERT INTO treelikes (id, id_tree, common, nickname, email)
-    SELECT td.id, td.id_tree, td.common, u.nickname, u.email
+    SELECT td.id, td.id_tree, td.common, $1, $2
     FROM treedata td
-    INNER JOIN users u ON td.volunteer = u.nickname
-    WHERE td.id = $1
+    WHERE td.id = $3
     RETURNING *;`;
-  const newTreeLiked = db.one(queryString, likedTreeDataInSnakeCase.id);
+
+  const values = [
+    likedTreeDataInSnakeCase.nickname, 
+    likedTreeDataInSnakeCase.email, 
+    likedTreeDataInSnakeCase.id
+  ];
+  const newTreeLiked = db.one(query, values);
 
   return newTreeLiked;
 }

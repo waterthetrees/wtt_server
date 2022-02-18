@@ -64,8 +64,8 @@
   },
   "scripts": {
     "start": "nodemon server/index.js local",
-    "test": "jest",
-    "test:watch": "jest --watch --verbose",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules npx jest --watch --verbose",
     "lint": "eslint --ignore-path .gitignore ."
   }
 }

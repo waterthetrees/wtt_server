@@ -18,7 +18,7 @@ export async function adoptTree(adoptedTreeData) {
   const adoptedTreeDataInSnakeCase =
     convertObjectKeysToSnakeCase(adoptedTreeData);
 
-  const query = `INSERT INTO treelikes (id, id_tree, common, nickname, email)
+  const query = `INSERT INTO treeadoption (id, id_tree, common, nickname, email)
     SELECT td.id, td.id_tree, td.common, $1, $2
     FROM treedata td
     WHERE td.id = $3

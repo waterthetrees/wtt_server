@@ -18,13 +18,14 @@ export async function adoptTree(adoptedTreeData) {
   const adoptedTreeDataInSnakeCase =
     convertObjectKeysToSnakeCase(adoptedTreeData);
 
-  const query = `
-    INSERT INTO treeadoption(\${this:name})
-    VALUES(\${this:csv})
-    RETURNING *
-  `;
-  const newTreeAdoption = db.one(query, adoptedTreeDataInSnakeCase);
-
+  const query = `INSERT INTO treeadoption (id, id_tree, common, nickname, email)
+    SELECT td.id, td.id_tree, td.common, u.nickname, u.email
+    FROM treedata td
+    INNER JOIN users u ON td.volunteer = u.nickname
+    WHERE td.id = $1
+    RETURNING *;`;
+  const newTreeAdoption = db.one(query, adoptedTreeDataInSnakeCase.id);
+  
   return newTreeAdoption;
 }
 

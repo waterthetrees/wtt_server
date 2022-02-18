@@ -37,7 +37,6 @@ treeadoptionsRouter.post('/', async (req, res) => {
     throw new AppError(400, 'Missing required parameter(s).');
   }
   const { request, ...body } = req.body;
-
   if (request.type === 'DELETE') {
     const { rowCount } = await unadoptTree(body);
 

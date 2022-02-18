@@ -17,12 +17,13 @@ export async function likeTree(likedTreeData) {
   const likedTreeDataInSnakeCase =
     convertObjectKeysToSnakeCase(likedTreeData);
 
-  const queryString = `
-    INSERT INTO treelikes(\${this:name})
-    VALUES(\${this:csv})
-    RETURNING *
-  `;
-  const newTreeLiked = db.one(queryString, likedTreeDataInSnakeCase);
+  const query = `INSERT INTO treelikes (id, id_tree, common, nickname, email)
+    SELECT td.id, td.id_tree, td.common, u.nickname, u.email
+    FROM treedata td
+    INNER JOIN users u ON td.volunteer = u.nickname
+    WHERE td.id = $1
+    RETURNING *;`;
+  const newTreeLiked = db.one(queryString, likedTreeDataInSnakeCase.id);
 
   return newTreeLiked;
 }

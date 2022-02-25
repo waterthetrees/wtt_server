@@ -3,7 +3,7 @@
  */
 import dotenv from "dotenv";
 dotenv.config();
- 
+
 const dbConfig = {
   host: process.env.POSTGRES_HOST,
   port: process.env.POSTGRES_PORT,

@@ -74,24 +74,23 @@ const truncateTo = (unRouned, nrOfDecimals = 8) => {
 };
 
 const formatStrings = (d) => {
-  const citySource = (d.sourceID || d.city || 'unknown').toLowerCase().replaceAll(' ', '_');
+  const sourceID = (d.sourceID || d.city).toLowerCase().replaceAll(' ', '_') || '';
+  const species = d.species || d.scientific || '';
   return {
     common: d.common ? `-${d.common.toLowerCase()}` : '',
-    scientific: d.scientific ? `-${d.scientific.toLowerCase()}` : '',
-    cityState: d.state ? `${citySource}_${d.state.toLowerCase()}` : citySource,
+    species: species ? `-${species.toLowerCase()}` : '',
+    sourceID,
     lat: truncateTo(d.lat,8),
     lng: truncateTo(d.lng,8),
   };
 }
 
 export const createIdForTree = (data) => {
-  const { common, lng, lat, scientific, cityState } = formatStrings(data);
+  const { lng, lat, common, species, sourceID } = formatStrings(data);
   const hashed = geohashToInt(lat, lng, 52);
 
-  const idString = `${cityState}${common}${scientific}-${hashed}`;
-  // console.log(idString, 'idString');
+  const idString = `${sourceID}${common}${species}-${hashed}`;
   const id = Math.abs(cyrb53(idString));
-  // console.log(id, 'id');
   return id;
 };
 

@@ -18,8 +18,10 @@ export async function createTree(newTreeData) {
   return newTree;
 }
 
-export async function findTreeById(id) {
-  const query = 'SELECT * FROM treedata WHERE id = $1';
+export async function findTreeById(id, id_reference, common, address, source_id) {
+  const query = `SELECT * 
+    FROM treedata
+    WHERE id = $1;`;
   const values = [id];
   const tree = await db.one(query, values);
 

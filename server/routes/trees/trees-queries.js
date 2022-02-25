@@ -20,11 +20,9 @@ export async function createTree(newTreeData) {
 
 export async function findTreeById(id, id_reference, common, address, source_id) {
   const query = `SELECT * 
-    FROM treedata 
-    WHERE id = $1
-    OR (id_reference = $2 AND source_id = $3)
-    OR (common = $4 AND address = $5 AND source_id = $3);`;
-  const values = [id, id_reference, source_id, common, address];
+    FROM treedata
+    WHERE id = $1;`;
+  const values = [id];
   const tree = await db.one(query, values);
 
   tree.healthNum = convertHealthToNumber(tree.health);

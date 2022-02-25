@@ -90,9 +90,7 @@ export const createIdForTree = (data) => {
   const hashed = geohashToInt(lat, lng, 52);
 
   const idString = `${sourceID}${common}${species}-${hashed}`;
-  // console.log(idString, 'idString');
   const id = Math.abs(cyrb53(idString));
-  // console.log(id, 'id');
   return id;
 };
 

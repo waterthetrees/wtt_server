@@ -18,7 +18,7 @@ export async function createTree(newTreeData) {
   return newTree;
 }
 
-export async function findTreeById(id, id_reference, common, address, source_id) {
+export async function findTreeById(id) {
   const query = `SELECT * 
     FROM treedata
     WHERE id = $1;`;

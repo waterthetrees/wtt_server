@@ -14,12 +14,12 @@ import { createIdForTree } from '../treeid/id.js';
 const treesRouter = express.Router();
 
 treesRouter.get('/', async (req, res) => {
-  const { id, common, address, sourceID, ref } = req.query;
-  if (!id || (!ref && !common && !address  && !sourceID)) {
-    throw new AppError(400, 'Need to send id or (ref, common, address) in query');
+  const { id } = req.query;
+  if (!id ) {
+    throw new AppError(400, 'Need to send id in query');
   }
 
-  const tree = await findTreeById(id, ref, common, address, sourceID);
+  const tree = await findTreeById(id);
   if (!tree.id) { 
     res.status(404).json({id, error: `Tree ${id} not found`});
   }

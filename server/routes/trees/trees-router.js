@@ -11,53 +11,74 @@ import { createTree, findTreeById, updateTreeById } from './trees-queries.js';
 import validatePostTree from './trees-validations.js';
 import { createIdForTree } from '../treeid/id.js';
 
+import convertHealthToNumber from './trees-utils.js';
+
 const treesRouter = express.Router();
 
 treesRouter.get('/', async (req, res) => {
-  const { id, common, address, sourceID, ref } = req.query;
-  if (!id || (!ref && !common && !address  && !sourceID)) {
-    throw new AppError(400, 'Need to send id or (ref, common, address) in query');
+  const { id, common, address, sourceId, ref } = req.query;
+  if (!id) {
+    throw new AppError(400, 'Get Tree: Need to send id in query');
   }
-
-  const tree = await findTreeById(id, ref, common, address, sourceID);
-  if (!tree.id) { 
-    res.status(404).json({id, error: `Tree ${id} not found`});
+  const tree = await findTreeById(id);
+  if (tree.code === 0) { 
+    res.status(404).json({error: 400});
+    return;
+  } else {
+    // tree.saved = true;
+    tree.healthNum = convertHealthToNumber(tree.health);
+    res.status(200).json(tree);
+    return;
   }
-
-  res.status(200).json(tree);
 });
 
 treesRouter.post('/', async (req, res) => {
   const validated = validatePostTree(req);
-
   if (!validated) {
-    throw new AppError(400, 'Missing required parameter(s).');
+    throw new AppError(400, 'Post Tree: Missing required parameter(s): common, scientific, city, lat, lng.');
+  }
+  const dateplanted = req.body.planted;
+  const { common, scientific, sourceId,  city, country, lat, lng, address, 
+    height, dbh, owner, health, waterFreq, who, email,
+    ref: idReference,
+    planted: datePlanted,
+    count: locationTreeCount,
+  } = req.body;
+
+  if (req.body.id) {
+    const treeExists = await findTreeById(req.body.id);
+    if (treeExists.code !== 0) { 
+      res.status(200);
+      return;
+    }
   }
 
-  const id = createIdForTree(req.body);
-  const data = {...req.body, id}
+  const id = (req.body.id) ? req.body.id : createIdForTree(req.body);
+ 
+  const data = { common, scientific, sourceId,  city, country, lat, lng, address, 
+    height, dbh, owner, id, idReference, datePlanted, locationTreeCount, health }
   const tree = await createTree(data);
-  const { city, lng, lat, email, who } = tree;
+  // tree.saved = true;
+
   const foundCity = await findCityByName(city);
   const isNewCity = city && !foundCity;
 
   if (isNewCity) {
     const newCity = { city, lng, lat, email, who };
-
     await createCity(newCity);
   }
 
   await updateCityTreeCount(city);
 
   const firstTreeHistory = {
-    id: tree.id,
+    id,
     date_visit: tree.dateVisit,
     comment: `THIS ${tree.common.toUpperCase()} IS PLANTED!!!`,
     volunteer: tree.volunteer,
   };
 
   await treeHistory.createTreeHistory(firstTreeHistory);
-
+  
   res.status(201).json(tree);
 });
 
@@ -66,7 +87,7 @@ treesRouter.put('/', async (req, res) => {
   const { id, ...body } = req.body;
 
   if (!id) {
-    throw new AppError(400, 'Missing required parameter: id.');
+    throw new AppError(400, 'treesRouter.put Missing required parameter: id.');
   }
 
   const updatedTree = await updateTreeById(body, id);

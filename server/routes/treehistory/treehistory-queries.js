@@ -14,7 +14,9 @@ export async function createTreeHistory(newTreeHistoryData) {
   const treeHistory = await db.oneOrNone(
     queryString,
     newTreeHistoryDataInSnakeCase
-  );
+    )
+    .then(data => data)
+    .catch(error => error);
 
   return treeHistory;
 }
@@ -30,7 +32,9 @@ export async function findTodaysTreeHistoryByTreeIdAndVolunteerName(
   `;
   const values = [id, volunteer];
 
-  const todaysTreeHistory = await db.oneOrNone(query, values);
+  const todaysTreeHistory = await db.oneOrNone(query, values)    
+    .then(data => data)
+    .catch(error => error);
 
   return todaysTreeHistory;
 }
@@ -45,7 +49,9 @@ export async function findTreeHistoryByTreeId(id) {
     LIMIT 20
   `;
   const values = [id];
-  const treeHistory = await db.manyOrNone(query, values);
+  const treeHistory = await db.manyOrNone(query, values)
+    .then(data => data)
+    .catch(error => error);
 
   return treeHistory;
 }
@@ -71,9 +77,11 @@ export async function updateTreeHistory(updatedTreeHistoryData) {
     ) + condition;
 
   const updatedTreeHistory = await db.oneOrNone(
-    queryString,
-    updatedTreeHistoryDataInSnakeCase
-  );
+      queryString,
+      updatedTreeHistoryDataInSnakeCase
+    )
+    .then(data => data)
+    .catch(error => error);;
 
   return updatedTreeHistory;
 }

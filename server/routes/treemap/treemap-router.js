@@ -12,6 +12,5 @@ export default treemapRouter.get('/', async (req, res) => {
   }
 
   const geoJSON = await findGeoJSONByCityName(city);
-
   res.status(200).json(geoJSON);
 });

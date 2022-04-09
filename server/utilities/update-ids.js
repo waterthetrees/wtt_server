@@ -19,7 +19,6 @@ async function findAndReplaceTreeIds() {
  for (let i = 0; i < treeIdRows.length; i++) {
   const id = IDForTree(treeIdRows[i]);
   const {id_tree} = treeIdRows[i];
-  console.log(id, id_tree);
   updateTreeId(id, id_tree);
  }
  return treeIdRows;

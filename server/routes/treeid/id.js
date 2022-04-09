@@ -74,22 +74,22 @@ const truncateTo = (unRouned, nrOfDecimals = 8) => {
 };
 
 const formatStrings = (d) => {
-  const sourceID = (d.sourceID || d.city).toLowerCase().replaceAll(' ', '_') || '';
+  const sourceId = (d.sourceId || d.city).toLowerCase().replaceAll(' ', '_') || '';
   const species = d.species || d.scientific || '';
   return {
     common: d.common ? `-${d.common.toLowerCase()}` : '',
     species: species ? `-${species.toLowerCase()}` : '',
-    sourceID,
+    sourceId,
     lat: truncateTo(d.lat,8),
     lng: truncateTo(d.lng,8),
   };
 }
 
 export const createIdForTree = (data) => {
-  const { lng, lat, common, species, sourceID } = formatStrings(data);
+  const { lng, lat, common, species, sourceId } = formatStrings(data);
   const hashed = geohashToInt(lat, lng, 52);
 
-  const idString = `${sourceID}${common}${species}-${hashed}`;
+  const idString = `${sourceId}${common}${species}-${hashed}`;
   const id = Math.abs(cyrb53(idString));
   return id;
 };
@@ -116,7 +116,6 @@ export const createIdForTree = (data) => {
 //     const id = createIdForTree(params);
 //     return id;
 //    });
-//   // console.log('ids', ids);
 // }
 
 // testFindAndReplaceTreeIds();

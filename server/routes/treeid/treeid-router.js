@@ -8,7 +8,7 @@ const treeidRouter = express.Router();
 
 treeidRouter.get('/', async (req, res) => {
   if (!validateGetTreeId(req)) {
-    throw new AppError(400, 'Missing required parameter');
+    throw new AppError(400, 'TreeId missing required parameter');
   }
 
   const id = await createIdForTree(req.body);

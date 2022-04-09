@@ -1,6 +1,5 @@
 import express from 'express';
 import AppError from '../../errors/AppError.js';
-
 import {
   findTreeAdoptionsByTreeId,
   adoptTree,
@@ -14,7 +13,8 @@ treeadoptionsRouter.get('/', async (req, res) => {
   const { id, email } = req.query;
 
   if (!id || !email) {
-    throw new AppError(400, 'Missing required parameter(s): id or email.');
+    throw new AppError(400, `treeadoptionsRouter.get Missing required parameter(s) id: ${id} or email: ${email}.`);
+    return
   }
 
   const treeAdoptions = await findTreeAdoptionsByTreeId(id);
@@ -34,7 +34,7 @@ treeadoptionsRouter.post('/', async (req, res) => {
   const isValidated = validatePostTreeAdoptions(req);
 
   if (!isValidated) {
-    throw new AppError(400, 'Missing required parameter(s).');
+    throw new AppError(400, `TreeAdoption post Missing required parameter(s) ${req.body}.`);
   }
   const { request, ...body } = req.body;
   if (request.type === 'DELETE') {

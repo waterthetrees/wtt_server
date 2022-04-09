@@ -8,7 +8,9 @@ export async function findTreeLikesByTreeId(id) {
     WHERE id = $1;
   `;
   const values = [id];
-  const treeLikes = db.manyOrNone(query, values);
+  const treeLikes = db.manyOrNone(query, values)    
+    .then(data => data)
+    .catch(error => error);
 
   return treeLikes;
 }
@@ -28,7 +30,10 @@ export async function likeTree(likedTreeData) {
     likedTreeDataInSnakeCase.email, 
     likedTreeDataInSnakeCase.id
   ];
-  const newTreeLiked = db.one(query, values);
+  // TODO try oneornone
+  const newTreeLiked = db.one(query, values)
+    .then(data => data)
+    .catch(error => error);
 
   return newTreeLiked;
 }
@@ -39,7 +44,9 @@ export async function unlikeTree({ id, email }) {
     WHERE id = $1 AND email = $2;
   `;
   const values = [id, email];
-  const results = db.result(query, values);
+  const results = db.result(query, values)
+    .then(data => data)
+    .catch(error => error);
 
   return results;
 }

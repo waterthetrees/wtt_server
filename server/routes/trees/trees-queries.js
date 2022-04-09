@@ -1,7 +1,6 @@
 import { db, pgPromise } from '../../db/index.js';
 import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
 
-import convertHealthToNumber from './trees-utils.js';
 
 export async function createTree(newTreeData) {
   const newTreeDataInSnakeCase =
@@ -18,14 +17,23 @@ export async function createTree(newTreeData) {
   return newTree;
 }
 
-export async function findTreeById(id) {
-  const query = `SELECT * 
+export async function findTreeById(id, id_reference, common, address, source_id) {
+  const query = `SELECT 
+    id, id_reference, 
+    common, scientific, 
+    address, city, state, zip, country, neighborhood, side_type
+    source_id, lng,lat,
+    dbh, height, health, water_freq, notes,
+    date_planted,
+    who, email, owner, location_tree_count,
+    planting_opt1, planting_opt2, planting_opt3,
+    modified
     FROM treedata
     WHERE id = $1;`;
   const values = [id];
-  const tree = await db.one(query, values);
-
-  tree.healthNum = convertHealthToNumber(tree.health);
+  const tree = await db.one(query, values)
+    .then(data => data)
+    .catch(error => error);
 
   return tree;
 }

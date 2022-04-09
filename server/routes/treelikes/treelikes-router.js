@@ -11,9 +11,9 @@ const treelikesRouter = express.Router();
 
 treelikesRouter.get('/', async (req, res) => {
   const { id, email } = req.query;
-
+  
   if (!id || !email) {
-    throw new AppError(400, 'Missing required parameter(s): id or email.');
+    throw new AppError(400, `TreeLikes get Missing required parameter(s) id: ${id} or email: ${email}.`);
   }
 
   const treeLikes = await findTreeLikesByTreeId(id);
@@ -33,7 +33,7 @@ treelikesRouter.post('/', async (req, res) => {
   const isValidated = validatePostTreeLikes(req);
 
   if (!isValidated) {
-    throw new AppError(400, 'Missing required parameter(s).');
+    throw new AppError(400, `TreeLikes post Missing required parameter(s) ${req.body}.`);
   }
 
   const { request, ...body } = req.body;

@@ -37,6 +37,15 @@ treesRouter.post('/', async (req, res) => {
   if (!validated) {
     throw new AppError(400, 'Post Tree: Missing required parameter(s): common, scientific, city, lat, lng.');
   }
+
+  if (req.body.id) {
+    const treeExists = await findTreeById(req.body.id);
+    if (treeExists.code !== 0) { 
+      res.status(200);
+      return;
+    }
+  }
+
   const dateplanted = req.body.planted;
   const { common, scientific, genus, 
     lat, lng, sourceId,
@@ -49,14 +58,6 @@ treesRouter.post('/', async (req, res) => {
     planted: datePlanted,
     count: locationTreeCount,
   } = req.body;
-
-  if (req.body.id) {
-    const treeExists = await findTreeById(req.body.id);
-    if (treeExists.code !== 0) { 
-      res.status(200);
-      return;
-    }
-  }
 
   const id = (req.body.id || req.body.edit)  
     ? createIdForTree(req.body)

@@ -75,10 +75,15 @@ const truncateTo = (unRouned, nrOfDecimals = 8) => {
 
 const formatStrings = (d) => {
   const sourceId = (d.sourceId || d.city).toLowerCase().replaceAll(' ', '_') || '';
+  // TODO: Move to this 2022-05-01
+  // tree genus and species are called a tree's scientific name
+  // we store common, scientific, and genus name in the treedata table
+  // const scientific = d.scientific || `${d.genus}_${d.species}` || d.species || d.genus || '';
   const species = d.species || d.scientific || '';
   return {
     common: d.common ? `-${d.common.toLowerCase()}` : '',
     species: species ? `-${species.toLowerCase()}` : '',
+    // scientific: scientific ? `-${scientific.toLowerCase()}` : '',
     sourceId,
     lat: truncateTo(d.lat,8),
     lng: truncateTo(d.lng,8),
@@ -87,9 +92,11 @@ const formatStrings = (d) => {
 
 export const createIdForTree = (data) => {
   const { lng, lat, common, species, sourceId } = formatStrings(data);
+  // const { lng, lat, common, scientific, sourceId } = formatStrings(data);
   const hashed = geohashToInt(lat, lng, 52);
 
   const idString = `${sourceId}${common}${species}-${hashed}`;
+  // const idString = `${sourceId}${common}${scientific}-${hashed}`;
   const id = Math.abs(cyrb53(idString));
   return id;
 };

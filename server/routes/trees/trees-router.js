@@ -58,7 +58,9 @@ treesRouter.post('/', async (req, res) => {
     }
   }
 
-  const id = (req.body.id) ? req.body.id : createIdForTree(req.body);
+  const id = (req.body.id || req.body.edit)  
+    ? createIdForTree(req.body)
+    : req.body.id;
  
   const data = { id, common, scientific, genus, 
     lat, lng, sourceId,
@@ -70,7 +72,10 @@ treesRouter.post('/', async (req, res) => {
     idReference,
     datePlanted,
     locationTreeCount }
-  const tree = await createTree(data);
+  console.log('data', data)
+  const tree = (req.body.edit) 
+    ? await updateTreeById(data, req.body.id)
+    : await createTree(data);
 
   const foundCity = await findCityByName(city);
   const isNewCity = city && !foundCity;
@@ -96,13 +101,16 @@ treesRouter.post('/', async (req, res) => {
 
 
 treesRouter.put('/', async (req, res) => {
-  const { id, ...body } = req.body;
+  const { id, edit, ...body } = req.body;
 
   if (!id) {
     throw new AppError(400, 'treesRouter.put Missing required parameter: id.');
   }
 
-  const updatedTree = await updateTreeById(body, id);
+  const newId = (edit) ? createIdForTree(req.body) : null;
+  const newBody = (edit) ? { ...body, id: newId } : body;
+  
+  const updatedTree = await updateTreeById(newBody, id);
 
   res.status(200).json(updatedTree);
 });

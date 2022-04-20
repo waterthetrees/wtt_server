@@ -51,7 +51,9 @@ export async function updateTreeById(updatedTreeData, id) {
       Object.keys(updatedTreeDataInSnakeCase),
       'treedata'
     ) + condition;
-  const updatedTree = await db.one(query, updatedTreeDataInSnakeCase);
-
+    
+  const updatedTree = await db.one(query, updatedTreeDataInSnakeCase)
+    .then(data => data)
+    .catch(error => error);
   return updatedTree;
 }

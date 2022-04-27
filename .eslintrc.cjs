@@ -11,7 +11,7 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:jest/recommended',
     'plugin:jest/style',
-    'prettier', // Must be last to override other configs
+    'plugin:prettier/recommended',
   ],
   plugins: ['jest', 'import'],
   parserOptions: {
@@ -21,6 +21,6 @@ module.exports = {
     'no-plusplus': 'off',
     'import/no-unresolved': 2,
     'import/no-commonjs': 2,
-    'import/extensions': [2, 'ignorePackages']
+    'import/extensions': [2, 'ignorePackages'],
   },
 };

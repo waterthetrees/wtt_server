@@ -1,26 +1,27 @@
 module.exports = {
   root: true,
   env: {
-    commonjs: true,
-    es2021: true,
+    es2022: true,
     jest: true,
     node: true,
   },
   extends: [
-    'airbnb-base',
-    'plugin:import/recommended',
-    'plugin:jest/recommended',
-    'plugin:jest/style',
-    'plugin:prettier/recommended',
+    'eslint:recommended', // https://eslint.org/docs/rules/
+    'plugin:import/recommended', // https://github.com/import-js/eslint-plugin-import
+    'plugin:jest/recommended', // https://www.npmjs.com/package/eslint-plugin-jest
+    'plugin:jest/style', // https://www.npmjs.com/package/eslint-plugin-jest
+    'plugin:prettier/recommended', // https://github.com/prettier/eslint-plugin-prettier
   ],
-  plugins: ['jest', 'import'],
   parserOptions: {
-    ecmaVersion: 12,
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    ecmaFeatures: {
+      impliedStrict: true,
+    },
   },
   rules: {
-    'no-plusplus': 'off',
-    'import/no-unresolved': 2,
-    'import/no-commonjs': 2,
-    'import/extensions': [2, 'ignorePackages'],
+    'import/no-commonjs': 'warn',
+    'import/extensions': ['error', 'ignorePackages'],
+    'no-console': 'warn',
   },
 };

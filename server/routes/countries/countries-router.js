@@ -7,7 +7,7 @@ countriesRouter.get('/', async (req, res) => {
   const rows = await getCountries();
 
   if (!rows?.length) {
-    return res.status(404).json({ error: "Failed to get countries." });
+    return res.status(404).json({ error: 'Failed to get countries.' });
   }
 
   // otherwise return data

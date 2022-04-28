@@ -96,7 +96,7 @@ describe('/treesadoptions', () => {
 
           const newTreeAdoption = await axiosAPIClient.post(
             '/treeadoptions',
-            newTreeAdoptionData
+            newTreeAdoptionData,
           );
 
           /** Act */
@@ -150,7 +150,7 @@ describe('/treesadoptions', () => {
 
         const adoptedTree = await axiosAPIClient.post(
           '/treeadoptions',
-          treeLikeData
+          treeLikeData,
         );
 
         /** Act */
@@ -207,7 +207,7 @@ describe('/treesadoptions', () => {
 
         const adoptedTree = await axiosAPIClient.post(
           '/treeadoptions',
-          adoptedTreeData
+          adoptedTreeData,
         );
 
         /** Act */
@@ -221,7 +221,7 @@ describe('/treesadoptions', () => {
 
         const unAdoptedTree = await axiosAPIClient.post(
           '/treeadoptions',
-          unAdoptedTreeBody
+          unAdoptedTreeBody,
         );
 
         /** Assert */

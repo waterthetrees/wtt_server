@@ -1,7 +1,6 @@
 import { db } from '../../db/index.js';
 import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
 
-
 export async function findTreeAdoptionsByTreeId(id) {
   const query = `
     SELECT id_adopted, id, email
@@ -9,9 +8,10 @@ export async function findTreeAdoptionsByTreeId(id) {
     WHERE id = $1;
   `;
   const values = [id];
-  const treeAdoptions = db.manyOrNone(query, values)
-    .then(data => data)
-    .catch(error => error);
+  const treeAdoptions = db
+    .manyOrNone(query, values)
+    .then((data) => data)
+    .catch((error) => error);
 
   return treeAdoptions;
 }
@@ -26,15 +26,16 @@ export async function adoptTree(adoptedTreeData) {
     WHERE td.id = $3
     RETURNING *;`;
   const values = [
-    adoptedTreeDataInSnakeCase.nickname, 
-    adoptedTreeDataInSnakeCase.email, 
-    adoptedTreeDataInSnakeCase.id
+    adoptedTreeDataInSnakeCase.nickname,
+    adoptedTreeDataInSnakeCase.email,
+    adoptedTreeDataInSnakeCase.id,
   ];
 
-  const newTreeAdoption = db.one(query, values)
-    .then(data => data)
-    .catch(error => error);
-  
+  const newTreeAdoption = db
+    .one(query, values)
+    .then((data) => data)
+    .catch((error) => error);
+
   return newTreeAdoption;
 }
 
@@ -44,9 +45,10 @@ export async function unadoptTree({ id, email }) {
     WHERE id = $1 AND email = $2;
   `;
   const values = [id, email];
-  const results = db.result(query, values)
-    .then(data => data)
-    .catch(error => error);
+  const results = db
+    .result(query, values)
+    .then((data) => data)
+    .catch((error) => error);
 
   return results;
 }

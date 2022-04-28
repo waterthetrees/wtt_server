@@ -1,6 +1,6 @@
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
-import pgp from 'pg-promise'
+import pgp from 'pg-promise';
 
 /**
  * source:

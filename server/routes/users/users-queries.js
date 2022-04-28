@@ -2,7 +2,7 @@ import { db, pgPromise } from '../../db/index.js';
 
 const usersTable = new pgPromise.helpers.ColumnSet(
   ['nickname', 'name', 'picture', 'email'],
-  { table: 'users' }
+  { table: 'users' },
 );
 
 export async function createUser(newUserData) {

@@ -11,19 +11,17 @@ export async function createTreeHistory(newTreeHistoryData) {
     RETURNING *
   `;
 
-  const treeHistory = await db.oneOrNone(
-    queryString,
-    newTreeHistoryDataInSnakeCase
-    )
-    .then(data => data)
-    .catch(error => error);
+  const treeHistory = await db
+    .oneOrNone(queryString, newTreeHistoryDataInSnakeCase)
+    .then((data) => data)
+    .catch((error) => error);
 
   return treeHistory;
 }
 
 export async function findTodaysTreeHistoryByTreeIdAndVolunteerName(
   id,
-  volunteer
+  volunteer,
 ) {
   const query = `
     SELECT id
@@ -32,9 +30,10 @@ export async function findTodaysTreeHistoryByTreeIdAndVolunteerName(
   `;
   const values = [id, volunteer];
 
-  const todaysTreeHistory = await db.oneOrNone(query, values)    
-    .then(data => data)
-    .catch(error => error);
+  const todaysTreeHistory = await db
+    .oneOrNone(query, values)
+    .then((data) => data)
+    .catch((error) => error);
 
   return todaysTreeHistory;
 }
@@ -49,16 +48,18 @@ export async function findTreeHistoryByTreeId(id) {
     LIMIT 20
   `;
   const values = [id];
-  const treeHistory = await db.manyOrNone(query, values)
-    .then(data => data)
-    .catch(error => error);
+  const treeHistory = await db
+    .manyOrNone(query, values)
+    .then((data) => data)
+    .catch((error) => error);
 
   return treeHistory;
 }
 
 export async function updateTreeHistory(updatedTreeHistoryData) {
-  const updatedTreeHistoryDataInSnakeCase =
-    convertObjectKeysToSnakeCase(updatedTreeHistoryData);
+  const updatedTreeHistoryDataInSnakeCase = convertObjectKeysToSnakeCase(
+    updatedTreeHistoryData,
+  );
 
   const condition = pgPromise.as.format(
     `WHERE created::date = CURRENT_DATE
@@ -66,22 +67,20 @@ export async function updateTreeHistory(updatedTreeHistoryData) {
             AND volunteer = $\{volunteer}
       RETURNING id_treehistory, id, watered, mulched, pruned, staked,
                 weeded, braced, adopted, liked, volunteer, date_visit`,
-    updatedTreeHistoryDataInSnakeCase
+    updatedTreeHistoryDataInSnakeCase,
   );
 
   const queryString =
     pgPromise.helpers.update(
       updatedTreeHistoryDataInSnakeCase,
       Object.keys(updatedTreeHistoryDataInSnakeCase),
-      'treehistory'
+      'treehistory',
     ) + condition;
 
-  const updatedTreeHistory = await db.oneOrNone(
-      queryString,
-      updatedTreeHistoryDataInSnakeCase
-    )
-    .then(data => data)
-    .catch(error => error);;
+  const updatedTreeHistory = await db
+    .oneOrNone(queryString, updatedTreeHistoryDataInSnakeCase)
+    .then((data) => data)
+    .catch((error) => error);
 
   return updatedTreeHistory;
 }

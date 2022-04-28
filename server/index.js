@@ -5,7 +5,7 @@ import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import morgan from 'morgan';
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 import logger from '../logger.js';
 import unknownEndpointHandler from './middleware/unknown-endpoint-handler.js';
 // import expressErrorHandler from './middleware/express-error-handler.js';
@@ -67,8 +67,8 @@ const options = {
 const app = express();
 
 app.use(compression());
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // for logging on command line
 app.use(morgan('dev'));
 // app.use(bodyParser.json());

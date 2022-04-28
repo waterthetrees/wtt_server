@@ -96,7 +96,7 @@ describe('/treelikes', () => {
 
           const newTreeLike = await axiosAPIClient.post(
             '/treelikes',
-            newTreeLikeData
+            newTreeLikeData,
           );
 
           /** Act */
@@ -204,7 +204,7 @@ describe('/treelikes', () => {
 
         const likedTree = await axiosAPIClient.post(
           '/treelikes',
-          likedTreeData
+          likedTreeData,
         );
 
         /** Act */
@@ -218,7 +218,7 @@ describe('/treelikes', () => {
 
         const unLikedTree = await axiosAPIClient.post(
           '/treelikes',
-          unLikedTreeData
+          unLikedTreeData,
         );
 
         /** Assert */

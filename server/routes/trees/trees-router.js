@@ -1,4 +1,3 @@
-
 import express from 'express';
 import AppError from '../../errors/AppError.js';
 import {
@@ -21,8 +20,8 @@ treesRouter.get('/', async (req, res) => {
     throw new AppError(400, 'Get Tree: Need to send id in query');
   }
   const tree = await findTreeById(id);
-  if (tree.code === 0) { 
-    res.status(404).json({error: 400});
+  if (tree.code === 0) {
+    res.status(404).json({ error: 400 });
     return;
   } else {
     // tree.saved = true;
@@ -35,15 +34,33 @@ treesRouter.get('/', async (req, res) => {
 treesRouter.post('/', async (req, res) => {
   const validated = validatePostTree(req);
   if (!validated) {
-    throw new AppError(400, 'Post Tree: Missing required parameter(s): common, scientific, city, lat, lng.');
+    throw new AppError(
+      400,
+      'Post Tree: Missing required parameter(s): common, scientific, city, lat, lng.',
+    );
   }
   const dateplanted = req.body.planted;
-  const { common, scientific, genus, 
-    lat, lng, sourceId,
-    address, city, country, neighborhood,
-    height, dbh, health, 
-    who, email,owner, volunteer,
-    notes, waterFreq, irrigation,
+  const {
+    common,
+    scientific,
+    genus,
+    lat,
+    lng,
+    sourceId,
+    address,
+    city,
+    country,
+    neighborhood,
+    height,
+    dbh,
+    health,
+    who,
+    email,
+    owner,
+    volunteer,
+    notes,
+    waterFreq,
+    irrigation,
     download: url,
     ref: idReference,
     planted: datePlanted,
@@ -52,24 +69,41 @@ treesRouter.post('/', async (req, res) => {
 
   if (req.body.id) {
     const treeExists = await findTreeById(req.body.id);
-    if (treeExists.code !== 0) { 
+    if (treeExists.code !== 0) {
       res.status(200);
       return;
     }
   }
 
-  const id = (req.body.id) ? req.body.id : createIdForTree(req.body);
- 
-  const data = { id, common, scientific, genus, 
-    lat, lng, sourceId,
-    address, city, country, neighborhood,
-    height, dbh, health, 
-    who, email, owner, volunteer,
-    notes, waterFreq, irrigation,
+  const id = req.body.id ? req.body.id : createIdForTree(req.body);
+
+  const data = {
+    id,
+    common,
+    scientific,
+    genus,
+    lat,
+    lng,
+    sourceId,
+    address,
+    city,
+    country,
+    neighborhood,
+    height,
+    dbh,
+    health,
+    who,
+    email,
+    owner,
+    volunteer,
+    notes,
+    waterFreq,
+    irrigation,
     url,
     idReference,
     datePlanted,
-    locationTreeCount }
+    locationTreeCount,
+  };
   const tree = await createTree(data);
 
   const foundCity = await findCityByName(city);
@@ -90,10 +124,9 @@ treesRouter.post('/', async (req, res) => {
   };
 
   await treeHistory.createTreeHistory(firstTreeHistory);
-  
+
   res.status(201).json(tree);
 });
-
 
 treesRouter.put('/', async (req, res) => {
   const { id, ...body } = req.body;

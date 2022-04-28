@@ -21,14 +21,10 @@ csvRouter.get('/', async (req, res) => {
 
   fastcsv
     .write(jsonData, { headers: true })
-    .on("finish", () => {
-      res.download(cityPath)
+    .on('finish', () => {
+      res.download(cityPath);
     })
     .pipe(ws);
-
-  
 });
 
 export default csvRouter;
-
-

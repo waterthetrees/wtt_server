@@ -5,7 +5,11 @@ const consoleLevel = 'debug';
 
 const generalLevels = {
   levels: {
-    error: 0, warn: 1, info: 2, verbose: 3, debug: 4,
+    error: 0,
+    warn: 1,
+    info: 2,
+    verbose: 3,
+    debug: 4,
   },
   colors: {
     error: 'red',
@@ -100,7 +104,6 @@ const logger = winston.createLogger({
     }),
   ],
 });
-
 
 export const stream = {
   write(message, encoding) {

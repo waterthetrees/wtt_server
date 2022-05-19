@@ -6,7 +6,6 @@ import findUserTreeHistoryByVolunteerName from './usertreehistory-queries.js';
 
 const usertreehistoryRouter = express.Router();
 
-
 usertreehistoryRouter.get('/', async (req, res) => {
   const { volunteer } = req.query;
 

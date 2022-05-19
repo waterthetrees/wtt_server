@@ -1,4 +1,3 @@
-
 import express from 'express';
 import AppError from '../../errors/AppError.js';
 import { createUser, findUserByEmail } from './users-queries.js';

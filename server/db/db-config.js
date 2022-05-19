@@ -1,7 +1,7 @@
 /**
  * https://github.com/vitaly-t/pg-promise/wiki/Connection-Syntax
  */
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
 
 const dbConfig = {
@@ -11,4 +11,4 @@ const dbConfig = {
   user: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
 };
-export default dbConfig
+export default dbConfig;

@@ -3,9 +3,9 @@ const { db } = require('../db');
 const { IDForTree } = require('../routes/trees/id');
 
 async function findAllTreeIds() {
- const query = `SELECT id_tree AS id_tree, common, scientific, city, lat, lng FROM treedata`;
- const treeIds = await db.manyOrNone(query);
- return treeIds;
+  const query = `SELECT id_tree AS id_tree, common, scientific, city, lat, lng FROM treedata`;
+  const treeIds = await db.manyOrNone(query);
+  return treeIds;
 }
 
 async function updateTreeId(id, id_tree) {
@@ -15,13 +15,13 @@ async function updateTreeId(id, id_tree) {
 }
 
 async function findAndReplaceTreeIds() {
- const treeIdRows = await findAllTreeIds();
- for (let i = 0; i < treeIdRows.length; i++) {
-  const id = IDForTree(treeIdRows[i]);
-  const {id_tree} = treeIdRows[i];
-  updateTreeId(id, id_tree);
- }
- return treeIdRows;
+  const treeIdRows = await findAllTreeIds();
+  for (let i = 0; i < treeIdRows.length; i++) {
+    const id = IDForTree(treeIdRows[i]);
+    const { id_tree } = treeIdRows[i];
+    updateTreeId(id, id_tree);
+  }
+  return treeIdRows;
 }
 
-findAndReplaceTreeIds()
+findAndReplaceTreeIds();

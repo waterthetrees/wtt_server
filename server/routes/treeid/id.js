@@ -7,19 +7,23 @@ export const MAX_LAT = 90;
 export const MIN_LON = -180;
 export const MAX_LON = 180;
 
-// This code originally appeared here: 
+// This code originally appeared here:
 // https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript/34842797#34842797
 const cyrb53 = (str, seed = 1) => {
   let h1 = 0xdeadbeef ^ seed;
   let h2 = 0x41c6ce57 ^ seed;
   for (let i = 0, ch; i < str.length; i++) {
-      ch = str.charCodeAt(i);
-      h1 = Math.imul(h1 ^ ch, 2654435761);
-      h2 = Math.imul(h2 ^ ch, 1597334677);
+    ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
   }
-  h1 = Math.imul(h1 ^ (h1>>>16), 2246822507) ^ Math.imul(h2 ^ (h2>>>13), 3266489909);
-  h2 = Math.imul(h2 ^ (h2>>>16), 2246822507) ^ Math.imul(h1 ^ (h1>>>13), 3266489909);
-  return 4294967296 * (2097151 & h2) + (h1>>>0);
+  h1 =
+    Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^
+    Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 =
+    Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^
+    Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return 4294967296 * (2097151 & h2) + (h1 >>> 0);
 };
 
 // This code originally appeared here: https://github.com/sunng87/node-geohash/blob/master/main.js#L127-L161
@@ -59,12 +63,11 @@ const geohashToInt = (latitude, longitude, bitDepth) => {
   return combinedBits;
 };
 
-
 // To fixed 8 decimal places
 const truncateTo = (unRouned, nrOfDecimals = 8) => {
-  const parts = String(unRouned).split(".");
+  const parts = String(unRouned).split('.');
   if (parts.length !== 2) {
-      // without any decimal part
+    // without any decimal part
     return unRouned;
   }
   const newDecimals = parts[1].slice(0, nrOfDecimals);
@@ -74,16 +77,17 @@ const truncateTo = (unRouned, nrOfDecimals = 8) => {
 };
 
 const formatStrings = (d) => {
-  const sourceId = (d.sourceId || d.city).toLowerCase().replaceAll(' ', '_') || '';
+  const sourceId =
+    (d.sourceId || d.city).toLowerCase().replaceAll(' ', '_') || '';
   const species = d.species || d.scientific || '';
   return {
     common: d.common ? `-${d.common.toLowerCase()}` : '',
     species: species ? `-${species.toLowerCase()}` : '',
     sourceId,
-    lat: truncateTo(d.lat,8),
-    lng: truncateTo(d.lng,8),
+    lat: truncateTo(d.lat, 8),
+    lng: truncateTo(d.lng, 8),
   };
-}
+};
 
 export const createIdForTree = (data) => {
   const { lng, lat, common, species, sourceId } = formatStrings(data);
@@ -103,7 +107,7 @@ export const createIdForTree = (data) => {
 //     ['San Francisco', 'CA', 'Lemon Bottlebrush', 'Callistemon citrinus', -122.39180689548819, 37.73816558097692],
 //     ['San Francisco', 'CA', 'Lemon Bottlebrush', 'Callistemon citrinus', -122.39180445292185, 37.7381657644348]
 //   ];
-  
+
 //   const ids = data.map(async d => {
 //      const params = {
 //        common: d[2],

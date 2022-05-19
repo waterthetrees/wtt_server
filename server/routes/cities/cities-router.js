@@ -1,5 +1,5 @@
 import express from 'express';
-import AppError from '../../errors/AppError.js'
+import AppError from '../../errors/AppError.js';
 import { findAllCities, findCityByName } from './cities-queries.js';
 
 const citiesRouter = express.Router();

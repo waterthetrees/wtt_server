@@ -1,5 +1,5 @@
-import logger from '../../logger.js'
-import { pgPromise } from '../db/index.js'
+import logger from '../../logger.js';
+import { pgPromise } from '../db/index.js';
 
 export default function expressErrorHandler(err, req, res, next) {
   logger.error(`HERE ${err.toString()}`);

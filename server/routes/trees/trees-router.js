@@ -8,7 +8,7 @@ import {
 import * as treeHistory from '../treehistory/treehistory-queries.js';
 import { createTree, findTreeById, updateTreeById } from './trees-queries.js';
 import validatePostTree from './trees-validations.js';
-import { createIdForTree } from '../treeid/id.js';
+import { createIdForTree } from '@waterthetrees/tree-id';
 
 import convertHealthToNumber from './trees-utils.js';
 

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { db } from '../../db/index.js';
-import { createIdForTree } from './id.js';
+import { createIdForTree } from '@waterthetrees/tree-id';
 
 async function findAllTreeIds() {
   const query = `SELECT id_tree AS id_tree, common, scientific, city, state, lat, lng, id_reference FROM treedata;`;

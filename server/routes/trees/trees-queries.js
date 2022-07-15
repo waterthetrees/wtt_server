@@ -15,16 +15,10 @@ export async function createTree(newTreeData) {
   return newTree;
 }
 
-export async function findTreeById(
-  id,
-  id_reference,
-  common,
-  address,
-  source_id,
-) {
-  const query = `SELECT 
-    id, id_reference, 
-    common, scientific, 
+export async function findTreeById(id) {
+  const query = `SELECT
+    id, id_reference,
+    common, scientific, genus,
     address, city, state, zip, country, neighborhood, side_type
     source_id, lng,lat,
     dbh, height, health, water_freq, notes,
@@ -35,10 +29,7 @@ export async function findTreeById(
     FROM treedata
     WHERE id = $1;`;
   const values = [id];
-  const tree = await db
-    .one(query, values)
-    .then((data) => data)
-    .catch((error) => error);
+  const tree = await db.one(query, values);
 
   return tree;
 }

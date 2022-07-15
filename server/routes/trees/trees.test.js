@@ -125,7 +125,7 @@ describe('/api/trees/:id', () => {
           expect(newTree).toMatchObject({
             status: 201,
             data: {
-              id: expect.any(Number),
+              id: expect.any(String),
               common: body.common,
               scientific: body.scientific ?? null,
               genus: body.genus ?? null,
@@ -238,7 +238,8 @@ describe('/api/trees/:id', () => {
         expect(newTree).toMatchObject({
           status: 400,
           data: {
-            error: 'Missing required parameter(s).',
+            error:
+              'Post Tree: Missing required parameter(s): common, scientific, city, lat, lng.',
           },
         });
       });

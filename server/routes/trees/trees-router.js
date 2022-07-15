@@ -15,16 +15,15 @@ import convertHealthToNumber from './trees-utils.js';
 const treesRouter = express.Router();
 
 treesRouter.get('/', async (req, res) => {
-  const { id, common, address, sourceId, ref } = req.query;
+  const { id } = req.query;
   if (!id) {
     throw new AppError(400, 'Get Tree: Need to send id in query');
   }
   const tree = await findTreeById(id);
   if (tree.code === 0) {
-    res.status(404).json({ error: 400 });
+    res.status(404).json({ error: 'No data returned from the query.' });
     return;
   } else {
-    // tree.saved = true;
     tree.healthNum = convertHealthToNumber(tree.health);
     res.status(200).json(tree);
     return;
@@ -39,7 +38,6 @@ treesRouter.post('/', async (req, res) => {
       'Post Tree: Missing required parameter(s): common, scientific, city, lat, lng.',
     );
   }
-  const dateplanted = req.body.planted;
   const {
     common,
     scientific,
@@ -61,9 +59,9 @@ treesRouter.post('/', async (req, res) => {
     notes,
     waterFreq,
     irrigation,
+    datePlanted,
     download: url,
     ref: idReference,
-    planted: datePlanted,
     count: locationTreeCount,
   } = req.body;
 

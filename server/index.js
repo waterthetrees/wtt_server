@@ -1,5 +1,4 @@
 import http from 'http';
-import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
 import express from 'express';
@@ -8,7 +7,7 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import logger from '../logger.js';
 import unknownEndpointHandler from './middleware/unknown-endpoint-handler.js';
-// import expressErrorHandler from './middleware/express-error-handler.js';
+import expressErrorHandler from './middleware/express-error-handler.js';
 
 import citiesRouter from './routes/cities/cities-router.js';
 import countriesRouter from './routes/countries/countries-router.js';
@@ -71,10 +70,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // for logging on command line
 app.use(morgan('dev'));
-// app.use(bodyParser.json());
-// // Retrieve the raw body as a buffer and match all content types
-// app.use(bodyParser.raw({ type: '*/*' }));
-
 app.use(cors(options));
 
 // ROUTES
@@ -93,7 +88,7 @@ app.use('/api/users', usersRouter);
 app.use('/api/usertreehistory', usertreehistoryRouter);
 
 app.use(unknownEndpointHandler);
-// app.use(expressErrorHandler);
+app.use(expressErrorHandler);
 
 const httpServer = http.createServer(app);
 httpServer.listen(port, () => logger.verbose(`${host}:${port}`));

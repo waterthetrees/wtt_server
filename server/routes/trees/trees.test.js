@@ -84,7 +84,7 @@ describe('/api/trees/:id', () => {
     });
 
     describe('When the tree does not exist', () => {
-      test('Then return a 404 status code', async () => {
+      test('Then return an empty object and a 200 status code', async () => {
         /** Arrange */
         const params = { id: 0 };
 
@@ -95,10 +95,41 @@ describe('/api/trees/:id', () => {
 
         /** Assert */
         expect(tree).toMatchObject({
-          status: 404,
-          data: {
-            error: 'No data returned from the query.',
-          },
+          status: 200,
+          data: {},
+        });
+      });
+
+      describe('When a collision is detected (Multiple trees have the same id)', () => {
+        test('Then return a 400 status code', async () => {
+          /** Arrange */
+          const body = {
+            common: faker.animal.dog(),
+            scientific: faker.animal.cat(),
+            city: faker.address.cityName(),
+            datePlanted: new Date(),
+            lat: Number(faker.address.latitude()),
+            lng: Number(faker.address.longitude()),
+          };
+
+          // Create two trees with the same id
+          await axiosAPIClient.post('/trees', body);
+          const {
+            data: { id },
+          } = await axiosAPIClient.post('/trees', body);
+
+          /** Act */
+          const tree = await axiosAPIClient.get('/trees', {
+            params: { id },
+          });
+
+          /** Assert */
+          expect(tree).toMatchObject({
+            status: 400,
+            data: {
+              error: `Collision detected! Multiple trees found with the same id, ${id}.`,
+            },
+          });
         });
       });
     });
@@ -125,7 +156,7 @@ describe('/api/trees/:id', () => {
           expect(newTree).toMatchObject({
             status: 201,
             data: {
-              id: expect.any(Number),
+              id: expect.any(String),
               common: body.common,
               scientific: body.scientific ?? null,
               genus: body.genus ?? null,
@@ -238,7 +269,8 @@ describe('/api/trees/:id', () => {
         expect(newTree).toMatchObject({
           status: 400,
           data: {
-            error: 'Missing required parameter(s).',
+            error:
+              'Post Tree: Missing required parameter(s): common, scientific, city, lat, lng.',
           },
         });
       });

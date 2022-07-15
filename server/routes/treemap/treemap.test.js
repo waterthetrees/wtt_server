@@ -46,34 +46,34 @@ describe('/api/treemap', () => {
         /** Act */
         const params = { city: '%' };
 
-        const treemap = await axiosAPIClient.get('/treemap', {
+        const { status, data } = await axiosAPIClient.get('/treemap', {
           params,
         });
 
+        const expected = { status, data };
+
         /** Assert */
-        expect(treemap).toEqual(
-          expect.objectContaining({
-            status: 200,
-            data: expect.objectContaining({
-              type: 'FeatureCollection',
-              features: expect.arrayContaining([
-                {
-                  id: 'treedata',
-                  type: 'Feature',
-                  geometry: {
-                    type: 'Point',
-                    coordinates: [newTree.data.lng, newTree.data.lat],
-                  },
-                  properties: {
-                    id: newTree.data.id,
-                    common: newTree.data.common,
-                    health: null,
-                  },
+        expect(expected).toMatchObject({
+          status: 200,
+          data: {
+            type: 'FeatureCollection',
+            features: expect.arrayContaining([
+              {
+                id: 'treedata',
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [newTree.data.lng, newTree.data.lat],
                 },
-              ]),
-            }),
-          }),
-        );
+                properties: {
+                  id: Number(newTree.data.id),
+                  common: newTree.data.common,
+                  health: null,
+                },
+              },
+            ]),
+          },
+        });
       });
     });
   });

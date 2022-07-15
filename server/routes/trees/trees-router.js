@@ -20,14 +20,12 @@ treesRouter.get('/', async (req, res) => {
     throw new AppError(400, 'Get Tree: Need to send id in query');
   }
   const tree = await findTreeById(id);
-  if (tree.code === 0) {
-    res.status(404).json({ error: 'No data returned from the query.' });
-    return;
-  } else {
+
+  if (tree) {
     tree.healthNum = convertHealthToNumber(tree.health);
-    res.status(200).json(tree);
-    return;
   }
+
+  res.status(200).json(tree ?? {});
 });
 
 treesRouter.post('/', async (req, res) => {

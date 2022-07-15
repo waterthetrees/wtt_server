@@ -1,4 +1,5 @@
 import { db, pgPromise } from '../../db/index.js';
+import AppError from '../../errors/AppError.js';
 import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
 
 export async function createTree(newTreeData) {
@@ -29,7 +30,14 @@ export async function findTreeById(id) {
     FROM treedata
     WHERE id = $1;`;
   const values = [id];
-  const tree = await db.one(query, values);
+  const [tree, secondTree] = await db.any(query, values);
+
+  if (secondTree) {
+    throw new AppError(
+      400,
+      `Collision detected! Multiple trees found with the same id, ${id}.`,
+    );
+  }
 
   return tree;
 }

@@ -1,14 +1,12 @@
 import logger from '../../logger.js';
-import { pgPromise } from '../db/index.js';
+import AppError from '../errors/AppError.js';
 
 export default function expressErrorHandler(err, req, res, next) {
   logger.error(err.toString());
 
-  if (err instanceof pgPromise.errors.QueryResultError) {
-    res.status(404).json({ error: err.message, treeexists: false });
-    return;
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({ error: err.message });
   }
 
-  res.status(err.statusCode || 500).json({ error: err.message });
-  next();
+  res.status(500).json({ error: 'Internal Service Error.' });
 }

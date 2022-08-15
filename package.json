@@ -66,7 +66,7 @@
   "scripts": {
     "start": "nodemon server/index.js local",
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
-    "test:watch": "NODE_OPTIONS=--experimental-vm-modules npx jest --watch --verbose",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules npx jest --watch --verbose --runInBand -- \"unit\"",
     "lint": "eslint --ignore-path .gitignore --ignore-pattern \"!**/.*\" .",
     "lint:fix": "npm run lint -- --fix"
   }

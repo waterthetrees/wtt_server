@@ -44,7 +44,6 @@ export function buildUsersController({ usersService }) {
   };
 
   function buildGetRequestUserDTO({ query: { email } }) {
-    // maybe do these existence validations in a middleware
     if (!email) {
       throw new AppError(400, 'Missing required parameter: email.');
     }
@@ -57,7 +56,6 @@ export function buildUsersController({ usersService }) {
   }
 
   function buildPostRequestUserDTO({ body: { email, name, nickname } }) {
-    // maybe do these existence validations in a middleware
     if (!email) {
       throw new AppError(400, 'Missing required parameter: email.');
     }

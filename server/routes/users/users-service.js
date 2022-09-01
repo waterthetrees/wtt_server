@@ -1,4 +1,12 @@
-export const buildUsersService = ({ usersRepository }) => {
+/**
+ * considering doing multiple exports, i.e. something like
+ * export getUser(usersRepository, userDTO)
+ * export createUser(usersRepository, userDTO)
+ * import * as UsersService from '...'
+ * instead of
+ * export buildUsersService({ usersRepository })
+ */
+export function buildUsersService({ usersRepository }) {
   return {
     async getUser({ userDTO: { email } }) {
       // validate business logic here
@@ -13,4 +21,4 @@ export const buildUsersService = ({ usersRepository }) => {
       return usersRepository.createUser({ user: userDTO });
     },
   };
-};
+}

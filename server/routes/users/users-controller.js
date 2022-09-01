@@ -1,5 +1,13 @@
 import AppError from '../../errors/AppError.js';
 
+/**
+ * considering doing multiple exports, i.e. something like
+ * export getRequestHandler(usersService, httpRequest)
+ * export postRequestHandler(usersService, httpRequest)
+ * import * as UsersController from '...'
+ * instead of
+ * export function buildUsersController({ usersService })
+ */
 export function buildUsersController({ usersService }) {
   return {
     async getRequestHandler(httpRequest) {

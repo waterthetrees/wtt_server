@@ -1,3 +1,10 @@
+/**
+ * Interface that the implementations must extend from.
+ * Ensures that all implementations have the exact same functions, which
+ * keeps prod and test repository implementations in always in sync.
+ * The interface cannnot change without forcing changes in both the
+ * prod and test repository implementations.
+ */
 export class IUsersRepository {
   constructor({ dataSource }) {
     this.dataSource = dataSource;

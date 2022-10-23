@@ -1,6 +1,7 @@
 import axios from 'axios';
 import faker from 'faker';
 import nock from 'nock';
+// import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 let axiosAPIClient;
 
@@ -30,7 +31,7 @@ afterAll(() => {
 describe('/api/users', () => {
   describe('GET', () => {
     describe('When given an existing user', () => {
-      test('Then return the user', async () => {
+      it('Then return the user', async () => {
         /** Arrange */
         const newUserData = {
           nickname: faker.internet.userName(),
@@ -62,7 +63,7 @@ describe('/api/users', () => {
     });
 
     describe('When given a non-existent user', () => {
-      test('Then return a 404 error', async () => {
+      it('Then return a 404 error', async () => {
         /** Act */
         const params = { email: faker.internet.email() };
 
@@ -81,7 +82,7 @@ describe('/api/users', () => {
 
   describe('POST', () => {
     describe('When given a new user', () => {
-      test('Then add the user to the database', async () => {
+      it.only('Then add the user to the database', async () => {
         /** Arrange */
         const newUserData = {
           nickname: faker.internet.userName(),
@@ -107,7 +108,7 @@ describe('/api/users', () => {
     });
 
     describe('When given an existing user', () => {
-      test('Then return the existing user', async () => {
+      it('Then return the existing user', async () => {
         /** Arrange */
         const newUserData = {
           nickname: faker.internet.userName(),

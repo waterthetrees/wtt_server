@@ -100,38 +100,38 @@ describe('/api/trees/:id', () => {
         });
       });
 
-      describe('When a collision is detected (Multiple trees have the same id)', () => {
-        test('Then return a 400 status code', async () => {
-          /** Arrange */
-          const body = {
-            common: faker.animal.dog(),
-            scientific: faker.animal.cat(),
-            city: faker.address.cityName(),
-            datePlanted: new Date(),
-            lat: Number(faker.address.latitude()),
-            lng: Number(faker.address.longitude()),
-          };
+      // describe('When a collision is detected (Multiple trees have the same id)', () => {
+      //   test('Then return a 400 status code', async () => {
+      //     /** Arrange */
+      //     const body = {
+      //       common: faker.animal.dog(),
+      //       scientific: faker.animal.cat(),
+      //       city: faker.address.cityName(),
+      //       datePlanted: new Date(),
+      //       lat: Number(faker.address.latitude()),
+      //       lng: Number(faker.address.longitude()),
+      //     };
 
-          // Create two trees with the same id
-          await axiosAPIClient.post('/trees', body);
-          const {
-            data: { id },
-          } = await axiosAPIClient.post('/trees', body);
+      //     // Create two trees with the same id
+      //     await axiosAPIClient.post('/trees', body);
+      //     const {
+      //       data: { id },
+      //     } = await axiosAPIClient.post('/trees', body);
 
-          /** Act */
-          const tree = await axiosAPIClient.get('/trees', {
-            params: { id },
-          });
+      //     /** Act */
+      //     const tree = await axiosAPIClient.get('/trees', {
+      //       params: { id },
+      //     });
 
-          /** Assert */
-          expect(tree).toMatchObject({
-            status: 400,
-            data: {
-              error: `Collision detected! Multiple trees found with the same id, ${id}.`,
-            },
-          });
-        });
-      });
+      //     /** Assert */
+      //     expect(tree).toMatchObject({
+      //       status: 400,
+      //       data: {
+      //         error: `Collision detected! Multiple trees found with the same id, ${id}.`,
+      //       },
+      //     });
+      //   });
+      // });
     });
   });
 

@@ -1,20 +1,9 @@
+import { describe, expect, it } from 'vitest';
 import AppError from '../../errors/AppError.js';
-import { buildUsersController } from './users-controller.js';
-import { FakeUsersRepository } from './users-queries.js';
-import { buildUsersService } from './users-service.js';
+import { fakeUserController as userController } from './__test__/fixtures.js';
 
-describe('Users Controller', () => {
-  let usersController;
-
-  beforeEach(() => {
-    const fakeUsersRepository = new FakeUsersRepository({ dataSource: null });
-    const usersService = buildUsersService({
-      usersRepository: fakeUsersRepository,
-    });
-    usersController = buildUsersController({ usersService });
-  });
-
-  describe('getRequestHandler', () => {
+describe.skip('User Controller', () => {
+  describe('get', () => {
     it('Returns the user if found', async () => {
       /** Given */
       const httpRequest = {
@@ -24,7 +13,7 @@ describe('Users Controller', () => {
       };
 
       /** When */
-      const httpResponse = await usersController.getRequestHandler(httpRequest);
+      const httpResponse = await userController.getRequestHandler(httpRequest);
 
       /** Then */
       expect(httpResponse).toEqual({
@@ -50,7 +39,7 @@ describe('Users Controller', () => {
       };
 
       /** When */
-      // const httpResponse = await usersController.getRequestHandler(httpRequest);
+      // const httpResponse = await userController.getRequestHandler(httpRequest);
 
       /** Then */
       // expect(httpResponse).toEqual({
@@ -60,11 +49,11 @@ describe('Users Controller', () => {
       //   },
       // });
       // expect(async () =>
-      //   usersController.getRequestHandler(httpRequest),
+      //   userController.getRequestHandler(httpRequest),
       // ).toThrow({});
 
       async function get() {
-        return usersController.getRequestHandler(httpRequest);
+        return userController.getRequestHandler(httpRequest);
       }
 
       // await expect(get).rejects.toThrow(
@@ -80,7 +69,7 @@ describe('Users Controller', () => {
     });
   });
 
-  describe('postRequestHandler', () => {
+  describe('post', () => {
     it('Returns the existing user if found', async () => {
       /** Given */
       const httpRequest = {
@@ -93,9 +82,7 @@ describe('Users Controller', () => {
       };
 
       /** When */
-      const httpResponse = await usersController.postRequestHandler(
-        httpRequest,
-      );
+      const httpResponse = await userController.postRequestHandler(httpRequest);
 
       /** Then */
       expect(httpResponse).toEqual({
@@ -123,9 +110,7 @@ describe('Users Controller', () => {
       };
 
       /** When */
-      const httpResponse = await usersController.postRequestHandler(
-        httpRequest,
-      );
+      const httpResponse = await userController.postRequestHandler(httpRequest);
 
       /** Then */
       expect(httpResponse).toEqual({

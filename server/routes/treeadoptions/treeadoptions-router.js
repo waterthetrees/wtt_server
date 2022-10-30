@@ -17,7 +17,6 @@ treeadoptionsRouter.get('/', async (req, res) => {
       400,
       `treeadoptionsRouter.get Missing required parameter(s) id: ${id} or email: ${email}.`,
     );
-    return;
   }
 
   const treeAdoptions = await findTreeAdoptionsByTreeId(id);

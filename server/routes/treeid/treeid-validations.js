@@ -4,7 +4,6 @@ export default function validateGetTreeId(req) {
   if (common === undefined) return false;
   if (genusScientific === undefined) return false;
   if (sourceId === undefined) return false;
-  if (state === undefined) return false;
   if (lat === undefined) return false;
   if (lng === undefined) return false;
 

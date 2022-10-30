@@ -1,5 +1,4 @@
 import axios from 'axios';
-import faker from 'faker';
 import nock from 'nock';
 
 let axiosAPIClient;

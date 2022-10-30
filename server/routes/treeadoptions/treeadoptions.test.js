@@ -205,10 +205,7 @@ describe('/treesadoptions', () => {
           },
         };
 
-        const adoptedTree = await axiosAPIClient.post(
-          '/treeadoptions',
-          adoptedTreeData,
-        );
+        await axiosAPIClient.post('/treeadoptions', adoptedTreeData);
 
         /** Act */
         const unAdoptedTreeBody = {

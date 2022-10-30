@@ -202,10 +202,7 @@ describe('/treelikes', () => {
           },
         };
 
-        const likedTree = await axiosAPIClient.post(
-          '/treelikes',
-          likedTreeData,
-        );
+        await axiosAPIClient.post('/treelikes', likedTreeData);
 
         /** Act */
         const unLikedTreeData = {

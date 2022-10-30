@@ -1,6 +1,5 @@
-/* eslint-disable camelcase */
-const { db } = require('../db');
-const { IDForTree } = require('../routes/trees/id');
+import { db } from '../db/index.js';
+import { createIdForTree } from '@waterthetrees/tree-id';
 
 async function findAllTreeIds() {
   const query = `SELECT id_tree AS id_tree, common, scientific, city, lat, lng FROM treedata`;
@@ -17,7 +16,7 @@ async function updateTreeId(id, id_tree) {
 async function findAndReplaceTreeIds() {
   const treeIdRows = await findAllTreeIds();
   for (let i = 0; i < treeIdRows.length; i++) {
-    const id = IDForTree(treeIdRows[i]);
+    const id = createIdForTree(treeIdRows[i]);
     const { id_tree } = treeIdRows[i];
     updateTreeId(id, id_tree);
   }

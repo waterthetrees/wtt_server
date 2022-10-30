@@ -1,6 +1,4 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable camelcase */
-const { db } = require('../db');
+import { db } from '../db/index.js';
 
 const featureFlags = { deleteDups: false };
 

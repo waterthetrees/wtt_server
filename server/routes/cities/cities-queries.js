@@ -12,15 +12,12 @@ export async function createCity(newCityData) {
 export async function findAllCities() {
   const query = 'SELECT * FROM cities';
   const allCities = await db.many(query);
-
   return allCities;
 }
 
 export async function findCityByName(cityName) {
-  const query = 'SELECT * FROM cities WHERE city = $1';
-  const values = [cityName];
-  const city = await db.oneOrNone(query, values);
-
+  const query = `SELECT * FROM cities WHERE city = '${cityName}'`;
+  const city = await db.oneOrNone(query);
   return city;
 }
 

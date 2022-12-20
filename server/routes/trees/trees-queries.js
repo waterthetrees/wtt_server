@@ -5,11 +5,10 @@ import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
 export async function createTree(newTreeData) {
   const newTreeDataInSnakeCase = convertObjectKeysToSnakeCase(newTreeData);
 
-  // TODO: check if 'date_planted as "dateVisit"' is needed
   const query = `
     INSERT INTO treedata(\${this:name})
     VALUES(\${this:csv})
-    RETURNING *, date_planted as "dateVisit"
+    RETURNING *;
   `;
   const newTree = db.one(query, newTreeDataInSnakeCase);
 
@@ -23,10 +22,10 @@ export async function findTreeById(id) {
     address, city, state, zip, country, neighborhood, side_type
     source_id, lng,lat,
     dbh, height, health, water_freq, notes,
-    date_planted,
+    date_planted, planted,
     who, email, owner, location_tree_count,
     planting_opt1, planting_opt2, planting_opt3,
-    modified
+    created, modified
     FROM treedata
     WHERE id = $1;`;
   const values = [id];
@@ -45,8 +44,7 @@ export async function findTreeById(id) {
 export async function updateTreeById(updatedTreeData, id) {
   const updatedTreeDataInSnakeCase =
     convertObjectKeysToSnakeCase(updatedTreeData);
-
-  const condition = pgPromise.as.format(`WHERE id = ${id} RETURNING *`);
+  const condition = pgPromise.as.format(` WHERE id = ${id} RETURNING *`);
   const query =
     pgPromise.helpers.update(
       updatedTreeDataInSnakeCase,
@@ -54,6 +52,5 @@ export async function updateTreeById(updatedTreeData, id) {
       'treedata',
     ) + condition;
   const updatedTree = await db.one(query, updatedTreeDataInSnakeCase);
-
-  return updatedTree;
+  return await updatedTree;
 }

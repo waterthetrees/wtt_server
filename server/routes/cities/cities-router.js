@@ -7,13 +7,7 @@ const citiesRouter = express.Router();
 citiesRouter.get('/', async (req, res) => {
   const { city } = req.query;
 
-  let cities = null;
-
-  if (city) {
-    cities = await findCityByName(city);
-  } else {
-    cities = await findAllCities();
-  }
+  let cities = city ? await findCityByName(city) : await findAllCities();
 
   if (!cities) {
     throw new AppError(404, 'Failed to find any cities.');

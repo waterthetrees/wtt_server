@@ -20,11 +20,10 @@ treesRouter.get('/', async (req, res) => {
     throw new AppError(400, 'Get Tree: Need to send id in query');
   }
   const tree = await findTreeById(id);
-
-  if (tree) {
-    tree.healthNum = convertHealthToNumber(tree.health);
+  if (!tree) {
+    throw new AppError(404, `Get Tree: No tree found with id ${id}`);
   }
-
+  tree.healthNum = convertHealthToNumber(tree.health);
   res.status(200).json(tree ?? {});
 });
 
@@ -36,71 +35,21 @@ treesRouter.post('/', async (req, res) => {
       'Post Tree: Missing required parameter(s): common, scientific, city, lat, lng.',
     );
   }
-  const {
-    common,
-    scientific,
-    genus,
-    lat,
-    lng,
-    sourceId,
-    address,
-    city,
-    country,
-    neighborhood,
-    height,
-    dbh,
-    health,
-    who,
-    email,
-    owner,
-    volunteer,
-    notes,
-    waterFreq,
-    irrigation,
-    datePlanted,
-    download: url,
-    ref: idReference,
-    count: locationTreeCount,
-  } = req.body;
 
   if (req.body.id) {
     const treeExists = await findTreeById(req.body.id);
-    if (treeExists.code !== 0) {
+    if (treeExists && treeExists?.code !== 0) {
       res.status(200);
       return;
     }
   }
 
+  // creates id here when new trees are planted in the ground
+  // haven't gone to vector tiles yet.
   const id = req.body.id ? req.body.id : createIdForTree(req.body);
 
-  const data = {
-    id,
-    common,
-    scientific,
-    genus,
-    lat,
-    lng,
-    sourceId,
-    address,
-    city,
-    country,
-    neighborhood,
-    height,
-    dbh,
-    health,
-    who,
-    email,
-    owner,
-    volunteer,
-    notes,
-    waterFreq,
-    irrigation,
-    url,
-    idReference,
-    datePlanted,
-    locationTreeCount,
-  };
-  const tree = await createTree(data);
+  const { city, lat, lng, email, who } = req.body;
+  const tree = await createTree(req.body);
 
   const foundCity = await findCityByName(city);
   const isNewCity = city && !foundCity;
@@ -111,11 +60,10 @@ treesRouter.post('/', async (req, res) => {
   }
 
   await updateCityTreeCount(city);
-
   const firstTreeHistory = {
     id,
-    date_visit: tree.dateVisit,
-    comment: `THIS ${tree.common.toUpperCase()} IS PLANTED!!!`,
+    date_visit: tree.created,
+    comment: `This ${tree.common.toUpperCase()} is visited.`,
     volunteer: tree.volunteer,
   };
 
@@ -132,8 +80,7 @@ treesRouter.put('/', async (req, res) => {
   }
 
   const updatedTree = await updateTreeById(body, id);
-
-  res.status(200).json(updatedTree);
+  res.status(200).json(await updatedTree);
 });
 
 export default treesRouter;

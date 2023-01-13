@@ -29,8 +29,8 @@ export async function createCrosswalk(data) {
 export async function findSourceCountry(country) {
   const query = `SELECT 
     id, iso_alpha_3  as country, state, city, 
-    email, contact, who, phone, 
-    info, download, broken, broken_reason as note
+    email, contact, who as org, phone, 
+    info, download, broken_reason as note, broken
     FROM sources
     WHERE country = $1;`;
   const values = [country];
@@ -38,10 +38,22 @@ export async function findSourceCountry(country) {
   return source;
 }
 
+export async function findSourceCity(city) {
+  const query = `SELECT 
+    id, iso_alpha_3  as country, state, city, 
+    email, contact, who as org, phone, 
+    info, download, broken_reason as note, broken
+    FROM sources
+    WHERE city = $1;`;
+  const values = [city];
+  const source = await db.any(query, values);
+  return source;
+}
+
 export async function getAllSources() {
   const query = `SELECT id, iso_alpha_3  as country, state, city, 
     email, contact, who, phone, 
-    info, download, broken, broken_reason as note 
+    info, download, broken_reason as note, broken 
     FROM sources;`;
   const source = await db.any(query);
   return source;

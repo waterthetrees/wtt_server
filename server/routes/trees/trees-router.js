@@ -46,7 +46,7 @@ treesRouter.post('/', async (req, res) => {
 
   // creates id here when new trees are planted in the ground
   // haven't gone to vector tiles yet.
-  const id = req?.body?.id ? req.body.id : createIdForTree(req.body);
+  const id = req?.body?.id ?? createIdForTree(req.body);
 
   const { city, lat, lng, email, who } = req.body;
 

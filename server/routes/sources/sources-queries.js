@@ -59,6 +59,13 @@ export async function getAllSources() {
   return source;
 }
 
+export async function getSourceById(id) {
+  const query = `SELECT id
+    FROM sources where id = '${id}';`;
+  const source = await db.any(query);
+  return source;
+}
+
 export async function updateSourceById(updatedSourceData, id) {
   const updatedSourceDataInSnakeCase =
     convertObjectKeysToSnakeCase(updatedSourceData);

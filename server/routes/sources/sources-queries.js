@@ -4,6 +4,7 @@ import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
 export async function createSource(data) {
   // eslint-disable-next-line no-unused-vars
   const { crosswalk, destinations, ...source } = data;
+  console.log('createSource source', source);
 
   const query = `
     INSERT INTO sources(\${this:name})
@@ -16,6 +17,7 @@ export async function createSource(data) {
 }
 
 export async function createCrosswalk(data) {
+  console.log('createCrosswalk data', data);
   const query = `
     INSERT INTO crosswalk(\${this:name})
     VALUES(\${this:csv})
@@ -66,18 +68,33 @@ export async function getSourceById(id) {
   return source;
 }
 
-export async function updateSourceById(updatedSourceData, id) {
-  const updatedSourceDataInSnakeCase =
-    convertObjectKeysToSnakeCase(updatedSourceData);
+export async function updateSourceById(data) {
+  const dataInSnakeCase = convertObjectKeysToSnakeCase(data);
 
-  const condition = pgPromise.as.format(`WHERE id = ${id} RETURNING *`);
+  const condition = pgPromise.as.format(` WHERE id = '${data.id}' RETURNING *`);
   const query =
     pgPromise.helpers.update(
-      updatedSourceDataInSnakeCase,
-      Object.keys(updatedSourceDataInSnakeCase),
+      dataInSnakeCase,
+      Object.keys(dataInSnakeCase),
       'sources',
     ) + condition;
-  const updatedSource = await db.one(query, updatedSourceDataInSnakeCase);
+  const updatedSource = await db.one(query, dataInSnakeCase);
+
+  return updatedSource;
+}
+
+export async function updateCrosswalkById(data, id) {
+  console.log('updateCrosswalkById data', data);
+  const dataInSnakeCase = convertObjectKeysToSnakeCase(data);
+
+  const condition = pgPromise.as.format(` WHERE id = '${id}' RETURNING *`);
+  const query =
+    pgPromise.helpers.update(
+      dataInSnakeCase,
+      Object.keys(dataInSnakeCase),
+      'crosswalk',
+    ) + condition;
+  const updatedSource = await db.one(query, dataInSnakeCase);
 
   return updatedSource;
 }

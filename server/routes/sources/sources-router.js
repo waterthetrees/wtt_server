@@ -7,16 +7,18 @@ import {
   createSource,
   createCrosswalk,
   getAllSources,
+  updateCrosswalkById,
 } from './sources-queries.js';
 
 const sourcesRouter = express.Router();
 
 sourcesRouter.get('/', async (req, res) => {
   const { id, country, source } = req.query;
+  console.log('req.query', req.query);
 
   if (source === 'All') {
-    const sources = await getAllSources();
-    res.status(200).json(sources ?? {});
+    const source = await getAllSources();
+    res.status(200).json(source ?? {});
   }
 
   if (id) {
@@ -59,28 +61,10 @@ sourcesRouter.get('/', async (req, res) => {
 sourcesRouter.post('/', async (req, res) => {
   // eslint-disable-next-line no-unused-vars
   const { crosswalk, source } = req.body;
-  const { id } = source;
-  const foundSource = await getSourceById(id);
+  console.log('sourcesRouter.post source', source);
+  console.log('sourcesRouter.post crosswalk', crosswalk);
 
-  const response = {};
-  if (foundSource) {
-    const updatedSource = await updateSourceById(source);
-    if (!updatedSource) throw new AppError(400, 'Error creating source');
-    response.source = await updatedSource;
-
-    if (crosswalk) {
-      const responseCrosswalk = await updateSourceById({
-        id,
-        ...crosswalk,
-      });
-
-      if (!responseCrosswalk)
-        throw new AppError(400, 'Error creating Crosswalk');
-      response.crosswalk = await responseCrosswalk;
-    }
-  }
-
-  const responseSource = await createSource(source);
+  const response = await createSource(source);
   if (!response) throw new AppError(400, 'Error creating source');
   if (crosswalk) {
     const responseCrosswalk = await createCrosswalk({
@@ -90,33 +74,29 @@ sourcesRouter.post('/', async (req, res) => {
     if (!responseCrosswalk) throw new AppError(400, 'Error creating Crosswalk');
   }
 
-  res.status(200).json(responseSource ?? { message: 'No data to update' });
+  res.status(200).json(response ?? { message: 'No data to update' });
 });
 
 sourcesRouter.put('/', async (req, res) => {
   // eslint-disable-next-line no-unused-vars
   const { crosswalk, source } = req.body;
-  const { id } = source;
-  const foundSource = await getSourceById(id);
+  //validate source and crosswalk
+  console.log('sourcesRouter.put source', source);
+  console.log('sourcesRouter.put crosswalk', crosswalk);
 
-  const response = {};
-  if (foundSource) {
-    const responseSource = await updateSourceById(source);
-    if (!responseSource) throw new AppError(400, 'Error creating source');
-    response.source = await responseSource;
+  const response = await updateSourceById(source);
+  console.log('sourcesRouter.put response', response);
+  if (!response) throw new AppError(400, 'Error creating source');
 
-    if (crosswalk) {
-      const responseCrosswalk = await updateSourceById({
-        id,
-        ...crosswalk,
-      });
+  const responseCrosswalk = await updateCrosswalkById(crosswalk, source.id);
 
-      if (!responseCrosswalk)
-        throw new AppError(400, 'Error creating Crosswalk');
-      response.crosswalk = await responseCrosswalk;
-    }
-    res.status(200).json(responseSource ?? { message: 'No data to update' });
-  }
+  if (!responseCrosswalk) throw new AppError(400, 'Error creating Crosswalk');
+
+  res.status(200).json(
+    { response, ...{ crosswalk: responseCrosswalk } } ?? {
+      message: 'No data to update',
+    },
+  );
 });
 
 export default sourcesRouter;

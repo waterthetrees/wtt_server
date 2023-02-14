@@ -37,6 +37,7 @@ const host = {
 
 const port = {
   development: 3002,
+  blue: 3004,
   production: 3002,
   local: 3002,
   dockerlocal: 3002,
@@ -44,6 +45,7 @@ const port = {
 
 // this is for whitelisting hosts for cors
 const whitelist = [
+  'https://blue.waterthetrees.com',
   'http://localhost:3000',
   'http://localhost:3001',
   'http://localhost:3004',

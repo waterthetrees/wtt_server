@@ -13,47 +13,21 @@ import {
 const sourcesRouter = express.Router();
 
 sourcesRouter.get('/', async (req, res) => {
-  const { idSourceName, country, source } = req.query;
-
-  if (source === 'All') {
-    const source = await getAllSources();
-    res.status(200).json(source ?? {});
+  const { country, source, sources } = req.query;
+  const { idSourceName } = source ?? {};
+  if (sources === 'All') {
+    const foundSources = await getAllSources();
+    res.status(200).json(foundSources ?? {});
   }
 
   if (idSourceName) {
-    const source = await getSourceByIdSourceName(idSourceName);
-    res.status(200).json(source ?? {});
+    const responseByIdSourceName = await getSourceByIdSourceName(idSourceName);
+    res.status(200).json(responseByIdSourceName ?? {});
   }
 
   if (country) {
-    const source = await findSourceCountry(country);
-    res.status(200).json(source ?? {});
-  }
-});
-
-sourcesRouter.get('/', async (req, res) => {
-  // eslint-disable-next-line no-unused-vars
-  const { crosswalk, source } = req.body;
-  const { idSourceName } = source;
-  const foundSource = await getSourceByIdSourceName(idSourceName);
-
-  const response = {};
-  if (foundSource) {
-    const responseSource = await updateSourceByIdSourceName(source);
-    if (!responseSource) throw new AppError(400, 'Error creating source');
-    response.source = await responseSource;
-
-    if (crosswalk) {
-      const responseCrosswalk = await updateSourceByIdSourceName({
-        idSourceName,
-        ...crosswalk,
-      });
-
-      if (!responseCrosswalk)
-        throw new AppError(400, 'Error creating Crosswalk');
-      response.crosswalk = await responseCrosswalk;
-    }
-    res.status(200).json(responseSource ?? { message: 'No data to update' });
+    const responseSourceCountry = await findSourceCountry(country);
+    res.status(200).json(responseSourceCountry ?? {});
   }
 });
 
@@ -61,17 +35,18 @@ sourcesRouter.post('/', async (req, res) => {
   // eslint-disable-next-line no-unused-vars
   const { crosswalk, source } = req.body;
 
-  const response = await createSource(source);
-  if (!response) throw new AppError(400, 'Error creating source');
-  if (crosswalk) {
-    const responseCrosswalk = await createCrosswalk({
-      idSourceName: source.idSourceName,
-      ...crosswalk,
-    });
-    if (!responseCrosswalk) throw new AppError(400, 'Error creating Crosswalk');
-  }
+  const responseSource = await createSource(source);
+  if (!responseSource) throw new AppError(400, 'Error creating source');
 
-  res.status(200).json(response ?? { message: 'No data to update' });
+  const responseCrosswalk = await createCrosswalk({
+    idSourceName: source.idSourceName,
+    ...crosswalk,
+  });
+  if (!responseCrosswalk) throw new AppError(400, 'Error creating Crosswalk');
+
+  res
+    .status(200)
+    .json({ source: responseSource } ?? { message: 'Not updated' });
 });
 
 sourcesRouter.put('/', async (req, res) => {
@@ -79,8 +54,8 @@ sourcesRouter.put('/', async (req, res) => {
   const { crosswalk, source } = req.body;
   //validate source and crosswalk
 
-  const response = await updateSourceByIdSourceName(source);
-  if (!response) throw new AppError(400, 'Error creating source');
+  const responseSource = await updateSourceByIdSourceName(source);
+  if (!responseSource) throw new AppError(400, 'Error creating source');
 
   const responseCrosswalk = await updateCrosswalkByIdSourceName(
     crosswalk,
@@ -90,7 +65,7 @@ sourcesRouter.put('/', async (req, res) => {
   if (!responseCrosswalk) throw new AppError(400, 'Error creating Crosswalk');
 
   res.status(200).json(
-    { response, ...{ crosswalk: responseCrosswalk } } ?? {
+    { source: responseSource, crosswalk: responseCrosswalk } ?? {
       message: 'No data to update',
     },
   );

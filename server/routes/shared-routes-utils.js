@@ -1,5 +1,17 @@
+// function camelToSnakeCase(camelIn) {
+//   return camelIn.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+// }
+
 function camelToSnakeCase(camelIn) {
-  return camelIn.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+  return camelIn.replace(/[A-Z0-9]/g, (letter) => {
+    if (/[A-Z]/.test(letter)) {
+      return `_${letter.toLowerCase()}`;
+    } else if (/[0-9]/.test(letter)) {
+      return `_${letter}`;
+    } else {
+      return letter;
+    }
+  });
 }
 
 export default function convertObjectKeysToSnakeCase(obj) {

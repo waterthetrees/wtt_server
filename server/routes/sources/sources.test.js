@@ -6,7 +6,7 @@ let axiosAPIClient;
 
 beforeAll(() => {
   const axiosConfig = {
-    baseURL: 'http://127.0.0.1:3002/sources',
+    baseURL: 'http://127.0.0.1:3002/api',
     validateStatus: () => true,
   };
 
@@ -27,211 +27,56 @@ afterAll(() => {
   nock.enableNetConnect();
 });
 
-describe('/sources', () => {
+describe('/api/sources', () => {
   describe('GET', () => {
-    describe('Get sources', () => {
-      describe('When sources === All', () => {
-        test('Then confirm the user has not adopted the tree', async () => {
-          /** Arrange */
-          const body = {
+    describe('When sources is specified by idSourceName', () => {
+      test('Then confirm the source is returned', async () => {
+        /** Arrange */
+        const body = {
+          source: {
             idSourceName: faker.name.findName(),
             city: faker.address.cityName(),
             state: faker.address.stateAbbr(),
             country: faker.address.country(),
-            countryAlpha2: faker.address.countryCode('alpha-2'), // 'GA'
-            countryAlpha3: faker.address.countryCode('alpha-3'), // 'TJK'
-            lat: Number(faker.address.latitude()),
-            lng: Number(faker.address.longitude()),
-          };
-          const tree = await axiosAPIClient.post('/sources', query);
-
-          /** Act */
-          const params = {
-            id: tree.data.id,
-            email: faker.internet.email(),
-          };
-
-          const treeAdoptions = await axiosAPIClient.get('/treeadoptions', {
-            params,
-          });
-
-          /** Assert */
-          expect(treeAdoptions).toMatchObject({
-            status: 200,
-            data: {
-              adopted: false,
-              adoptedCount: 0,
-            },
-          });
-        });
-      });
-
-      describe('When the user has adopted the tree', () => {
-        test('Then confirm the user has adopted the tree', async () => {
-          /** Arrange */
-          const treeData = {
+            isoAlpha2: faker.address.countryCode('alpha-2'), // 'GA'
+            isoAlpha3: faker.address.countryCode('alpha-3'), // 'TJK'
+            latitude: Number(faker.address.latitude()),
+            longitude: Number(faker.address.longitude()),
+          },
+          crosswalk: {
             common: faker.animal.dog(),
             scientific: faker.animal.cat(),
-            city: faker.address.cityName(),
-            datePlanted: new Date(),
-            lat: Number(faker.address.latitude()),
-            lng: Number(faker.address.longitude()),
-          };
-
-          const tree = await axiosAPIClient.post('/trees', treeData);
-
-          const user = {
-            email: faker.internet.email(),
-            nickname: faker.internet.userName(),
-          };
-
-          const newTreeAdoptionData = {
-            id: tree.data.id,
-            common: tree.data.common,
-            email: user.email,
-            nickname: user.nickname,
-            request: {
-              type: 'POST',
-            },
-          };
-
-          const newTreeAdoption = await axiosAPIClient.post(
-            '/treeadoptions',
-            newTreeAdoptionData,
-          );
-
-          /** Act */
-          const params = {
-            id: newTreeAdoption.data.id,
-            email: user.email,
-          };
-
-          const treeAdoption = await axiosAPIClient.get('/treeadoptions', {
-            params,
-          });
-
-          /** Assert */
-          expect(treeAdoption).toMatchObject({
-            status: 200,
-            data: {
-              adopted: true,
-              adoptedCount: 1,
-            },
-          });
-        });
-      });
-    });
-  });
-
-  describe('POST', () => {
-    describe('When given valid input', () => {
-      test('Then like the tree', async () => {
-        /** Arrange */
-        const treeData = {
-          common: faker.animal.dog(),
-          scientific: faker.animal.cat(),
-          city: faker.address.cityName(),
-          datePlanted: new Date(),
-          lat: Number(faker.address.latitude()),
-          lng: Number(faker.address.longitude()),
-        };
-
-        const tree = await axiosAPIClient.post('/trees', treeData);
-
-        const treeLikeData = {
-          id: tree.data.id,
-          email: faker.internet.email(),
-          common: tree.data.common,
-          nickname: faker.name.findName(),
-          request: {
-            name: 'adopted',
-            type: 'POST',
+            species: faker.animal.cat(),
           },
         };
-
-        const adoptedTree = await axiosAPIClient.post(
-          '/treeadoptions',
-          treeLikeData,
+        const { data: sourceResponse } = await axiosAPIClient.post(
+          '/sources',
+          body,
         );
+        console.log('source', sourceResponse);
 
         /** Act */
         const params = {
-          id: adoptedTree.data.id,
-          email: treeLikeData.email,
-          request: 'adopted',
+          idSourceName:
+            sourceResponse?.source?.idSourceName ?? body?.source?.idSourceName,
         };
-
-        const treeAdoptions = await axiosAPIClient.get('/treeadoptions', {
+        console.log('params FMFMMF', params);
+        const response = await axiosAPIClient.get('/sources', {
           params,
         });
+        console.log('response FMFMMF', response);
 
         /** Assert */
-        expect(treeAdoptions).toMatchObject({
+        // expect(response.status).toBe(200);
+        expect(response).toMatchObject({
           status: 200,
           data: {
-            adopted: true,
-            adoptedCount: 1,
+            country: body.source.country,
+            city: body.source.city,
+            idSourceName: body.source.idSourceName,
           },
         });
       });
-    });
-
-    test.todo('Then update the tree history');
-  });
-
-  describe('DELETE', () => {
-    describe('When given valid input', () => {
-      test('Then unadopt the tree', async () => {
-        /** Arrange */
-        const treeData = {
-          common: faker.animal.dog(),
-          scientific: faker.animal.cat(),
-          city: faker.address.cityName(),
-          datePlanted: new Date(),
-          lat: Number(faker.address.latitude()),
-          lng: Number(faker.address.longitude()),
-        };
-
-        const tree = await axiosAPIClient.post('/trees', treeData);
-
-        // Like the tree
-        const adoptedTreeData = {
-          id: tree.data.id,
-          email: faker.internet.email(),
-          common: tree.data.common,
-          nickname: faker.name.findName(),
-          request: {
-            name: 'liked',
-            type: 'POST',
-          },
-        };
-
-        await axiosAPIClient.post('/treeadoptions', adoptedTreeData);
-
-        /** Act */
-        const unAdoptedTreeBody = {
-          ...adoptedTreeData,
-          request: {
-            name: 'liked',
-            type: 'DELETE',
-          },
-        };
-
-        const unAdoptedTree = await axiosAPIClient.post(
-          '/treeadoptions',
-          unAdoptedTreeBody,
-        );
-
-        /** Assert */
-        expect(unAdoptedTree).toMatchObject({
-          status: 200,
-          data: {
-            success: true,
-          },
-        });
-      });
-
-      test.todo('Then update the tree history');
     });
   });
 });

@@ -20,7 +20,6 @@ export async function createSource(data) {
 
 export async function createCrosswalk(data) {
   const dataInSnakeCase = convertObjectKeysToSnakeCase(data);
-  console.log('createCrosswalk dataInSnakeCas', dataInSnakeCase);
   const query = `
     INSERT INTO crosswalk(\${this:name})
     VALUES(\${this:csv})
@@ -65,6 +64,7 @@ export async function getAllSources() {
 }
 
 export async function getSourceByIdSourceName(idSourceName) {
+  console.log('getSourceByIdSourceName data', data);
   const query = `SELECT id_source_name as 'idSourceName'
     FROM sources where id_source_name = '${idSourceName}';`;
   const source = await db.any(query);

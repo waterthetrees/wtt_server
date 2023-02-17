@@ -5,8 +5,9 @@ import nock from 'nock';
 let axiosAPIClient;
 
 beforeAll(() => {
+  const port = '3004' || '3002';
   const axiosConfig = {
-    baseURL: 'http://127.0.0.1:3002/api',
+    baseURL: `http://127.0.0.1:${port}/api`,
     validateStatus: () => true,
   };
 
@@ -53,18 +54,17 @@ describe('/api/sources', () => {
           '/sources',
           body,
         );
-        console.log('source', sourceResponse);
 
         /** Act */
         const params = {
           idSourceName:
             sourceResponse?.source?.idSourceName ?? body?.source?.idSourceName,
         };
-        console.log('params FMFMMF', params);
+        console.log('params FAILING HERE', params);
         const response = await axiosAPIClient.get('/sources', {
           params,
         });
-        console.log('response FMFMMF', response);
+        console.log('response DOESNT REACH HERE', response);
 
         /** Assert */
         // expect(response.status).toBe(200);

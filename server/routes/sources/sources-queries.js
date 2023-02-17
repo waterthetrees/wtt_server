@@ -2,7 +2,6 @@ import { db, pgPromise } from '../../db/index.js';
 import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
 
 export async function createSource(data) {
-  console.log('createSource data', data);
   // eslint-disable-next-line no-unused-vars
   const { crosswalk, destinations, ...source } = data;
 
@@ -64,7 +63,6 @@ export async function getAllSources() {
 }
 
 export async function getSourceByIdSourceName(idSourceName) {
-  console.log('getSourceByIdSourceName data', data);
   const query = `SELECT id_source_name as 'idSourceName'
     FROM sources where id_source_name = '${idSourceName}';`;
   const source = await db.any(query);
@@ -72,7 +70,6 @@ export async function getSourceByIdSourceName(idSourceName) {
 }
 
 export async function updateSourceByIdSourceName(data) {
-  console.log('updateSourceByIdSourceName data', data);
   const dataInSnakeCase = convertObjectKeysToSnakeCase(data);
 
   const condition = pgPromise.as.format(
@@ -89,7 +86,6 @@ export async function updateSourceByIdSourceName(data) {
 }
 
 export async function updateCrosswalkByIdSourceName(data, idSourceName) {
-  console.log('updateCrosswalkByIdSourceNam data', data);
   const dataInSnakeCase = convertObjectKeysToSnakeCase(data);
 
   const condition = pgPromise.as.format(

@@ -19,8 +19,8 @@ export default async function findGeoJSONByCityName(city) {
       FROM (
         SELECT * FROM treedata
         WHERE city like $1
-        AND (modified::date > CURRENT_DATE - INTERVAL '365 days'
-        OR created::date >  CURRENT_DATE - INTERVAL '365 days')
+        AND (modified::date > CURRENT_DATE - INTERVAL '210 days'
+        OR created::date >  CURRENT_DATE - INTERVAL '210 days')
       ) inputs
     ) features;
   `;

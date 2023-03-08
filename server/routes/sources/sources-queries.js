@@ -63,9 +63,84 @@ export async function getAllSources() {
 }
 
 export async function getSourceByIdSourceName(idSourceName) {
-  const query = `SELECT id_source_name as 'idSourceName'
+  console.log('getSourceByIdSourceName idSourceName', idSourceName);
+  const query = `SELECT 
+    id_source_name as "idSourceName", 
+    iso_alpha_3 as "isoAlpha3", 
+    country,
+    state, 
+    city, 
+    email, 
+    contact, 
+    phone, 
+    info, 
+    download, 
+    notes, 
+    filename,
+    format,
+    longitude,
+    latitude,
+    broken 
     FROM sources where id_source_name = '${idSourceName}';`;
-  const source = await db.any(query);
+  const source = await db.one(query);
+  return source;
+}
+
+export async function getCrosswalkByIdSourceName(idSourceName) {
+  console.log('getCrosswalkByIdSourceName idSourceName', idSourceName);
+  const query = `SELECT 
+    id_source_name as "idSourceName", 
+    common,
+    species, 
+    genus, 
+    scientific, 
+    family, 
+    variety, 
+    class, 
+    dbh, 
+    height, 
+    structure, 
+    trunks, 
+    age, 
+    health, 
+    crown, 
+    spread, 
+    planted, 
+    updated, 
+    location, 
+    note, 
+    address, 
+    id_reference as "idReference", 
+    owner, 
+    ule, 
+    ule_min as "uleMin", 
+    ule_max as "uleMax", 
+    cost,
+    audited, 
+    longitude, 
+    latitude, 
+    city, 
+    state, 
+    zip, 
+    country, 
+    neighborhood, 
+    url, 
+    urlimage, 
+    status, 
+    email, 
+    volunteer, 
+    notes, 
+    legal_status as legalStatus, 
+    irrigation, 
+    count, 
+    dbh_min as "dbhMin", 
+    dbh_max as "dbhMax", 
+    height_min as "heightMin", 
+    height_max as "heightMax",
+    crown_min as "crownMin", 
+    crown_max as "crownMax"
+    FROM crosswalk where id_source_name = '${idSourceName}';`;
+  const source = await db.one(query);
   return source;
 }
 

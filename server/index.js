@@ -52,6 +52,7 @@ const whitelist = [
   'https://dev.waterthetrees.com',
   'https://waterthetrees.com',
   'https://www.waterthetrees.com',
+  'https://6d0e-2600-1700-ab10-b55f-5c38-8242-c3c0-5804.ngrok.io',
 ];
 
 const options = {

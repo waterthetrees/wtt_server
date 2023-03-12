@@ -10,6 +10,7 @@ import {
   getAllSources,
   updateCrosswalkByIdSourceName,
 } from './sources-queries.js';
+import validateSource from './sources-validations.js';
 
 const sourcesRouter = express.Router();
 
@@ -43,51 +44,43 @@ sourcesRouter.get('/', async (req, res) => {
 
 sourcesRouter.post('/', async (req, res) => {
   // eslint-disable-next-line no-unused-vars
-  const { crosswalk, source } = req.body;
+  const validated = await validateSource(req);
+  if (!validated) throw new AppError(400, 'Error validating source');
 
-  const responseSource = await createSource(source);
-  if (!responseSource || responseSource.length === 0)
-    throw new AppError(400, 'Error creating source');
+  const { crosswalk = null, source = null } = req.body;
+  let responseSource, responseCrosswalk;
+  if (source) {
+    responseSource = await createSource(source);
+    if (!responseSource) throw new AppError(400, 'Error creating source');
+  }
 
-  const responseCrosswalk = await createCrosswalk({
-    idSourceName: source.idSourceName,
-    ...crosswalk,
-  });
-  if (!responseCrosswalk || responseCrosswalk.length === 0)
-    throw new AppError(400, 'Error creating Crosswalk');
-
-  res.status(200).json(responseSource ?? {});
+  if (crosswalk) {
+    responseCrosswalk = await createCrosswalk(crosswalk);
+    if (!responseCrosswalk) throw new AppError(400, 'Error creating Crosswalk');
+  }
+  const response = { source: responseSource, crosswalk: responseCrosswalk };
+  console.log('response', response);
+  res.status(200).json(response ?? {});
 });
 
 sourcesRouter.put('/', async (req, res) => {
   // eslint-disable-next-line no-unused-vars
-  const { crosswalk, source } = req.body;
-  console.log('source', source);
-  //validate source and crosswalk
+  const validated = await validateSource(req);
+  if (!validated) throw new AppError(400, 'Error validating source');
 
-  const responseSource = await updateSourceByIdSourceName(source);
-  if (!responseSource) throw new AppError(400, 'Error creating source');
-
-  if (crosswalk) {
-    const responseCrosswalk = await updateCrosswalkByIdSourceName(
-      crosswalk,
-      source.idSourceName,
-    );
-
-    if (!responseCrosswalk) throw new AppError(400, 'Error creating Crosswalk');
-
-    res.status(200).json(
-      { source: responseSource, crosswalk: responseCrosswalk } ?? {
-        message: 'updated source and crosswalk',
-      },
-    );
+  const { crosswalk = null, source = null } = req.body;
+  let responseSource, responseCrosswalk;
+  if (source) {
+    responseSource = await updateSourceByIdSourceName(source);
+    if (!responseSource) throw new AppError(400, 'Error creating source');
   }
 
-  res.status(200).json(
-    { source: responseSource } ?? {
-      message: 'updated source',
-    },
-  );
+  if (crosswalk) {
+    responseCrosswalk = await updateCrosswalkByIdSourceName(crosswalk);
+    if (!responseCrosswalk) throw new AppError(400, 'Error creating Crosswalk');
+  }
+  const response = { source: responseSource, crosswalk: responseCrosswalk };
+  res.status(200).json(response ?? { message: 'updated source and crosswalk' });
 });
 
 export default sourcesRouter;

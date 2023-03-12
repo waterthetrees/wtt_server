@@ -2,6 +2,20 @@
 //   return camelIn.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 // }
 
+function snakeToCamelCase(snakeIn) {
+  return snakeIn.replace(/([-_][a-z])/g, (group) =>
+    group.toUpperCase().replace('-', '').replace('_', ''),
+  );
+}
+
+export const convertObjectKeysToCamelCase = (obj) => {
+  const newObj = {};
+  for (const key in obj) {
+    newObj[snakeToCamelCase(key)] = obj[key];
+  }
+  return newObj;
+};
+
 function camelToSnakeCase(camelIn) {
   return camelIn.replace(/[A-Z0-9]/g, (letter) => {
     if (/[A-Z]/.test(letter)) {
@@ -14,7 +28,7 @@ function camelToSnakeCase(camelIn) {
   });
 }
 
-export default function convertObjectKeysToSnakeCase(obj) {
+export const convertObjectKeysToSnakeCase = (obj) => {
   const newObj = {};
 
   // eslint-disable-next-line no-restricted-syntax
@@ -26,4 +40,4 @@ export default function convertObjectKeysToSnakeCase(obj) {
     }
   }
   return newObj;
-}
+};

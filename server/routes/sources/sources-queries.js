@@ -1,5 +1,8 @@
 import { db, pgPromise } from '../../db/index.js';
-import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
+import {
+  convertObjectKeysToSnakeCase,
+  convertObjectKeysToCamelCase,
+} from '../shared-routes-utils.js';
 
 export async function createSource(data) {
   // eslint-disable-next-line no-unused-vars
@@ -10,7 +13,7 @@ export async function createSource(data) {
   const query = `
     INSERT INTO sources(\${this:name})
     VALUES(\${this:csv})
-    RETURNING country, city, id_source_name as "idSourceName", created
+    RETURNING id_source_name as "idSourceName"
   `;
 
   const response = await db.one(query, dataInSnakeCase);
@@ -22,50 +25,14 @@ export async function createCrosswalk(data) {
   const query = `
     INSERT INTO crosswalk(\${this:name})
     VALUES(\${this:csv})
-    RETURNING id_source_name as "idSourceName", created
+    RETURNING id_source_name as "idSourceName"
   `;
 
   const response = await db.one(query, dataInSnakeCase);
   return response;
 }
 
-export async function findSourceCountry(country) {
-  const query = `SELECT 
-    id_source_name as "idSourceName", iso_alpha_3 as country, state, city, 
-    email, contact, who as org, phone, 
-    info, download, notes, broken
-    FROM sources
-    WHERE country = $1;`;
-  const values = [country];
-  const source = await db.any(query, values);
-  return source;
-}
-
-export async function findSourceCity(city) {
-  const query = `SELECT 
-    id_source_name as "idSourceName", iso_alpha_3  as country, state, city, 
-    email, contact, who as org, phone, 
-    info, download, notes, broken
-    FROM sources
-    WHERE city = $1;`;
-  const values = [city];
-  const source = await db.any(query, values);
-  return source;
-}
-
-export async function getAllSources() {
-  const query = `SELECT id_source_name as "idSourceName", iso_alpha_3 as country, state, city, 
-    email, contact, who, phone, 
-    info, download, notes, broken 
-    FROM sources;`;
-  const source = await db.any(query);
-  return source;
-}
-
-export async function getSourceByIdSourceName(idSourceName) {
-  console.log('getSourceByIdSourceName idSourceName', idSourceName);
-  const query = `SELECT 
-    id_source_name as "idSourceName", 
+const getFields = `id_source_name as "idSourceName", 
     iso_alpha_3 as "isoAlpha3", 
     country,
     state, 
@@ -80,14 +47,43 @@ export async function getSourceByIdSourceName(idSourceName) {
     format,
     longitude,
     latitude,
-    broken 
-    FROM sources where id_source_name = '${idSourceName}';`;
+    license,
+    broken`;
+
+export async function findSourceCountry(country) {
+  const query = `SELECT ${getFields}
+    FROM sources
+    WHERE country = $1;`;
+  const values = [country];
+  const source = await db.any(query, values);
+  return source;
+}
+
+export async function findSourceCity(city) {
+  const query = `SELECT ${getFields}
+    FROM sources
+    WHERE city = $1;`;
+  const values = [city];
+  const source = await db.any(query, values);
+  return source;
+}
+
+export async function getAllSources() {
+  const query = `SELECT ${getFields}
+    FROM sources;`;
+  const source = await db.any(query);
+  return source;
+}
+
+export async function getSourceByIdSourceName(idSourceName) {
+  const query = `SELECT ${getFields}
+    FROM sources 
+    WHERE id_source_name = '${idSourceName}';`;
   const source = await db.one(query);
   return source;
 }
 
 export async function getCrosswalkByIdSourceName(idSourceName) {
-  console.log('getCrosswalkByIdSourceName idSourceName', idSourceName);
   const query = `SELECT 
     id_source_name as "idSourceName", 
     common,
@@ -145,33 +141,34 @@ export async function getCrosswalkByIdSourceName(idSourceName) {
 }
 
 export async function updateSourceByIdSourceName(data) {
+  console.log('updateSourceByIdSourceName data', data);
   const dataInSnakeCase = convertObjectKeysToSnakeCase(data);
+  const keys = Object.keys(dataInSnakeCase);
+  const keysString = keys.join(', ');
 
   const condition = pgPromise.as.format(
-    ` WHERE id_source_name = '${data.idSourceName}' RETURNING *`,
+    ` WHERE id_source_name = '${data.idSourceName}' 
+      RETURNING ${keysString};`,
   );
   const query =
-    pgPromise.helpers.update(
-      dataInSnakeCase,
-      Object.keys(dataInSnakeCase),
-      'sources',
-    ) + condition;
-  const updatedSource = await db.one(query, dataInSnakeCase);
-  return updatedSource;
+    pgPromise.helpers.update(dataInSnakeCase, keys, 'sources') + condition;
+  const updatedResponse = await db.one(query, dataInSnakeCase);
+  const camelCaseResponse = convertObjectKeysToCamelCase(await updatedResponse);
+  return camelCaseResponse;
 }
 
-export async function updateCrosswalkByIdSourceName(data, idSourceName) {
-  const dataInSnakeCase = convertObjectKeysToSnakeCase(data);
+export async function updateCrosswalkByIdSourceName(data) {
+  const { id_source_name, ...dataInSnakeCase } =
+    convertObjectKeysToSnakeCase(data);
+  const keys = Object.keys(dataInSnakeCase);
+  const keysString = keys.join(', ');
 
   const condition = pgPromise.as.format(
-    ` WHERE id_source_name = '${idSourceName}' RETURNING *`,
+    ` WHERE id_source_name = '${id_source_name}' RETURNING ${keysString};`,
   );
   const query =
-    pgPromise.helpers.update(
-      dataInSnakeCase,
-      Object.keys(dataInSnakeCase),
-      'crosswalk',
-    ) + condition;
-  const updatedSource = await db.one(query, dataInSnakeCase);
-  return updatedSource;
+    pgPromise.helpers.update(dataInSnakeCase, keys, 'crosswalk') + condition;
+  const updatedResponse = await db.one(query, dataInSnakeCase);
+  const camelCaseSource = convertObjectKeysToCamelCase(await updatedResponse);
+  return { idSourceName: data.idSourceName, ...camelCaseSource };
 }

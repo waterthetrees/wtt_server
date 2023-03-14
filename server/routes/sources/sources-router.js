@@ -59,7 +59,6 @@ sourcesRouter.post('/', async (req, res) => {
     if (!responseCrosswalk) throw new AppError(400, 'Error creating Crosswalk');
   }
   const response = { source: responseSource, crosswalk: responseCrosswalk };
-  console.log('response', response);
   res.status(200).json(response ?? {});
 });
 

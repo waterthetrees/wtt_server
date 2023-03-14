@@ -1,7 +1,6 @@
 import axios from 'axios';
 import faker from 'faker';
 import nock from 'nock';
-import { jest } from '@jest/globals';
 
 let axiosAPIClient;
 

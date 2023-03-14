@@ -141,7 +141,6 @@ export async function getCrosswalkByIdSourceName(idSourceName) {
 }
 
 export async function updateSourceByIdSourceName(data) {
-  console.log('updateSourceByIdSourceName data', data);
   const dataInSnakeCase = convertObjectKeysToSnakeCase(data);
   const keys = Object.keys(dataInSnakeCase);
   const keysString = keys.join(', ');

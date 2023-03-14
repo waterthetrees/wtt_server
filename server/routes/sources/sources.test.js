@@ -130,7 +130,7 @@ describe('/api/sources', () => {
 
   describe('GET', () => {
     describe('When sources is specified by idSourceName', () => {
-      test('Then confirm the source is returned', async () => {
+      test('Then confirm one source is returned', async () => {
         /** Arrange */
         const body = mockBody();
         /** Act */
@@ -144,6 +144,45 @@ describe('/api/sources', () => {
         /** Assert */
         expect(response?.status).toBe(200);
         expect(response?.data).toMatchObject(body);
+      });
+      test('Then confirm the source contains source and crosswalk keys', async () => {
+        /** Arrange */
+        const body = mockBody();
+        const expected = ['source', 'crosswalk'];
+        /** Act */
+        const { data } = await axiosAPIClient.post('/sources', body);
+        /** Act */
+        const params = { idSourceName: data?.source?.idSourceName };
+        const response = await axiosAPIClient.get('/sources', {
+          params,
+        });
+
+        /** Assert */
+        expect(response?.status).toBe(200);
+        expect(Object.keys(response?.data)).toEqual(
+          expect.arrayContaining(expected),
+        );
+      });
+    });
+    describe(`When sources is specified by 'All'`, () => {
+      test('Then confirm sources are returned in Array', async () => {
+        /** Arrange */
+        const body = mockBody();
+        const body2 = mockBody();
+        // const bodyArray = [body, body2];
+        /** Act */
+        await axiosAPIClient.post('/sources', body);
+        await axiosAPIClient.post('/sources', body2);
+        /** Act */
+        const params = { sources: 'All' };
+        const response = await axiosAPIClient.get('/sources', {
+          params,
+        });
+        /** Assert */
+        expect(response?.status).toBe(200);
+        expect(response?.data.length).toBeGreaterThan(1);
+        // Add this back in once we have a blank slate test database
+        // expect(response?.data).toMatchObject(bodyArray);
       });
     });
   });

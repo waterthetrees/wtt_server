@@ -1,4 +1,4 @@
-import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
+import { convertObjectKeysToSnakeCase } from '../shared-routes-utils.js';
 import { db } from '../../db/index.js';
 
 export async function findTreeLikesByTreeId(id) {

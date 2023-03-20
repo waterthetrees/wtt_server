@@ -1,5 +1,5 @@
 import { db } from '../../db/index.js';
-import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
+import { convertObjectKeysToSnakeCase } from '../shared-routes-utils.js';
 
 export async function findTreeAdoptionsByTreeId(id) {
   const query = `

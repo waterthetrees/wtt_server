@@ -1,6 +1,6 @@
 import { db, pgPromise } from '../../db/index.js';
 import AppError from '../../errors/AppError.js';
-import convertObjectKeysToSnakeCase from '../shared-routes-utils.js';
+import { convertObjectKeysToSnakeCase } from '../shared-routes-utils.js';
 
 export async function createTree(newTreeData) {
   const newTreeDataInSnakeCase = convertObjectKeysToSnakeCase(newTreeData);

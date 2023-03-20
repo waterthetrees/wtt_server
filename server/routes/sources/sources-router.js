@@ -15,30 +15,22 @@ import validateSource from './sources-validations.js';
 const sourcesRouter = express.Router();
 
 sourcesRouter.get('/', async (req, res) => {
-  const { country, idSourceName, sources } = req.query;
+  const { idSourceName, sources } = req.query;
 
   if (!idSourceName && sources === 'All') {
-    const foundSources = await getAllSources();
+    let foundSources = await getAllSources();
     if (!foundSources || foundSources.length === 0)
       throw new AppError(400, 'Error getting source');
-    res.status(200).json(foundSources ?? {});
+    res.status(200).json(foundSources);
   }
 
   if (idSourceName) {
     const responseSource = await getSourceByIdSourceName(idSourceName);
     const responseCrosswalk = await getCrosswalkByIdSourceName(idSourceName);
-    if (!responseSource || responseSource.length === 0)
-      throw new AppError(400, 'Error getting source');
+    if (!responseSource) throw new AppError(400, 'Error getting source');
     res
       .status(200)
-      .json({ source: responseSource, crosswalk: responseCrosswalk } ?? {});
-  }
-
-  if (country) {
-    const responseSourceCountry = await findSourceCountry(country);
-    if (!responseSourceCountry || responseSourceCountry.length === 0)
-      throw new AppError(400, 'Error getting source');
-    res.status(200).json(responseSourceCountry ?? {});
+      .json({ source: responseSource, crosswalk: responseCrosswalk });
   }
 });
 
@@ -59,7 +51,7 @@ sourcesRouter.post('/', async (req, res) => {
     if (!responseCrosswalk) throw new AppError(400, 'Error creating Crosswalk');
   }
   const response = { source: responseSource, crosswalk: responseCrosswalk };
-  res.status(200).json(response ?? {});
+  res.status(200).json(response);
 });
 
 sourcesRouter.put('/', async (req, res) => {
@@ -79,7 +71,7 @@ sourcesRouter.put('/', async (req, res) => {
     if (!responseCrosswalk) throw new AppError(400, 'Error creating Crosswalk');
   }
   const response = { source: responseSource, crosswalk: responseCrosswalk };
-  res.status(200).json(response ?? { message: 'updated source and crosswalk' });
+  res.status(200).json(response);
 });
 
 export default sourcesRouter;

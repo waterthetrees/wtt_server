@@ -18,7 +18,7 @@ csvRouter.get('/', async (req, res) => {
 
   const jsonData = JSON.parse(JSON.stringify(data));
   const cityName = city
-    ? city.toLowerCase().replaceAll(' ', '_')
+    ? city.toLowerCase().replaceAll(' ', '-')
     : 'all-cities';
   const csvPath = `server/csv-downloads/${cityName}.csv`;
   const ws = fs.createWriteStream(csvPath);

@@ -1,7 +1,6 @@
 import express from 'express';
 import AppError from '../../errors/AppError.js';
 import {
-  findSourceCountry,
   getSourceByIdSourceName,
   getCrosswalkByIdSourceName,
   updateSourceByIdSourceName,

@@ -50,24 +50,6 @@ const getFields = `id_source_name as "idSourceName",
     license,
     broken`;
 
-export async function findSourceCountry(country) {
-  const query = `SELECT ${getFields}
-    FROM sources
-    WHERE country = $1;`;
-  const values = [country];
-  const source = await db.any(query, values);
-  return source;
-}
-
-export async function findSourceCity(city) {
-  const query = `SELECT ${getFields}
-    FROM sources
-    WHERE city = $1;`;
-  const values = [city];
-  const source = await db.any(query, values);
-  return source;
-}
-
 export async function getAllSources() {
   const query = `SELECT ${getFields}
     FROM sources;`;

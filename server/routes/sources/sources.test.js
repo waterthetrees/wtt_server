@@ -31,7 +31,7 @@ afterAll(() => {
 describe('/api/sources', () => {
   /** Arrange */
   const mockBody = () => {
-    const idSourceName = faker.name.findName();
+    const idSourceName = `${faker.name.findName()}-test`;
     const body = {
       crosswalk: {
         idSourceName,

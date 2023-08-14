@@ -22,6 +22,7 @@ import usercountsRouter from './routes/usercounts/usercounts-router.js';
 import usersRouter from './routes/users/users-router.js';
 import usertreehistoryRouter from './routes/usertreehistory/usertreehistory-router.js';
 import sourcesRouter from './routes/sources/sources-router.js';
+import treeimagesRouter from './routes/treeimages/treeimages-router.js';
 
 dotenv.config();
 // these are for various environments when we move to dev and live server vs local
@@ -84,6 +85,7 @@ app.use('/api/treeadoptions', treeadoptionsRouter);
 app.use('/api/treehistory', treehistoryRouter);
 app.use('/api/treelikes', treelikesRouter);
 app.use('/api/treeid', treeidRouter);
+app.use('/api/treeimages', treeimagesRouter);
 app.use('/api/usercounts', usercountsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/usertreehistory', usertreehistoryRouter);

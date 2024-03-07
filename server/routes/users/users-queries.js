@@ -1,4 +1,5 @@
 import { db, pgPromise } from '../../db/index.js';
+import { convertObjectKeysToSnakeCase } from '../shared-routes-utils.js';
 
 const usersTable = new pgPromise.helpers.ColumnSet(
   ['nickname', 'name', 'picture', 'email'],
@@ -11,6 +12,19 @@ export async function createUser(newUserData) {
   const newUser = await db.oneOrNone(query + returningClause, newUserData);
 
   return newUser;
+}
+
+// Function to add badge to the user
+export async function updateUser(userData) {
+  const userSnakeCase = convertObjectKeysToSnakeCase(userData);
+  const [keys, values] = Object.entries(userSnakeCase);
+
+  const query = `UPDATE 
+    users(${params}) 
+    VALUES(${values})
+    WHERE email = ${email}`;
+  const response = await db.none(query);
+  return response;
 }
 
 export async function findUserByEmail(email) {
